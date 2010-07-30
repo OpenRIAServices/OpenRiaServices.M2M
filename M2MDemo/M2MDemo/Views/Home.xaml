@@ -1,0 +1,76 @@
+﻿<navigation:Page x:Class="M2MDemo.Home" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:models="clr-namespace:M2MDemo.Models"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="480"
+    Title="Home"    
+    Style="{StaticResource PageStyle}" 
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk">
+    
+
+    <UserControl.Resources>
+        <models:HomeModel x:Key="HomeModel"/>
+    </UserControl.Resources>
+    <Grid DataContext="{Binding Source={StaticResource HomeModel}}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ListBox SelectedItem="{Binding SelectedPatient,Mode=TwoWay}" ItemsSource="{Binding PatientList}" Grid.Row="1" />
+        <ListBox Grid.Row="3" SelectedItem="{Binding SelectedPatientDoctor,Mode=TwoWay}" ItemsSource="{Binding SelectedPatient.DoctorSet }" />
+        <ListBox Grid.Column="2" Grid.Row="1" SelectedItem="{Binding SelectedDoctor,Mode=TwoWay}" ItemsSource="{Binding DoctorList}"/>
+        <ListBox Grid.Column="2" Grid.Row="3" SelectedItem="{Binding SelectedDoctorPatient,Mode=TwoWay}" ItemsSource="{Binding SelectedDoctor.PatientSet}"/>
+        <ListBox Grid.Column="1" Grid.RowSpan="3" Grid.Row="1" ItemsSource="{Binding PatientDoctors}"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <sdk:Label Content="PatientSet"  />
+            <sdk:Label Content="{Binding PatientList.Count}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center">
+            <sdk:Label Content="PatientDoctors"  />
+            <sdk:Label Content="{Binding PatientDoctors.Count}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Center">
+            <sdk:Label Content="DoctorSet"  />
+            <sdk:Label Content="{Binding DoctorList.Count}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" >
+            <sdk:Label Content="Patient.DoctorSet"  />
+            <sdk:Label Content="{Binding SelectedPatient.DoctorSet.Count}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Center">
+            <sdk:Label Content="Doctor.PatientSet"  />
+            <sdk:Label Content="{Binding SelectedDoctor.PatientSet.Count}"/>
+        </StackPanel>
+        <Grid Grid.ColumnSpan="3" Grid.Row="4" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <CheckBox Content="AutoSave" IsChecked="{Binding Path=AutoSave, Mode=TwoWay}" VerticalAlignment="Center" ToolTipService.ToolTip="Submit changes to server as soon as an entity/association has been created/deleted"/>
+            <Button Content="Save" Grid.Column="1" Command="{Binding Save}" />
+            <Button Content="AddDoctor" Grid.Column="2" Command="{Binding AddDoctor}"/>
+            <Button Content="DeleteDoctor" Grid.Column="3" Command="{Binding DeleteDoctor}"/>
+            <Button Content="CreateDoctor" Grid.Column="4" Command="{Binding CreateDoctor}"/>
+            <Button Content="AddPatient" Grid.Column="5" Command="{Binding AddPatient}"/>
+            <Button Content="DeletePatient" Grid.Column="6" Command="{Binding DeletePatient}"/>
+            <Button Content="CreatePatient" Grid.Column="7" Command="{Binding CreatePatient}"/>
+        </Grid>
+    </Grid>
+</navigation:Page>
