@@ -1,0 +1,110 @@
+﻿<#@ template debug="true" hostSpecific="true" #>
+<#@ output extension=".g.cs" #>
+<#@ Assembly Name="System.Core.dll" #>
+<#@ Assembly Name="System.Windows.Forms.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+
+<#@ include file="$(SolutionDir)/../shared/m2mgenerator.ttinclude" #>
+<#
+// Change the above to the relative location where the file m2mgenerator.ttinclude lives
+
+// Change the line below to the relative location where the file M2MGenerator.xml lives */
+string m2mRelationsXml = @"../M2MGenerator.xml";
+
+Init(Host.ResolvePath(m2mRelationsXml));
+#>
+namespace <#=DomainServiceNameSpace #>
+{
+    public partial class <#= DomainContext #>
+    {
+        /// <summary>
+        /// This is needed to enable deletion of associations on the domain context
+        /// </summary>
+        public static <#= DomainContext #> Current { get; private set; }
+
+        partial void OnCreated()
+        {
+            Current = this;
+        }
+    }
+}
+namespace <#= EntityModelNameSpace #> {
+using <#= DomainServiceNameSpace #>;
+using M2M.RIA;
+
+	public static class Extensions
+	{
+<#
+		foreach(var m2m in m2mRelations)
+		{
+#>
+	
+        /// <summary>
+        /// Returns an instance of M2MDomainContext. This is needed to enable deletion of associations on the domain context.
+        /// </summary>
+        /// <param name="pd"></param>
+        /// <returns></returns>
+		public static <#=DomainContext #> DomainContext (this <#= Relation(m2m) #>  _)
+		{
+			return <#= DomainContext #>.Current;
+		}
+	
+<#
+}
+#>
+}
+<#
+foreach(var m2m in m2mRelations)
+{
+	MakeType(Name1(m2m), Id1(m2m), Name2(m2m), Id2(m2m), FromSet(m2m), Relation(m2m));
+	MakeType(Name2(m2m), Id2(m2m), Name1(m2m), Id1(m2m), ToSet(m2m), Relation(m2m));
+}
+#>
+}
+
+<#+
+private void MakeType(string type1, string id1, string type2, string id2, string set, string relation)
+{
+	string relationSet = relation + "_" + type2 + "Set";
+	#>
+	public partial class <#= type1 #>
+	{
+		EntityCollection<<#= relation #>, <#=type2 #>> _<#=set#>;
+		public EntityCollection<<#=relation#>, <#=type2#>> <#=set#>
+		{
+			get
+			{
+				if (_<#=set#> == null)
+				{
+					_<#=set#> = new EntityCollection<<#=relation#>, <#=type2#>>(this.<#=relationSet#>, r => r.<#=type2#>, (r, t2) => r.<#=type2#> = t2, r => r.<#=type1#> = this, removeAction);
+				}
+				return _<#=set#>;
+			}
+		}
+		/// <summary>
+		/// Remove an PatientDoctor association.
+		/// If the association is connected to a domain context, remove it from the domain context (this is because 
+		/// of a limitation in RIA service), otherwise remove it from the PatientDoctors collection of the entity itself
+		/// </summary>
+		/// <param name="pd"></param>
+		private void removeAction(<#=relation#> r)
+		{
+			if (r.DomainContext() == null)
+			{
+				this.<#=relationSet#>.Remove(r);
+			}
+			else
+			{
+				// remove an entity from domainContext.EntityContainter.EntitySet<relation>
+                r.DomainContext().EntityContainer.GetEntitySet<<#=relation#>>().Remove(r);
+			}
+		}
+	}
+<#+
+}
+#>

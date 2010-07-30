@@ -1,0 +1,96 @@
+﻿<#@ Assembly Name="System.Core.dll" #>
+<#@ import namespace="System.Collections.Generic" #> 
+<#@ Assembly Name="System.Xml.dll" #>
+<#@ Assembly Name="System.Xml.Linq.dll" #>
+
+<#+
+string EntityModelNameSpace = null;
+string ObjectContextClassName = null;
+string DomainServiceNameSpace = null;
+string DomainService = null;
+string DomainContext = null;
+
+List<String[]> m2mRelations = null;
+
+private void Init(string path)
+{
+    System.Xml.Linq.XDocument XmlDoc = System.Xml.Linq.XDocument.Load(path);
+
+    EntityModelNameSpace = (string)XmlDoc.Root.Attribute("EntityModelNameSpace");
+    ObjectContextClassName = (string)XmlDoc.Root.Attribute("ObjectContextClassName");
+    DomainServiceNameSpace = (string)XmlDoc.Root.Attribute("DomainServiceNameSpace");
+    DomainService = (string)XmlDoc.Root.Attribute("DomainService");
+    DomainContext = (string)XmlDoc.Root.Attribute("DomainContext");
+
+    var eTypes = XmlDoc.Descendants("entity");
+    m2mRelations = (from r in XmlDoc.Descendants("relation")
+                    from f in eTypes where (string)f.Attribute("type") == (string)r.Attribute("from")
+                    from t in eTypes where (string)t.Attribute("type") == (string)r.Attribute("to")
+                    select new string[]{
+                    (string)f.Attribute("type"),
+                    (string)f.Attribute("id"),
+					(string)f.Attribute("stub"),
+                    (string)f.Attribute("set"),
+                    (string)t.Attribute("type"),
+                    (string)t.Attribute("id"),
+					(string)t.Attribute("stub"),
+                    (string)t.Attribute("set"),
+					(string)r.Attribute("fromSet"),
+					(string)r.Attribute("toSet")
+                    }).ToList();
+}
+
+private string RelationEnd(string[]t, string relation)
+{
+	return relation == Name1(t) ? Name2(t) : Name1(t);
+}
+
+private string Name1 (string[] t)
+{
+	return t[0];
+}
+
+private string Id1 (string[] t)
+{
+	return t[1];
+}
+private string Stub1 (string[] t)
+{
+	return t[2];
+}
+private string Set1 (string[] t){
+	return t[3];
+}
+private string Name2 (string[] t)
+{
+	return t[4];
+}
+private string Id2 (string[] t)
+{
+	return t[5];
+}
+private string Stub2 (string[] t)
+{
+	return t[6];
+}
+private string Set2(string[] t)
+{
+	return t[7];
+}
+private string FromSet(string[] t)
+{
+	return t[8];
+}
+private string ToSet(string[] t)
+{
+	return t[9];
+}
+private string Relation(string[] t) {
+	return Name1(t) + "_" + Name2(t);
+}
+
+private string LowerInitial(string name)
+{
+   return name[0].ToString().ToLowerInvariant() + name.Substring(1);
+}
+#>
