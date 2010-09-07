@@ -63,7 +63,9 @@
     <Content Include="M2MDemoTestPage.html" />
     <Content Include="M2MModel.edmx.sql" />
     <Content Include="Silverlight.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -72,10 +74,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\server\EntityCollection.cs">
+    <Compile Include="..\..\M2M4Ria\Server\EntityCollection.cs">
       <Link>EntityCollection.cs</Link>
     </Compile>
-    <Compile Include="..\..\server\M2MTools.cs">
+    <Compile Include="..\..\M2M4Ria\Server\M2MTools.cs">
       <Link>M2MTools.cs</Link>
     </Compile>
     <Compile Include="m2mdatatypes.g.cs">

@@ -79,7 +79,7 @@
     <Reference Include="System.Windows.Controls.Navigation" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\client\EntityCollection.cs">
+    <Compile Include="..\..\M2M4Ria\Client\EntityCollection.cs">
       <Link>EntityCollection.cs</Link>
     </Compile>
     <Compile Include="App.xaml.cs">
