@@ -9,12 +9,12 @@
 <#@ import namespace="System.Collections" #>
 <#@ import namespace="System.Collections.Generic" #> 
 
-<#@ include file="$(SolutionDir)/../shared/m2mgenerator.ttinclude" #>
+<#@ include file="$(SolutionDir)/M2M4Ria/Shared/m2mgenerator.ttinclude" #>
 <#
 // Change the above to the relative location where the file m2mgenerator.ttinclude lives
 
 // Change the line below to the relative location where the file M2MGenerator.xml lives */
-string m2mRelationsXml = @"../M2MGenerator.xml";
+string m2mRelationsXml = @"../../M2M4Ria/Shared/M2MGenerator.xml";
 
 Init(Host.ResolvePath(m2mRelationsXml));
 #>
