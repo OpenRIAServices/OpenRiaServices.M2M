@@ -1,12 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "M2MDemo", "M2MDemo\M2MDemo.csproj", "{7303C725-9521-4366-A9B9-0577BA61BFFF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "M2M4RiaDemo", "M2M4RiaDemo\M2M4RiaDemo.csproj", "{7303C725-9521-4366-A9B9-0577BA61BFFF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{FEBEEFB6-E6FE-4156-99A6-500DB416E5F8} = {FEBEEFB6-E6FE-4156-99A6-500DB416E5F8}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "M2MDemo.Web", "M2MDemo.Web\M2MDemo.Web.csproj", "{FEBEEFB6-E6FE-4156-99A6-500DB416E5F8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "M2M4RiaDemo.Web", "M2M4RiaDemo.Web\M2M4RiaDemo.Web.csproj", "{FEBEEFB6-E6FE-4156-99A6-500DB416E5F8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{403732A1-5434-456E-B52B-89B701E17403}"
 EndProject

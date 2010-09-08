@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("M2MDemo.Web")]
+[assembly: AssemblyTitle("M2M4RiaDemo.Web")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Philips")]
-[assembly: AssemblyProduct("M2MDemo.Web")]
+[assembly: AssemblyProduct("M2M4RiaDemo.Web")]
 [assembly: AssemblyCopyright("Copyright © Philips 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("fc0173c8-8f6c-4546-a37f-fc3f6ef9d927")]
+[assembly: Guid("33c54c27-8b82-4f34-916b-e96b95193a7e")]
 
 // Version information for an assembly consists of the following four values:
 //

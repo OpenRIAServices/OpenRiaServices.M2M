@@ -18,11 +18,11 @@ using System.Runtime.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("M2MModel", "PatientDoctor", "Patient", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(M2MDemo.Web.Patient), "Doctor", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(M2MDemo.Web.Doctor))]
+[assembly: EdmRelationshipAttribute("M2MModel", "PatientDoctor", "Patient", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(M2M4RiaDemo.Web.Patient), "Doctor", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(M2M4RiaDemo.Web.Doctor))]
 
 #endregion
 
-namespace M2MDemo.Web
+namespace M2M4RiaDemo.Web
 {
     #region Contexts
     

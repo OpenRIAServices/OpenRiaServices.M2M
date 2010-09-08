@@ -3,9 +3,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.ServiceModel.DomainServices.Client;
 using System.Windows.Input;
-using M2MDemo.Web;
+using M2M4RiaDemo.Web;
 
-namespace M2MDemo.Models
+namespace M2M4RiaDemo.Models
 {
     public abstract class MyCommand : ICommand
     {
@@ -188,14 +188,14 @@ namespace M2MDemo.Models
                 return _saveCommand;
             }
         }
-        private M2MDemoDomainContext _c;
-        public M2MDemoDomainContext c
+        private M2M4RiaDemoDomainContext _c;
+        public M2M4RiaDemoDomainContext c
         {
             get
             {
                 if (_c == null)
                 {
-                    _c = new M2MDemoDomainContext();
+                    _c = new M2M4RiaDemoDomainContext();
                     _c.CreateDataBase();
                 }
                 return _c;

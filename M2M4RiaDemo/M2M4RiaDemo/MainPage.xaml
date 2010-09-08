@@ -1,15 +1,12 @@
-﻿<navigation:Page x:Class="M2MDemo.Home" 
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-    xmlns:models="clr-namespace:M2MDemo.Models"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+﻿<UserControl x:Class="M2M4RiaDemo.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation"
-    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="480"
-    Title="Home"    
-    Style="{StaticResource PageStyle}" 
-    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk">
-    
+    xmlns:models="clr-namespace:M2M4RiaDemo.Models"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="400">
 
     <UserControl.Resources>
         <models:HomeModel x:Key="HomeModel"/>
@@ -73,4 +70,4 @@
             <Button Content="CreatePatient" Grid.Column="7" Command="{Binding CreatePatient}"/>
         </Grid>
     </Grid>
-</navigation:Page>
+</UserControl>

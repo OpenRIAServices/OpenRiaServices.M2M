@@ -7,11 +7,11 @@
 
 #region Domain Context
 
-namespace M2MDemo.Web
+namespace M2M4RiaDemo.Web
 {
-	using M2MDemo.Web;
+	using M2M4RiaDemo.Web;
 	
-    public partial class M2MDemoDomainContext
+    public partial class M2M4RiaDemoDomainContext
     {
         partial void OnCreated()
         {
@@ -36,10 +36,11 @@ namespace M2MDemo.Web
 #region Entities
 
 
-namespace M2MDemo.Web
+namespace M2M4RiaDemo.Web
 {
-	using M2MDemo.Web;
+	using M2M4RiaDemo.Web;
 	using RIAM2M.Web.Services.RIAM2MTools;
+	using M2M4RiaDemo.Web;
 	using System;
 	
 	public partial class Patient

@@ -8,15 +8,15 @@
 
 #region Domain Service
 
-namespace M2MDemo.Web
+namespace M2M4RiaDemo.Web
 {
 	using System;
 	using System.Linq;
 	using System.Data;
 	using System.Data.Objects;
-	using M2MDemo.Web;
+	using M2M4RiaDemo.Web;
 	
-	public partial class M2MDemoDomainService
+	public partial class M2M4RiaDemoDomainService
 	{
 		[Obsolete("This method is only intended for use by the RIA M2M solution")]
 		public IQueryable<PatientDoctor> GetPatientDoctorQuery()
