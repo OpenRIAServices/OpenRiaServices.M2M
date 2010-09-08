@@ -37,23 +37,14 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
-  <ItemGroup />
   <ItemGroup>
-    <None Include="Client\m2mdomaincontext.tt" />
-    <None Include="Server\m2mdatatypes.tt" />
-    <None Include="Server\m2mdomainservice.tt" />
-    <None Include="Shared\m2mgenerator.ttinclude" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Client\EntityCollection.cs" />
-    <None Include="Server\EntityCollection.cs" />
-    <None Include="Server\M2MTools.cs" />
+    <None Include="Client\RIAM2MDomainContext.tt" />
+    <None Include="Server\RIAM2MDomainService.tt" />
+    <None Include="Server\RIAM2MEntities.tt" />
+    <None Include="Shared\RIAM2MShared.ttinclude" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Shared\M2MGenerator.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

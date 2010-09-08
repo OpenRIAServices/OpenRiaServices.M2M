@@ -79,16 +79,13 @@
     <Reference Include="System.Windows.Controls.Navigation" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\M2M4Ria\Client\EntityCollection.cs">
-      <Link>EntityCollection.cs</Link>
-    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="m2mdomaincontext.g.cs">
+    <Compile Include="RIAM2MDomainContext.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>m2mdomaincontext.tt</DependentUpon>
+      <DependentUpon>RIAM2MDomainContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Views\ErrorWindow.xaml.cs">
       <DependentUpon>ErrorWindow.xaml</DependentUpon>
@@ -132,11 +129,11 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="m2mdomaincontext.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>m2mdomaincontext.g.cs</LastGenOutput>
-    </None>
     <None Include="Properties\AppManifest.xml" />
+    <None Include="RIAM2MDomainContext.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RIAM2MDomainContext.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
