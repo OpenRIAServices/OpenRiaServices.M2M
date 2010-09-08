@@ -8,21 +8,15 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace M2MDemo
+namespace M2M4RiaDemo
 {
-    public partial class About : Page
+    public partial class MainPage : UserControl
     {
-        public About()
+        public MainPage()
         {
             InitializeComponent();
-        }
-
-        // Executes when the user navigates to this page.
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
         }
     }
 }

@@ -4,7 +4,7 @@ using System.ServiceModel.DomainServices.EntityFramework;
 using System.ServiceModel.DomainServices.Hosting;
 using System.ServiceModel.DomainServices.Server;
 
-namespace M2MDemo.Web
+namespace M2M4RiaDemo.Web
 {
     // Implements application logic using the M2MModelContainer context.
     // TODO: Add your application logic to these methods or in additional methods.
@@ -12,7 +12,7 @@ namespace M2MDemo.Web
     // Also consider adding roles to restrict access as appropriate.
     // [RequiresAuthentication]
     [EnableClientAccess()]
-    public partial class M2MDemoDomainService : LinqToEntitiesDomainService<M2MModelContainer>
+    public partial class M2M4RiaDemoDomainService : LinqToEntitiesDomainService<M2MModelContainer>
     {
         protected override void OnError(System.ServiceModel.DomainServices.Server.DomainServiceErrorInfo errorInfo)
         {

@@ -8,7 +8,7 @@
 
 #region Entities
 
-namespace M2MDemo.Web  
+namespace M2M4RiaDemo.Web  
 {
 	using System;
 	using System.ComponentModel.DataAnnotations;
