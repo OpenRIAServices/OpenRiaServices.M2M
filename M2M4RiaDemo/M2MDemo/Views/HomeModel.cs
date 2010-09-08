@@ -47,7 +47,7 @@ namespace M2MDemo.Models
             {
                 PatientList = c.Patients;
                 DoctorList = c.Doctors;
-                PatientDoctors = c.EntityContainer.GetEntitySet<Patient_Doctor>();
+                PatientDoctors = c.EntityContainer.GetEntitySet<PatientDoctor>();
                 c.Load(c.GetPatientsQuery());
                 c.Load(c.GetDoctorsQuery());
             }
@@ -176,7 +176,7 @@ namespace M2MDemo.Models
 
         public EntitySet<Patient> PatientList { get; set; }
         public EntitySet<Doctor> DoctorList { get; set; }
-        public EntitySet<Patient_Doctor> PatientDoctors { get; set; }
+        public EntitySet<PatientDoctor> PatientDoctors { get; set; }
 
         private SaveCommand _saveCommand;
         public SaveCommand Save

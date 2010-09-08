@@ -1,0 +1,309 @@
+﻿<#@ template debug="true" hostSpecific="true" #>
+<#@ output extension=".cs" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+<#   
+//
+// Change the file path below to the path of the RIAM2MShared.ttinclude in your project
+//
+#>
+<#@ include file="$(SolutionDir)\M2M4Ria\Shared\RIAM2MShared.ttinclude" #>
+<#
+
+M2MData m2mData = GenerateM2MData();
+
+#>
+
+#pragma warning disable 618
+
+#region Domain Context
+
+namespace <#= DomainServiceNamespace #>
+{
+	using <#= EntityModelNamespace #>;
+	
+    public partial class <#= DomainContextName #>
+    {
+        partial void OnCreated()
+        {
+<#
+            foreach(M2MEntity entity in m2mData.Entities)
+			{
+				CreateDataContextEventHandler(entity);	
+			}
+#>
+		}
+	}
+}
+
+#endregion
+
+#region Entities
+
+
+namespace <#= EntityModelNamespace #>
+{
+	using <#= DomainServiceNamespace #>;
+	using <#= M2MToolsNamespace #>;
+	using <#= EntityModelNamespace #>;
+	using System;
+	
+<# 
+	foreach(M2MEntity entity in m2mData.Entities)
+	{
+		CreateEntity(entity);
+	}
+#>
+}
+
+
+#endregion
+
+#region M2MEntityCollection
+
+namespace <#= M2MToolsNamespace #>
+{
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Collections.Specialized;
+    using System.ComponentModel;
+    using System.Linq;
+    using System.ServiceModel.DomainServices.Client;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="JoinType"></typeparam>
+    /// <typeparam name="TEntity"></typeparam>
+    public class M2MEntityCollection<JoinType, TEntity> : IEnumerable<TEntity>, IEnumerable, INotifyCollectionChanged, INotifyPropertyChanged
+        where JoinType : Entity, new()
+        where TEntity : Entity
+    {
+        EntityCollection<JoinType> entityList;
+        Func<JoinType, TEntity> getEntity;
+        Action<JoinType, TEntity> setEntity;
+        Action<JoinType> setParent;
+        Action<JoinType> removeAction;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entityList">The collection of associations to which this collection is connected</param>
+        /// <param name="getEntity">The function used to get the entity object out of a join type entity</param>
+        /// <param name="setEntity">The function used to set the entity object in a join type entity</param>
+        public M2MEntityCollection(EntityCollection<JoinType> entityList, Func<JoinType, TEntity> getEntity,
+            Action<JoinType, TEntity> setEntity, Action<JoinType> setParent, Action<JoinType>removeAction)
+        {
+            this.entityList = entityList;
+            this.getEntity = getEntity;
+            this.setEntity = setEntity;
+            this.setParent = setParent;
+            this.removeAction = removeAction;
+
+            entityList.EntityAdded += (a, b) =>
+            {
+                JoinType jt = b.Entity as JoinType;
+                if (EntityAdded != null)
+                    EntityAdded(this, new EntityCollectionChangedEventArgs<TEntity>(getEntity(jt)));
+            };
+            entityList.EntityRemoved += (a, b) =>
+            {
+                JoinType jt = b.Entity as JoinType;
+                if (EntityRemoved != null)
+                    EntityRemoved(this, new EntityCollectionChangedEventArgs<TEntity>(getEntity(jt)));
+            };
+            ((INotifyCollectionChanged)entityList).CollectionChanged += (sender, e) =>
+            {
+                if (CollectionChanged != null)
+                    CollectionChanged(this, MakeNotifyCollectionChangedEventArgs(e));
+            };
+            ((INotifyPropertyChanged)entityList).PropertyChanged += (sender, e) =>
+            {
+                if (PropertyChanged != null)
+                    PropertyChanged(this, e);
+            };
+        }
+
+        /// <summary>
+        /// Replaces JoinType elements in NotifyCollectionChangedEventArgs by elements of type TEntity
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        private NotifyCollectionChangedEventArgs MakeNotifyCollectionChangedEventArgs(NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null)
+            {
+                TEntity entity = getEntity((JoinType)e.NewItems[0]);
+                e.NewItems[0] =  entity == null ? entityToAdd : entity;
+            }
+            if (e.OldItems != null)
+            {
+                TEntity entity = getEntity((JoinType)e.OldItems[0]);
+                e.OldItems[0] = entity;
+            } 
+            return e;
+        }
+
+        public IEnumerator<TEntity> GetEnumerator()
+        {
+            var x = (from pd in entityList select getEntity(pd));
+            return x.ToList().GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        public int Count
+        {
+            get
+            {
+                return entityList.Count;
+            }
+        }
+
+        TEntity entityToAdd = null;
+        public void Add(TEntity entity)
+        {
+            entityToAdd = entity;
+            JoinType joinTypeToAdd = new JoinType();
+            setParent(joinTypeToAdd);
+            setEntity(joinTypeToAdd, entity);
+            entityToAdd = null;
+        }
+        /// <summary>
+        /// Use remove on the entityset on the domain context, rather than this functioln
+        /// There seems to be a limitation of RIA which requires that associations should be deleted on the domain context
+        /// </summary>
+        /// <param name="entity"></param>
+        public void Remove(TEntity entity)
+        {
+            JoinType joinTypeToRemove = entityList.SingleOrDefault(jt => getEntity(jt) == entity);
+            if (joinTypeToRemove != null)
+                //                entityList.Remove(joinTypeToRemove);
+                removeAction(joinTypeToRemove);
+        }
+
+        public event EventHandler<EntityCollectionChangedEventArgs<TEntity>> EntityAdded;
+        public event EventHandler<EntityCollectionChangedEventArgs<TEntity>> EntityRemoved;
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
+    }
+}
+
+#endregion
+
+#pragma warning restore 618
+
+
+<#+ 
+
+	public void CreateEntity(M2MEntity entity)
+	{
+#>
+	public partial class <#= entity.Name #>
+	{
+	
+<#+ 
+		foreach(M2MEntityAssociationSet association in entity.Associations)
+		{
+			if(association.ThisEntityToLink.HasM2MNavProp)
+			{
+				string removedAction = association.OtherEntityToLink.LinkTableNavProp + "Removed";
+				string removeMethod = "Remove" + association.OtherEntityToLink.LinkTableNavProp;
+#>
+		//
+		// Code relating to the managing of the '<#= association.Name #>' association from '<#= association.ThisEntityToLink.Entity #>' to '<#= association.OtherEntityToLink.Entity #>'
+		//
+		
+		/// <summary>
+		/// Provides a point for the Domain Context to hook into to manage the removal of '<#= association.OtherEntityToLink.LinkTableNavProp #>' association records from the '<#= association.ThisEntityToLink.Entity #>' entity. Do not register to this action in your code.
+		/// </summary>
+		[Obsolete("This action is only intended for use by the RIA M2M solution.")]
+		public Action<<#= association.Name #>> <#= removedAction #>;
+		
+		private M2MEntityCollection<<#= association.Name #>, <#= association.OtherEntityToLink.Entity #>> _<#= association.ThisEntityToLink.M2MNavProp #>;
+		
+		public M2MEntityCollection<<#= association.Name #>, <#= association.OtherEntityToLink.Entity #>> <#= association.ThisEntityToLink.M2MNavProp #>
+		{
+			get
+			{
+				if(_<#= association.ThisEntityToLink.M2MNavProp #> == null)
+				{
+					_<#= association.ThisEntityToLink.M2MNavProp #> = new M2MEntityCollection<<#= association.Name #>, <#= association.OtherEntityToLink.Entity #>>(this.<#= association.OtherEntityToLink.LinkTableNavProp #>, r => r.<#= association.OtherEntityToLink.Entity #>, (r, t2) => r.<#= association.OtherEntityToLink.Entity #> = t2, r => r.<#= association.ThisEntityToLink.Entity #> = this, <#= removeMethod #>);
+				}
+				
+				return _<#= association.ThisEntityToLink.M2MNavProp #>;
+			}
+		}
+		
+		private void <#= removeMethod #>(<#= association.Name #> r)
+		{
+			if(<#= removedAction #> == null)
+			{
+				this.<#= association.OtherEntityToLink.LinkTableNavProp #>.Remove(r);
+			}
+			else
+			{
+				<#= removedAction #>(r);
+			}
+		}
+<#+
+			}
+		}
+#>
+	}
+	
+<#+ 
+	}
+	
+	public void CreateDataContextEventHandler(M2MEntity entity)
+	{
+		foreach(M2MEntityAssociationSet association in entity.Associations)
+		{
+			if(association.ThisEntityToLink.HasM2MNavProp)
+			{
+				string removedAction = association.OtherEntityToLink.LinkTableNavProp + "Removed";
+				
+				if(association.ThisEntityToLink.Entity.IsBaseEntity)
+				{
+#>
+			EntityContainer.GetEntitySet<<#= association.ThisEntityToLink.Entity.Name #>>().EntityAdded +=
+				(sender, args) =>
+				{
+					args.Entity.<#= removedAction #> = (p) => EntityContainer.GetEntitySet<<#= association.Name #>>().Remove(p);
+				};
+				
+<#+ 
+					
+				}
+				else
+				{
+#>
+			EntityContainer.GetEntitySet<<#= association.ThisEntityToLink.Entity.BaseEntityName #>>().EntityAdded +=
+				(sender, args) =>
+				{
+					if(args.Entity is <#= association.ThisEntityToLink.Entity.Name #>)
+					{
+						var entity = args.Entity as <#= association.ThisEntityToLink.Entity.Name #>;
+						
+						entity.<#= removedAction #> = (p) => EntityContainer.GetEntitySet<<#= association.Name #>>().Remove(p);
+					}
+				};
+				
+<#+ 
+				}
+			}
+		}
+	}
+	
+#>
+
+
+
+

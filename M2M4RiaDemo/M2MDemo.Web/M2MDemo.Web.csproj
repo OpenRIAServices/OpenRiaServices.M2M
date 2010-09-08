@@ -74,24 +74,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\M2M4Ria\Server\EntityCollection.cs">
-      <Link>EntityCollection.cs</Link>
-    </Compile>
-    <Compile Include="..\..\M2M4Ria\Server\M2MTools.cs">
-      <Link>M2MTools.cs</Link>
-    </Compile>
-    <Compile Include="m2mdatatypes.g.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>m2mdatatypes.tt</DependentUpon>
-    </Compile>
     <Compile Include="M2MDemoDomainService.cs">
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="m2mdomainservice.g.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>m2mdomainservice.tt</DependentUpon>
     </Compile>
     <Compile Include="M2MModel.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -99,16 +83,16 @@
       <DependentUpon>M2MModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="m2mdatatypes.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>m2mdatatypes.g.cs</LastGenOutput>
-    </None>
-    <None Include="m2mdomainservice.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>m2mdomainservice.g.cs</LastGenOutput>
-    </None>
+    <Compile Include="RIAM2MDomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RIAM2MDomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RIAM2MEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RIAM2MEntities.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="M2MModel.edmx">
@@ -118,6 +102,16 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="RIAM2MDomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RIAM2MDomainService.cs</LastGenOutput>
+    </None>
+    <None Include="RIAM2MEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RIAM2MEntities.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
