@@ -2,7 +2,7 @@
 
  
 
-// RIAM2MShared.ttinclude has been located and loaded.
+// M2M4RiaShared.ttinclude has been located and loaded.
 
  
 

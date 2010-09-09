@@ -2,4 +2,4 @@
 <#@ output extension=".g.cs" #>
 
 <#@ include file="$(ProjectDir)\..\M2MGenerator.ttinclude" #>
-<#@ include file="$(SolutionDir)\M2M4Ria\Server\RIAM2MEntities.ttinclude" #>
+<#@ include file="$(SolutionDir)\M2M4Ria\Server\M2M4RiaLinqToEntitiesDomainService.ttinclude" #>

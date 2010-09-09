@@ -2,4 +2,4 @@
 <#@ output extension=".g.cs" #>
 
 <#@ include file="..\M2MGenerator.ttinclude" #>
-<#@ include file="..\..\M2M4Ria\Shared\RIAM2MShared.ttinclude" #>
+<#@ include file="..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude" #>

@@ -38,10 +38,10 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <None Include="Client\RIAM2MDomainContext.ttinclude" />
-    <None Include="Server\RIAM2MDomainService.ttinclude" />
-    <None Include="Server\RIAM2MEntities.ttinclude" />
-    <None Include="Shared\RIAM2MShared.ttinclude" />
+    <None Include="Client\M2M4RiaDomainContext.ttinclude" />
+    <None Include="Server\M2M4RiaLinqToEntitiesDomainService.ttinclude" />
+    <None Include="Server\M2M4RiaEntities.ttinclude" />
+    <None Include="Shared\M2M4RiaShared.ttinclude" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

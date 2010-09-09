@@ -28,9 +28,9 @@ namespace ServerTests
     using System.Text;
     
     
-    #line 1 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\RIAM2MShared.tt"
+    #line 1 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\M2M4RiaShared.tt"
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "10.0.0.0")]
-    public partial class RIAM2MShared : RIAM2MSharedBase
+    public partial class M2M4RiaShared : M2M4RiaSharedBase
     {
         #region ToString Helpers
         /// <summary>
@@ -105,12 +105,12 @@ DomainContextName = "M2M4RiaTestContext";
             #line default
             #line hidden
             this.Write("\r\n");
-            this.Write("\r\n// RIAM2MShared.ttinclude has been located and loaded.\r\n");
+            this.Write("\r\n// M2M4RiaShared.ttinclude has been located and loaded.\r\n");
             this.Write("\r\n");
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 3 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\RIAM2MShared.ttinclude"
+        #line 3 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
 
 	// ** Change these values in a separate .tt file according to the needs of your project. **
 	//
@@ -175,28 +175,28 @@ DomainContextName = "M2M4RiaTestContext";
         #line default
         #line hidden
         
-        #line 62 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\RIAM2MShared.ttinclude"
+        #line 62 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
 this.Write("//\r\n// ERROR: Unable to locate Entity Framework edmx file at path \"");
 
         
         #line default
         #line hidden
         
-        #line 64 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\RIAM2MShared.ttinclude"
+        #line 64 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
 this.Write(this.ToStringHelper.ToStringWithCulture(EdmxFilePath));
 
         
         #line default
         #line hidden
         
-        #line 64 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\RIAM2MShared.ttinclude"
+        #line 64 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
 this.Write("\"\r\n//\r\n");
 
         
         #line default
         #line hidden
         
-        #line 66 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\RIAM2MShared.ttinclude"
+        #line 66 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
 
 				throw new FileNotFoundException("Unable to located Entity Framework edmx file at path " + EdmxFilePath, ex);
 			}
@@ -2678,7 +2678,7 @@ public static class MetadataConstants
     /// Base class for this transformation
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "10.0.0.0")]
-    public class RIAM2MSharedBase
+    public class M2M4RiaSharedBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;
