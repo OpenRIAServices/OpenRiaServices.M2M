@@ -17,24 +17,36 @@ namespace M2M4RiaDemo.Web.Service
     {
         partial void OnCreated()
         {
+            // Install a handler on this entity container that installs a remove action on each added entity
+			// to correctly remove an m2m relation
 			EntityContainer.GetEntitySet<Animal>().EntityAdded +=
 				(sender, args) =>
 				{
 					args.Entity.AnimalVetToVetRemoved = (p) => EntityContainer.GetEntitySet<AnimalVet>().Remove(p);
 				};
-				
+			// Installs a handler on this entity container that removes a remove action on each removed entity.
+			EntityContainer.GetEntitySet<Animal>().EntityRemoved +=
+				(sender, args) => args.Entity.AnimalVetToVetRemoved = null;
+            // Install a handler on this entity container that installs a remove action on each added entity
+			// to correctly remove an m2m relation
 			EntityContainer.GetEntitySet<Vet>().EntityAdded +=
 				(sender, args) =>
 				{
 					args.Entity.AnimalVetToAnimalRemoved = (p) => EntityContainer.GetEntitySet<AnimalVet>().Remove(p);
 				};
-				
+			// Installs a handler on this entity container that removes a remove action on each removed entity.
+			EntityContainer.GetEntitySet<Vet>().EntityRemoved +=
+				(sender, args) => args.Entity.AnimalVetToAnimalRemoved = null;
+            // Install a handler on this entity container that installs a remove action on each added entity
+			// to correctly remove an m2m relation
 			EntityContainer.GetEntitySet<Trainer>().EntityAdded +=
 				(sender, args) =>
 				{
 					args.Entity.DogTrainerToDogRemoved = (p) => EntityContainer.GetEntitySet<DogTrainer>().Remove(p);
 				};
-				
+			// Installs a handler on this entity container that removes a remove action on each removed entity.
+			EntityContainer.GetEntitySet<Trainer>().EntityRemoved +=
+				(sender, args) => args.Entity.DogTrainerToDogRemoved = null;
 			EntityContainer.GetEntitySet<Animal>().EntityAdded +=
 				(sender, args) =>
 				{

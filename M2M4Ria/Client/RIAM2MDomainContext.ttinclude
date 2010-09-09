@@ -268,12 +268,16 @@ namespace <#= EntityModelNamespace #>
 				if(association.ThisEntityToLink.Entity.IsBaseEntity)
 				{
 #>
+            // Install a handler on this entity container that installs a remove action on each added entity
+			// to correctly remove an m2m relation
 			EntityContainer.GetEntitySet<<#= association.ThisEntityToLink.Entity.Name #>>().EntityAdded +=
 				(sender, args) =>
 				{
 					args.Entity.<#= removedAction #> = (p) => EntityContainer.GetEntitySet<<#= association.Name #>>().Remove(p);
 				};
-				
+			// Installs a handler on this entity container that removes a remove action on each removed entity.
+			EntityContainer.GetEntitySet<<#= association.ThisEntityToLink.Entity.Name #>>().EntityRemoved +=
+				(sender, args) => args.Entity.<#= removedAction #> = null;
 <#+ 
 					
 				}
