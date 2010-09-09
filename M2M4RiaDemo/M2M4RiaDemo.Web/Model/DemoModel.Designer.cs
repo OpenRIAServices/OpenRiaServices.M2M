@@ -247,17 +247,6 @@ namespace M2M4RiaDemo.Web.Model
         }
 
         #endregion
-        #region Function Imports
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public int ClearTables()
-        {
-            return base.ExecuteFunction("ClearTables");
-        }
-
-        #endregion
     }
     
 
