@@ -1,0 +1,228 @@
+﻿<#@ template debug="true" hostSpecific="true" #>
+<#@ output extension=".cs" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+<#   
+//
+// Change the file path below to the path of the RIAM2MShared.ttinclude in your project
+//
+#>
+<#@ include file="$(SolutionDir)\M2M4Ria\Shared\RIAM2MShared.ttinclude" #>
+<#
+_EdmxFilePath = @"../DemoModel.edmx";
+EntityModelNamespace = "ClientTests.Web";
+
+M2MData m2mData = GenerateM2MData();
+
+#> 
+
+#pragma warning disable 618
+
+#region Entities
+
+namespace <#= EntityModelNamespace #>  
+{
+	using System;
+	using System.ComponentModel.DataAnnotations;
+	using System.Runtime.Serialization;
+	using System.ServiceModel.DomainServices.Server;
+	using <#= M2MToolsNamespace #>;
+
+	//
+	// Association Entity Types
+	//
+<#
+	foreach(M2MAssociationSet associationSet in m2mData.Associations)
+	{
+		string fromFKIdPrivate = "_" + associationSet.Entity2ToLink.FK;
+		string fromPKId = associationSet.Entity2ToLink.Entity + "." + associationSet.Entity2ToLink.PK;
+		string toFKIdPrivate = "_" + associationSet.Entity1ToLink.FK;
+		string toPKId = associationSet.Entity1ToLink.Entity + "." + associationSet.Entity1ToLink.PK;
+		
+		// If entities on either side of the M2M relationship don't have a navigation property to each other, then there is no need to output this.
+		if(associationSet.Entity1ToLink.HasM2MNavProp || associationSet.Entity2ToLink.HasM2MNavProp)
+		{
+#>
+	[Obsolete("This class is only intended for use by the RIA M2M solution")]
+	public partial class <#= associationSet.Name #>
+	{
+
+		// '<#= associationSet.Entity2ToLink.LinkTableNavProp #>' associationSet from '<#= associationSet.Entity2ToLink.Entity #>.<#= associationSet.Entity2ToLink.PK #>' to '<#= associationSet.Name #>.<#= associationSet.Entity2ToLink.FK #>'
+		private <#= associationSet.Entity2ToLink.DataType #> <#= fromFKIdPrivate #>;
+		
+		[DataMember]
+		[Key]
+		public <#= associationSet.Entity2ToLink.DataType #> <#= associationSet.Entity2ToLink.FK #>
+		{
+			get
+			{
+				if(<#= associationSet.Entity2ToLink.Entity #> != null)
+				{
+					if(<#= fromFKIdPrivate #> != <#= fromPKId #> && <#= fromFKIdPrivate #> == 0)
+						<#= fromFKIdPrivate #> = <#= fromPKId #>;
+				}
+				
+				return <#= fromFKIdPrivate #>;
+			}
+			set
+			{
+				<#= fromFKIdPrivate #> = value;
+			}
+		}
+		
+		[Include]
+		[Association("<#=associationSet.Entity2ToLink.LinkTableNavProp #>", "<#= associationSet.Entity2ToLink.FK #>", "<#= associationSet.Entity2ToLink.PK #>", IsForeignKey = true)]
+		[DataMember]
+		public <#= associationSet.Entity2ToLink.Entity #> <#= associationSet.Entity2ToLink.Entity #> { get; set; }
+		
+		// '<#= associationSet.Entity1ToLink.LinkTableNavProp #>' associationSet from '<#= associationSet.Entity1ToLink.Entity #>.<#= associationSet.Entity1ToLink.PK #>' to '<#= associationSet.Name #>.<#= associationSet.Entity1ToLink.FK #>'
+		private <#= associationSet.Entity1ToLink.DataType #> <#= toFKIdPrivate #>;
+
+		[DataMember]
+		[Key]
+		public <#= associationSet.Entity1ToLink.DataType #> <#= associationSet.Entity1ToLink.FK #>
+		{
+			get
+			{
+				if(<#= associationSet.Entity1ToLink.Entity #> != null)
+				{
+					if(<#= toFKIdPrivate #> != <#= toPKId #> && <#= toFKIdPrivate #> == 0)
+						<#= toFKIdPrivate #> = <#= toPKId #>;
+				}
+
+				return <#= toFKIdPrivate #>;
+			}
+			set
+			{
+				<#= toFKIdPrivate #> = value;
+			}
+		}
+		
+		[Include]
+		[Association("<#= associationSet.Entity1ToLink.LinkTableNavProp #>", "<#= associationSet.Entity1ToLink.FK #>", "<#= associationSet.Entity1ToLink.PK #>", IsForeignKey = true)]
+		[DataMember]
+		public <#= associationSet.Entity1ToLink.Entity #> <#= associationSet.Entity1ToLink.Entity #> { get; set; }
+
+	}
+		
+<# 
+		}
+	}
+#>
+	//
+	// Regular Entity Types
+	//
+<# 
+	foreach(M2MEntity entity in m2mData.Entities)
+	{
+#>		
+	public partial class <#= entity.Name #>
+	{
+<# 
+		foreach(M2MEntityAssociationSet associationSet in entity.Associations)
+		{
+			if(associationSet.ThisEntityToLink.HasM2MNavProp)
+			{			
+				string ToAssociationSetPrivate = "_" + associationSet.OtherEntityToLink.LinkTableNavProp;
+#>
+		// '<#= associationSet.OtherEntityToLink.LinkTableNavProp #>' associationSet from '<#= associationSet.OtherEntityToLink.Entity #>.<#= associationSet.OtherEntityToLink.PK #>' to '<#= associationSet.Name #>.<#= associationSet.OtherEntityToLink.FK #>'
+		private M2MEntityCollection<<#= associationSet.Name #>, <#= associationSet.OtherEntityToLink.Entity #>> <#= ToAssociationSetPrivate #>;
+		
+		[Obsolete("This property is only intended for use by the RIA M2M solution")]
+		[DataMember]
+		[Include]
+		[Association("<#= associationSet.ThisEntityToLink.LinkTableNavProp #>", "<#= associationSet.ThisEntityToLink.PK #>", "<#= associationSet.ThisEntityToLink.FK #>", IsForeignKey = false)]
+		public M2MEntityCollection<<#= associationSet.Name #>, <#= associationSet.OtherEntityToLink.Entity #>> <#= associationSet.OtherEntityToLink.LinkTableNavProp #>
+		{
+			get
+			{
+				if(<#= ToAssociationSetPrivate #> == null)
+				{
+					<#= ToAssociationSetPrivate #> = new M2MEntityCollection<<#= associationSet.Name #>, <#= associationSet.OtherEntityToLink.Entity #>>
+					(
+						<#= associationSet.ThisEntityToLink.M2MNavProp #>,
+						(r) => new <#= associationSet.Name #> { <#= associationSet.ThisEntityToLink.Entity  #> = this, <#= associationSet.OtherEntityToLink.Entity #> = r },
+						pd => pd.<#= associationSet.OtherEntityToLink.Entity #>
+					);
+				}
+				
+				return <#= ToAssociationSetPrivate #>;
+			}
+		}
+		
+<# 
+		}			
+	}
+#>
+	}
+<#
+	}
+#>
+}
+
+#endregion
+
+#region M2MEntityCollection
+
+namespace <#= M2MToolsNamespace #>
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Data.Objects.DataClasses;
+    using System.Linq;
+
+    public class M2MEntityCollection<JoinType, TEntity> : IEnumerable<JoinType>
+        where JoinType : new()
+        where TEntity : class
+    {
+        private ICollection<TEntity> collection;
+        private Func<TEntity, JoinType> newJoinType;
+        private Func<JoinType, TEntity> getEntity;
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="collection">Entity collection that represents a m2m relation</param>
+        /// <param name="newJoinType">The function used to create a new joint type entity and set both elements</param>
+        public M2MEntityCollection(ICollection<TEntity> collection,Func<TEntity, JoinType> newJoinType, Func<JoinType, TEntity> getEntity)
+        {
+            this.collection = collection;
+            this.newJoinType = newJoinType;
+            this.getEntity = getEntity;
+        }
+
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+        /// <summary>
+        /// Construct an enumerator by creating JoinType objects for each element in the associated m2m collection
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator<JoinType> GetEnumerator()
+        {
+            return collection.Select(newJoinType).GetEnumerator();
+        }
+
+        /// <summary>
+        /// Not clear if this method should have an implementation. It is only called for newly created JoinType objects.
+        /// However, the corresponding domainservice operation will already take the appropriate action the add a new association obejct.
+        /// Is there a need to also add similar functionality here?
+        /// </summary>
+        /// <param name="entity"></param>
+        public void Add(JoinType entity)
+        {
+            // Empty
+        }
+    }
+}
+
+#endregion
+
+#pragma warning restore 618
+		
+

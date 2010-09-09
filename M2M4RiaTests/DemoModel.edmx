@@ -1,0 +1,632 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DemoModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="DemoModelStoreContainer">
+    <EntitySet Name="Animals" EntityType="DemoModel.Store.Animals" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Vets" EntityType="DemoModel.Store.Vets" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FireHydrants" EntityType="DemoModel.Store.FireHydrants" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Owners" EntityType="DemoModel.Store.Owners" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ChewedShoes" EntityType="DemoModel.Store.ChewedShoes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Trainers" EntityType="DemoModel.Store.Trainers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Foods" EntityType="DemoModel.Store.Foods" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Animals_Dog" EntityType="DemoModel.Store.Animals_Dog" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Animals_Cat" EntityType="DemoModel.Store.Animals_Cat" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AnimalVet" EntityType="DemoModel.Store.AnimalVet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DogFireHydrant" EntityType="DemoModel.Store.DogFireHydrant" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DogTrainer" EntityType="DemoModel.Store.DogTrainer" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AnimalFood" EntityType="DemoModel.Store.AnimalFood" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_AnimalVet_Animal" Association="DemoModel.Store.FK_AnimalVet_Animal">
+      <End Role="Animal" EntitySet="Animals" />
+      <End Role="AnimalVet" EntitySet="AnimalVet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AnimalVet_Vet" Association="DemoModel.Store.FK_AnimalVet_Vet">
+      <End Role="Vet" EntitySet="Vets" />
+      <End Role="AnimalVet" EntitySet="AnimalVet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DogFireHydrant_Dog" Association="DemoModel.Store.FK_DogFireHydrant_Dog">
+      <End Role="Dog" EntitySet="Animals_Dog" />
+      <End Role="DogFireHydrant" EntitySet="DogFireHydrant" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DogFireHydrant_FireHydrant" Association="DemoModel.Store.FK_DogFireHydrant_FireHydrant">
+      <End Role="FireHydrant" EntitySet="FireHydrants" />
+      <End Role="DogFireHydrant" EntitySet="DogFireHydrant" />
+    </AssociationSet>
+    <AssociationSet Name="OwnerAnimal" Association="DemoModel.Store.OwnerAnimal">
+      <End Role="Owner" EntitySet="Owners" />
+      <End Role="Animal" EntitySet="Animals" />
+    </AssociationSet>
+    <AssociationSet Name="DogChewedShoe" Association="DemoModel.Store.DogChewedShoe">
+      <End Role="Dog" EntitySet="Animals_Dog" />
+      <End Role="ChewedShoe" EntitySet="ChewedShoes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DogTrainer_Dog" Association="DemoModel.Store.FK_DogTrainer_Dog">
+      <End Role="Dog" EntitySet="Animals_Dog" />
+      <End Role="DogTrainer" EntitySet="DogTrainer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DogTrainer_Trainer" Association="DemoModel.Store.FK_DogTrainer_Trainer">
+      <End Role="Trainer" EntitySet="Trainers" />
+      <End Role="DogTrainer" EntitySet="DogTrainer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AnimalFood_Animal" Association="DemoModel.Store.FK_AnimalFood_Animal">
+      <End Role="Animal" EntitySet="Animals" />
+      <End Role="AnimalFood" EntitySet="AnimalFood" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AnimalFood_Food" Association="DemoModel.Store.FK_AnimalFood_Food">
+      <End Role="Food" EntitySet="Foods" />
+      <End Role="AnimalFood" EntitySet="AnimalFood" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Dog_inherits_Animal" Association="DemoModel.Store.FK_Dog_inherits_Animal">
+      <End Role="Animal" EntitySet="Animals" />
+      <End Role="Dog" EntitySet="Animals_Dog" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cat_inherits_Animal" Association="DemoModel.Store.FK_Cat_inherits_Animal">
+      <End Role="Animal" EntitySet="Animals" />
+      <End Role="Cat" EntitySet="Animals_Cat" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Animals">
+    <Key>
+      <PropertyRef Name="AnimalId" />
+    </Key>
+    <Property Name="AnimalId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OwnerOwnerId" Type="int" Nullable="true" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Vets">
+    <Key>
+      <PropertyRef Name="VetId" />
+    </Key>
+    <Property Name="VetId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FireHydrants">
+    <Key>
+      <PropertyRef Name="FireHydrantId" />
+    </Key>
+    <Property Name="FireHydrantId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Location" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Owners">
+    <Key>
+      <PropertyRef Name="OwnerId" />
+    </Key>
+    <Property Name="OwnerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ChewedShoes">
+    <Key>
+      <PropertyRef Name="ChewedShoeId" />
+    </Key>
+    <Property Name="ChewedShoeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DogAnimalId" Type="int" Nullable="false" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Trainers">
+    <Key>
+      <PropertyRef Name="TrainerId" />
+    </Key>
+    <Property Name="TrainerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Foods">
+    <Key>
+      <PropertyRef Name="FoodId" />
+    </Key>
+    <Property Name="FoodId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Animals_Dog">
+    <Key>
+      <PropertyRef Name="AnimalId" />
+    </Key>
+    <Property Name="ChasesCars" Type="bit" Nullable="false" />
+    <Property Name="AnimalId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Animals_Cat">
+    <Key>
+      <PropertyRef Name="AnimalId" />
+    </Key>
+    <Property Name="SleepsAlot" Type="bit" Nullable="false" />
+    <Property Name="AnimalId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AnimalVet">
+    <Key>
+      <PropertyRef Name="Animals_AnimalId" />
+      <PropertyRef Name="Vets_VetId" />
+    </Key>
+    <Property Name="Animals_AnimalId" Type="int" Nullable="false" />
+    <Property Name="Vets_VetId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DogFireHydrant">
+    <Key>
+      <PropertyRef Name="DogFireHydrant_FireHydrant_AnimalId" />
+      <PropertyRef Name="FireHydrants_FireHydrantId" />
+    </Key>
+    <Property Name="DogFireHydrant_FireHydrant_AnimalId" Type="int" Nullable="false" />
+    <Property Name="FireHydrants_FireHydrantId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DogTrainer">
+    <Key>
+      <PropertyRef Name="Dogs_AnimalId" />
+      <PropertyRef Name="Trainers_TrainerId" />
+    </Key>
+    <Property Name="Dogs_AnimalId" Type="int" Nullable="false" />
+    <Property Name="Trainers_TrainerId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AnimalFood">
+    <Key>
+      <PropertyRef Name="AnimalFood_Food_AnimalId" />
+      <PropertyRef Name="AnimalFood_Animal_FoodId" />
+    </Key>
+    <Property Name="AnimalFood_Food_AnimalId" Type="int" Nullable="false" />
+    <Property Name="AnimalFood_Animal_FoodId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="OwnerAnimal">
+    <End Role="Owner" Type="DemoModel.Store.Owners" Multiplicity="0..1" />
+    <End Role="Animal" Type="DemoModel.Store.Animals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Owner">
+        <PropertyRef Name="OwnerId" />
+      </Principal>
+      <Dependent Role="Animal">
+        <PropertyRef Name="OwnerOwnerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DogChewedShoe">
+    <End Role="Dog" Type="DemoModel.Store.Animals_Dog" Multiplicity="1" />
+    <End Role="ChewedShoe" Type="DemoModel.Store.ChewedShoes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dog">
+        <PropertyRef Name="AnimalId" />
+      </Principal>
+      <Dependent Role="ChewedShoe">
+        <PropertyRef Name="DogAnimalId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AnimalVet_Animal">
+    <End Role="Animal" Type="DemoModel.Store.Animals" Multiplicity="1" />
+    <End Role="AnimalVet" Type="DemoModel.Store.AnimalVet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Animal">
+        <PropertyRef Name="AnimalId" />
+      </Principal>
+      <Dependent Role="AnimalVet">
+        <PropertyRef Name="Animals_AnimalId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AnimalVet_Vet">
+    <End Role="AnimalVet" Type="DemoModel.Store.AnimalVet" Multiplicity="*" />
+    <End Role="Vet" Type="DemoModel.Store.Vets" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Vet">
+        <PropertyRef Name="VetId" />
+      </Principal>
+      <Dependent Role="AnimalVet">
+        <PropertyRef Name="Vets_VetId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DogFireHydrant_Dog">
+    <End Role="Dog" Type="DemoModel.Store.Animals_Dog" Multiplicity="1" />
+    <End Role="DogFireHydrant" Type="DemoModel.Store.DogFireHydrant" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dog">
+        <PropertyRef Name="AnimalId" />
+      </Principal>
+      <Dependent Role="DogFireHydrant">
+        <PropertyRef Name="DogFireHydrant_FireHydrant_AnimalId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DogFireHydrant_FireHydrant">
+    <End Role="DogFireHydrant" Type="DemoModel.Store.DogFireHydrant" Multiplicity="*" />
+    <End Role="FireHydrant" Type="DemoModel.Store.FireHydrants" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="FireHydrant">
+        <PropertyRef Name="FireHydrantId" />
+      </Principal>
+      <Dependent Role="DogFireHydrant">
+        <PropertyRef Name="FireHydrants_FireHydrantId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DogTrainer_Dog">
+    <End Role="Dog" Type="DemoModel.Store.Animals_Dog" Multiplicity="1" />
+    <End Role="DogTrainer" Type="DemoModel.Store.DogTrainer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dog">
+        <PropertyRef Name="AnimalId" />
+      </Principal>
+      <Dependent Role="DogTrainer">
+        <PropertyRef Name="Dogs_AnimalId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DogTrainer_Trainer">
+    <End Role="DogTrainer" Type="DemoModel.Store.DogTrainer" Multiplicity="*" />
+    <End Role="Trainer" Type="DemoModel.Store.Trainers" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Trainer">
+        <PropertyRef Name="TrainerId" />
+      </Principal>
+      <Dependent Role="DogTrainer">
+        <PropertyRef Name="Trainers_TrainerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AnimalFood_Animal">
+    <End Role="Animal" Type="DemoModel.Store.Animals" Multiplicity="1" />
+    <End Role="AnimalFood" Type="DemoModel.Store.AnimalFood" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Animal">
+        <PropertyRef Name="AnimalId" />
+      </Principal>
+      <Dependent Role="AnimalFood">
+        <PropertyRef Name="AnimalFood_Food_AnimalId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AnimalFood_Food">
+    <End Role="AnimalFood" Type="DemoModel.Store.AnimalFood" Multiplicity="*" />
+    <End Role="Food" Type="DemoModel.Store.Foods" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Food">
+        <PropertyRef Name="FoodId" />
+      </Principal>
+      <Dependent Role="AnimalFood">
+        <PropertyRef Name="AnimalFood_Animal_FoodId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Dog_inherits_Animal">
+    <End Role="Animal" Type="DemoModel.Store.Animals" Multiplicity="1" />
+    <End Role="Dog" Type="DemoModel.Store.Animals_Dog" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Animal">
+        <PropertyRef Name="AnimalId" />
+      </Principal>
+      <Dependent Role="Dog">
+        <PropertyRef Name="AnimalId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cat_inherits_Animal">
+    <End Role="Animal" Type="DemoModel.Store.Animals" Multiplicity="1" />
+    <End Role="Cat" Type="DemoModel.Store.Animals_Cat" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Animal">
+        <PropertyRef Name="AnimalId" />
+      </Principal>
+      <Dependent Role="Cat">
+        <PropertyRef Name="AnimalId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="DemoModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="DemoModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Animals" EntityType="DemoModel.Animal" />
+          <EntitySet Name="Vets" EntityType="DemoModel.Vet" />
+          <EntitySet Name="FireHydrants" EntityType="DemoModel.FireHydrant" />
+          <AssociationSet Name="AnimalVet" Association="DemoModel.AnimalVet">
+            <End Role="Animal" EntitySet="Animals" />
+            <End Role="Vet" EntitySet="Vets" />
+          </AssociationSet>
+          <AssociationSet Name="DogFireHydrant" Association="DemoModel.DogFireHydrant">
+            <End Role="Dog" EntitySet="Animals" />
+            <End Role="FireHydrant" EntitySet="FireHydrants" />
+          </AssociationSet>
+          <EntitySet Name="Owners" EntityType="DemoModel.Owner" />
+          <AssociationSet Name="OwnerAnimal" Association="DemoModel.OwnerAnimal">
+            <End Role="Owner" EntitySet="Owners" />
+            <End Role="Animal" EntitySet="Animals" />
+          </AssociationSet>
+          <EntitySet Name="ChewedShoes" EntityType="DemoModel.ChewedShoe" />
+          <AssociationSet Name="DogChewedShoe" Association="DemoModel.DogChewedShoe">
+            <End Role="Dog" EntitySet="Animals" />
+            <End Role="ChewedShoe" EntitySet="ChewedShoes" />
+          </AssociationSet>
+          <EntitySet Name="Trainers" EntityType="DemoModel.Trainer" />
+          <AssociationSet Name="DogTrainer" Association="DemoModel.DogTrainer">
+            <End Role="Dog" EntitySet="Animals" />
+            <End Role="Trainer" EntitySet="Trainers" />
+          </AssociationSet>
+          <EntitySet Name="Foods" EntityType="DemoModel.Food" />
+          <AssociationSet Name="AnimalFood" Association="DemoModel.AnimalFood">
+            <End Role="Animal" EntitySet="Animals" />
+            <End Role="Food" EntitySet="Foods" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Animal">
+          <Key>
+            <PropertyRef Name="AnimalId" />
+          </Key>
+          <Property Type="Int32" Name="AnimalId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Vets" Relationship="DemoModel.AnimalVet" FromRole="Animal" ToRole="Vet" />
+          <NavigationProperty Name="Owner" Relationship="DemoModel.OwnerAnimal" FromRole="Animal" ToRole="Owner" />
+          <Property Type="Int32" Name="OwnerOwnerId" Nullable="true" />
+          <Property Type="String" Name="Name" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Dog" BaseType="DemoModel.Animal" >
+          <NavigationProperty Name="FireHydrants" Relationship="DemoModel.DogFireHydrant" FromRole="Dog" ToRole="FireHydrant" />
+          <NavigationProperty Name="ChewedShoes" Relationship="DemoModel.DogChewedShoe" FromRole="Dog" ToRole="ChewedShoe" />
+          <Property Type="Boolean" Name="ChasesCars" Nullable="false" />
+          <NavigationProperty Name="Trainers" Relationship="DemoModel.DogTrainer" FromRole="Dog" ToRole="Trainer" />
+        </EntityType>
+        <EntityType Name="Cat" BaseType="DemoModel.Animal" >
+          <Property Type="Boolean" Name="SleepsAlot" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Vet">
+          <Key>
+            <PropertyRef Name="VetId" />
+          </Key>
+          <Property Type="Int32" Name="VetId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Animals" Relationship="DemoModel.AnimalVet" FromRole="Vet" ToRole="Animal" />
+          <Property Type="String" Name="Name" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FireHydrant">
+          <Key>
+            <PropertyRef Name="FireHydrantId" />
+          </Key>
+          <Property Type="Int32" Name="FireHydrantId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Location" Nullable="false" />
+        </EntityType>
+        <Association Name="AnimalVet">
+          <End Type="DemoModel.Animal" Role="Animal" Multiplicity="*" />
+          <End Type="DemoModel.Vet" Role="Vet" Multiplicity="*" />
+        </Association>
+        <Association Name="DogFireHydrant">
+          <End Type="DemoModel.Dog" Role="Dog" Multiplicity="*" />
+          <End Type="DemoModel.FireHydrant" Role="FireHydrant" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Owner">
+          <Key>
+            <PropertyRef Name="OwnerId" />
+          </Key>
+          <Property Type="Int32" Name="OwnerId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Animals" Relationship="DemoModel.OwnerAnimal" FromRole="Owner" ToRole="Animal" />
+          <Property Type="String" Name="Name" Nullable="false" />
+        </EntityType>
+        <Association Name="OwnerAnimal">
+          <End Type="DemoModel.Owner" Role="Owner" Multiplicity="0..1" />
+          <End Type="DemoModel.Animal" Role="Animal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Owner">
+              <PropertyRef Name="OwnerId" />
+            </Principal>
+            <Dependent Role="Animal">
+              <PropertyRef Name="OwnerOwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ChewedShoe">
+          <Key>
+            <PropertyRef Name="ChewedShoeId" />
+          </Key>
+          <Property Type="Int32" Name="ChewedShoeId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Dog" Relationship="DemoModel.DogChewedShoe" FromRole="ChewedShoe" ToRole="Dog" />
+          <Property Type="Int32" Name="DogAnimalId" Nullable="false" />
+          <Property Type="String" Name="Type" Nullable="false" />
+        </EntityType>
+        <Association Name="DogChewedShoe">
+          <End Type="DemoModel.Dog" Role="Dog" Multiplicity="1" />
+          <End Type="DemoModel.ChewedShoe" Role="ChewedShoe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dog">
+              <PropertyRef Name="AnimalId" />
+            </Principal>
+            <Dependent Role="ChewedShoe">
+              <PropertyRef Name="DogAnimalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Trainer">
+          <Key>
+            <PropertyRef Name="TrainerId" />
+          </Key>
+          <Property Type="Int32" Name="TrainerId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Dogs" Relationship="DemoModel.DogTrainer" FromRole="Trainer" ToRole="Dog" />
+          <Property Type="String" Name="Name" Nullable="false" />
+        </EntityType>
+        <Association Name="DogTrainer">
+          <End Type="DemoModel.Dog" Role="Dog" Multiplicity="*" />
+          <End Type="DemoModel.Trainer" Role="Trainer" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Food">
+          <Key>
+            <PropertyRef Name="FoodId" />
+          </Key>
+          <Property Type="Int32" Name="FoodId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" />
+        </EntityType>
+        <Association Name="AnimalFood">
+          <End Type="DemoModel.Animal" Role="Animal" Multiplicity="*" />
+          <End Type="DemoModel.Food" Role="Food" Multiplicity="*" />
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DemoModelStoreContainer" CdmEntityContainer="DemoModelContainer">
+    <EntitySetMapping Name="Animals">
+      <EntityTypeMapping TypeName="IsTypeOf(DemoModel.Animal)">
+        <MappingFragment StoreEntitySet="Animals">
+          <ScalarProperty Name="AnimalId" ColumnName="AnimalId" />
+          <ScalarProperty Name="OwnerOwnerId" ColumnName="OwnerOwnerId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(DemoModel.Dog)">
+        <MappingFragment StoreEntitySet="Animals_Dog">
+          <ScalarProperty Name="AnimalId" ColumnName="AnimalId" />
+          <ScalarProperty Name="ChasesCars" ColumnName="ChasesCars" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(DemoModel.Cat)">
+        <MappingFragment StoreEntitySet="Animals_Cat">
+          <ScalarProperty Name="AnimalId" ColumnName="AnimalId" />
+          <ScalarProperty Name="SleepsAlot" ColumnName="SleepsAlot" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Vets">
+      <EntityTypeMapping TypeName="IsTypeOf(DemoModel.Vet)">
+        <MappingFragment StoreEntitySet="Vets">
+          <ScalarProperty Name="VetId" ColumnName="VetId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FireHydrants">
+      <EntityTypeMapping TypeName="IsTypeOf(DemoModel.FireHydrant)">
+        <MappingFragment StoreEntitySet="FireHydrants">
+          <ScalarProperty Name="FireHydrantId" ColumnName="FireHydrantId" />
+          <ScalarProperty Name="Location" ColumnName="Location" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Owners">
+      <EntityTypeMapping TypeName="IsTypeOf(DemoModel.Owner)">
+        <MappingFragment StoreEntitySet="Owners">
+          <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ChewedShoes">
+      <EntityTypeMapping TypeName="IsTypeOf(DemoModel.ChewedShoe)">
+        <MappingFragment StoreEntitySet="ChewedShoes">
+          <ScalarProperty Name="ChewedShoeId" ColumnName="ChewedShoeId" />
+          <ScalarProperty Name="DogAnimalId" ColumnName="DogAnimalId" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Trainers">
+      <EntityTypeMapping TypeName="IsTypeOf(DemoModel.Trainer)">
+        <MappingFragment StoreEntitySet="Trainers">
+          <ScalarProperty Name="TrainerId" ColumnName="TrainerId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Foods">
+      <EntityTypeMapping TypeName="IsTypeOf(DemoModel.Food)">
+        <MappingFragment StoreEntitySet="Foods">
+          <ScalarProperty Name="FoodId" ColumnName="FoodId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="AnimalVet" TypeName="DemoModel.AnimalVet" StoreEntitySet="AnimalVet">
+      <EndProperty Name="Animal">
+        <ScalarProperty Name="AnimalId" ColumnName="Animals_AnimalId" />
+      </EndProperty>
+      <EndProperty Name="Vet">
+        <ScalarProperty Name="VetId" ColumnName="Vets_VetId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="DogFireHydrant" TypeName="DemoModel.DogFireHydrant" StoreEntitySet="DogFireHydrant">
+      <EndProperty Name="Dog">
+        <ScalarProperty Name="AnimalId" ColumnName="DogFireHydrant_FireHydrant_AnimalId" />
+      </EndProperty>
+      <EndProperty Name="FireHydrant">
+        <ScalarProperty Name="FireHydrantId" ColumnName="FireHydrants_FireHydrantId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="DogTrainer" TypeName="DemoModel.DogTrainer" StoreEntitySet="DogTrainer">
+      <EndProperty Name="Dog">
+        <ScalarProperty Name="AnimalId" ColumnName="Dogs_AnimalId" />
+      </EndProperty>
+      <EndProperty Name="Trainer">
+        <ScalarProperty Name="TrainerId" ColumnName="Trainers_TrainerId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="AnimalFood" TypeName="DemoModel.AnimalFood" StoreEntitySet="AnimalFood">
+      <EndProperty Name="Animal">
+        <ScalarProperty Name="AnimalId" ColumnName="AnimalFood_Food_AnimalId" />
+      </EndProperty>
+      <EndProperty Name="Food">
+        <ScalarProperty Name="FoodId" ColumnName="AnimalFood_Animal_FoodId" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram Name="DemoModel" ZoomLevel="94" >
+        <EntityTypeShape EntityType="DemoModel.Animal" Width="1.5" PointX="5.125" PointY="4" Height="1.9802864583333326" />
+        <EntityTypeShape EntityType="DemoModel.Dog" Width="1.5" PointX="7.5" PointY="6.75" Height="1.5956835937499996" />
+        <InheritanceConnector EntityType="DemoModel.Dog" ManuallyRouted="false" >
+          <ConnectorPoint PointX="5.875" PointY="5.9802864583333326" />
+          <ConnectorPoint PointX="5.875" PointY="6.375" />
+          <ConnectorPoint PointX="8.25" PointY="6.375" />
+          <ConnectorPoint PointX="8.25" PointY="6.75" />
+        </InheritanceConnector>
+        <EntityTypeShape EntityType="DemoModel.Cat" Width="1.5" PointX="7.625" PointY="12.375" Height="1.2110807291666657" />
+        <InheritanceConnector EntityType="DemoModel.Cat" ManuallyRouted="false" >
+          <ConnectorPoint PointX="5.875" PointY="5.9802864583333326" />
+          <ConnectorPoint PointX="5.875" PointY="12.000000000000002" />
+          <ConnectorPoint PointX="8.375" PointY="12.000000000000002" />
+          <ConnectorPoint PointX="8.375" PointY="12.375" />
+        </InheritanceConnector>
+        <EntityTypeShape EntityType="DemoModel.Vet" Width="1.5" PointX="9.375" PointY="4.75" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="DemoModel.FireHydrant" Width="1.5" PointX="11.75" PointY="5.75" Height="1.4033821614583326" />
+        <AssociationConnector Association="DemoModel.AnimalVet">
+          <ConnectorPoint PointX="6.625" PointY="5.3651432291666659" />
+          <ConnectorPoint PointX="9.375" PointY="5.3651432291666659" />
+        </AssociationConnector>
+        <AssociationConnector Association="DemoModel.DogFireHydrant">
+          <ConnectorPoint PointX="9" PointY="6.9516910807291659" />
+          <ConnectorPoint PointX="11.75" PointY="6.9516910807291659" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="DemoModel.Owner" Width="1.5" PointX="5.125" PointY="1.375" Height="1.59568359375" />
+        <AssociationConnector Association="DemoModel.OwnerAnimal">
+          <ConnectorPoint PointX="5.875" PointY="2.97068359375" />
+          <ConnectorPoint PointX="5.875" PointY="4" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="DemoModel.ChewedShoe" Width="1.5" PointX="11.75" PointY="9.625" Height="1.7879850260416657" />
+        <AssociationConnector Association="DemoModel.DogChewedShoe">
+          <ConnectorPoint PointX="8.25" PointY="8.5379850260416656" />
+          <ConnectorPoint PointX="8.25" PointY="10.518992513020834" />
+          <ConnectorPoint PointX="11.75" PointY="10.518992513020834" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="DemoModel.Trainer" Width="1.5" PointX="11.75" PointY="7.75" Height="1.5956835937499996" />
+        <AssociationConnector Association="DemoModel.DogTrainer">
+          <ConnectorPoint PointX="9" PointY="8.1439925130208337" />
+          <ConnectorPoint PointX="11.75" PointY="8.1439925130208337" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="DemoModel.Food" Width="1.5" PointX="9.375" PointY="3.25" Height="1.4033821614583326" />
+        <AssociationConnector Association="DemoModel.AnimalFood">
+          <ConnectorPoint PointX="6.625" PointY="4.3266910807291659" />
+          <ConnectorPoint PointX="9.375" PointY="4.3266910807291659" />
+        </AssociationConnector>
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
