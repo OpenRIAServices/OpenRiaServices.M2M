@@ -118,7 +118,7 @@
 			// NOTE: Only entites containing unary primary key's are supported currently.
 			m2mAssociationSet.Entity1ToLink.PK = Code.Escape(entity1.KeyMembers[0]);
 			m2mAssociationSet.Entity1ToLink.DataType = Code.Escape(entity1.KeyMembers[0].TypeUsage);
-			m2mAssociationSet.Entity1ToLink.LinkTableNavProp = Code.Escape(association) + "To" + Code.Escape(entity1);
+			m2mAssociationSet.Entity1ToLink.LinkTableNavProp = Code.Escape(association) + "To" + Code.Escape(entity1) + "Set";
 			m2mAssociationSet.Entity1ToLink.FK = Code.Escape(entity1) + "Id";
 		
 			// Retrieve navigation property navigating from the first entity to the second entity (if exists)
@@ -143,7 +143,7 @@
 			// NOTE: Only entites containing unary primary key's are supported currently.
 			m2mAssociationSet.Entity2ToLink.PK = Code.Escape(entity2.KeyMembers[0]);
 			m2mAssociationSet.Entity2ToLink.DataType = Code.Escape(entity2.KeyMembers[0].TypeUsage);
-			m2mAssociationSet.Entity2ToLink.LinkTableNavProp = Code.Escape(association) + "To" + Code.Escape(entity2);
+			m2mAssociationSet.Entity2ToLink.LinkTableNavProp = Code.Escape(association) + "To" + Code.Escape(entity2) + "Set";
 			m2mAssociationSet.Entity2ToLink.FK = Code.Escape(entity2) + "Id";
 			
 			// Retrieve navigation propery navigating from the second entity to the first entity (if exists)

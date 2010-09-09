@@ -66,8 +66,8 @@ namespace RIAM2M.Web.Tests
         {
             RIAM2MShared.M2MAssociationSet associationSet = GetAssociationSetByName("AnimalVet");
 
-            CheckAssociationIsValid(associationSet.Entity1ToLink, "Entity1ToLink", "int", "Animal", "AnimalId", true, "AnimalVetToAnimal", "Vets", "AnimalId");
-            CheckAssociationIsValid(associationSet.Entity2ToLink, "Entity2ToLink", "int", "Vet", "VetId", true, "AnimalVetToVet", "Animals", "VetId");
+            CheckAssociationIsValid(associationSet.Entity1ToLink, "Entity1ToLink", "int", "Animal", "AnimalId", true, "AnimalVetToAnimalSet", "Vets", "AnimalId");
+            CheckAssociationIsValid(associationSet.Entity2ToLink, "Entity2ToLink", "int", "Vet", "VetId", true, "AnimalVetToVetSet", "Animals", "VetId");
         }
 
         /// <summary>
@@ -78,8 +78,8 @@ namespace RIAM2M.Web.Tests
         {
             RIAM2MShared.M2MAssociationSet associationSet = GetAssociationSetByName("DogFireHydrant");
 
-            CheckAssociationIsValid(associationSet.Entity1ToLink, "Entity1ToLink", "int", "Dog", "DogId", true, "DogFireHydrantToDog", "FireHydrants", "AnimalId");
-            CheckAssociationIsValid(associationSet.Entity2ToLink, "Entity2ToLink", "int", "FireHydrant", "FireHydrantId", false, "DogFireHydrantToFireHydrant", null, "FireHydrantId");
+            CheckAssociationIsValid(associationSet.Entity1ToLink, "Entity1ToLink", "int", "Dog", "DogId", true, "DogFireHydrantToDogSet", "FireHydrants", "AnimalId");
+            CheckAssociationIsValid(associationSet.Entity2ToLink, "Entity2ToLink", "int", "FireHydrant", "FireHydrantId", false, "DogFireHydrantToFireHydrantSet", null, "FireHydrantId");
         }
 
         /// <summary>
@@ -90,8 +90,8 @@ namespace RIAM2M.Web.Tests
         {
             RIAM2MShared.M2MAssociationSet associationSet = GetAssociationSetByName("DogTrainer");
 
-            CheckAssociationIsValid(associationSet.Entity1ToLink, "Entity1ToLink", "int", "Dog", "DogId", true, "DogTrainerToDog", "Trainers", "AnimalId");
-            CheckAssociationIsValid(associationSet.Entity2ToLink, "Entity2ToLink", "int", "Trainer", "TrainerId", true, "DogTrainerToTrainer", "Dogs", "TrainerId");
+            CheckAssociationIsValid(associationSet.Entity1ToLink, "Entity1ToLink", "int", "Dog", "DogId", true, "DogTrainerToDogSet", "Trainers", "AnimalId");
+            CheckAssociationIsValid(associationSet.Entity2ToLink, "Entity2ToLink", "int", "Trainer", "TrainerId", true, "DogTrainerToTrainerSet", "Dogs", "TrainerId");
         }
          
 
@@ -103,8 +103,8 @@ namespace RIAM2M.Web.Tests
         {
             RIAM2MShared.M2MAssociationSet associationSet = GetAssociationSetByName("AnimalFood");
 
-            CheckAssociationIsValid(associationSet.Entity1ToLink, "Entity1ToLink", "int", "Animal", "AnimalId", false, "AnimalFoodToAnimal", null, "AnimalId");
-            CheckAssociationIsValid(associationSet.Entity2ToLink, "Entity2ToLink", "int", "Food", "FoodId", false, "AnimalFoodToFood", null, "FoodId");
+            CheckAssociationIsValid(associationSet.Entity1ToLink, "Entity1ToLink", "int", "Animal", "AnimalId", false, "AnimalFoodToAnimalSet", null, "AnimalId");
+            CheckAssociationIsValid(associationSet.Entity2ToLink, "Entity2ToLink", "int", "Food", "FoodId", false, "AnimalFoodToFoodSet", null, "FoodId");
         }
 
         /// <summary>
@@ -213,7 +213,7 @@ namespace RIAM2M.Web.Tests
             }
             catch (FileNotFoundException ex)
             {
-                throw new FileNotFoundException("Unable to located DemoModel.edmx file.  Make sure the 'Deployment' menu under the Local.testsettings file is configured to copy the DemoModel.edmx during test execution.  Check inner exception for extra details", ex);
+                throw new FileNotFoundException("Unable to located M2M4RiaTestModel.edmx file.  Make sure the 'Deployment' menu under the Local.testsettings file is configured to copy the DemoModel.edmx during test execution.  Check inner exception for extra details", ex);
             }
         }
     }
