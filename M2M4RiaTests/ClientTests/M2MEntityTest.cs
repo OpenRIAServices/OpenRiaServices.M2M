@@ -60,11 +60,11 @@ namespace M2M4Ria.Client.Tests
 
             vet.Animals.Add(dog);
 
-            AnimalVet linkEntityFromVet = (from v in vet.AnimalVetToAnimal
+            AnimalVet linkEntityFromVet = (from v in vet.AnimalVetToAnimalSet
                                            where v.Animal == dog && v.Vet == vet
                                            select v).FirstOrDefault();
 
-            AnimalVet linkEntityFromDog = (from d in dog.AnimalVetToVet
+            AnimalVet linkEntityFromDog = (from d in dog.AnimalVetToVetSet
                                            where d.Animal == dog && d.Vet == vet
                                            select d).FirstOrDefault();
 
@@ -90,11 +90,11 @@ namespace M2M4Ria.Client.Tests
 
             dog.Vets.Remove(vet);
 
-            AnimalVet linkEntityFromVet = (from v in vet.AnimalVetToAnimal
+            AnimalVet linkEntityFromVet = (from v in vet.AnimalVetToAnimalSet
                                            where v.Animal == dog && v.Vet == vet
                                            select v).FirstOrDefault();
 
-            AnimalVet linkEntityFromDog = (from d in dog.AnimalVetToVet
+            AnimalVet linkEntityFromDog = (from d in dog.AnimalVetToVetSet
                                            where d.Animal == dog && d.Vet == vet
                                            select d).FirstOrDefault();
 

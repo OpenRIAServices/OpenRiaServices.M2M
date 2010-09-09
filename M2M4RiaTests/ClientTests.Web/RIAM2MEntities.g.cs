@@ -26,7 +26,7 @@ namespace ClientTests.Web
 	public partial class AnimalVet
 	{
 
-		// 'AnimalVetToVet' associationSet from 'Vet.VetId' to 'AnimalVet.VetId'
+		// 'AnimalVetToVetSet' associationSet from 'Vet.VetId' to 'AnimalVet.VetId'
 		private int _VetId;
 		
 		[DataMember]
@@ -50,11 +50,11 @@ namespace ClientTests.Web
 		}
 		
 		[Include]
-		[Association("AnimalVetToVet", "VetId", "VetId", IsForeignKey = true)]
+		[Association("AnimalVetToVetSet", "VetId", "VetId", IsForeignKey = true)]
 		[DataMember]
 		public Vet Vet { get; set; }
 		
-		// 'AnimalVetToAnimal' associationSet from 'Animal.AnimalId' to 'AnimalVet.AnimalId'
+		// 'AnimalVetToAnimalSet' associationSet from 'Animal.AnimalId' to 'AnimalVet.AnimalId'
 		private int _AnimalId;
 
 		[DataMember]
@@ -78,7 +78,7 @@ namespace ClientTests.Web
 		}
 		
 		[Include]
-		[Association("AnimalVetToAnimal", "AnimalId", "AnimalId", IsForeignKey = true)]
+		[Association("AnimalVetToAnimalSet", "AnimalId", "AnimalId", IsForeignKey = true)]
 		[DataMember]
 		public Animal Animal { get; set; }
 
@@ -88,7 +88,7 @@ namespace ClientTests.Web
 	public partial class DogFireHydrant
 	{
 
-		// 'DogFireHydrantToFireHydrant' associationSet from 'FireHydrant.FireHydrantId' to 'DogFireHydrant.FireHydrantId'
+		// 'DogFireHydrantToFireHydrantSet' associationSet from 'FireHydrant.FireHydrantId' to 'DogFireHydrant.FireHydrantId'
 		private int _FireHydrantId;
 		
 		[DataMember]
@@ -112,11 +112,11 @@ namespace ClientTests.Web
 		}
 		
 		[Include]
-		[Association("DogFireHydrantToFireHydrant", "FireHydrantId", "FireHydrantId", IsForeignKey = true)]
+		[Association("DogFireHydrantToFireHydrantSet", "FireHydrantId", "FireHydrantId", IsForeignKey = true)]
 		[DataMember]
 		public FireHydrant FireHydrant { get; set; }
 		
-		// 'DogFireHydrantToDog' associationSet from 'Dog.AnimalId' to 'DogFireHydrant.DogId'
+		// 'DogFireHydrantToDogSet' associationSet from 'Dog.AnimalId' to 'DogFireHydrant.DogId'
 		private int _DogId;
 
 		[DataMember]
@@ -140,7 +140,7 @@ namespace ClientTests.Web
 		}
 		
 		[Include]
-		[Association("DogFireHydrantToDog", "DogId", "AnimalId", IsForeignKey = true)]
+		[Association("DogFireHydrantToDogSet", "DogId", "AnimalId", IsForeignKey = true)]
 		[DataMember]
 		public Dog Dog { get; set; }
 
@@ -150,7 +150,7 @@ namespace ClientTests.Web
 	public partial class DogTrainer
 	{
 
-		// 'DogTrainerToTrainer' associationSet from 'Trainer.TrainerId' to 'DogTrainer.TrainerId'
+		// 'DogTrainerToTrainerSet' associationSet from 'Trainer.TrainerId' to 'DogTrainer.TrainerId'
 		private int _TrainerId;
 		
 		[DataMember]
@@ -174,11 +174,11 @@ namespace ClientTests.Web
 		}
 		
 		[Include]
-		[Association("DogTrainerToTrainer", "TrainerId", "TrainerId", IsForeignKey = true)]
+		[Association("DogTrainerToTrainerSet", "TrainerId", "TrainerId", IsForeignKey = true)]
 		[DataMember]
 		public Trainer Trainer { get; set; }
 		
-		// 'DogTrainerToDog' associationSet from 'Dog.AnimalId' to 'DogTrainer.DogId'
+		// 'DogTrainerToDogSet' associationSet from 'Dog.AnimalId' to 'DogTrainer.DogId'
 		private int _DogId;
 
 		[DataMember]
@@ -202,7 +202,7 @@ namespace ClientTests.Web
 		}
 		
 		[Include]
-		[Association("DogTrainerToDog", "DogId", "AnimalId", IsForeignKey = true)]
+		[Association("DogTrainerToDogSet", "DogId", "AnimalId", IsForeignKey = true)]
 		[DataMember]
 		public Dog Dog { get; set; }
 
@@ -214,20 +214,20 @@ namespace ClientTests.Web
 		
 	public partial class Animal
 	{
-		// 'AnimalVetToVet' associationSet from 'Vet.VetId' to 'AnimalVet.VetId'
-		private EntityCollection<AnimalVet, Vet> _AnimalVetToVet;
+		// 'AnimalVetToVetSet' associationSet from 'Vet.VetId' to 'AnimalVet.VetId'
+		private EntityCollection<AnimalVet, Vet> _AnimalVetToVetSet;
 		
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
-		[Association("AnimalVetToAnimal", "AnimalId", "AnimalId", IsForeignKey = false)]
-		public EntityCollection<AnimalVet, Vet> AnimalVetToVet
+		[Association("AnimalVetToAnimalSet", "AnimalId", "AnimalId", IsForeignKey = false)]
+		public EntityCollection<AnimalVet, Vet> AnimalVetToVetSet
 		{
 			get
 			{
-				if(_AnimalVetToVet == null)
+				if(_AnimalVetToVetSet == null)
 				{
-					_AnimalVetToVet = new EntityCollection<AnimalVet, Vet>
+					_AnimalVetToVetSet = new EntityCollection<AnimalVet, Vet>
 					(
 						Vets,
 						(r) => new AnimalVet { Animal = this, Vet = r },
@@ -235,7 +235,7 @@ namespace ClientTests.Web
 					);
 				}
 				
-				return _AnimalVetToVet;
+				return _AnimalVetToVetSet;
 			}
 		}
 		
@@ -243,20 +243,20 @@ namespace ClientTests.Web
 		
 	public partial class Vet
 	{
-		// 'AnimalVetToAnimal' associationSet from 'Animal.AnimalId' to 'AnimalVet.AnimalId'
-		private EntityCollection<AnimalVet, Animal> _AnimalVetToAnimal;
+		// 'AnimalVetToAnimalSet' associationSet from 'Animal.AnimalId' to 'AnimalVet.AnimalId'
+		private EntityCollection<AnimalVet, Animal> _AnimalVetToAnimalSet;
 		
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
-		[Association("AnimalVetToVet", "VetId", "VetId", IsForeignKey = false)]
-		public EntityCollection<AnimalVet, Animal> AnimalVetToAnimal
+		[Association("AnimalVetToVetSet", "VetId", "VetId", IsForeignKey = false)]
+		public EntityCollection<AnimalVet, Animal> AnimalVetToAnimalSet
 		{
 			get
 			{
-				if(_AnimalVetToAnimal == null)
+				if(_AnimalVetToAnimalSet == null)
 				{
-					_AnimalVetToAnimal = new EntityCollection<AnimalVet, Animal>
+					_AnimalVetToAnimalSet = new EntityCollection<AnimalVet, Animal>
 					(
 						Animals,
 						(r) => new AnimalVet { Vet = this, Animal = r },
@@ -264,7 +264,7 @@ namespace ClientTests.Web
 					);
 				}
 				
-				return _AnimalVetToAnimal;
+				return _AnimalVetToAnimalSet;
 			}
 		}
 		
@@ -276,20 +276,20 @@ namespace ClientTests.Web
 		
 	public partial class Trainer
 	{
-		// 'DogTrainerToDog' associationSet from 'Dog.AnimalId' to 'DogTrainer.DogId'
-		private EntityCollection<DogTrainer, Dog> _DogTrainerToDog;
+		// 'DogTrainerToDogSet' associationSet from 'Dog.AnimalId' to 'DogTrainer.DogId'
+		private EntityCollection<DogTrainer, Dog> _DogTrainerToDogSet;
 		
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
-		[Association("DogTrainerToTrainer", "TrainerId", "TrainerId", IsForeignKey = false)]
-		public EntityCollection<DogTrainer, Dog> DogTrainerToDog
+		[Association("DogTrainerToTrainerSet", "TrainerId", "TrainerId", IsForeignKey = false)]
+		public EntityCollection<DogTrainer, Dog> DogTrainerToDogSet
 		{
 			get
 			{
-				if(_DogTrainerToDog == null)
+				if(_DogTrainerToDogSet == null)
 				{
-					_DogTrainerToDog = new EntityCollection<DogTrainer, Dog>
+					_DogTrainerToDogSet = new EntityCollection<DogTrainer, Dog>
 					(
 						Dogs,
 						(r) => new DogTrainer { Trainer = this, Dog = r },
@@ -297,7 +297,7 @@ namespace ClientTests.Web
 					);
 				}
 				
-				return _DogTrainerToDog;
+				return _DogTrainerToDogSet;
 			}
 		}
 		
@@ -309,20 +309,20 @@ namespace ClientTests.Web
 		
 	public partial class Dog
 	{
-		// 'DogFireHydrantToFireHydrant' associationSet from 'FireHydrant.FireHydrantId' to 'DogFireHydrant.FireHydrantId'
-		private EntityCollection<DogFireHydrant, FireHydrant> _DogFireHydrantToFireHydrant;
+		// 'DogFireHydrantToFireHydrantSet' associationSet from 'FireHydrant.FireHydrantId' to 'DogFireHydrant.FireHydrantId'
+		private EntityCollection<DogFireHydrant, FireHydrant> _DogFireHydrantToFireHydrantSet;
 		
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
-		[Association("DogFireHydrantToDog", "AnimalId", "DogId", IsForeignKey = false)]
-		public EntityCollection<DogFireHydrant, FireHydrant> DogFireHydrantToFireHydrant
+		[Association("DogFireHydrantToDogSet", "AnimalId", "DogId", IsForeignKey = false)]
+		public EntityCollection<DogFireHydrant, FireHydrant> DogFireHydrantToFireHydrantSet
 		{
 			get
 			{
-				if(_DogFireHydrantToFireHydrant == null)
+				if(_DogFireHydrantToFireHydrantSet == null)
 				{
-					_DogFireHydrantToFireHydrant = new EntityCollection<DogFireHydrant, FireHydrant>
+					_DogFireHydrantToFireHydrantSet = new EntityCollection<DogFireHydrant, FireHydrant>
 					(
 						FireHydrants,
 						(r) => new DogFireHydrant { Dog = this, FireHydrant = r },
@@ -330,24 +330,24 @@ namespace ClientTests.Web
 					);
 				}
 				
-				return _DogFireHydrantToFireHydrant;
+				return _DogFireHydrantToFireHydrantSet;
 			}
 		}
 		
-		// 'DogTrainerToTrainer' associationSet from 'Trainer.TrainerId' to 'DogTrainer.TrainerId'
-		private EntityCollection<DogTrainer, Trainer> _DogTrainerToTrainer;
+		// 'DogTrainerToTrainerSet' associationSet from 'Trainer.TrainerId' to 'DogTrainer.TrainerId'
+		private EntityCollection<DogTrainer, Trainer> _DogTrainerToTrainerSet;
 		
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
-		[Association("DogTrainerToDog", "AnimalId", "DogId", IsForeignKey = false)]
-		public EntityCollection<DogTrainer, Trainer> DogTrainerToTrainer
+		[Association("DogTrainerToDogSet", "AnimalId", "DogId", IsForeignKey = false)]
+		public EntityCollection<DogTrainer, Trainer> DogTrainerToTrainerSet
 		{
 			get
 			{
-				if(_DogTrainerToTrainer == null)
+				if(_DogTrainerToTrainerSet == null)
 				{
-					_DogTrainerToTrainer = new EntityCollection<DogTrainer, Trainer>
+					_DogTrainerToTrainerSet = new EntityCollection<DogTrainer, Trainer>
 					(
 						Trainers,
 						(r) => new DogTrainer { Dog = this, Trainer = r },
@@ -355,7 +355,7 @@ namespace ClientTests.Web
 					);
 				}
 				
-				return _DogTrainerToTrainer;
+				return _DogTrainerToTrainerSet;
 			}
 		}
 		

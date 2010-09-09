@@ -103,18 +103,18 @@ namespace ClientTests.Web
 			{
 				if(_Vets == null)
 				{
-					_Vets = new EntityCollection<AnimalVet, Vet>(this.AnimalVetToVet, r => r.Vet, (r, t2) => r.Vet = t2, r => r.Animal = this, RemoveFromAnimalVetToVet);
+					_Vets = new EntityCollection<AnimalVet, Vet>(this.AnimalVetToVetSet, r => r.Vet, (r, t2) => r.Vet = t2, r => r.Animal = this, RemoveFromAnimalVetToVetSet);
 				}
 				
 				return _Vets;
 			}
 		}
 		
-		private void RemoveFromAnimalVetToVet(AnimalVet r)
+		private void RemoveFromAnimalVetToVetSet(AnimalVet r)
 		{
 			if(r.EntitySet == null)
 			{
-				this.AnimalVetToVet.Remove(r);
+				this.AnimalVetToVetSet.Remove(r);
 			}
 			else
 			{
@@ -138,18 +138,18 @@ namespace ClientTests.Web
 			{
 				if(_Animals == null)
 				{
-					_Animals = new EntityCollection<AnimalVet, Animal>(this.AnimalVetToAnimal, r => r.Animal, (r, t2) => r.Animal = t2, r => r.Vet = this, RemoveFromAnimalVetToAnimal);
+					_Animals = new EntityCollection<AnimalVet, Animal>(this.AnimalVetToAnimalSet, r => r.Animal, (r, t2) => r.Animal = t2, r => r.Vet = this, RemoveFromAnimalVetToAnimalSet);
 				}
 				
 				return _Animals;
 			}
 		}
 		
-		private void RemoveFromAnimalVetToAnimal(AnimalVet r)
+		private void RemoveFromAnimalVetToAnimalSet(AnimalVet r)
 		{
 			if(r.EntitySet == null)
 			{
-				this.AnimalVetToAnimal.Remove(r);
+				this.AnimalVetToAnimalSet.Remove(r);
 			}
 			else
 			{
@@ -178,18 +178,18 @@ namespace ClientTests.Web
 			{
 				if(_Dogs == null)
 				{
-					_Dogs = new EntityCollection<DogTrainer, Dog>(this.DogTrainerToDog, r => r.Dog, (r, t2) => r.Dog = t2, r => r.Trainer = this, RemoveFromDogTrainerToDog);
+					_Dogs = new EntityCollection<DogTrainer, Dog>(this.DogTrainerToDogSet, r => r.Dog, (r, t2) => r.Dog = t2, r => r.Trainer = this, RemoveFromDogTrainerToDogSet);
 				}
 				
 				return _Dogs;
 			}
 		}
 		
-		private void RemoveFromDogTrainerToDog(DogTrainer r)
+		private void RemoveFromDogTrainerToDogSet(DogTrainer r)
 		{
 			if(r.EntitySet == null)
 			{
-				this.DogTrainerToDog.Remove(r);
+				this.DogTrainerToDogSet.Remove(r);
 			}
 			else
 			{
@@ -218,18 +218,18 @@ namespace ClientTests.Web
 			{
 				if(_FireHydrants == null)
 				{
-					_FireHydrants = new EntityCollection<DogFireHydrant, FireHydrant>(this.DogFireHydrantToFireHydrant, r => r.FireHydrant, (r, t2) => r.FireHydrant = t2, r => r.Dog = this, RemoveFromDogFireHydrantToFireHydrant);
+					_FireHydrants = new EntityCollection<DogFireHydrant, FireHydrant>(this.DogFireHydrantToFireHydrantSet, r => r.FireHydrant, (r, t2) => r.FireHydrant = t2, r => r.Dog = this, RemoveFromDogFireHydrantToFireHydrantSet);
 				}
 				
 				return _FireHydrants;
 			}
 		}
 		
-		private void RemoveFromDogFireHydrantToFireHydrant(DogFireHydrant r)
+		private void RemoveFromDogFireHydrantToFireHydrantSet(DogFireHydrant r)
 		{
 			if(r.EntitySet == null)
 			{
-				this.DogFireHydrantToFireHydrant.Remove(r);
+				this.DogFireHydrantToFireHydrantSet.Remove(r);
 			}
 			else
 			{
@@ -248,18 +248,18 @@ namespace ClientTests.Web
 			{
 				if(_Trainers == null)
 				{
-					_Trainers = new EntityCollection<DogTrainer, Trainer>(this.DogTrainerToTrainer, r => r.Trainer, (r, t2) => r.Trainer = t2, r => r.Dog = this, RemoveFromDogTrainerToTrainer);
+					_Trainers = new EntityCollection<DogTrainer, Trainer>(this.DogTrainerToTrainerSet, r => r.Trainer, (r, t2) => r.Trainer = t2, r => r.Dog = this, RemoveFromDogTrainerToTrainerSet);
 				}
 				
 				return _Trainers;
 			}
 		}
 		
-		private void RemoveFromDogTrainerToTrainer(DogTrainer r)
+		private void RemoveFromDogTrainerToTrainerSet(DogTrainer r)
 		{
 			if(r.EntitySet == null)
 			{
-				this.DogTrainerToTrainer.Remove(r);
+				this.DogTrainerToTrainerSet.Remove(r);
 			}
 			else
 			{
