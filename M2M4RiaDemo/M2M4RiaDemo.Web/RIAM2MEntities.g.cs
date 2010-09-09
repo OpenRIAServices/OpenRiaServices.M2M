@@ -215,19 +215,19 @@ namespace M2M4RiaDemo.Web.Model
 	public partial class Animal
 	{
 		// 'AnimalVetToVet' associationSet from 'Vet.VetId' to 'AnimalVet.VetId'
-		private M2MEntityCollection<AnimalVet, Vet> _AnimalVetToVet;
+		private EntityCollection<AnimalVet, Vet> _AnimalVetToVet;
 		
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
 		[Association("AnimalVetToAnimal", "AnimalId", "AnimalId", IsForeignKey = false)]
-		public M2MEntityCollection<AnimalVet, Vet> AnimalVetToVet
+		public EntityCollection<AnimalVet, Vet> AnimalVetToVet
 		{
 			get
 			{
 				if(_AnimalVetToVet == null)
 				{
-					_AnimalVetToVet = new M2MEntityCollection<AnimalVet, Vet>
+					_AnimalVetToVet = new EntityCollection<AnimalVet, Vet>
 					(
 						Vets,
 						(r) => new AnimalVet { Animal = this, Vet = r },
@@ -244,19 +244,19 @@ namespace M2M4RiaDemo.Web.Model
 	public partial class Vet
 	{
 		// 'AnimalVetToAnimal' associationSet from 'Animal.AnimalId' to 'AnimalVet.AnimalId'
-		private M2MEntityCollection<AnimalVet, Animal> _AnimalVetToAnimal;
+		private EntityCollection<AnimalVet, Animal> _AnimalVetToAnimal;
 		
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
 		[Association("AnimalVetToVet", "VetId", "VetId", IsForeignKey = false)]
-		public M2MEntityCollection<AnimalVet, Animal> AnimalVetToAnimal
+		public EntityCollection<AnimalVet, Animal> AnimalVetToAnimal
 		{
 			get
 			{
 				if(_AnimalVetToAnimal == null)
 				{
-					_AnimalVetToAnimal = new M2MEntityCollection<AnimalVet, Animal>
+					_AnimalVetToAnimal = new EntityCollection<AnimalVet, Animal>
 					(
 						Animals,
 						(r) => new AnimalVet { Vet = this, Animal = r },
@@ -277,19 +277,19 @@ namespace M2M4RiaDemo.Web.Model
 	public partial class Trainer
 	{
 		// 'DogTrainerToDog' associationSet from 'Dog.AnimalId' to 'DogTrainer.DogId'
-		private M2MEntityCollection<DogTrainer, Dog> _DogTrainerToDog;
+		private EntityCollection<DogTrainer, Dog> _DogTrainerToDog;
 		
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
 		[Association("DogTrainerToTrainer", "TrainerId", "TrainerId", IsForeignKey = false)]
-		public M2MEntityCollection<DogTrainer, Dog> DogTrainerToDog
+		public EntityCollection<DogTrainer, Dog> DogTrainerToDog
 		{
 			get
 			{
 				if(_DogTrainerToDog == null)
 				{
-					_DogTrainerToDog = new M2MEntityCollection<DogTrainer, Dog>
+					_DogTrainerToDog = new EntityCollection<DogTrainer, Dog>
 					(
 						Dogs,
 						(r) => new DogTrainer { Trainer = this, Dog = r },
@@ -310,19 +310,19 @@ namespace M2M4RiaDemo.Web.Model
 	public partial class Dog
 	{
 		// 'DogFireHydrantToFireHydrant' associationSet from 'FireHydrant.FireHydrantId' to 'DogFireHydrant.FireHydrantId'
-		private M2MEntityCollection<DogFireHydrant, FireHydrant> _DogFireHydrantToFireHydrant;
+		private EntityCollection<DogFireHydrant, FireHydrant> _DogFireHydrantToFireHydrant;
 		
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
 		[Association("DogFireHydrantToDog", "AnimalId", "DogId", IsForeignKey = false)]
-		public M2MEntityCollection<DogFireHydrant, FireHydrant> DogFireHydrantToFireHydrant
+		public EntityCollection<DogFireHydrant, FireHydrant> DogFireHydrantToFireHydrant
 		{
 			get
 			{
 				if(_DogFireHydrantToFireHydrant == null)
 				{
-					_DogFireHydrantToFireHydrant = new M2MEntityCollection<DogFireHydrant, FireHydrant>
+					_DogFireHydrantToFireHydrant = new EntityCollection<DogFireHydrant, FireHydrant>
 					(
 						FireHydrants,
 						(r) => new DogFireHydrant { Dog = this, FireHydrant = r },
@@ -335,19 +335,19 @@ namespace M2M4RiaDemo.Web.Model
 		}
 		
 		// 'DogTrainerToTrainer' associationSet from 'Trainer.TrainerId' to 'DogTrainer.TrainerId'
-		private M2MEntityCollection<DogTrainer, Trainer> _DogTrainerToTrainer;
+		private EntityCollection<DogTrainer, Trainer> _DogTrainerToTrainer;
 		
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
 		[Association("DogTrainerToDog", "AnimalId", "DogId", IsForeignKey = false)]
-		public M2MEntityCollection<DogTrainer, Trainer> DogTrainerToTrainer
+		public EntityCollection<DogTrainer, Trainer> DogTrainerToTrainer
 		{
 			get
 			{
 				if(_DogTrainerToTrainer == null)
 				{
-					_DogTrainerToTrainer = new M2MEntityCollection<DogTrainer, Trainer>
+					_DogTrainerToTrainer = new EntityCollection<DogTrainer, Trainer>
 					(
 						Trainers,
 						(r) => new DogTrainer { Dog = this, Trainer = r },
@@ -362,7 +362,7 @@ namespace M2M4RiaDemo.Web.Model
 	}
 	#endregion
 
-	#region M2MEntityCollection
+	#region EntityCollection
 	namespace M2M4Ria
 	{
 		using System;
@@ -370,7 +370,7 @@ namespace M2M4RiaDemo.Web.Model
 		using System.Data.Objects.DataClasses;
 		using System.Linq;
 
-		public class M2MEntityCollection<JoinType, TEntity> : IEnumerable<JoinType>
+		public class EntityCollection<JoinType, TEntity> : IEnumerable<JoinType>
 			where JoinType : new()
 			where TEntity : class
 		{
@@ -382,7 +382,7 @@ namespace M2M4RiaDemo.Web.Model
 			/// </summary>
 			/// <param name="collection">Entity collection that represents a m2m relation</param>
 			/// <param name="newJoinType">The function used to create a new joint type entity and set both elements</param>
-			public M2MEntityCollection(ICollection<TEntity> collection,Func<TEntity, JoinType> newJoinType, Func<JoinType, TEntity> getEntity)
+			public EntityCollection(ICollection<TEntity> collection,Func<TEntity, JoinType> newJoinType, Func<JoinType, TEntity> getEntity)
 			{
 				this.collection = collection;
 				this.newJoinType = newJoinType;

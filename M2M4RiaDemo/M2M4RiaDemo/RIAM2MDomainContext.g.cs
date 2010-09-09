@@ -63,11 +63,10 @@ namespace M2M4RiaDemo.Web.Service
 
 #endregion
 
-#region Entities
-
-
 namespace M2M4RiaDemo.Web.Model
 {
+	#region Entities
+	
 	using M2M4RiaDemo.Web.Service;
 	using System;
 	using M2M4Ria;
@@ -85,15 +84,15 @@ namespace M2M4RiaDemo.Web.Model
 		[Obsolete("This action is only intended for use by the RIA M2M solution.")]
 		public Action<AnimalVet> AnimalVetToVetRemoved;
 		
-		private M2MEntityCollection<AnimalVet, Vet> _Vets;
+		private EntityCollection<AnimalVet, Vet> _Vets;
 		
-		public M2MEntityCollection<AnimalVet, Vet> Vets
+		public EntityCollection<AnimalVet, Vet> Vets
 		{
 			get
 			{
 				if(_Vets == null)
 				{
-					_Vets = new M2MEntityCollection<AnimalVet, Vet>(this.AnimalVetToVet, r => r.Vet, (r, t2) => r.Vet = t2, r => r.Animal = this, RemoveAnimalVetToVet);
+					_Vets = new EntityCollection<AnimalVet, Vet>(this.AnimalVetToVet, r => r.Vet, (r, t2) => r.Vet = t2, r => r.Animal = this, RemoveAnimalVetToVet);
 				}
 				
 				return _Vets;
@@ -126,15 +125,15 @@ namespace M2M4RiaDemo.Web.Model
 		[Obsolete("This action is only intended for use by the RIA M2M solution.")]
 		public Action<AnimalVet> AnimalVetToAnimalRemoved;
 		
-		private M2MEntityCollection<AnimalVet, Animal> _Animals;
+		private EntityCollection<AnimalVet, Animal> _Animals;
 		
-		public M2MEntityCollection<AnimalVet, Animal> Animals
+		public EntityCollection<AnimalVet, Animal> Animals
 		{
 			get
 			{
 				if(_Animals == null)
 				{
-					_Animals = new M2MEntityCollection<AnimalVet, Animal>(this.AnimalVetToAnimal, r => r.Animal, (r, t2) => r.Animal = t2, r => r.Vet = this, RemoveAnimalVetToAnimal);
+					_Animals = new EntityCollection<AnimalVet, Animal>(this.AnimalVetToAnimal, r => r.Animal, (r, t2) => r.Animal = t2, r => r.Vet = this, RemoveAnimalVetToAnimal);
 				}
 				
 				return _Animals;
@@ -172,15 +171,15 @@ namespace M2M4RiaDemo.Web.Model
 		[Obsolete("This action is only intended for use by the RIA M2M solution.")]
 		public Action<DogTrainer> DogTrainerToDogRemoved;
 		
-		private M2MEntityCollection<DogTrainer, Dog> _Dogs;
+		private EntityCollection<DogTrainer, Dog> _Dogs;
 		
-		public M2MEntityCollection<DogTrainer, Dog> Dogs
+		public EntityCollection<DogTrainer, Dog> Dogs
 		{
 			get
 			{
 				if(_Dogs == null)
 				{
-					_Dogs = new M2MEntityCollection<DogTrainer, Dog>(this.DogTrainerToDog, r => r.Dog, (r, t2) => r.Dog = t2, r => r.Trainer = this, RemoveDogTrainerToDog);
+					_Dogs = new EntityCollection<DogTrainer, Dog>(this.DogTrainerToDog, r => r.Dog, (r, t2) => r.Dog = t2, r => r.Trainer = this, RemoveDogTrainerToDog);
 				}
 				
 				return _Dogs;
@@ -218,15 +217,15 @@ namespace M2M4RiaDemo.Web.Model
 		[Obsolete("This action is only intended for use by the RIA M2M solution.")]
 		public Action<DogFireHydrant> DogFireHydrantToFireHydrantRemoved;
 		
-		private M2MEntityCollection<DogFireHydrant, FireHydrant> _FireHydrants;
+		private EntityCollection<DogFireHydrant, FireHydrant> _FireHydrants;
 		
-		public M2MEntityCollection<DogFireHydrant, FireHydrant> FireHydrants
+		public EntityCollection<DogFireHydrant, FireHydrant> FireHydrants
 		{
 			get
 			{
 				if(_FireHydrants == null)
 				{
-					_FireHydrants = new M2MEntityCollection<DogFireHydrant, FireHydrant>(this.DogFireHydrantToFireHydrant, r => r.FireHydrant, (r, t2) => r.FireHydrant = t2, r => r.Dog = this, RemoveDogFireHydrantToFireHydrant);
+					_FireHydrants = new EntityCollection<DogFireHydrant, FireHydrant>(this.DogFireHydrantToFireHydrant, r => r.FireHydrant, (r, t2) => r.FireHydrant = t2, r => r.Dog = this, RemoveDogFireHydrantToFireHydrant);
 				}
 				
 				return _FireHydrants;
@@ -254,15 +253,15 @@ namespace M2M4RiaDemo.Web.Model
 		[Obsolete("This action is only intended for use by the RIA M2M solution.")]
 		public Action<DogTrainer> DogTrainerToTrainerRemoved;
 		
-		private M2MEntityCollection<DogTrainer, Trainer> _Trainers;
+		private EntityCollection<DogTrainer, Trainer> _Trainers;
 		
-		public M2MEntityCollection<DogTrainer, Trainer> Trainers
+		public EntityCollection<DogTrainer, Trainer> Trainers
 		{
 			get
 			{
 				if(_Trainers == null)
 				{
-					_Trainers = new M2MEntityCollection<DogTrainer, Trainer>(this.DogTrainerToTrainer, r => r.Trainer, (r, t2) => r.Trainer = t2, r => r.Dog = this, RemoveDogTrainerToTrainer);
+					_Trainers = new EntityCollection<DogTrainer, Trainer>(this.DogTrainerToTrainer, r => r.Trainer, (r, t2) => r.Trainer = t2, r => r.Dog = this, RemoveDogTrainerToTrainer);
 				}
 				
 				return _Trainers;
@@ -282,8 +281,9 @@ namespace M2M4RiaDemo.Web.Model
 		}
 	}
 	
+	#endregion
 
-	#region M2MEntityCollection
+	#region EntityCollection
 
 	namespace M2M4Ria
 	{
@@ -300,7 +300,7 @@ namespace M2M4RiaDemo.Web.Model
 		/// </summary>
 		/// <typeparam name="JoinType"></typeparam>
 		/// <typeparam name="TEntity"></typeparam>
-		public class M2MEntityCollection<JoinType, TEntity> : IEnumerable<TEntity>, IEnumerable, INotifyCollectionChanged, INotifyPropertyChanged
+		public class EntityCollection<JoinType, TEntity> : IEnumerable<TEntity>, IEnumerable, INotifyCollectionChanged, INotifyPropertyChanged
 			where JoinType : Entity, new()
 			where TEntity : Entity
 		{
@@ -315,7 +315,7 @@ namespace M2M4RiaDemo.Web.Model
 			/// <param name="entityList">The collection of associations to which this collection is connected</param>
 			/// <param name="getEntity">The function used to get the entity object out of a join type entity</param>
 			/// <param name="setEntity">The function used to set the entity object in a join type entity</param>
-			public M2MEntityCollection(EntityCollection<JoinType> entityList, Func<JoinType, TEntity> getEntity,
+			public EntityCollection(EntityCollection<JoinType> entityList, Func<JoinType, TEntity> getEntity,
 				Action<JoinType, TEntity> setEntity, Action<JoinType> setParent, Action<JoinType>removeAction)
 			{
 				this.entityList = entityList;
@@ -419,9 +419,6 @@ namespace M2M4RiaDemo.Web.Model
 	#endregion
 
 }
-
-
-#endregion
 
 #pragma warning restore 618
 

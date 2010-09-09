@@ -127,19 +127,19 @@ namespace <#= EntityModelNamespace #>
 				string ToAssociationSetPrivate = "_" + associationSet.OtherEntityToLink.LinkTableNavProp;
 #>
 		// '<#= associationSet.OtherEntityToLink.LinkTableNavProp #>' associationSet from '<#= associationSet.OtherEntityToLink.Entity #>.<#= associationSet.OtherEntityToLink.PK #>' to '<#= associationSet.Name #>.<#= associationSet.OtherEntityToLink.FK #>'
-		private M2MEntityCollection<<#= associationSet.Name #>, <#= associationSet.OtherEntityToLink.Entity #>> <#= ToAssociationSetPrivate #>;
+		private EntityCollection<<#= associationSet.Name #>, <#= associationSet.OtherEntityToLink.Entity #>> <#= ToAssociationSetPrivate #>;
 		
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
 		[Association("<#= associationSet.ThisEntityToLink.LinkTableNavProp #>", "<#= associationSet.ThisEntityToLink.PK #>", "<#= associationSet.ThisEntityToLink.FK #>", IsForeignKey = false)]
-		public M2MEntityCollection<<#= associationSet.Name #>, <#= associationSet.OtherEntityToLink.Entity #>> <#= associationSet.OtherEntityToLink.LinkTableNavProp #>
+		public EntityCollection<<#= associationSet.Name #>, <#= associationSet.OtherEntityToLink.Entity #>> <#= associationSet.OtherEntityToLink.LinkTableNavProp #>
 		{
 			get
 			{
 				if(<#= ToAssociationSetPrivate #> == null)
 				{
-					<#= ToAssociationSetPrivate #> = new M2MEntityCollection<<#= associationSet.Name #>, <#= associationSet.OtherEntityToLink.Entity #>>
+					<#= ToAssociationSetPrivate #> = new EntityCollection<<#= associationSet.Name #>, <#= associationSet.OtherEntityToLink.Entity #>>
 					(
 						<#= associationSet.ThisEntityToLink.M2MNavProp #>,
 						(r) => new <#= associationSet.Name #> { <#= associationSet.ThisEntityToLink.Entity  #> = this, <#= associationSet.OtherEntityToLink.Entity #> = r },
@@ -161,7 +161,7 @@ namespace <#= EntityModelNamespace #>
 #>
 	#endregion
 
-	#region M2MEntityCollection
+	#region EntityCollection
 	namespace M2M4Ria
 	{
 		using System;
@@ -169,7 +169,7 @@ namespace <#= EntityModelNamespace #>
 		using System.Data.Objects.DataClasses;
 		using System.Linq;
 
-		public class M2MEntityCollection<JoinType, TEntity> : IEnumerable<JoinType>
+		public class EntityCollection<JoinType, TEntity> : IEnumerable<JoinType>
 			where JoinType : new()
 			where TEntity : class
 		{
@@ -181,7 +181,7 @@ namespace <#= EntityModelNamespace #>
 			/// </summary>
 			/// <param name="collection">Entity collection that represents a m2m relation</param>
 			/// <param name="newJoinType">The function used to create a new joint type entity and set both elements</param>
-			public M2MEntityCollection(ICollection<TEntity> collection,Func<TEntity, JoinType> newJoinType, Func<JoinType, TEntity> getEntity)
+			public EntityCollection(ICollection<TEntity> collection,Func<TEntity, JoinType> newJoinType, Func<JoinType, TEntity> getEntity)
 			{
 				this.collection = collection;
 				this.newJoinType = newJoinType;
