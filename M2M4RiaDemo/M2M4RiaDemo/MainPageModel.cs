@@ -3,10 +3,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.ServiceModel.DomainServices.Client;
 using System.Windows.Input;
-using M2M4RiaDemo.Web;
-using M2M4RiaDemo.Web.Service;
-using System.Collections.Generic;
 using M2M4RiaDemo.Web.Model;
+using M2M4RiaDemo.Web.Service;
 
 namespace M2M4RiaDemo.Models
 {
@@ -42,9 +40,9 @@ namespace M2M4RiaDemo.Models
 
         public abstract void Execute(object parameter);
     }
-    public class HomeModel : INotifyPropertyChanged
+    public class MainPageModel : INotifyPropertyChanged
     {
-        public HomeModel()
+        public MainPageModel()
         {
             if (DesignerProperties.IsInDesignTool == false)
             {
@@ -226,13 +224,13 @@ namespace M2M4RiaDemo.Models
     }
     public class SaveCommand : MyCommand
     {
-        private HomeModel homeModel;
-        public SaveCommand(HomeModel homeModel)
+        private MainPageModel mainPageModel;
+        public SaveCommand(MainPageModel mainPageModel)
         {
-            this.homeModel = homeModel;
-            homeModel.c.PropertyChanged += CheckCanExecute;
-            homeModel.PropertyChanged += CheckCanExecute;
-            homeModel.c.PropertyChanged += CheckCanExecute;
+            this.mainPageModel = mainPageModel;
+            mainPageModel.c.PropertyChanged += CheckCanExecute;
+            mainPageModel.PropertyChanged += CheckCanExecute;
+            mainPageModel.c.PropertyChanged += CheckCanExecute;
         }
 
         void CheckCanExecute(object sender, PropertyChangedEventArgs e)
@@ -245,7 +243,7 @@ namespace M2M4RiaDemo.Models
 
         public override void Execute(object parameter)
         {
-            homeModel.c.SubmitChanges(callback =>
+            mainPageModel.c.SubmitChanges(callback =>
             {
                 if (callback.HasError == true)
                     throw callback.Error;
@@ -254,20 +252,20 @@ namespace M2M4RiaDemo.Models
 
         protected override bool CheckCanExecute(object parameter)
         {
-            return homeModel.c.HasChanges == true && homeModel.AutoSave == false &&
-                homeModel.c.IsSubmitting == false;
+            return mainPageModel.c.HasChanges == true && mainPageModel.AutoSave == false &&
+                mainPageModel.c.IsSubmitting == false;
         }
     }
     public class AddTrainerCommand : MyCommand
     {
-        private HomeModel homeModel;
-        public AddTrainerCommand(HomeModel homeModel)
+        private MainPageModel mainPageModel;
+        public AddTrainerCommand(MainPageModel mainPageModel)
         {
-            this.homeModel = homeModel;
-            homeModel.PropertyChanged += homeModel_PropertyChanged;
+            this.mainPageModel = mainPageModel;
+            mainPageModel.PropertyChanged += mainPageModel_PropertyChanged;
         }
 
-        void homeModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        void mainPageModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "SelectedDog" || e.PropertyName == "SelectedTrainer")
             {
@@ -277,50 +275,50 @@ namespace M2M4RiaDemo.Models
 
         public override void Execute(object parameter)
         {
-            homeModel.SelectedDog.Trainers.Add(homeModel.SelectedTrainer);
-            homeModel.AutoSaveChanges();
+            mainPageModel.SelectedDog.Trainers.Add(mainPageModel.SelectedTrainer);
+            mainPageModel.AutoSaveChanges();
             CanExecute(parameter);
         }
 
         protected override bool CheckCanExecute(object parameter)
         {
-            return homeModel.SelectedTrainer != null && homeModel.SelectedDog != null &&
-                homeModel.SelectedDog.Trainers.Contains(homeModel.SelectedTrainer) == false;
+            return mainPageModel.SelectedTrainer != null && mainPageModel.SelectedDog != null &&
+                mainPageModel.SelectedDog.Trainers.Contains(mainPageModel.SelectedTrainer) == false;
         }
     }
     public class DeleteTrainerCommand : MyCommand
     {
-        HomeModel homeModel;
-        public DeleteTrainerCommand(HomeModel homeModel)
+        MainPageModel mainPageModel;
+        public DeleteTrainerCommand(MainPageModel mainPageModel)
         {
-            this.homeModel = homeModel;
-            homeModel.PropertyChanged += homeModel_PropertyChanged;
+            this.mainPageModel = mainPageModel;
+            mainPageModel.PropertyChanged += mainPageModel_PropertyChanged;
         }
 
-        void homeModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        void mainPageModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "SelectedDog" || e.PropertyName == "SelectedDogTrainer")
                 CanExecute(null);
         }
         protected override bool CheckCanExecute(object parameter)
         {
-            return homeModel.SelectedDog != null && homeModel.SelectedDogTrainer != null;
+            return mainPageModel.SelectedDog != null && mainPageModel.SelectedDogTrainer != null;
         }
 
         public override void Execute(object parameter)
         {
-            homeModel.SelectedDog.Trainers.Remove(homeModel.SelectedDogTrainer);
-            homeModel.AutoSaveChanges();
+            mainPageModel.SelectedDog.Trainers.Remove(mainPageModel.SelectedDogTrainer);
+            mainPageModel.AutoSaveChanges();
             CanExecute(parameter);
         }
     }
     public class CreateTrainerCommand : MyCommand
     {
-        HomeModel homeModel;
-        public CreateTrainerCommand(HomeModel homeModel)
+        MainPageModel mainPageModel;
+        public CreateTrainerCommand(MainPageModel mainPageModel)
         {
-            this.homeModel = homeModel;
-            homeModel.c.PropertyChanged += CheckCanExecute;
+            this.mainPageModel = mainPageModel;
+            mainPageModel.c.PropertyChanged += CheckCanExecute;
         }
 
         void CheckCanExecute(object sender, PropertyChangedEventArgs e)
@@ -330,76 +328,76 @@ namespace M2M4RiaDemo.Models
         }
         protected override bool CheckCanExecute(object parameter)
         {
-            return homeModel.c.IsSubmitting == false;
+            return mainPageModel.c.IsSubmitting == false;
         }
 
         private int trainerCount;
         public override void Execute(object parameter)
         {
-            homeModel.c.Trainers.Add(new Trainer { Name = "Trainer" + trainerCount++ });
-            homeModel.AutoSaveChanges();
+            mainPageModel.c.Trainers.Add(new Trainer { Name = "Trainer" + trainerCount++ });
+            mainPageModel.AutoSaveChanges();
         }
     }
     public class AddDogCommand : MyCommand
     {
-        HomeModel homeModel;
-        public AddDogCommand(HomeModel homeModel)
+        MainPageModel mainPageModel;
+        public AddDogCommand(MainPageModel mainPageModel)
         {
-            this.homeModel = homeModel;
-            homeModel.PropertyChanged += homeModel_PropertyChanged;
+            this.mainPageModel = mainPageModel;
+            mainPageModel.PropertyChanged += mainPageModel_PropertyChanged;
         }
 
-        void homeModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        void mainPageModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "SelectedTrainer" || e.PropertyName == "SelectedDog")
                 CanExecute(null);
         }
         protected override bool CheckCanExecute(object parameter)
         {
-            return homeModel.SelectedTrainer != null && homeModel.SelectedDog != null &&
-                homeModel.SelectedTrainer.Dogs.Contains(homeModel.SelectedDog) == false;
+            return mainPageModel.SelectedTrainer != null && mainPageModel.SelectedDog != null &&
+                mainPageModel.SelectedTrainer.Dogs.Contains(mainPageModel.SelectedDog) == false;
         }
 
         public override void Execute(object parameter)
         {
-            homeModel.SelectedTrainer.Dogs.Add(homeModel.SelectedDog);
-            homeModel.AutoSaveChanges();
+            mainPageModel.SelectedTrainer.Dogs.Add(mainPageModel.SelectedDog);
+            mainPageModel.AutoSaveChanges();
             CanExecute(parameter);
         }
     }
     public class DeleteDogCommand : MyCommand
     {
-        HomeModel homeModel;
-        public DeleteDogCommand(HomeModel homeModel)
+        MainPageModel mainPageModel;
+        public DeleteDogCommand(MainPageModel mainPageModel)
         {
-            this.homeModel = homeModel;
-            homeModel.PropertyChanged += homeModel_PropertyChanged;
+            this.mainPageModel = mainPageModel;
+            mainPageModel.PropertyChanged += mainPageModel_PropertyChanged;
         }
 
-        void homeModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        void mainPageModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "SelectedTrainer" || e.PropertyName == "SelectedTrainerDog")
                 CanExecute(null);
         }
         protected override bool CheckCanExecute(object parameter)
         {
-            return homeModel.SelectedTrainer != null && homeModel.SelectedTrainerDog != null;
+            return mainPageModel.SelectedTrainer != null && mainPageModel.SelectedTrainerDog != null;
         }
 
         public override void Execute(object parameter)
         {
-            homeModel.SelectedTrainer.Dogs.Remove(homeModel.SelectedTrainerDog);
-            homeModel.AutoSaveChanges();
+            mainPageModel.SelectedTrainer.Dogs.Remove(mainPageModel.SelectedTrainerDog);
+            mainPageModel.AutoSaveChanges();
             CanExecute(parameter);
         }
     }
     public class CreateDogCommand : MyCommand
     {
-        HomeModel homeModel;
-        public CreateDogCommand(HomeModel homeModel)
+        MainPageModel mainPageModel;
+        public CreateDogCommand(MainPageModel mainPageModel)
         {
-            this.homeModel = homeModel;
-            homeModel.c.PropertyChanged += CheckCanExecute;
+            this.mainPageModel = mainPageModel;
+            mainPageModel.c.PropertyChanged += CheckCanExecute;
         }
 
         void CheckCanExecute(object sender, PropertyChangedEventArgs e)
@@ -409,14 +407,14 @@ namespace M2M4RiaDemo.Models
         }
         protected override bool CheckCanExecute(object parameter)
         {
-            return homeModel.c.IsSubmitting == false;
+            return mainPageModel.c.IsSubmitting == false;
         }
 
         private int dogCount;
         public override void Execute(object parameter)
         {
-            homeModel.c.Animals.Add(new Dog { Name = "Dog" + dogCount++ });
-            homeModel.AutoSaveChanges();
+            mainPageModel.c.Animals.Add(new Dog { Name = "Dog" + dogCount++ });
+            mainPageModel.AutoSaveChanges();
         }
     }
 }
