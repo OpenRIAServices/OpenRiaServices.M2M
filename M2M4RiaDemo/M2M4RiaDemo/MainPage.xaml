@@ -9,9 +9,9 @@
     d:DesignHeight="300" d:DesignWidth="400">
 
     <UserControl.Resources>
-        <models:HomeModel x:Key="HomeModel"/>
+        <models:MainPageModel x:Key="MainPageModel"/>
     </UserControl.Resources>
-    <Grid DataContext="{Binding Source={StaticResource HomeModel}}">
+    <Grid DataContext="{Binding Source={StaticResource MainPageModel}}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
