@@ -1,4 +1,6 @@
-﻿ 
+﻿
+
+ 
 
 // RIAM2MShared.ttinclude has been located and loaded.
 
@@ -68,6 +70,7 @@ namespace ClientTests.Web
 {
 	using ClientTests.Web;
 	using RIAM2M.Web.Services.RIAM2MTools;
+	using ClientTests.Web;
 	using System;
 	
 	public partial class Animal
@@ -421,5 +424,6 @@ namespace RIAM2M.Web.Services.RIAM2MTools
 #endregion
 
 #pragma warning restore 618
+
 
 

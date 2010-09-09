@@ -1,3 +1,5 @@
 ﻿<#@ template language="C#" #>
 <#@ output extension=".g.cs" #>
+
+<#@ include file="..\M2MGenerator.ttinclude" #>
 <#@ include file="..\..\M2M4Ria\Shared\RIAM2MShared.ttinclude" #>

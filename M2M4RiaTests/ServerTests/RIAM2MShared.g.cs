@@ -91,6 +91,20 @@ namespace ServerTests
         public virtual string TransformText()
         {
             this.GenerationEnvironment = null;
+            this.Write("\r\n");
+            
+            #line 1 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\M2MGenerator.ttinclude"
+
+EdmxFilePath = @"M2M4RiaDemo\M2M4RiaDemo.Web\Model\DemoModel.edmx";
+EntityModelNamespace = "M2M4RiaDemo.Web.Model";
+DomainServiceNamespace = "M2M4RiaDemo.Web.Service";
+DomainServiceName = "DemoService";
+DomainContextName = "DemoContext";
+
+            
+            #line default
+            #line hidden
+            this.Write("\r\n");
             this.Write("\r\n// RIAM2MShared.ttinclude has been located and loaded.\r\n");
             this.Write("\r\n");
             return this.GenerationEnvironment.ToString();
@@ -103,19 +117,37 @@ namespace ServerTests
 	//
 	// ** Change these values according to your project. **
 	//
-	private string _EdmxFilePath = @"..\M2M4RiaDemo.Web\Model\DemoModel.edmx";
-	private const string EntityModelNamespace = "M2M4RiaDemo.Web.Model";
-	private const string DomainServiceNamespace = "M2M4RiaDemo.Web.Service";
 	private const string M2MToolsNamespace = "RIAM2M.Web.Services.RIAM2MTools";
-	private const string DomainServiceName = "DemoService";
-	private const string DomainContextName = "DemoContext";
 	// *****************************************************
 	
-	public string EdmxFilePath
-	{
-		get { return _EdmxFilePath; }
-		set { _EdmxFilePath = value; } 
-	}
+	/// <summary>
+	/// Gets or sets the location of EDMX file 
+	/// </summary>
+	/// <returns></returns>
+	public string EdmxFilePath{get; set;}
+	/// <summary>
+	///  Gets or sets the name space of the entity model
+	/// </summary>
+	/// <returns></returns>
+	public string EntityModelNamespace{get; set;}
+	
+	/// <summary>
+	/// Gets or sets the name space of the domain services
+	/// </summary>
+	/// <returns></returns>
+	public string DomainServiceNamespace{get; set;}
+
+	/// <summary>
+	/// Gets or sets the name of the domain service
+	/// </summary>
+	/// <returns></returns>
+	public string DomainServiceName{get; set; }
+	
+	/// <summary>
+	/// Gets or sets the name of the domain context
+	/// </summary>
+	/// <returns></returns>
+	public string DomainContextName{get; set; }
 	
 	private const string ERROR_PK_SUPPORT = "Only entites containing unary primary key's are supported currently by this T4 Template.";
 	private CodeGenerationTools Code;
@@ -147,28 +179,28 @@ namespace ServerTests
         #line default
         #line hidden
         
-        #line 48 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\RIAM2MShared.ttinclude"
+        #line 66 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\RIAM2MShared.ttinclude"
 this.Write("//\r\n// ERROR: Unable to locate Entity Framework edmx file at path \"");
 
         
         #line default
         #line hidden
         
-        #line 50 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\RIAM2MShared.ttinclude"
+        #line 68 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\RIAM2MShared.ttinclude"
 this.Write(this.ToStringHelper.ToStringWithCulture(EdmxFilePath));
 
         
         #line default
         #line hidden
         
-        #line 50 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\RIAM2MShared.ttinclude"
+        #line 68 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\RIAM2MShared.ttinclude"
 this.Write("\"\r\n//\r\n");
 
         
         #line default
         #line hidden
         
-        #line 52 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\RIAM2MShared.ttinclude"
+        #line 70 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\RIAM2MShared.ttinclude"
 
 				throw new FileNotFoundException("Unable to located Entity Framework edmx file at path " + EdmxFilePath, ex);
 			}

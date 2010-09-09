@@ -38,9 +38,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <None Include="Client\RIAM2MDomainContext.tt" />
-    <None Include="Server\RIAM2MDomainService.tt" />
-    <None Include="Server\RIAM2MEntities.tt" />
+    <None Include="Client\RIAM2MDomainContext.ttinclude" />
+    <None Include="Server\RIAM2MDomainService.ttinclude" />
+    <None Include="Server\RIAM2MEntities.ttinclude" />
     <None Include="Shared\RIAM2MShared.ttinclude" />
   </ItemGroup>
   <ItemGroup>
