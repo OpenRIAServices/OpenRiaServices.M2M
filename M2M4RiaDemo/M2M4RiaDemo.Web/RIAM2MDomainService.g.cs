@@ -24,188 +24,6 @@ namespace M2M4RiaDemo.Web.Service
 	public partial class M2M4RiaDemoService
 	{
 	[Obsolete("This method is only intended for use by the RIA M2M solution")]
-	public void InsertAnimalVet(AnimalVet linkEntity)
-	{
-			// ** Process Animal end **
-			Animal animal;
-			
-			if (linkEntity.Animal != null)
-			{
-				// If a reference of Animal is in the linkEntity that has been passed to this method, then get it.
-				animal = linkEntity.Animal;
-			}
-			else
-			{
-				// If there is no reference to Animal in the linkEntity, then build Animal 
-				// from the AnimalId that has been passed in the linkEntity.
-				//
-				// Note: In the situation where the entity that we are dealing with is abstract, then use one of it's 
-				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
-				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
-				// since all derived entities will posses the same many to many relationship from the base entity.
-				Animal animalStubEntity = new Animal() { AnimalId = linkEntity.AnimalId };
-				animal = GetEntityByKey<Animal>(ObjectContext, "Animals", animalStubEntity);
-			}							
-			// ** Process Vet end **
-			Vet vet;
-			
-			if (linkEntity.Vet != null)
-			{
-				// If a reference of Vet is in the linkEntity that has been passed to this method, then get it.
-				vet = linkEntity.Vet;
-			}
-			else
-			{
-				// If there is no reference to Vet in the linkEntity, then build Vet 
-				// from the VetId that has been passed in the linkEntity.
-				//
-				// Note: In the situation where the entity that we are dealing with is abstract, then use one of it's 
-				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
-				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
-				// since all derived entities will posses the same many to many relationship from the base entity.
-				Vet vetStubEntity = new Vet() { VetId = linkEntity.VetId };
-				vet = GetEntityByKey<Vet>(ObjectContext, "Vets", vetStubEntity);
-			}							
-		animal.Vets.Add(vet);
-	}
-	[Obsolete("This method is only intended for use by the RIA M2M solution")]
-	public void DeleteAnimalVet(AnimalVet linkEntity)
-	{
-			// ** Process Animal end **
-			Animal animal;
-			
-			if (linkEntity.Animal != null)
-			{
-				// If a reference of Animal is in the linkEntity that has been passed to this method, then get it.
-				animal = linkEntity.Animal;
-			}
-			else
-			{
-				// If there is no reference to Animal in the linkEntity, then build Animal 
-				// from the AnimalId that has been passed in the linkEntity.
-				//
-				// Note: In the situation where the entity that we are dealing with is abstract, then use one of it's 
-				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
-				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
-				// since all derived entities will posses the same many to many relationship from the base entity.
-				Animal animalStubEntity = new Animal() { AnimalId = linkEntity.AnimalId };
-				animal = GetEntityByKey<Animal>(ObjectContext, "Animals", animalStubEntity);
-			}							
-			// ** Process Vet end **
-			Vet vet;
-			
-			if (linkEntity.Vet != null)
-			{
-				// If a reference of Vet is in the linkEntity that has been passed to this method, then get it.
-				vet = linkEntity.Vet;
-			}
-			else
-			{
-				// If there is no reference to Vet in the linkEntity, then build Vet 
-				// from the VetId that has been passed in the linkEntity.
-				//
-				// Note: In the situation where the entity that we are dealing with is abstract, then use one of it's 
-				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
-				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
-				// since all derived entities will posses the same many to many relationship from the base entity.
-				Vet vetStubEntity = new Vet() { VetId = linkEntity.VetId };
-				vet = GetEntityByKey<Vet>(ObjectContext, "Vets", vetStubEntity);
-			}							
-			animal.Vets.Remove(vet);
-		
-		}
-	[Obsolete("This method is only intended for use by the RIA M2M solution")]
-	public void InsertDogFireHydrant(DogFireHydrant linkEntity)
-	{
-			// ** Process Dog end **
-			Dog dog;
-			
-			if (linkEntity.Dog != null)
-			{
-				// If a reference of Dog is in the linkEntity that has been passed to this method, then get it.
-				dog = linkEntity.Dog;
-			}
-			else
-			{
-				// If there is no reference to Dog in the linkEntity, then build Dog 
-				// from the DogId that has been passed in the linkEntity.
-				//
-				// Note: In the situation where the entity that we are dealing with is abstract, then use one of it's 
-				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
-				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
-				// since all derived entities will posses the same many to many relationship from the base entity.
-				Dog dogStubEntity = new Dog() { AnimalId = linkEntity.DogId };
-				dog = GetEntityByKey<Dog>(ObjectContext, "Animals", dogStubEntity);
-			}							
-			// ** Process FireHydrant end **
-			FireHydrant fireHydrant;
-			
-			if (linkEntity.FireHydrant != null)
-			{
-				// If a reference of FireHydrant is in the linkEntity that has been passed to this method, then get it.
-				fireHydrant = linkEntity.FireHydrant;
-			}
-			else
-			{
-				// If there is no reference to FireHydrant in the linkEntity, then build FireHydrant 
-				// from the FireHydrantId that has been passed in the linkEntity.
-				//
-				// Note: In the situation where the entity that we are dealing with is abstract, then use one of it's 
-				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
-				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
-				// since all derived entities will posses the same many to many relationship from the base entity.
-				FireHydrant fireHydrantStubEntity = new FireHydrant() { FireHydrantId = linkEntity.FireHydrantId };
-				fireHydrant = GetEntityByKey<FireHydrant>(ObjectContext, "FireHydrants", fireHydrantStubEntity);
-			}							
-		dog.FireHydrants.Add(fireHydrant);
-	}
-	[Obsolete("This method is only intended for use by the RIA M2M solution")]
-	public void DeleteDogFireHydrant(DogFireHydrant linkEntity)
-	{
-			// ** Process Dog end **
-			Dog dog;
-			
-			if (linkEntity.Dog != null)
-			{
-				// If a reference of Dog is in the linkEntity that has been passed to this method, then get it.
-				dog = linkEntity.Dog;
-			}
-			else
-			{
-				// If there is no reference to Dog in the linkEntity, then build Dog 
-				// from the DogId that has been passed in the linkEntity.
-				//
-				// Note: In the situation where the entity that we are dealing with is abstract, then use one of it's 
-				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
-				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
-				// since all derived entities will posses the same many to many relationship from the base entity.
-				Dog dogStubEntity = new Dog() { AnimalId = linkEntity.DogId };
-				dog = GetEntityByKey<Dog>(ObjectContext, "Animals", dogStubEntity);
-			}							
-			// ** Process FireHydrant end **
-			FireHydrant fireHydrant;
-			
-			if (linkEntity.FireHydrant != null)
-			{
-				// If a reference of FireHydrant is in the linkEntity that has been passed to this method, then get it.
-				fireHydrant = linkEntity.FireHydrant;
-			}
-			else
-			{
-				// If there is no reference to FireHydrant in the linkEntity, then build FireHydrant 
-				// from the FireHydrantId that has been passed in the linkEntity.
-				//
-				// Note: In the situation where the entity that we are dealing with is abstract, then use one of it's 
-				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
-				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
-				// since all derived entities will posses the same many to many relationship from the base entity.
-				FireHydrant fireHydrantStubEntity = new FireHydrant() { FireHydrantId = linkEntity.FireHydrantId };
-				fireHydrant = GetEntityByKey<FireHydrant>(ObjectContext, "FireHydrants", fireHydrantStubEntity);
-			}							
-			dog.FireHydrants.Remove(fireHydrant);
-		
-		}
-	[Obsolete("This method is only intended for use by the RIA M2M solution")]
 	public void InsertDogTrainer(DogTrainer linkEntity)
 	{
 			// ** Process Dog end **
@@ -225,8 +43,8 @@ namespace M2M4RiaDemo.Web.Service
 				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
 				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
 				// since all derived entities will posses the same many to many relationship from the base entity.
-				Dog dogStubEntity = new Dog() { AnimalId = linkEntity.DogId };
-				dog = GetEntityByKey<Dog>(ObjectContext, "Animals", dogStubEntity);
+				Dog dogStubEntity = new Dog() { DogId = linkEntity.DogId };
+				dog = GetEntityByKey<Dog>(ObjectContext, "Dogs", dogStubEntity);
 			}							
 			// ** Process Trainer end **
 			Trainer trainer;
@@ -270,8 +88,8 @@ namespace M2M4RiaDemo.Web.Service
 				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
 				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
 				// since all derived entities will posses the same many to many relationship from the base entity.
-				Dog dogStubEntity = new Dog() { AnimalId = linkEntity.DogId };
-				dog = GetEntityByKey<Dog>(ObjectContext, "Animals", dogStubEntity);
+				Dog dogStubEntity = new Dog() { DogId = linkEntity.DogId };
+				dog = GetEntityByKey<Dog>(ObjectContext, "Dogs", dogStubEntity);
 			}							
 			// ** Process Trainer end **
 			Trainer trainer;
