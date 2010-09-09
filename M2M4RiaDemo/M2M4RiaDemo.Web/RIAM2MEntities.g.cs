@@ -23,130 +23,6 @@ namespace M2M4RiaDemo.Web.Model
 	// Association Entity Types
 	//
 	[Obsolete("This class is only intended for use by the RIA M2M solution")]
-	public partial class AnimalVet
-	{
-
-		// 'AnimalVetToVetSet' associationSet from 'Vet.VetId' to 'AnimalVet.VetId'
-		private int _VetId;
-		
-		[DataMember]
-		[Key]
-		public int VetId
-		{
-			get
-			{
-				if(Vet != null)
-				{
-					if(_VetId != Vet.VetId && _VetId == 0)
-						_VetId = Vet.VetId;
-				}
-				
-				return _VetId;
-			}
-			set
-			{
-				_VetId = value;
-			}
-		}
-		
-		[Include]
-		[Association("AnimalVetToVetSet", "VetId", "VetId", IsForeignKey = true)]
-		[DataMember]
-		public Vet Vet { get; set; }
-		
-		// 'AnimalVetToAnimalSet' associationSet from 'Animal.AnimalId' to 'AnimalVet.AnimalId'
-		private int _AnimalId;
-
-		[DataMember]
-		[Key]
-		public int AnimalId
-		{
-			get
-			{
-				if(Animal != null)
-				{
-					if(_AnimalId != Animal.AnimalId && _AnimalId == 0)
-						_AnimalId = Animal.AnimalId;
-				}
-
-				return _AnimalId;
-			}
-			set
-			{
-				_AnimalId = value;
-			}
-		}
-		
-		[Include]
-		[Association("AnimalVetToAnimalSet", "AnimalId", "AnimalId", IsForeignKey = true)]
-		[DataMember]
-		public Animal Animal { get; set; }
-
-	}
-		
-	[Obsolete("This class is only intended for use by the RIA M2M solution")]
-	public partial class DogFireHydrant
-	{
-
-		// 'DogFireHydrantToFireHydrantSet' associationSet from 'FireHydrant.FireHydrantId' to 'DogFireHydrant.FireHydrantId'
-		private int _FireHydrantId;
-		
-		[DataMember]
-		[Key]
-		public int FireHydrantId
-		{
-			get
-			{
-				if(FireHydrant != null)
-				{
-					if(_FireHydrantId != FireHydrant.FireHydrantId && _FireHydrantId == 0)
-						_FireHydrantId = FireHydrant.FireHydrantId;
-				}
-				
-				return _FireHydrantId;
-			}
-			set
-			{
-				_FireHydrantId = value;
-			}
-		}
-		
-		[Include]
-		[Association("DogFireHydrantToFireHydrantSet", "FireHydrantId", "FireHydrantId", IsForeignKey = true)]
-		[DataMember]
-		public FireHydrant FireHydrant { get; set; }
-		
-		// 'DogFireHydrantToDogSet' associationSet from 'Dog.AnimalId' to 'DogFireHydrant.DogId'
-		private int _DogId;
-
-		[DataMember]
-		[Key]
-		public int DogId
-		{
-			get
-			{
-				if(Dog != null)
-				{
-					if(_DogId != Dog.AnimalId && _DogId == 0)
-						_DogId = Dog.AnimalId;
-				}
-
-				return _DogId;
-			}
-			set
-			{
-				_DogId = value;
-			}
-		}
-		
-		[Include]
-		[Association("DogFireHydrantToDogSet", "DogId", "AnimalId", IsForeignKey = true)]
-		[DataMember]
-		public Dog Dog { get; set; }
-
-	}
-		
-	[Obsolete("This class is only intended for use by the RIA M2M solution")]
 	public partial class DogTrainer
 	{
 
@@ -178,7 +54,7 @@ namespace M2M4RiaDemo.Web.Model
 		[DataMember]
 		public Trainer Trainer { get; set; }
 		
-		// 'DogTrainerToDogSet' associationSet from 'Dog.AnimalId' to 'DogTrainer.DogId'
+		// 'DogTrainerToDogSet' associationSet from 'Dog.DogId' to 'DogTrainer.DogId'
 		private int _DogId;
 
 		[DataMember]
@@ -189,8 +65,8 @@ namespace M2M4RiaDemo.Web.Model
 			{
 				if(Dog != null)
 				{
-					if(_DogId != Dog.AnimalId && _DogId == 0)
-						_DogId = Dog.AnimalId;
+					if(_DogId != Dog.DogId && _DogId == 0)
+						_DogId = Dog.DogId;
 				}
 
 				return _DogId;
@@ -202,7 +78,7 @@ namespace M2M4RiaDemo.Web.Model
 		}
 		
 		[Include]
-		[Association("DogTrainerToDogSet", "DogId", "AnimalId", IsForeignKey = true)]
+		[Association("DogTrainerToDogSet", "DogId", "DogId", IsForeignKey = true)]
 		[DataMember]
 		public Dog Dog { get; set; }
 
@@ -212,71 +88,9 @@ namespace M2M4RiaDemo.Web.Model
 	// Regular Entity Types
 	//
 		
-	public partial class Animal
-	{
-		// 'AnimalVetToVetSet' associationSet from 'Vet.VetId' to 'AnimalVet.VetId'
-		private EntityCollection<AnimalVet, Vet> _AnimalVetToVetSet;
-		
-		[Obsolete("This property is only intended for use by the RIA M2M solution")]
-		[DataMember]
-		[Include]
-		[Association("AnimalVetToAnimalSet", "AnimalId", "AnimalId", IsForeignKey = false)]
-		public EntityCollection<AnimalVet, Vet> AnimalVetToVetSet
-		{
-			get
-			{
-				if(_AnimalVetToVetSet == null)
-				{
-					_AnimalVetToVetSet = new EntityCollection<AnimalVet, Vet>
-					(
-						Vets,
-						(r) => new AnimalVet { Animal = this, Vet = r },
-						pd => pd.Vet
-					);
-				}
-				
-				return _AnimalVetToVetSet;
-			}
-		}
-		
-	}
-		
-	public partial class Vet
-	{
-		// 'AnimalVetToAnimalSet' associationSet from 'Animal.AnimalId' to 'AnimalVet.AnimalId'
-		private EntityCollection<AnimalVet, Animal> _AnimalVetToAnimalSet;
-		
-		[Obsolete("This property is only intended for use by the RIA M2M solution")]
-		[DataMember]
-		[Include]
-		[Association("AnimalVetToVetSet", "VetId", "VetId", IsForeignKey = false)]
-		public EntityCollection<AnimalVet, Animal> AnimalVetToAnimalSet
-		{
-			get
-			{
-				if(_AnimalVetToAnimalSet == null)
-				{
-					_AnimalVetToAnimalSet = new EntityCollection<AnimalVet, Animal>
-					(
-						Animals,
-						(r) => new AnimalVet { Vet = this, Animal = r },
-						pd => pd.Animal
-					);
-				}
-				
-				return _AnimalVetToAnimalSet;
-			}
-		}
-		
-	}
-		
-	public partial class FireHydrant
-	{
-	}
-		
 	public partial class Trainer
 	{
-		// 'DogTrainerToDogSet' associationSet from 'Dog.AnimalId' to 'DogTrainer.DogId'
+		// 'DogTrainerToDogSet' associationSet from 'Dog.DogId' to 'DogTrainer.DogId'
 		private EntityCollection<DogTrainer, Dog> _DogTrainerToDogSet;
 		
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
@@ -303,44 +117,15 @@ namespace M2M4RiaDemo.Web.Model
 		
 	}
 		
-	public partial class Food
-	{
-	}
-		
 	public partial class Dog
 	{
-		// 'DogFireHydrantToFireHydrantSet' associationSet from 'FireHydrant.FireHydrantId' to 'DogFireHydrant.FireHydrantId'
-		private EntityCollection<DogFireHydrant, FireHydrant> _DogFireHydrantToFireHydrantSet;
-		
-		[Obsolete("This property is only intended for use by the RIA M2M solution")]
-		[DataMember]
-		[Include]
-		[Association("DogFireHydrantToDogSet", "AnimalId", "DogId", IsForeignKey = false)]
-		public EntityCollection<DogFireHydrant, FireHydrant> DogFireHydrantToFireHydrantSet
-		{
-			get
-			{
-				if(_DogFireHydrantToFireHydrantSet == null)
-				{
-					_DogFireHydrantToFireHydrantSet = new EntityCollection<DogFireHydrant, FireHydrant>
-					(
-						FireHydrants,
-						(r) => new DogFireHydrant { Dog = this, FireHydrant = r },
-						pd => pd.FireHydrant
-					);
-				}
-				
-				return _DogFireHydrantToFireHydrantSet;
-			}
-		}
-		
 		// 'DogTrainerToTrainerSet' associationSet from 'Trainer.TrainerId' to 'DogTrainer.TrainerId'
 		private EntityCollection<DogTrainer, Trainer> _DogTrainerToTrainerSet;
 		
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
-		[Association("DogTrainerToDogSet", "AnimalId", "DogId", IsForeignKey = false)]
+		[Association("DogTrainerToDogSet", "DogId", "DogId", IsForeignKey = false)]
 		public EntityCollection<DogTrainer, Trainer> DogTrainerToTrainerSet
 		{
 			get

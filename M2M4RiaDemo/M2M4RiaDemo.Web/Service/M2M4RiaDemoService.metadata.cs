@@ -11,14 +11,14 @@ namespace M2M4RiaDemo.Web.Model
     using System.ServiceModel.DomainServices.Server;
 
 
-    // The MetadataTypeAttribute identifies FoodMetadata as the class
-    // that carries additional metadata for the Food class.
-    [MetadataTypeAttribute(typeof(Food.FoodMetadata))]
-    public partial class Food
+    // The MetadataTypeAttribute identifies DogMetadata as the class
+    // that carries additional metadata for the Dog class.
+    [MetadataTypeAttribute(typeof(Dog.DogMetadata))]
+    public partial class Dog
     {
 
         // This class allows you to attach custom attributes to properties
-        // of the Food class.
+        // of the Dog class.
         //
         // For example, the following marks the Xyz property as a
         // required property and specifies the format for valid values:
@@ -26,17 +26,21 @@ namespace M2M4RiaDemo.Web.Model
         //    [RegularExpression("[A-Z][A-Za-z0-9]*")]
         //    [StringLength(32)]
         //    public string Xyz { get; set; }
-        internal sealed class FoodMetadata
+        internal sealed class DogMetadata
         {
 
             // Metadata classes are not meant to be instantiated.
-            private FoodMetadata()
+            private DogMetadata()
             {
             }
 
-            public int FoodId { get; set; }
+            public bool ChasesCars { get; set; }
+
+            public int DogId { get; set; }
 
             public string Name { get; set; }
+
+            public EntityCollection<Trainer> Trainers { get; set; }
         }
     }
 

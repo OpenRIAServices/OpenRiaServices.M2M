@@ -46,7 +46,7 @@ namespace M2M4RiaDemo.Models
         {
             if (DesignerProperties.IsInDesignTool == false)
             {
-                DogList = c.Animals;
+                DogList = c.Dogs;
                 TrainerList = c.Trainers;
                 DogTrainers = c.EntityContainer.GetEntitySet<DogTrainer>();
             }
@@ -169,7 +169,7 @@ namespace M2M4RiaDemo.Models
         }
 
 
-        public EntitySet<Animal> DogList { get; set; }
+        public EntitySet<Dog> DogList { get; set; }
         public EntitySet<Trainer> TrainerList { get; set; }
         public EntitySet<DogTrainer> DogTrainers { get; set; }
 
@@ -415,7 +415,7 @@ namespace M2M4RiaDemo.Models
         private int dogCount;
         public override void Execute(object parameter)
         {
-            mainPageModel.c.Animals.Add(new Dog { Name = "Dog" + dogCount++ });
+            mainPageModel.c.Dogs.Add(new Dog { Name = "Dog" + dogCount++ });
             mainPageModel.AutoSaveChanges();
         }
     }

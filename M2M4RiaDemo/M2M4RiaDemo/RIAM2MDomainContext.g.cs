@@ -22,14 +22,6 @@ namespace M2M4RiaDemo.Web.Service
 			// Install handlers that set/reset EntitySet properties of link table entities when they are 
 			// added/removed from the domain context's entity sets. This is only needed as long as RIA
 			// doesn't provide access from an Entity to its EntitySet.
-			EntitySet< AnimalVet > AnimalVetEntitySet = EntityContainer.GetEntitySet< AnimalVet>();
-			AnimalVetEntitySet.EntityAdded += (sender, args) => args.Entity.EntitySet = AnimalVetEntitySet;
-			AnimalVetEntitySet.EntityRemoved += (sender, args) => args.Entity.EntitySet = null;
-			
-			EntitySet< DogFireHydrant > DogFireHydrantEntitySet = EntityContainer.GetEntitySet< DogFireHydrant>();
-			DogFireHydrantEntitySet.EntityAdded += (sender, args) => args.Entity.EntitySet = DogFireHydrantEntitySet;
-			DogFireHydrantEntitySet.EntityRemoved += (sender, args) => args.Entity.EntitySet = null;
-			
 			EntitySet< DogTrainer > DogTrainerEntitySet = EntityContainer.GetEntitySet< DogTrainer>();
 			DogTrainerEntitySet.EntityAdded += (sender, args) => args.Entity.EntitySet = DogTrainerEntitySet;
 			DogTrainerEntitySet.EntityRemoved += (sender, args) => args.Entity.EntitySet = null;
@@ -53,32 +45,6 @@ namespace M2M4RiaDemo.Web.Model
 	/// This class provides access to the entity's entity set. This is only needed as long as RIA
 	// doesn't provide this access it self.
 	/// </summary>
-	public partial class AnimalVet
-	{
-		/// <summary>
-        /// Gets or sets the EntitySet the link table entity is contained in. It is set by the domain context
-		/// when the link entity is added to an entity set, and reset to null when it is removed from an entity set.
-        /// </summary>
-		[Obsolete("This property is only intended for use by the M2M4Ria solution.")]
-		public EntitySet<AnimalVet> EntitySet{ get; set; }
-	}
-  	/// <summary>
-	/// This class provides access to the entity's entity set. This is only needed as long as RIA
-	// doesn't provide this access it self.
-	/// </summary>
-	public partial class DogFireHydrant
-	{
-		/// <summary>
-        /// Gets or sets the EntitySet the link table entity is contained in. It is set by the domain context
-		/// when the link entity is added to an entity set, and reset to null when it is removed from an entity set.
-        /// </summary>
-		[Obsolete("This property is only intended for use by the M2M4Ria solution.")]
-		public EntitySet<DogFireHydrant> EntitySet{ get; set; }
-	}
-  	/// <summary>
-	/// This class provides access to the entity's entity set. This is only needed as long as RIA
-	// doesn't provide this access it self.
-	/// </summary>
 	public partial class DogTrainer
 	{
 		/// <summary>
@@ -88,81 +54,6 @@ namespace M2M4RiaDemo.Web.Model
 		[Obsolete("This property is only intended for use by the M2M4Ria solution.")]
 		public EntitySet<DogTrainer> EntitySet{ get; set; }
 	}
-	public partial class Animal
-	{
-	
-		//
-		// Code relating to the managing of the 'AnimalVet' association from 'Animal' to 'Vet'
-		//
-		
-		private EntityCollection<AnimalVet, Vet> _Vets;
-		
-		public EntityCollection<AnimalVet, Vet> Vets
-		{
-			get
-			{
-				if(_Vets == null)
-				{
-					_Vets = new EntityCollection<AnimalVet, Vet>(this.AnimalVetToVetSet, r => r.Vet, (r, t2) => r.Vet = t2, r => r.Animal = this, RemoveFromAnimalVetToVetSet);
-				}
-				
-				return _Vets;
-			}
-		}
-		
-		private void RemoveFromAnimalVetToVetSet(AnimalVet r)
-		{
-			if(r.EntitySet == null)
-			{
-				this.AnimalVetToVetSet.Remove(r);
-			}
-			else
-			{
-				r.EntitySet.Remove(r);
-			}
-		}
-	}
-	
-	public partial class Vet
-	{
-	
-		//
-		// Code relating to the managing of the 'AnimalVet' association from 'Vet' to 'Animal'
-		//
-		
-		private EntityCollection<AnimalVet, Animal> _Animals;
-		
-		public EntityCollection<AnimalVet, Animal> Animals
-		{
-			get
-			{
-				if(_Animals == null)
-				{
-					_Animals = new EntityCollection<AnimalVet, Animal>(this.AnimalVetToAnimalSet, r => r.Animal, (r, t2) => r.Animal = t2, r => r.Vet = this, RemoveFromAnimalVetToAnimalSet);
-				}
-				
-				return _Animals;
-			}
-		}
-		
-		private void RemoveFromAnimalVetToAnimalSet(AnimalVet r)
-		{
-			if(r.EntitySet == null)
-			{
-				this.AnimalVetToAnimalSet.Remove(r);
-			}
-			else
-			{
-				r.EntitySet.Remove(r);
-			}
-		}
-	}
-	
-	public partial class FireHydrant
-	{
-	
-	}
-	
 	public partial class Trainer
 	{
 	
@@ -198,44 +89,9 @@ namespace M2M4RiaDemo.Web.Model
 		}
 	}
 	
-	public partial class Food
-	{
-	
-	}
-	
 	public partial class Dog
 	{
 	
-		//
-		// Code relating to the managing of the 'DogFireHydrant' association from 'Dog' to 'FireHydrant'
-		//
-		
-		private EntityCollection<DogFireHydrant, FireHydrant> _FireHydrants;
-		
-		public EntityCollection<DogFireHydrant, FireHydrant> FireHydrants
-		{
-			get
-			{
-				if(_FireHydrants == null)
-				{
-					_FireHydrants = new EntityCollection<DogFireHydrant, FireHydrant>(this.DogFireHydrantToFireHydrantSet, r => r.FireHydrant, (r, t2) => r.FireHydrant = t2, r => r.Dog = this, RemoveFromDogFireHydrantToFireHydrantSet);
-				}
-				
-				return _FireHydrants;
-			}
-		}
-		
-		private void RemoveFromDogFireHydrantToFireHydrantSet(DogFireHydrant r)
-		{
-			if(r.EntitySet == null)
-			{
-				this.DogFireHydrantToFireHydrantSet.Remove(r);
-			}
-			else
-			{
-				r.EntitySet.Remove(r);
-			}
-		}
 		//
 		// Code relating to the managing of the 'DogTrainer' association from 'Dog' to 'Trainer'
 		//

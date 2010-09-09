@@ -18,12 +18,7 @@ using System.Runtime.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("M2M4RiaDemoModel", "AnimalVet", "Animal", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(M2M4RiaDemo.Web.Model.Animal), "Vet", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(M2M4RiaDemo.Web.Model.Vet))]
-[assembly: EdmRelationshipAttribute("M2M4RiaDemoModel", "DogFireHydrant", "Dog", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(M2M4RiaDemo.Web.Model.Dog), "FireHydrant", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(M2M4RiaDemo.Web.Model.FireHydrant))]
-[assembly: EdmRelationshipAttribute("M2M4RiaDemoModel", "OwnerAnimal", "Owner", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(M2M4RiaDemo.Web.Model.Owner), "Animal", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(M2M4RiaDemo.Web.Model.Animal), true)]
-[assembly: EdmRelationshipAttribute("M2M4RiaDemoModel", "DogChewedShoe", "Dog", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(M2M4RiaDemo.Web.Model.Dog), "ChewedShoe", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(M2M4RiaDemo.Web.Model.ChewedShoe), true)]
 [assembly: EdmRelationshipAttribute("M2M4RiaDemoModel", "DogTrainer", "Dog", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(M2M4RiaDemo.Web.Model.Dog), "Trainer", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(M2M4RiaDemo.Web.Model.Trainer))]
-[assembly: EdmRelationshipAttribute("M2M4RiaDemoModel", "AnimalFood", "Animal", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(M2M4RiaDemo.Web.Model.Animal), "Food", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(M2M4RiaDemo.Web.Model.Food))]
 
 #endregion
 
@@ -78,86 +73,6 @@ namespace M2M4RiaDemo.Web.Model
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<Animal> Animals
-        {
-            get
-            {
-                if ((_Animals == null))
-                {
-                    _Animals = base.CreateObjectSet<Animal>("Animals");
-                }
-                return _Animals;
-            }
-        }
-        private ObjectSet<Animal> _Animals;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<Vet> Vets
-        {
-            get
-            {
-                if ((_Vets == null))
-                {
-                    _Vets = base.CreateObjectSet<Vet>("Vets");
-                }
-                return _Vets;
-            }
-        }
-        private ObjectSet<Vet> _Vets;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<FireHydrant> FireHydrants
-        {
-            get
-            {
-                if ((_FireHydrants == null))
-                {
-                    _FireHydrants = base.CreateObjectSet<FireHydrant>("FireHydrants");
-                }
-                return _FireHydrants;
-            }
-        }
-        private ObjectSet<FireHydrant> _FireHydrants;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<Owner> Owners
-        {
-            get
-            {
-                if ((_Owners == null))
-                {
-                    _Owners = base.CreateObjectSet<Owner>("Owners");
-                }
-                return _Owners;
-            }
-        }
-        private ObjectSet<Owner> _Owners;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<ChewedShoe> ChewedShoes
-        {
-            get
-            {
-                if ((_ChewedShoes == null))
-                {
-                    _ChewedShoes = base.CreateObjectSet<ChewedShoe>("ChewedShoes");
-                }
-                return _ChewedShoes;
-            }
-        }
-        private ObjectSet<ChewedShoe> _ChewedShoes;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         public ObjectSet<Trainer> Trainers
         {
             get
@@ -174,61 +89,21 @@ namespace M2M4RiaDemo.Web.Model
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<Food> Foods
+        public ObjectSet<Dog> Dogs
         {
             get
             {
-                if ((_Foods == null))
+                if ((_Dogs == null))
                 {
-                    _Foods = base.CreateObjectSet<Food>("Foods");
+                    _Dogs = base.CreateObjectSet<Dog>("Dogs");
                 }
-                return _Foods;
+                return _Dogs;
             }
         }
-        private ObjectSet<Food> _Foods;
+        private ObjectSet<Dog> _Dogs;
 
         #endregion
         #region AddTo Methods
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the Animals EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToAnimals(Animal animal)
-        {
-            base.AddObject("Animals", animal);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the Vets EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToVets(Vet vet)
-        {
-            base.AddObject("Vets", vet);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the FireHydrants EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToFireHydrants(FireHydrant fireHydrant)
-        {
-            base.AddObject("FireHydrants", fireHydrant);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the Owners EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToOwners(Owner owner)
-        {
-            base.AddObject("Owners", owner);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the ChewedShoes EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToChewedShoes(ChewedShoe chewedShoe)
-        {
-            base.AddObject("ChewedShoes", chewedShoe);
-        }
     
         /// <summary>
         /// Deprecated Method for adding a new object to the Trainers EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
@@ -239,11 +114,11 @@ namespace M2M4RiaDemo.Web.Model
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the Foods EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the Dogs EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToFoods(Food food)
+        public void AddToDogs(Dog dog)
         {
-            base.AddObject("Foods", food);
+            base.AddObject("Dogs", dog);
         }
 
         #endregion
@@ -257,399 +132,25 @@ namespace M2M4RiaDemo.Web.Model
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="M2M4RiaDemoModel", Name="Animal")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    [KnownTypeAttribute(typeof(Dog))]
-    [KnownTypeAttribute(typeof(Cat))]
-    public partial class Animal : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new Animal object.
-        /// </summary>
-        /// <param name="animalId">Initial value of the AnimalId property.</param>
-        /// <param name="name">Initial value of the Name property.</param>
-        public static Animal CreateAnimal(global::System.Int32 animalId, global::System.String name)
-        {
-            Animal animal = new Animal();
-            animal.AnimalId = animalId;
-            animal.Name = name;
-            return animal;
-        }
-
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 AnimalId
-        {
-            get
-            {
-                return _AnimalId;
-            }
-            set
-            {
-                if (_AnimalId != value)
-                {
-                    OnAnimalIdChanging(value);
-                    ReportPropertyChanging("AnimalId");
-                    _AnimalId = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("AnimalId");
-                    OnAnimalIdChanged();
-                }
-            }
-        }
-        private global::System.Int32 _AnimalId;
-        partial void OnAnimalIdChanging(global::System.Int32 value);
-        partial void OnAnimalIdChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Int32> OwnerOwnerId
-        {
-            get
-            {
-                return _OwnerOwnerId;
-            }
-            set
-            {
-                OnOwnerOwnerIdChanging(value);
-                ReportPropertyChanging("OwnerOwnerId");
-                _OwnerOwnerId = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("OwnerOwnerId");
-                OnOwnerOwnerIdChanged();
-            }
-        }
-        private Nullable<global::System.Int32> _OwnerOwnerId;
-        partial void OnOwnerOwnerIdChanging(Nullable<global::System.Int32> value);
-        partial void OnOwnerOwnerIdChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String Name
-        {
-            get
-            {
-                return _Name;
-            }
-            set
-            {
-                OnNameChanging(value);
-                ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("Name");
-                OnNameChanged();
-            }
-        }
-        private global::System.String _Name;
-        partial void OnNameChanging(global::System.String value);
-        partial void OnNameChanged();
-
-        #endregion
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("M2M4RiaDemoModel", "AnimalVet", "Vet")]
-        public EntityCollection<Vet> Vets
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Vet>("M2M4RiaDemoModel.AnimalVet", "Vet");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Vet>("M2M4RiaDemoModel.AnimalVet", "Vet", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("M2M4RiaDemoModel", "OwnerAnimal", "Owner")]
-        public Owner Owner
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Owner>("M2M4RiaDemoModel.OwnerAnimal", "Owner").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Owner>("M2M4RiaDemoModel.OwnerAnimal", "Owner").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Owner> OwnerReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Owner>("M2M4RiaDemoModel.OwnerAnimal", "Owner");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Owner>("M2M4RiaDemoModel.OwnerAnimal", "Owner", value);
-                }
-            }
-        }
-
-        #endregion
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="M2M4RiaDemoModel", Name="Cat")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class Cat : Animal
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new Cat object.
-        /// </summary>
-        /// <param name="animalId">Initial value of the AnimalId property.</param>
-        /// <param name="name">Initial value of the Name property.</param>
-        /// <param name="sleepsAlot">Initial value of the SleepsAlot property.</param>
-        public static Cat CreateCat(global::System.Int32 animalId, global::System.String name, global::System.Boolean sleepsAlot)
-        {
-            Cat cat = new Cat();
-            cat.AnimalId = animalId;
-            cat.Name = name;
-            cat.SleepsAlot = sleepsAlot;
-            return cat;
-        }
-
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Boolean SleepsAlot
-        {
-            get
-            {
-                return _SleepsAlot;
-            }
-            set
-            {
-                OnSleepsAlotChanging(value);
-                ReportPropertyChanging("SleepsAlot");
-                _SleepsAlot = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("SleepsAlot");
-                OnSleepsAlotChanged();
-            }
-        }
-        private global::System.Boolean _SleepsAlot;
-        partial void OnSleepsAlotChanging(global::System.Boolean value);
-        partial void OnSleepsAlotChanged();
-
-        #endregion
-    
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="M2M4RiaDemoModel", Name="ChewedShoe")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class ChewedShoe : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new ChewedShoe object.
-        /// </summary>
-        /// <param name="chewedShoeId">Initial value of the ChewedShoeId property.</param>
-        /// <param name="dogAnimalId">Initial value of the DogAnimalId property.</param>
-        /// <param name="type">Initial value of the Type property.</param>
-        public static ChewedShoe CreateChewedShoe(global::System.Int32 chewedShoeId, global::System.Int32 dogAnimalId, global::System.String type)
-        {
-            ChewedShoe chewedShoe = new ChewedShoe();
-            chewedShoe.ChewedShoeId = chewedShoeId;
-            chewedShoe.DogAnimalId = dogAnimalId;
-            chewedShoe.Type = type;
-            return chewedShoe;
-        }
-
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 ChewedShoeId
-        {
-            get
-            {
-                return _ChewedShoeId;
-            }
-            set
-            {
-                if (_ChewedShoeId != value)
-                {
-                    OnChewedShoeIdChanging(value);
-                    ReportPropertyChanging("ChewedShoeId");
-                    _ChewedShoeId = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("ChewedShoeId");
-                    OnChewedShoeIdChanged();
-                }
-            }
-        }
-        private global::System.Int32 _ChewedShoeId;
-        partial void OnChewedShoeIdChanging(global::System.Int32 value);
-        partial void OnChewedShoeIdChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 DogAnimalId
-        {
-            get
-            {
-                return _DogAnimalId;
-            }
-            set
-            {
-                OnDogAnimalIdChanging(value);
-                ReportPropertyChanging("DogAnimalId");
-                _DogAnimalId = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("DogAnimalId");
-                OnDogAnimalIdChanged();
-            }
-        }
-        private global::System.Int32 _DogAnimalId;
-        partial void OnDogAnimalIdChanging(global::System.Int32 value);
-        partial void OnDogAnimalIdChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String Type
-        {
-            get
-            {
-                return _Type;
-            }
-            set
-            {
-                OnTypeChanging(value);
-                ReportPropertyChanging("Type");
-                _Type = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("Type");
-                OnTypeChanged();
-            }
-        }
-        private global::System.String _Type;
-        partial void OnTypeChanging(global::System.String value);
-        partial void OnTypeChanged();
-
-        #endregion
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("M2M4RiaDemoModel", "DogChewedShoe", "Dog")]
-        public Dog Dog
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Dog>("M2M4RiaDemoModel.DogChewedShoe", "Dog").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Dog>("M2M4RiaDemoModel.DogChewedShoe", "Dog").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Dog> DogReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Dog>("M2M4RiaDemoModel.DogChewedShoe", "Dog");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Dog>("M2M4RiaDemoModel.DogChewedShoe", "Dog", value);
-                }
-            }
-        }
-
-        #endregion
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="M2M4RiaDemoModel", Name="Dog")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class Dog : Animal
+    public partial class Dog : EntityObject
     {
         #region Factory Method
     
         /// <summary>
         /// Create a new Dog object.
         /// </summary>
-        /// <param name="animalId">Initial value of the AnimalId property.</param>
-        /// <param name="name">Initial value of the Name property.</param>
         /// <param name="chasesCars">Initial value of the ChasesCars property.</param>
-        public static Dog CreateDog(global::System.Int32 animalId, global::System.String name, global::System.Boolean chasesCars)
+        /// <param name="dogId">Initial value of the DogId property.</param>
+        /// <param name="name">Initial value of the Name property.</param>
+        public static Dog CreateDog(global::System.Boolean chasesCars, global::System.Int32 dogId, global::System.String name)
         {
             Dog dog = new Dog();
-            dog.AnimalId = animalId;
-            dog.Name = name;
             dog.ChasesCars = chasesCars;
+            dog.DogId = dogId;
+            dog.Name = name;
             return dog;
         }
 
@@ -679,54 +180,61 @@ namespace M2M4RiaDemo.Web.Model
         private global::System.Boolean _ChasesCars;
         partial void OnChasesCarsChanging(global::System.Boolean value);
         partial void OnChasesCarsChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 DogId
+        {
+            get
+            {
+                return _DogId;
+            }
+            set
+            {
+                if (_DogId != value)
+                {
+                    OnDogIdChanging(value);
+                    ReportPropertyChanging("DogId");
+                    _DogId = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("DogId");
+                    OnDogIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _DogId;
+        partial void OnDogIdChanging(global::System.Int32 value);
+        partial void OnDogIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
 
         #endregion
     
         #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("M2M4RiaDemoModel", "DogFireHydrant", "FireHydrant")]
-        public EntityCollection<FireHydrant> FireHydrants
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<FireHydrant>("M2M4RiaDemoModel.DogFireHydrant", "FireHydrant");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<FireHydrant>("M2M4RiaDemoModel.DogFireHydrant", "FireHydrant", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("M2M4RiaDemoModel", "DogChewedShoe", "ChewedShoe")]
-        public EntityCollection<ChewedShoe> ChewedShoes
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ChewedShoe>("M2M4RiaDemoModel.DogChewedShoe", "ChewedShoe");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ChewedShoe>("M2M4RiaDemoModel.DogChewedShoe", "ChewedShoe", value);
-                }
-            }
-        }
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -746,274 +254,6 @@ namespace M2M4RiaDemo.Web.Model
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Trainer>("M2M4RiaDemoModel.DogTrainer", "Trainer", value);
-                }
-            }
-        }
-
-        #endregion
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="M2M4RiaDemoModel", Name="FireHydrant")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class FireHydrant : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new FireHydrant object.
-        /// </summary>
-        /// <param name="fireHydrantId">Initial value of the FireHydrantId property.</param>
-        /// <param name="location">Initial value of the Location property.</param>
-        public static FireHydrant CreateFireHydrant(global::System.Int32 fireHydrantId, global::System.String location)
-        {
-            FireHydrant fireHydrant = new FireHydrant();
-            fireHydrant.FireHydrantId = fireHydrantId;
-            fireHydrant.Location = location;
-            return fireHydrant;
-        }
-
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 FireHydrantId
-        {
-            get
-            {
-                return _FireHydrantId;
-            }
-            set
-            {
-                if (_FireHydrantId != value)
-                {
-                    OnFireHydrantIdChanging(value);
-                    ReportPropertyChanging("FireHydrantId");
-                    _FireHydrantId = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("FireHydrantId");
-                    OnFireHydrantIdChanged();
-                }
-            }
-        }
-        private global::System.Int32 _FireHydrantId;
-        partial void OnFireHydrantIdChanging(global::System.Int32 value);
-        partial void OnFireHydrantIdChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String Location
-        {
-            get
-            {
-                return _Location;
-            }
-            set
-            {
-                OnLocationChanging(value);
-                ReportPropertyChanging("Location");
-                _Location = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("Location");
-                OnLocationChanged();
-            }
-        }
-        private global::System.String _Location;
-        partial void OnLocationChanging(global::System.String value);
-        partial void OnLocationChanged();
-
-        #endregion
-    
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="M2M4RiaDemoModel", Name="Food")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class Food : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new Food object.
-        /// </summary>
-        /// <param name="foodId">Initial value of the FoodId property.</param>
-        /// <param name="name">Initial value of the Name property.</param>
-        public static Food CreateFood(global::System.Int32 foodId, global::System.String name)
-        {
-            Food food = new Food();
-            food.FoodId = foodId;
-            food.Name = name;
-            return food;
-        }
-
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 FoodId
-        {
-            get
-            {
-                return _FoodId;
-            }
-            set
-            {
-                if (_FoodId != value)
-                {
-                    OnFoodIdChanging(value);
-                    ReportPropertyChanging("FoodId");
-                    _FoodId = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("FoodId");
-                    OnFoodIdChanged();
-                }
-            }
-        }
-        private global::System.Int32 _FoodId;
-        partial void OnFoodIdChanging(global::System.Int32 value);
-        partial void OnFoodIdChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String Name
-        {
-            get
-            {
-                return _Name;
-            }
-            set
-            {
-                OnNameChanging(value);
-                ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("Name");
-                OnNameChanged();
-            }
-        }
-        private global::System.String _Name;
-        partial void OnNameChanging(global::System.String value);
-        partial void OnNameChanged();
-
-        #endregion
-    
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="M2M4RiaDemoModel", Name="Owner")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class Owner : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new Owner object.
-        /// </summary>
-        /// <param name="ownerId">Initial value of the OwnerId property.</param>
-        /// <param name="name">Initial value of the Name property.</param>
-        public static Owner CreateOwner(global::System.Int32 ownerId, global::System.String name)
-        {
-            Owner owner = new Owner();
-            owner.OwnerId = ownerId;
-            owner.Name = name;
-            return owner;
-        }
-
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 OwnerId
-        {
-            get
-            {
-                return _OwnerId;
-            }
-            set
-            {
-                if (_OwnerId != value)
-                {
-                    OnOwnerIdChanging(value);
-                    ReportPropertyChanging("OwnerId");
-                    _OwnerId = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("OwnerId");
-                    OnOwnerIdChanged();
-                }
-            }
-        }
-        private global::System.Int32 _OwnerId;
-        partial void OnOwnerIdChanging(global::System.Int32 value);
-        partial void OnOwnerIdChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String Name
-        {
-            get
-            {
-                return _Name;
-            }
-            set
-            {
-                OnNameChanging(value);
-                ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("Name");
-                OnNameChanged();
-            }
-        }
-        private global::System.String _Name;
-        partial void OnNameChanging(global::System.String value);
-        partial void OnNameChanged();
-
-        #endregion
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("M2M4RiaDemoModel", "OwnerAnimal", "Animal")]
-        public EntityCollection<Animal> Animals
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Animal>("M2M4RiaDemoModel.OwnerAnimal", "Animal");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Animal>("M2M4RiaDemoModel.OwnerAnimal", "Animal", value);
                 }
             }
         }
@@ -1120,112 +360,6 @@ namespace M2M4RiaDemo.Web.Model
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Dog>("M2M4RiaDemoModel.DogTrainer", "Dog", value);
-                }
-            }
-        }
-
-        #endregion
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="M2M4RiaDemoModel", Name="Vet")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class Vet : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new Vet object.
-        /// </summary>
-        /// <param name="vetId">Initial value of the VetId property.</param>
-        /// <param name="name">Initial value of the Name property.</param>
-        public static Vet CreateVet(global::System.Int32 vetId, global::System.String name)
-        {
-            Vet vet = new Vet();
-            vet.VetId = vetId;
-            vet.Name = name;
-            return vet;
-        }
-
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 VetId
-        {
-            get
-            {
-                return _VetId;
-            }
-            set
-            {
-                if (_VetId != value)
-                {
-                    OnVetIdChanging(value);
-                    ReportPropertyChanging("VetId");
-                    _VetId = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("VetId");
-                    OnVetIdChanged();
-                }
-            }
-        }
-        private global::System.Int32 _VetId;
-        partial void OnVetIdChanging(global::System.Int32 value);
-        partial void OnVetIdChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String Name
-        {
-            get
-            {
-                return _Name;
-            }
-            set
-            {
-                OnNameChanging(value);
-                ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("Name");
-                OnNameChanged();
-            }
-        }
-        private global::System.String _Name;
-        partial void OnNameChanging(global::System.String value);
-        partial void OnNameChanged();
-
-        #endregion
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("M2M4RiaDemoModel", "AnimalVet", "Animal")]
-        public EntityCollection<Animal> Animals
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Animal>("M2M4RiaDemoModel.AnimalVet", "Animal");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Animal>("M2M4RiaDemoModel.AnimalVet", "Animal", value);
                 }
             }
         }
