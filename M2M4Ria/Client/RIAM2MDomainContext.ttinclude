@@ -46,7 +46,6 @@ namespace <#= DomainServiceNamespace #>
 namespace <#= EntityModelNamespace #>
 {
 	using <#= DomainServiceNamespace #>;
-	using <#= EntityModelNamespace #>;
 	using System;
 	using M2M4Ria;
 	

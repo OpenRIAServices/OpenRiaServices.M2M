@@ -69,7 +69,6 @@ namespace M2M4RiaDemo.Web.Service
 namespace M2M4RiaDemo.Web.Model
 {
 	using M2M4RiaDemo.Web.Service;
-	using M2M4RiaDemo.Web.Model;
 	using System;
 	using M2M4Ria;
 	
