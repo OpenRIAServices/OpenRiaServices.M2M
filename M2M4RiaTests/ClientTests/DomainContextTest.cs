@@ -139,5 +139,36 @@ namespace M2M4Ria.Client.Tests
             );
             EnqueueTestComplete();
         }
+        /// <summary>
+        /// This test creates two many to many relations between two entities and submits it to the domain context.
+        /// This test is successful when there are no errors during the domain context submit.
+        /// </summary>
+        [TestMethod]
+        [Asynchronous]
+        [Description("This test creates two many to many relations between two entities and submits it to the domain context.\n" +
+                     "This test is successful when there are no errors during the domain context submit.")]
+        public void CreateTwoM2MRelationsAtOnce()
+        {
+            Vet vet1 = new Vet() { Name = "Bob" };
+            Vet vet2 = new Vet() { Name = "John" };
+            Dog dog = new Dog() { Name = "Poochy" };
+
+            dog.Vets.Add(vet1);
+            dog.Vets.Add(vet2);
+            Context.Animals.Add(dog);
+
+            SubmitOperation submitOperation = Context.SubmitChanges();
+
+            EnqueueConditional(() => submitOperation.IsComplete);
+            EnqueueCallback
+            (
+                () =>
+                {
+                    if (submitOperation.HasError)
+                        throw new AssertFailedException("Unable to create two m2m relations at once", submitOperation.Error);
+                }
+            );
+            EnqueueTestComplete();
+        }    
     }
 }
