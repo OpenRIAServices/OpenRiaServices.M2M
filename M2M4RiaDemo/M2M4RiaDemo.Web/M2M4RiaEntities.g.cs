@@ -2,7 +2,7 @@
 
  
 
-// RIAM2MShared.ttinclude has been located and loaded.
+// M2M4RiaShared.ttinclude has been located and loaded.
 
  
 // Instruct compiler not to warn about usage of obsolete members, because using them is intended.

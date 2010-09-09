@@ -7,16 +7,16 @@ using ServerTests;
 namespace RIAM2M.Web.Tests
 {
     [TestClass]
-    public class RIAM2MSharedTests
+    public class M2M4RiaSharedTests
     {
         // The unit test settings for this solution have been configured to copy the DemoMode.edmx file to the root directory
         // of the unit test's workspace.  See the "Deployment" menu under the Local.testsettings file in the "Solution Items" solution folder.
         private const string EdmxFilePath = "M2M4RiaTestModel.edmx";
         private readonly Type[] ExpectedAssocationTypes = new Type[] { };
 
-        private RIAM2MShared.M2MData _M2MDataObject;
+        private M2M4RiaShared.M2MData _M2MDataObject;
 
-        private RIAM2MShared.M2MData M2MDataObject
+        private M2M4RiaShared.M2MData M2MDataObject
         {
             get
             {
@@ -64,7 +64,7 @@ namespace RIAM2M.Web.Tests
         [TestMethod]
         public void GenerateM2MData_InspectReturnType_CheckAssociationSetIsValidForAnimalVet()
         {
-            RIAM2MShared.M2MAssociationSet associationSet = GetAssociationSetByName("AnimalVet");
+            M2M4RiaShared.M2MAssociationSet associationSet = GetAssociationSetByName("AnimalVet");
 
             CheckAssociationIsValid(associationSet.Entity1ToLink, "Entity1ToLink", "int", "Animal", "AnimalId", true, "AnimalVetToAnimalSet", "Vets", "AnimalId");
             CheckAssociationIsValid(associationSet.Entity2ToLink, "Entity2ToLink", "int", "Vet", "VetId", true, "AnimalVetToVetSet", "Animals", "VetId");
@@ -76,7 +76,7 @@ namespace RIAM2M.Web.Tests
         [TestMethod]
         public void GenerateM2MData_InspectReturnType_CheckAssociationSetIsValidForDogFireHydrant()
         {
-            RIAM2MShared.M2MAssociationSet associationSet = GetAssociationSetByName("DogFireHydrant");
+            M2M4RiaShared.M2MAssociationSet associationSet = GetAssociationSetByName("DogFireHydrant");
 
             CheckAssociationIsValid(associationSet.Entity1ToLink, "Entity1ToLink", "int", "Dog", "DogId", true, "DogFireHydrantToDogSet", "FireHydrants", "AnimalId");
             CheckAssociationIsValid(associationSet.Entity2ToLink, "Entity2ToLink", "int", "FireHydrant", "FireHydrantId", false, "DogFireHydrantToFireHydrantSet", null, "FireHydrantId");
@@ -88,7 +88,7 @@ namespace RIAM2M.Web.Tests
         [TestMethod]
         public void GenerateM2MData_InspectReturnType_CheckAssociationSetIsValidForDogTrainer()
         {
-            RIAM2MShared.M2MAssociationSet associationSet = GetAssociationSetByName("DogTrainer");
+            M2M4RiaShared.M2MAssociationSet associationSet = GetAssociationSetByName("DogTrainer");
 
             CheckAssociationIsValid(associationSet.Entity1ToLink, "Entity1ToLink", "int", "Dog", "DogId", true, "DogTrainerToDogSet", "Trainers", "AnimalId");
             CheckAssociationIsValid(associationSet.Entity2ToLink, "Entity2ToLink", "int", "Trainer", "TrainerId", true, "DogTrainerToTrainerSet", "Dogs", "TrainerId");
@@ -101,7 +101,7 @@ namespace RIAM2M.Web.Tests
         [TestMethod]
         public void GenerateM2MData_InspectReturnType_CheckAssociationSetIsValidForAnimalFood()
         {
-            RIAM2MShared.M2MAssociationSet associationSet = GetAssociationSetByName("AnimalFood");
+            M2M4RiaShared.M2MAssociationSet associationSet = GetAssociationSetByName("AnimalFood");
 
             CheckAssociationIsValid(associationSet.Entity1ToLink, "Entity1ToLink", "int", "Animal", "AnimalId", false, "AnimalFoodToAnimalSet", null, "AnimalId");
             CheckAssociationIsValid(associationSet.Entity2ToLink, "Entity2ToLink", "int", "Food", "FoodId", false, "AnimalFoodToFoodSet", null, "FoodId");
@@ -163,7 +163,7 @@ namespace RIAM2M.Web.Tests
 
         private void CheckEntityIsValid(string actualEntityName, string[] expectedAssociationSetNames, string[] expectedDerivedEntityNames, string expectedEntitySet, bool expectedIsAbstract, bool expectedIsBaseEntity, string expectedBaseEntityName)
         {
-            RIAM2MShared.M2MEntity entity = GetEntityByName(actualEntityName);
+            M2M4RiaShared.M2MEntity entity = GetEntityByName(actualEntityName);
 
             if (!(expectedAssociationSetNames.Length == 0 && entity.Associations.Count == 0))
                 Assert.IsTrue(entity.Associations.All(e => expectedAssociationSetNames.Contains(e.Name)), "Entity.Associations does not match the expected AssociationSet list");
@@ -177,7 +177,7 @@ namespace RIAM2M.Web.Tests
             Assert.AreEqual(expectedBaseEntityName, entity.BaseEntityName, "BaseEntityName is not equal");
         }
 
-        private void CheckAssociationIsValid(RIAM2MShared.M2MAssociation actualAssociation, string associationEndName, string expectedDataType, string expectedEntityName, string expectedFK, bool expectedHasM2MNavProp, string expectedLinkTableNavProp, string expectedM2MNavProp, string expectedPK)
+        private void CheckAssociationIsValid(M2M4RiaShared.M2MAssociation actualAssociation, string associationEndName, string expectedDataType, string expectedEntityName, string expectedFK, bool expectedHasM2MNavProp, string expectedLinkTableNavProp, string expectedM2MNavProp, string expectedPK)
         {
             Assert.AreEqual(expectedDataType, actualAssociation.DataType, "DataType is not equal for association end '" + associationEndName + "'");
             Assert.IsNotNull(actualAssociation.Entity, "Entity is not set to an instance of an object for association end '" + associationEndName + "'. Entity '" + expectedEntityName + "' expected.");
@@ -189,25 +189,25 @@ namespace RIAM2M.Web.Tests
             Assert.AreEqual(expectedPK, actualAssociation.PK, "PK is not equal for association end '" + associationEndName + "'");
         }
 
-        private RIAM2MShared.M2MEntity GetEntityByName(string name)
+        private M2M4RiaShared.M2MEntity GetEntityByName(string name)
         {
-            return M2MDataObject.Entities.Where<RIAM2MShared.M2MEntity>(e => e.Name == name).FirstOrDefault();
+            return M2MDataObject.Entities.Where<M2M4RiaShared.M2MEntity>(e => e.Name == name).FirstOrDefault();
         }
 
-        private RIAM2MShared.M2MAssociationSet GetAssociationSetByName(string name)
+        private M2M4RiaShared.M2MAssociationSet GetAssociationSetByName(string name)
         {
-            return M2MDataObject.Associations.Where<RIAM2MShared.M2MAssociationSet>(e => e.Name == name).FirstOrDefault();
+            return M2MDataObject.Associations.Where<M2M4RiaShared.M2MAssociationSet>(e => e.Name == name).FirstOrDefault();
         }
          
-        private RIAM2MShared.M2MData GenerateM2MData()
+        private M2M4RiaShared.M2MData GenerateM2MData()
         {
             try
             {
-                RIAM2MShared template = new RIAM2MShared();
+                M2M4RiaShared template = new M2M4RiaShared();
 
                 template.EdmxFilePath = EdmxFilePath;
 
-                RIAM2MShared.M2MData m2mData = template.GenerateM2MData();
+                M2M4RiaShared.M2MData m2mData = template.GenerateM2MData();
 
                 return m2mData;
             }

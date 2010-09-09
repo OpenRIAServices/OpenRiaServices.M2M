@@ -6,10 +6,10 @@
 <#@ import namespace="System.Collections.Generic" #> 
 <#   
 //
-// Change the file path below to the path of the RIAM2MShared.ttinclude in your project
+// Change the file path below to the path of the M2M4RiaShared.ttinclude in your project
 //
 #>
-<#@ include file="..\Shared\RIAM2MShared.ttinclude" #>
+<#@ include file="..\Shared\M2M4RiaShared.ttinclude" #>
 <#
 
 M2MData m2mData = GenerateM2MData();
