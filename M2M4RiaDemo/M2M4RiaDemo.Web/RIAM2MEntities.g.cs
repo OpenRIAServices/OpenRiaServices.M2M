@@ -8,15 +8,16 @@
 
 #pragma warning disable 618
 
-#region Entities
 
 namespace M2M4RiaDemo.Web.Model  
 {
+	#region Entities
+
 	using System;
 	using System.ComponentModel.DataAnnotations;
 	using System.Runtime.Serialization;
 	using System.ServiceModel.DomainServices.Server;
-	using RIAM2M.Web.Services.RIAM2MTools;
+	using M2M4Ria;
 
 	//
 	// Association Entity Types
@@ -359,66 +360,64 @@ namespace M2M4RiaDemo.Web.Model
 		}
 		
 	}
+	#endregion
+
+	#region M2MEntityCollection
+	namespace M2M4Ria
+	{
+		using System;
+		using System.Collections.Generic;
+		using System.Data.Objects.DataClasses;
+		using System.Linq;
+
+		public class M2MEntityCollection<JoinType, TEntity> : IEnumerable<JoinType>
+			where JoinType : new()
+			where TEntity : class
+		{
+			private ICollection<TEntity> collection;
+			private Func<TEntity, JoinType> newJoinType;
+			private Func<JoinType, TEntity> getEntity;
+			/// <summary>
+			/// Constructor
+			/// </summary>
+			/// <param name="collection">Entity collection that represents a m2m relation</param>
+			/// <param name="newJoinType">The function used to create a new joint type entity and set both elements</param>
+			public M2MEntityCollection(ICollection<TEntity> collection,Func<TEntity, JoinType> newJoinType, Func<JoinType, TEntity> getEntity)
+			{
+				this.collection = collection;
+				this.newJoinType = newJoinType;
+				this.getEntity = getEntity;
+			}
+
+
+			System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+			{
+				return this.GetEnumerator();
+			}
+			/// <summary>
+			/// Construct an enumerator by creating JoinType objects for each element in the associated m2m collection
+			/// </summary>
+			/// <returns></returns>
+			public IEnumerator<JoinType> GetEnumerator()
+			{
+				return collection.Select(newJoinType).GetEnumerator();
+			}
+
+			/// <summary>
+			/// Not clear if this method should have an implementation. It is only called for newly created JoinType objects.
+			/// However, the corresponding domainservice operation will already take the appropriate action the add a new association obejct.
+			/// Is there a need to also add similar functionality here?
+			/// </summary>
+			/// <param name="entity"></param>
+			public void Add(JoinType entity)
+			{
+				// Empty
+			}
+		}
+	}
+#endregion
 }
 
-#endregion
-
-#region M2MEntityCollection
-
-namespace RIAM2M.Web.Services.RIAM2MTools
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Data.Objects.DataClasses;
-    using System.Linq;
-
-    public class M2MEntityCollection<JoinType, TEntity> : IEnumerable<JoinType>
-        where JoinType : new()
-        where TEntity : class
-    {
-        private ICollection<TEntity> collection;
-        private Func<TEntity, JoinType> newJoinType;
-        private Func<JoinType, TEntity> getEntity;
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="collection">Entity collection that represents a m2m relation</param>
-        /// <param name="newJoinType">The function used to create a new joint type entity and set both elements</param>
-        public M2MEntityCollection(ICollection<TEntity> collection,Func<TEntity, JoinType> newJoinType, Func<JoinType, TEntity> getEntity)
-        {
-            this.collection = collection;
-            this.newJoinType = newJoinType;
-            this.getEntity = getEntity;
-        }
-
-
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
-        /// <summary>
-        /// Construct an enumerator by creating JoinType objects for each element in the associated m2m collection
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerator<JoinType> GetEnumerator()
-        {
-            return collection.Select(newJoinType).GetEnumerator();
-        }
-
-        /// <summary>
-        /// Not clear if this method should have an implementation. It is only called for newly created JoinType objects.
-        /// However, the corresponding domainservice operation will already take the appropriate action the add a new association obejct.
-        /// Is there a need to also add similar functionality here?
-        /// </summary>
-        /// <param name="entity"></param>
-        public void Add(JoinType entity)
-        {
-            // Empty
-        }
-    }
-}
-
-#endregion
 
 #pragma warning restore 618
 		
