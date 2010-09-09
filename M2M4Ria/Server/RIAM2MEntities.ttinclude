@@ -1,6 +1,4 @@
-﻿<#@ template debug="true" hostSpecific="true" #>
-<#@ output extension=".cs" #>
-<#@ import namespace="System" #>
+﻿<#@ import namespace="System" #>
 <#@ import namespace="System.IO" #>
 <#@ import namespace="System.Diagnostics" #>
 <#@ import namespace="System.Linq" #>
@@ -11,7 +9,7 @@
 // Change the file path below to the path of the RIAM2MShared.ttinclude in your project
 //
 #>
-<#@ include file="$(SolutionDir)\M2M4Ria\Shared\RIAM2MShared.ttinclude" #>
+<#@ include file="..\Shared\RIAM2MShared.ttinclude" #>
 <#
 
 M2MData m2mData = GenerateM2MData();

@@ -1,4 +1,6 @@
-﻿ 
+﻿
+
+ 
 
 // RIAM2MShared.ttinclude has been located and loaded.
 
@@ -8,13 +10,13 @@
 
 #region Domain Service
 
-namespace ClientTests.Web
+namespace M2M4RiaDemo.Web.Service
 {
 	using System;
 	using System.Linq;
 	using System.Data;
 	using System.Data.Objects;
-	using ClientTests.Web;
+	using M2M4RiaDemo.Web.Model;
 	
 	public partial class DemoService
 	{
@@ -523,4 +525,5 @@ namespace ClientTests.Web
 #endregion
 
 #pragma warning restore 618
+
 

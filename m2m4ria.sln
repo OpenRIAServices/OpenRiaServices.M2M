@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "M2M4Ria", "M2M4Ria\M2M4Ria.csproj", "{2443560A-7811-4D31-AEAE-C110B5D55B63}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "M2M4RiaDemo", "M2M4RiaDemo", "{C8D03978-5CB2-422D-8F71-AECE322B6A41}"
+	ProjectSection(SolutionItems) = preProject
+		M2M4RiaDemo\M2MGenerator.ttinclude = M2M4RiaDemo\M2MGenerator.ttinclude
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "M2M4RiaDemo", "M2M4RiaDemo\M2M4RiaDemo\M2M4RiaDemo.csproj", "{D7186FE7-57CC-4986-BF05-13FBD0441E31}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -13,6 +16,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "M2M4RiaDemo.Web", "M2M4RiaDemo\M2M4RiaDemo.Web\M2M4RiaDemo.Web.csproj", "{E878F804-5CD7-46C4-98A6-9B801000FB2B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "M2M4RiaTests", "M2M4RiaTests", "{AAB48112-AA1D-4879-840A-13610FD775B6}"
+	ProjectSection(SolutionItems) = preProject
+		M2M4RiaTests\M2MGenerator.ttinclude = M2M4RiaTests\M2MGenerator.ttinclude
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerTests", "M2M4RiaTests\ServerTests\ServerTests.csproj", "{84B4283A-9D41-4FDA-86F8-3F97663CC54E}"
 EndProject

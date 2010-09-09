@@ -1,0 +1,7 @@
+﻿<#
+EdmxFilePath = @"M2M4RiaTests\DemoModel.edmx";
+EntityModelNamespace = "ClientTests.Web";
+DomainServiceNamespace = "ClientTests.Web";
+DomainServiceName = "DemoService";
+DomainContextName = "DemoContext";
+#>

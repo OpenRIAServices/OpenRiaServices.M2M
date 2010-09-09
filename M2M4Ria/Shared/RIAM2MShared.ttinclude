@@ -6,19 +6,37 @@
 	//
 	// ** Change these values according to your project. **
 	//
-	private string _EdmxFilePath = @"..\M2M4RiaDemo.Web\Model\DemoModel.edmx";
-	private string EntityModelNamespace = "M2M4RiaDemo.Web.Model";
-	private string DomainServiceNamespace = "M2M4RiaDemo.Web.Service";
-	private string M2MToolsNamespace = "RIAM2M.Web.Services.RIAM2MTools";
-	private string DomainServiceName = "DemoService";
-	private string DomainContextName = "DemoContext";
+	private const string M2MToolsNamespace = "RIAM2M.Web.Services.RIAM2MTools";
 	// *****************************************************
 	
-	public string EdmxFilePath
-	{
-		get { return _EdmxFilePath; }
-		set { _EdmxFilePath = value; } 
-	}
+	/// <summary>
+	/// Gets or sets the location of EDMX file 
+	/// </summary>
+	/// <returns></returns>
+	public string EdmxFilePath{get; set;}
+	/// <summary>
+	///  Gets or sets the name space of the entity model
+	/// </summary>
+	/// <returns></returns>
+	public string EntityModelNamespace{get; set;}
+	
+	/// <summary>
+	/// Gets or sets the name space of the domain services
+	/// </summary>
+	/// <returns></returns>
+	public string DomainServiceNamespace{get; set;}
+
+	/// <summary>
+	/// Gets or sets the name of the domain service
+	/// </summary>
+	/// <returns></returns>
+	public string DomainServiceName{get; set; }
+	
+	/// <summary>
+	/// Gets or sets the name of the domain context
+	/// </summary>
+	/// <returns></returns>
+	public string DomainContextName{get; set; }
 	
 	private const string ERROR_PK_SUPPORT = "Only entites containing unary primary key's are supported currently by this T4 Template.";
 	private CodeGenerationTools Code;

@@ -1,4 +1,6 @@
-﻿ 
+﻿
+
+ 
 
 // RIAM2MShared.ttinclude has been located and loaded.
 
@@ -422,5 +424,6 @@ namespace RIAM2M.Web.Services.RIAM2MTools
 #endregion
 
 #pragma warning restore 618
+
 
 
