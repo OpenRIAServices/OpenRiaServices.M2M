@@ -7,11 +7,11 @@
 	// ** Change these values according to your project. **
 	//
 	private string _EdmxFilePath = @"..\M2M4RiaDemo.Web\Model\DemoModel.edmx";
-	private const string EntityModelNamespace = "M2M4RiaDemo.Web.Model";
-	private const string DomainServiceNamespace = "M2M4RiaDemo.Web.Service";
-	private const string M2MToolsNamespace = "RIAM2M.Web.Services.RIAM2MTools";
-	private const string DomainServiceName = "DemoService";
-	private const string DomainContextName = "DemoContext";
+	private string EntityModelNamespace = "M2M4RiaDemo.Web.Model";
+	private string DomainServiceNamespace = "M2M4RiaDemo.Web.Service";
+	private string M2MToolsNamespace = "RIAM2M.Web.Services.RIAM2MTools";
+	private string DomainServiceName = "DemoService";
+	private string DomainContextName = "DemoContext";
 	// *****************************************************
 	
 	public string EdmxFilePath
