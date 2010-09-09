@@ -40,11 +40,10 @@ namespace <#= DomainServiceNamespace #>
 
 #endregion
 
-#region Entities
-
-
 namespace <#= EntityModelNamespace #>
 {
+	#region Entities
+	
 	using <#= DomainServiceNamespace #>;
 	using System;
 	using M2M4Ria;
@@ -55,8 +54,9 @@ namespace <#= EntityModelNamespace #>
 		CreateEntity(entity);
 	}
 #>
+	#endregion
 
-	#region M2MEntityCollection
+	#region EntityCollection
 
 	namespace M2M4Ria
 	{
@@ -73,7 +73,7 @@ namespace <#= EntityModelNamespace #>
 		/// </summary>
 		/// <typeparam name="JoinType"></typeparam>
 		/// <typeparam name="TEntity"></typeparam>
-		public class M2MEntityCollection<JoinType, TEntity> : IEnumerable<TEntity>, IEnumerable, INotifyCollectionChanged, INotifyPropertyChanged
+		public class EntityCollection<JoinType, TEntity> : IEnumerable<TEntity>, IEnumerable, INotifyCollectionChanged, INotifyPropertyChanged
 			where JoinType : Entity, new()
 			where TEntity : Entity
 		{
@@ -88,7 +88,7 @@ namespace <#= EntityModelNamespace #>
 			/// <param name="entityList">The collection of associations to which this collection is connected</param>
 			/// <param name="getEntity">The function used to get the entity object out of a join type entity</param>
 			/// <param name="setEntity">The function used to set the entity object in a join type entity</param>
-			public M2MEntityCollection(EntityCollection<JoinType> entityList, Func<JoinType, TEntity> getEntity,
+			public EntityCollection(EntityCollection<JoinType> entityList, Func<JoinType, TEntity> getEntity,
 				Action<JoinType, TEntity> setEntity, Action<JoinType> setParent, Action<JoinType>removeAction)
 			{
 				this.entityList = entityList;
@@ -193,9 +193,6 @@ namespace <#= EntityModelNamespace #>
 
 }
 
-
-#endregion
-
 #pragma warning restore 618
 
 
@@ -225,15 +222,15 @@ namespace <#= EntityModelNamespace #>
 		[Obsolete("This action is only intended for use by the RIA M2M solution.")]
 		public Action<<#= association.Name #>> <#= removedAction #>;
 		
-		private M2MEntityCollection<<#= association.Name #>, <#= association.OtherEntityToLink.Entity #>> _<#= association.ThisEntityToLink.M2MNavProp #>;
+		private EntityCollection<<#= association.Name #>, <#= association.OtherEntityToLink.Entity #>> _<#= association.ThisEntityToLink.M2MNavProp #>;
 		
-		public M2MEntityCollection<<#= association.Name #>, <#= association.OtherEntityToLink.Entity #>> <#= association.ThisEntityToLink.M2MNavProp #>
+		public EntityCollection<<#= association.Name #>, <#= association.OtherEntityToLink.Entity #>> <#= association.ThisEntityToLink.M2MNavProp #>
 		{
 			get
 			{
 				if(_<#= association.ThisEntityToLink.M2MNavProp #> == null)
 				{
-					_<#= association.ThisEntityToLink.M2MNavProp #> = new M2MEntityCollection<<#= association.Name #>, <#= association.OtherEntityToLink.Entity #>>(this.<#= association.OtherEntityToLink.LinkTableNavProp #>, r => r.<#= association.OtherEntityToLink.Entity #>, (r, t2) => r.<#= association.OtherEntityToLink.Entity #> = t2, r => r.<#= association.ThisEntityToLink.Entity #> = this, <#= removeMethod #>);
+					_<#= association.ThisEntityToLink.M2MNavProp #> = new EntityCollection<<#= association.Name #>, <#= association.OtherEntityToLink.Entity #>>(this.<#= association.OtherEntityToLink.LinkTableNavProp #>, r => r.<#= association.OtherEntityToLink.Entity #>, (r, t2) => r.<#= association.OtherEntityToLink.Entity #> = t2, r => r.<#= association.ThisEntityToLink.Entity #> = this, <#= removeMethod #>);
 				}
 				
 				return _<#= association.ThisEntityToLink.M2MNavProp #>;
