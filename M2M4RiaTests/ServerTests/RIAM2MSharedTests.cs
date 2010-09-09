@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.VisualStudio.TextTemplating;
-using System.IO;
 using ServerTests;
-using System.Data.Metadata.Edm;
 
 namespace RIAM2M.Web.Tests
 {
