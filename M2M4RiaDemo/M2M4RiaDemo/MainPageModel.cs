@@ -49,13 +49,7 @@ namespace M2M4RiaDemo.Models
                 DogList = c.Animals;
                 TrainerList = c.Trainers;
                 DogTrainers = c.EntityContainer.GetEntitySet<DogTrainer>();
-                c.Load(c.GetDogsQuery());
-                c.Load(c.GetTrainersQuery());
             }
-        }
-        public void CreateDatabase(Action action)
-        {
-            c.CreateDataBase(callback => action(), null);
         }
 
         private bool _AutoSave = false;
@@ -197,7 +191,15 @@ namespace M2M4RiaDemo.Models
                 if (_c == null)
                 {
                     _c = new DemoContext();
-                    _c.CreateDataBase();
+                    _c.CreateDataBase(
+                        callback =>
+                        {
+                            if (callback.HasError == false)
+                            {
+                                _c.Load(c.GetDogsQuery());
+                                _c.Load(c.GetTrainersQuery());
+                            }
+                        }, null);
                 }
                 return _c;
             }
