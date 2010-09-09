@@ -345,7 +345,6 @@
             <End Role="Animal" EntitySet="Animals" />
             <End Role="Food" EntitySet="Foods" />
           </AssociationSet>
-          <FunctionImport Name="ClearTables" />
         </EntityContainer>
         <EntityType Name="Animal">
           <Key>

@@ -281,11 +281,6 @@ namespace M2M4RiaDemo.Web.Service
             }
             this.ObjectContext.Vets.DeleteObject(vet);
         }
-
-        public void ClearTables()
-        {
-            this.ObjectContext.ClearTables();
-        }
     }
 }
 
