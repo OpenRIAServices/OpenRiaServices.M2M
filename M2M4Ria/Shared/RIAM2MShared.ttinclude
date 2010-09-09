@@ -1,12 +1,8 @@
 ﻿<#@ include file="EF.Utility.CS.ttinclude"#>
 // RIAM2MShared.ttinclude has been located and loaded.
 <#+
+	// ** Change these values in a separate .tt file according to the needs of your project. **
 	//
-	// Shared Constants
-	//
-	// ** Change these values according to your project. **
-	//
-	private const string M2MToolsNamespace = "RIAM2M.Web.Services.RIAM2MTools";
 	// *****************************************************
 	
 	/// <summary>
