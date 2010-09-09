@@ -309,7 +309,7 @@ namespace M2M4RiaDemo.Web.Model
 		using System.ServiceModel.DomainServices.Client;
 
 		/// <summary>
-		/// 
+		/// M2M-specific entity collection class. It vorms a view on the underlying jointable collection.
 		/// </summary>
 		/// <typeparam name="JoinType"></typeparam>
 		/// <typeparam name="TEntity"></typeparam>
@@ -317,7 +317,7 @@ namespace M2M4RiaDemo.Web.Model
 			where JoinType : Entity, new()
 			where TEntity : Entity
 		{
-			EntityCollection<JoinType> entityList;
+			EntityCollection<JoinType> collection;
 			Func<JoinType, TEntity> getEntity;
 			Action<JoinType, TEntity> setEntity;
 			Action<JoinType> setParent;
@@ -325,36 +325,36 @@ namespace M2M4RiaDemo.Web.Model
 			/// <summary>
 			/// 
 			/// </summary>
-			/// <param name="entityList">The collection of associations to which this collection is connected</param>
+			/// <param name="collection">The collection of associations to which this collection is connected</param>
 			/// <param name="getEntity">The function used to get the entity object out of a join type entity</param>
 			/// <param name="setEntity">The function used to set the entity object in a join type entity</param>
-			public EntityCollection(EntityCollection<JoinType> entityList, Func<JoinType, TEntity> getEntity,
-				Action<JoinType, TEntity> setEntity, Action<JoinType> setParent, Action<JoinType>removeAction)
+			public EntityCollection(EntityCollection<JoinType> collection, Func<JoinType, TEntity> getEntity,
+				Action<JoinType, TEntity> setEntity, Action<JoinType> setParent, Action<JoinType> removeAction)
 			{
-				this.entityList = entityList;
+				this.collection = collection;
 				this.getEntity = getEntity;
 				this.setEntity = setEntity;
 				this.setParent = setParent;
 				this.removeAction = removeAction;
 
-				entityList.EntityAdded += (a, b) =>
+				collection.EntityAdded += (a, b) =>
 				{
 					JoinType jt = b.Entity as JoinType;
 					if (EntityAdded != null)
 						EntityAdded(this, new EntityCollectionChangedEventArgs<TEntity>(getEntity(jt)));
 				};
-				entityList.EntityRemoved += (a, b) =>
+				collection.EntityRemoved += (a, b) =>
 				{
 					JoinType jt = b.Entity as JoinType;
 					if (EntityRemoved != null)
 						EntityRemoved(this, new EntityCollectionChangedEventArgs<TEntity>(getEntity(jt)));
 				};
-				((INotifyCollectionChanged)entityList).CollectionChanged += (sender, e) =>
+				((INotifyCollectionChanged)collection).CollectionChanged += (sender, e) =>
 				{
 					if (CollectionChanged != null)
 						CollectionChanged(this, MakeNotifyCollectionChangedEventArgs(e));
 				};
-				((INotifyPropertyChanged)entityList).PropertyChanged += (sender, e) =>
+				((INotifyPropertyChanged)collection).PropertyChanged += (sender, e) =>
 				{
 					if (PropertyChanged != null)
 						PropertyChanged(this, e);
@@ -371,20 +371,19 @@ namespace M2M4RiaDemo.Web.Model
 				if (e.NewItems != null)
 				{
 					TEntity entity = getEntity((JoinType)e.NewItems[0]);
-					e.NewItems[0] =  entity == null ? entityToAdd : entity;
+					e.NewItems[0] = entity == null ? entityToAdd : entity;
 				}
 				if (e.OldItems != null)
 				{
 					TEntity entity = getEntity((JoinType)e.OldItems[0]);
 					e.OldItems[0] = entity;
-				} 
+				}
 				return e;
 			}
 
 			public IEnumerator<TEntity> GetEnumerator()
 			{
-				var x = (from pd in entityList select getEntity(pd));
-				return x.ToList().GetEnumerator();
+				return collection.Select(getEntity).GetEnumerator();
 			}
 
 			IEnumerator IEnumerable.GetEnumerator()
@@ -396,7 +395,7 @@ namespace M2M4RiaDemo.Web.Model
 			{
 				get
 				{
-					return entityList.Count;
+					return collection.Count;
 				}
 			}
 
@@ -416,9 +415,8 @@ namespace M2M4RiaDemo.Web.Model
 			/// <param name="entity"></param>
 			public void Remove(TEntity entity)
 			{
-				JoinType joinTypeToRemove = entityList.SingleOrDefault(jt => getEntity(jt) == entity);
+				JoinType joinTypeToRemove = collection.SingleOrDefault(jt => getEntity(jt) == entity);
 				if (joinTypeToRemove != null)
-					//                entityList.Remove(joinTypeToRemove);
 					removeAction(joinTypeToRemove);
 			}
 
