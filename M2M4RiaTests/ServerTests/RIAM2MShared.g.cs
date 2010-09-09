@@ -95,9 +95,9 @@ namespace ServerTests
             
             #line 1 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\M2MGenerator.ttinclude"
 
-EdmxFilePath = @"M2M4RiaDemo\M2M4RiaDemo.Web\Model\DemoModel.edmx";
-EntityModelNamespace = "M2M4RiaDemo.Web.Model";
-DomainServiceNamespace = "M2M4RiaDemo.Web.Service";
+EdmxFilePath = @"M2M4RiaTests\DemoModel.edmx";
+EntityModelNamespace = "ClientTests.Web";
+DomainServiceNamespace = "ClientTests.Web";
 DomainServiceName = "DemoService";
 DomainContextName = "DemoContext";
 
@@ -112,12 +112,8 @@ DomainContextName = "DemoContext";
         
         #line 3 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\RIAM2MShared.ttinclude"
 
+	// ** Change these values in a separate .tt file according to the needs of your project. **
 	//
-	// Shared Constants
-	//
-	// ** Change these values according to your project. **
-	//
-	private const string M2MToolsNamespace = "RIAM2M.Web.Services.RIAM2MTools";
 	// *****************************************************
 	
 	/// <summary>
@@ -179,28 +175,28 @@ DomainContextName = "DemoContext";
         #line default
         #line hidden
         
-        #line 66 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\RIAM2MShared.ttinclude"
+        #line 62 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\RIAM2MShared.ttinclude"
 this.Write("//\r\n// ERROR: Unable to locate Entity Framework edmx file at path \"");
 
         
         #line default
         #line hidden
         
-        #line 68 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\RIAM2MShared.ttinclude"
+        #line 64 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\RIAM2MShared.ttinclude"
 this.Write(this.ToStringHelper.ToStringWithCulture(EdmxFilePath));
 
         
         #line default
         #line hidden
         
-        #line 68 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\RIAM2MShared.ttinclude"
+        #line 64 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\RIAM2MShared.ttinclude"
 this.Write("\"\r\n//\r\n");
 
         
         #line default
         #line hidden
         
-        #line 70 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\RIAM2MShared.ttinclude"
+        #line 66 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\RIAM2MShared.ttinclude"
 
 				throw new FileNotFoundException("Unable to located Entity Framework edmx file at path " + EdmxFilePath, ex);
 			}

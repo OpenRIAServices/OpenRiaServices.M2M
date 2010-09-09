@@ -169,6 +169,44 @@ namespace M2M4Ria.Client.Tests
                 }
             );
             EnqueueTestComplete();
-        }    
+        }
+#pragma warning disable 618
+
+        /// <summary>
+        /// Checks to see if the entityset property is set when adding an entity to a context.
+        /// </summary>
+        [TestMethod]
+        [Description("Checks to see if the entityset property is set when adding an entity to a context\n")]
+        public void CheckLinkEntitySetIsSet()
+        {
+            AnimalVet animalVet = new AnimalVet
+            {
+                Animal = new Dog(),
+                Vet = new Vet()
+            };
+
+            var entityset = Context.EntityContainer.GetEntitySet<AnimalVet>();
+            entityset.Add(animalVet);
+
+            Assert.IsNotNull(animalVet.EntitySet, "EntitySet property for link entity is not set when adding the owning entity to a context");
+        }
+        /// <summary>
+        /// Checks to see if the entityset property is set to null when removing an entity from a context.
+        /// </summary>
+        [TestMethod]
+        [Description("Checks to see if the entityset property is set to null when removing an entity from a context.\n")]
+        public void CheckLinkEntitySetIsNull()
+        {
+            AnimalVet animalVet  = new AnimalVet{
+                 Animal = new Dog(),
+                 Vet = new Vet()};
+                
+            var entityset = Context.EntityContainer.GetEntitySet<AnimalVet>();
+            entityset.Add(animalVet);
+            entityset.Remove(animalVet);
+
+            Assert.IsNull(animalVet.EntitySet, "EntitySet property for link entity is not set to null when removing the owning entity to a context");
+        }
+
     }
 }

@@ -23,16 +23,20 @@ M2MData m2mData = GenerateM2MData();
 
 namespace <#= DomainServiceNamespace #>
 {
+    using System.ServiceModel.DomainServices.Client;
 	using <#= EntityModelNamespace #>;
 	
     public partial class <#= DomainContextName #>
     {
         partial void OnCreated()
         {
+			// Install handlers that set/reset EntitySet properties of link table entities when they are 
+			// added/removed from the domain context's entity sets. This is only needed as long as RIA
+			// doesn't provide access from an Entity to its EntitySet.
 <#
-            foreach(M2MEntity entity in m2mData.Entities)
+			foreach(M2MAssociationSet associationSet in m2mData.Associations)
 			{
-				CreateDataContextEventHandler(entity);	
+				CreateEntitySetSetter(associationSet);
 			}
 #>
 		}
@@ -45,11 +49,16 @@ namespace <#= EntityModelNamespace #>
 {
 	#region Entities
 	
-	using <#= DomainServiceNamespace #>;
 	using System;
+	using System.ServiceModel.DomainServices.Client;
+
 	using M2M4Ria;
 	
-<# 
+<#
+	foreach(M2MAssociationSet associationSet in m2mData.Associations)
+	{
+		CreateAssociation(associationSet);
+	}
 	foreach(M2MEntity entity in m2mData.Entities)
 	{
 		CreateEntity(entity);
@@ -197,8 +206,42 @@ namespace <#= EntityModelNamespace #>
 
 
 <#+ 
+	private void CreateEntitySetSetter(M2MAssociationSet associationSet)
+	{
+		string entitySetName = associationSet.Name + "EntitySet";
+		if(associationSet.Entity1ToLink.HasM2MNavProp || associationSet.Entity2ToLink.HasM2MNavProp)
+		{
+#>
+			EntitySet< <#=associationSet.Name #> > <#=entitySetName#> = EntityContainer.GetEntitySet< <#=associationSet.Name#>>();
+			<#=entitySetName#>.EntityAdded += (sender, args) => args.Entity.EntitySet = <#=entitySetName#>;
+			<#=entitySetName#>.EntityRemoved += (sender, args) => args.Entity.EntitySet = null;
+			
+<#+
+		}
+	}
+	private void CreateAssociation(M2MAssociationSet associationSet)
+	{
+		if(associationSet.Entity1ToLink.HasM2MNavProp || associationSet.Entity2ToLink.HasM2MNavProp)
+		{
+#>
+  	/// <summary>
+	/// This class provides access to the entity's entity set. This is only needed as long as RIA
+	// doesn't provide this access it self.
+	/// </summary>
+	public partial class <#=associationSet.Name #>
+	{
+		/// <summary>
+        /// Gets or sets the EntitySet the link table entity is contained in. It is set by the domain context
+		/// when the link entity is added to an entity set, and reset to null when it is removed from an entity set.
+        /// </summary>
+		[Obsolete("This property is only intended for use by the M2M4Ria solution.")]
+		public EntitySet<<#=associationSet.Name#>> EntitySet{ get; set; }
+	}
+<#+
+		}
+	}
 
-	public void CreateEntity(M2MEntity entity)
+	private void CreateEntity(M2MEntity entity)
 	{
 #>
 	public partial class <#= entity.Name #>
@@ -209,18 +252,11 @@ namespace <#= EntityModelNamespace #>
 		{
 			if(association.ThisEntityToLink.HasM2MNavProp)
 			{
-				string removedAction = association.OtherEntityToLink.LinkTableNavProp + "Removed";
-				string removeMethod = "Remove" + association.OtherEntityToLink.LinkTableNavProp;
+				string removeMethod = "RemoveFrom" + association.OtherEntityToLink.LinkTableNavProp;
 #>
 		//
 		// Code relating to the managing of the '<#= association.Name #>' association from '<#= association.ThisEntityToLink.Entity #>' to '<#= association.OtherEntityToLink.Entity #>'
 		//
-		
-		/// <summary>
-		/// Provides a point for the Domain Context to hook into to manage the removal of '<#= association.OtherEntityToLink.LinkTableNavProp #>' association records from the '<#= association.ThisEntityToLink.Entity #>' entity. Do not register to this action in your code.
-		/// </summary>
-		[Obsolete("This action is only intended for use by the RIA M2M solution.")]
-		public Action<<#= association.Name #>> <#= removedAction #>;
 		
 		private EntityCollection<<#= association.Name #>, <#= association.OtherEntityToLink.Entity #>> _<#= association.ThisEntityToLink.M2MNavProp #>;
 		
@@ -239,13 +275,13 @@ namespace <#= EntityModelNamespace #>
 		
 		private void <#= removeMethod #>(<#= association.Name #> r)
 		{
-			if(<#= removedAction #> == null)
+			if(r.EntitySet == null)
 			{
 				this.<#= association.OtherEntityToLink.LinkTableNavProp #>.Remove(r);
 			}
 			else
 			{
-				<#= removedAction #>(r);
+				r.EntitySet.Remove(r);
 			}
 		}
 <#+
@@ -255,52 +291,7 @@ namespace <#= EntityModelNamespace #>
 	}
 	
 <#+ 
-	}
-	
-	public void CreateDataContextEventHandler(M2MEntity entity)
-	{
-		foreach(M2MEntityAssociationSet association in entity.Associations)
-		{
-			if(association.ThisEntityToLink.HasM2MNavProp)
-			{
-				string removedAction = association.OtherEntityToLink.LinkTableNavProp + "Removed";
-				
-				if(association.ThisEntityToLink.Entity.IsBaseEntity)
-				{
-#>
-            // Install a handler on this entity container that installs a remove action on each added entity
-			// to correctly remove an m2m relation
-			EntityContainer.GetEntitySet<<#= association.ThisEntityToLink.Entity.Name #>>().EntityAdded +=
-				(sender, args) =>
-				{
-					args.Entity.<#= removedAction #> = (p) => EntityContainer.GetEntitySet<<#= association.Name #>>().Remove(p);
-				};
-			// Installs a handler on this entity container that removes a remove action on each removed entity.
-			EntityContainer.GetEntitySet<<#= association.ThisEntityToLink.Entity.Name #>>().EntityRemoved +=
-				(sender, args) => args.Entity.<#= removedAction #> = null;
-<#+ 
-					
-				}
-				else
-				{
-#>
-			EntityContainer.GetEntitySet<<#= association.ThisEntityToLink.Entity.BaseEntityName #>>().EntityAdded +=
-				(sender, args) =>
-				{
-					if(args.Entity is <#= association.ThisEntityToLink.Entity.Name #>)
-					{
-						var entity = args.Entity as <#= association.ThisEntityToLink.Entity.Name #>;
-						
-						entity.<#= removedAction #> = (p) => EntityContainer.GetEntitySet<<#= association.Name #>>().Remove(p);
-					}
-				};
-				
-<#+ 
-				}
-			}
-		}
-	}
-	
+	}	
 #>
 
 
