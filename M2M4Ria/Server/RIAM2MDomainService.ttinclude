@@ -26,6 +26,8 @@ namespace <#= DomainServiceNamespace #>
 	using System.Linq;
 	using System.Data;
 	using System.Data.Objects;
+	using System.Data.Objects.DataClasses;
+	
 	using <#= EntityModelNamespace #>;
 	
 	public partial class <#= DomainServiceName #>
@@ -36,227 +38,131 @@ namespace <#= DomainServiceNamespace #>
 			// If the entities on either side of the M2M relationship don't have a navigation property to each other, then there is no need to output this.
 			if(associationSet.Entity1ToLink.HasM2MNavProp || associationSet.Entity2ToLink.HasM2MNavProp)
 			{
-				// Retrieve the concrete type that will be used for each end of the many to many relationships.
-				//
-				// Note: In the situation where the entity that we are dealing with is abstract, then use one of it's 
-				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
-				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
-				// since all derived entities will posses the same many to many relationship from the base entity.
-				string end1ConcreteEntity = associationSet.Entity1ToLink.Entity.IsAbstract ? associationSet.Entity1ToLink.Entity.DerivedEntityNames[0] : associationSet.Entity1ToLink.Entity.Name;
-				string end2ConcreteEntity = associationSet.Entity2ToLink.Entity.IsAbstract ? associationSet.Entity2ToLink.Entity.DerivedEntityNames[0] : associationSet.Entity2ToLink.Entity.Name;
-#>
-		[Obsolete("This method is only intended for use by the RIA M2M solution")]
-		public IQueryable<<#= associationSet.Name #>> Get<#= associationSet.Name #>Query()
-		{
-			throw new System.NotImplementedException();
-		}
-		
-		[Obsolete("This method is only intended for use by the RIA M2M solution")]
-		public void Insert<#= associationSet.Name #>(<#= associationSet.Name #> linkEntity)
-		{
-			// ** Process <#= associationSet.Entity1ToLink.Entity.Name #> end **
-			<#= associationSet.Entity1ToLink.Entity.Name #> end1Entity;
-			
-			if (linkEntity.<#= associationSet.Entity1ToLink.Entity.Name #> != null)
-			{
-				// If a reference of <#= associationSet.Entity1ToLink.Entity.Name #> is in the linkEntity that has been passed to this method, then get it.
-				end1Entity = linkEntity.<#= associationSet.Entity1ToLink.Entity.Name #>;
-			}
-            else
-            {
-                // If there is no reference to <#= associationSet.Entity1ToLink.Entity.Name #> in the linkEntity, then build <#= associationSet.Entity1ToLink.Entity.Name #> from the <#= associationSet.Entity1ToLink.FK #> that has been passed in the linkEntity.
-				//
-				// Note: In the situation where the entity that we are dealing with is abstract, then use one of it's 
-				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
-				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
-				// since all derived entities will posses the same many to many relationship from the base entity.
-                end1Entity = new <#= end1ConcreteEntity  #>() { <#= associationSet.Entity1ToLink.PK #> = linkEntity.<#= associationSet.Entity1ToLink.FK #> };
-            }
-			
-			ObjectStateEntry end1StateEntry;
-			
-			// Check to see if <#= associationSet.Entity1ToLink.Entity.Name #> is already being tracked by they current entity framework object context.
-            ObjectContext.ObjectStateManager.TryGetObjectStateEntry(end1Entity, out end1StateEntry);
-
-			if (end1StateEntry != null && end1StateEntry.State != EntityState.Detached)
-            {
-                // If <#= associationSet.Entity1ToLink.Entity.Name #> is already being tracked by the object context, then use the instance of <#= associationSet.Entity1ToLink.Entity.Name #> that is being tracked instead of the current <#= associationSet.Entity1ToLink.Entity.Name #>
-                end1Entity = end1StateEntry.Entity as <#= associationSet.Entity1ToLink.Entity.Name #>;
-            }
-            else
-            {
-                // If <#= associationSet.Entity1ToLink.Entity.Name #> is not being tracked by the object context, then attach it.
-                ObjectContext.AttachTo("<#= associationSet.Entity1ToLink.Entity.EntitySet #>", end1Entity);
-            }
-				
-				
-			// ** Process <#= associationSet.Entity2ToLink.Entity.Name #> **
-            <#= associationSet.Entity2ToLink.Entity.Name #> end2Entity;
-
-            if (linkEntity.<#= associationSet.Entity2ToLink.Entity.Name #> != null)
-            {
-                // If a reference of <#= associationSet.Entity2ToLink.Entity.Name #> is in the linkEntity that has been passed to this method, then get it.
-                end2Entity = linkEntity.<#= associationSet.Entity2ToLink.Entity.Name #>;
-            }
-            else
-            {
-                // If there is no reference to <#= associationSet.Entity2ToLink.Entity.Name #> in the linkEntity, then build <#= associationSet.Entity2ToLink.Entity.Name #> from the <#= associationSet.Entity2ToLink.FK #> that has been passed in the linkEntity.
-                //
-				// Note: In the situation where the entity that we are dealing with is abstract, then use one of it's 
-				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
-				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
-				// since all derived entities will posses the same many to many relationship from the base entity.
-				end2Entity = new <#= end2ConcreteEntity #>() { <#= associationSet.Entity2ToLink.PK #> = linkEntity.<#= associationSet.Entity2ToLink.FK #> };
-            }
-		
-			ObjectStateEntry end2StateEntry;
-
-            // Check to see if <#= associationSet.Entity2ToLink.Entity.Name #> is already being tracked by they current entity framework object context.
-            ObjectContext.ObjectStateManager.TryGetObjectStateEntry(end2Entity, out end2StateEntry);
-
-            if (end2StateEntry != null && end2StateEntry.State != EntityState.Detached)
-            {
-                // If <#= associationSet.Entity2ToLink.Entity.Name #> is already being tracked by the object context, then use the instance of <#= associationSet.Entity2ToLink.Entity.Name #> that is being tracked instead of the current <#= associationSet.Entity2ToLink.Entity.Name #>
-                end2Entity = end2StateEntry.Entity as <#= associationSet.Entity2ToLink.Entity.Name #>;
-            }
-            else
-            {
-                // If <#= associationSet.Entity2ToLink.Entity.Name #> is not being tracked by the object context, then attach it.
-                ObjectContext.AttachTo("<#= associationSet.Entity2ToLink.Entity.EntitySet #>", end2Entity);
-            }
-	
-            // ** Add Relationship **
-<# 
-				if(associationSet.Entity1ToLink.HasM2MNavProp)
-				{
-#>
-			end1Entity.<#= associationSet.Entity1ToLink.M2MNavProp #>.Add(end2Entity);
-<#
-				}
-				else
-				{
-#>
-			end2Entity.<#= associationSet.Entity2ToLink.M2MNavProp #>.Add(end1Entity);
-<#
-				}
-#>
-		}
-		
-		[Obsolete("This method is only intended for use by the RIA M2M solution")]
-		public void Delete<#= associationSet.Name #>(<#= associationSet.Name #> linkEntity)
-		{
-			// ** Process <#= associationSet.Entity1ToLink.Entity.Name #> end **
-			<#= associationSet.Entity1ToLink.Entity.Name #> end1Entity;
-			
-			if (linkEntity.<#= associationSet.Entity1ToLink.Entity.Name #> != null)
-			{
-				// If a reference of <#= associationSet.Entity1ToLink.Entity.Name #> is in the linkEntity that has been passed to this method, then get it.
-				end1Entity = linkEntity.<#= associationSet.Entity1ToLink.Entity.Name #>;
-			}
-            else
-            {
-                // If there is no reference to <#= associationSet.Entity1ToLink.Entity.Name #> in the linkEntity, then build <#= associationSet.Entity1ToLink.Entity.Name #> from the <#= associationSet.Entity1ToLink.FK #> that has been passed in the linkEntity.
-                //
-				// Note: In the situation where the entity that we are dealing with is abstract, then use one of it's 
-				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
-				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
-				// since all derived entities will posses the same many to many relationship from the base entity.
-				end1Entity = new <#= end1ConcreteEntity  #>() { <#= associationSet.Entity1ToLink.PK #> = linkEntity.<#= associationSet.Entity1ToLink.FK #> };
-            }
-			
-			ObjectStateEntry end1StateEntry;
-			
-            EntityKey end1Key = ObjectContext.CreateEntityKey("<#= associationSet.Entity1ToLink.Entity.EntitySet #>", end1Entity);
-			
-			// Check to see if <#= associationSet.Entity1ToLink.Entity.Name #> is already being tracked by they current entity framework object context.
-            ObjectContext.ObjectStateManager.TryGetObjectStateEntry(end1Key, out end1StateEntry);
-
-			if (end1StateEntry != null && end1StateEntry.State != EntityState.Detached)
-            {
-                // If <#= associationSet.Entity1ToLink.Entity.Name #> is already being tracked by the object context, then use the instance of <#= associationSet.Entity1ToLink.Entity.Name #> that is being tracked instead of the current <#= associationSet.Entity1ToLink.Entity.Name #>
-                end1Entity = end1StateEntry.Entity as <#= associationSet.Entity1ToLink.Entity.Name #>;
-            }
-				
-			// ** Process <#= associationSet.Entity2ToLink.Entity.Name #> **
-            <#= associationSet.Entity2ToLink.Entity.Name #> end2Entity;
-
-            if (linkEntity.<#= associationSet.Entity2ToLink.Entity.Name #> != null)
-            {
-                // If a reference of <#= associationSet.Entity2ToLink.Entity.Name #> is in the linkEntity that has been passed to this method, then get it.
-                end2Entity = linkEntity.<#= associationSet.Entity2ToLink.Entity.Name #>;
-            }
-            else
-            {
-                // If there is no reference to <#= associationSet.Entity2ToLink.Entity.Name #> in the linkEntity, then build <#= associationSet.Entity2ToLink.Entity.Name #> from the <#= associationSet.Entity2ToLink.FK #> that has been passed in the linkEntity.
-                //
-				// Note: In the situation where the entity that we are dealing with is abstract, then use one of it's 
-				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
-				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
-				// since all derived entities will posses the same many to many relationship from the base entity.
-				end2Entity = new <#= end2ConcreteEntity #>() { <#= associationSet.Entity2ToLink.PK #> = linkEntity.<#= associationSet.Entity2ToLink.FK #> };
-            }
-		
-			ObjectStateEntry end2StateEntry;
-            
-			EntityKey end2Key = ObjectContext.CreateEntityKey("<#= associationSet.Entity2ToLink.Entity.EntitySet #>", end2Entity);
-
-            // Check to see if <#= associationSet.Entity2ToLink.Entity.Name #> is already being tracked by they current entity framework object context.
-            ObjectContext.ObjectStateManager.TryGetObjectStateEntry(end2Key, out end2StateEntry);
-
-            if (end2StateEntry != null && end2StateEntry.State != EntityState.Detached)
-            {
-                // If <#= associationSet.Entity2ToLink.Entity.Name #> is already being tracked by the object context, then use the instance of <#= associationSet.Entity2ToLink.Entity.Name #> that is being tracked instead of the current <#= associationSet.Entity2ToLink.Entity.Name #>
-                end2Entity = end2StateEntry.Entity as <#= associationSet.Entity2ToLink.Entity.Name #>;
-            }
-	
-<# 
-				if(associationSet.Entity1ToLink.HasM2MNavProp)
-				{
-#>
-			// ** Attach <#= associationSet.Entity1ToLink.Entity.Name #> to the Object Context if it wasnt already attached **
-            if (end1StateEntry == null || end1StateEntry.State == EntityState.Detached)
-            {
-                // Build many to many relationship between <#= associationSet.Entity1ToLink.Entity.Name #> and <#= associationSet.Entity2ToLink.Entity.Name #> so it can be removed after being attached.
-                end1Entity.<#= associationSet.Entity1ToLink.M2MNavProp #>.Add(end2Entity);
-
-                // Attach <#= associationSet.Entity1ToLink.Entity.Name #> (<#= associationSet.Entity2ToLink.Entity.Name #> will be attached indrectly through this method)
-                ObjectContext.AttachTo("<#= associationSet.Entity1ToLink.Entity.EntitySet #>", end1Entity);
-            }
-
-            // ** Remove Relationship **
-            end1Entity.<#= associationSet.Entity1ToLink.M2MNavProp #>.Remove(end2Entity);
-<#
-				}
-				else
-				{
-#>
-			// ** Attach <#= associationSet.Entity2ToLink.Entity.Name #> to the Object Context if it wasnt already attached **
-            if (end2StateEntry == null || end2StateEntry.State == EntityState.Detached)
-            {
-                // Build many to many relationship between <#= associationSet.Entity2ToLink.Entity.Name #> and <#= associationSet.Entity1ToLink.Entity.Name #> so it can be removed after being attached.
-                end2Entity.<#= associationSet.Entity2ToLink.M2MNavProp #>.Add(end1Entity);
-
-                // Attach <#= associationSet.Entity2ToLink.Entity.Name #> (<#= associationSet.Entity1ToLink.Entity.Name #> will be attached indrectly through this method)
-                ObjectContext.AttachTo("<#= associationSet.Entity2ToLink.Entity.EntitySet #>", end2Entity);
-            }
-
-            // ** Remove Relationship **
-            end2Entity.<#= associationSet.Entity2ToLink.M2MNavProp #>.Remove(end1Entity);
-<#
-				}
-#>
-		
-		}
-		
-<# 
+				MakeInsertOperation(associationSet);
+				MakeDeleteOperation(associationSet);
 			}
 		}
 #>
+
+#region GetEntityByKey
+        /// <summary>
+        /// http://blogs.msdn.com/b/alexj/archive/2009/06/19/tip-26-how-to-avoid-database-queries-using-stub-entities.aspx
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="ctx"></param>
+        /// <param name="qualifiedEntitySetName"></param>
+        /// <param name="stubEntity"></param>
+        /// <returns></returns>
+        private static T GetEntityByKey<T>(ObjectContext ctx, string qualifiedEntitySetName, T stubEntity) where T : EntityObject
+        {
+            ObjectStateEntry state;
+            EntityKey key = ctx.CreateEntityKey(qualifiedEntitySetName, stubEntity);
+            if (ctx.ObjectStateManager.TryGetObjectStateEntry(key, out state) == false)
+            {
+                ctx.AttachTo(qualifiedEntitySetName, stubEntity);
+                return stubEntity;
+            }
+            else
+            {
+                return (T)state.Entity;
+            }
+        }
+#endregion
 
 	}
 }
 
 #endregion
 
+
 #pragma warning restore 618
 
+<#+
+private void MakeInsertOperation(M2MAssociationSet associationSet)
+{
+	string end1Entity = LowerInitial(associationSet.Entity1ToLink.Entity.Name);
+	string end2Entity = LowerInitial(associationSet.Entity2ToLink.Entity.Name);
+#>
+	[Obsolete("This method is only intended for use by the RIA M2M solution")]
+	public void Insert<#= associationSet.Name #>(<#= associationSet.Name #> linkEntity)
+	{
+<#+
+		MakeGetType(associationSet.Entity1ToLink); 
+		MakeGetType(associationSet.Entity2ToLink); 
+		if(associationSet.Entity1ToLink.HasM2MNavProp)
+		{
+#>
+		<#=end1Entity#>.<#= associationSet.Entity1ToLink.M2MNavProp #>.Add(<#=end2Entity#>);
+<#+
+		}
+		else
+		{
+#>
+		<#=end2Entity#>.<#= associationSet.Entity2ToLink.M2MNavProp #>.Add(<#=end1Entity#>;
+<#+
+		}
+#>
+	}
+<#+
+}
+private void MakeDeleteOperation(M2MAssociationSet associationSet)
+{		
+	string end1Entity = LowerInitial(associationSet.Entity1ToLink.Entity.Name);
+	string end2Entity = LowerInitial(associationSet.Entity2ToLink.Entity.Name);
+#>
+	[Obsolete("This method is only intended for use by the RIA M2M solution")]
+	public void Delete<#= associationSet.Name #>(<#= associationSet.Name #> linkEntity)
+	{
+<#+			
+		MakeGetType(associationSet.Entity1ToLink); 
+		MakeGetType(associationSet.Entity2ToLink); 
+		if(associationSet.Entity1ToLink.HasM2MNavProp)
+		{
+#>
+			<#=end1Entity#>.<#= associationSet.Entity1ToLink.M2MNavProp #>.Remove(<#=end2Entity#>);
+<#+
+		}
+		else
+		{
+#>
+			<#=end2Entity#>.<#= associationSet.Entity2ToLink.M2MNavProp #>.Remove(<#=end1Entity#>);
+<#+
+		}
+#>		
+		}
+<#+
+}
+private void MakeGetType(M2MAssociation association) 
+{
+	string entityType = association.Entity.Name;
+	string entity = LowerInitial(entityType);
+	string concreteEntityType = association.Entity.IsAbstract ? association.Entity.DerivedEntityNames[0] : association.Entity.Name;
+	string stubEntity = LowerInitial(concreteEntityType) + "StubEntity";
+#>
+			// ** Process <#= association.Entity.Name #> end **
+			<#= entityType #> <#=entity#>;
+			
+			if (linkEntity.<#= entityType #> != null)
+			{
+				// If a reference of <#= entityType #> is in the linkEntity that has been passed to this method, then get it.
+				<#=entity#> = linkEntity.<#= entityType #>;
+			}
+			else
+			{
+				// If there is no reference to <#= entityType #> in the linkEntity, then build <#= entityType #> 
+				// from the <#= association.FK #> that has been passed in the linkEntity.
+				//
+				// Note: In the situation where the entity that we are dealing with is abstract, then use one of it's 
+				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
+				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
+				// since all derived entities will posses the same many to many relationship from the base entity.
+				<#= entityType #> <#=stubEntity#> = new <#= concreteEntityType  #>() { <#= association.PK #> = linkEntity.<#= association.FK #> };
+				<#=entity#> = GetEntityByKey<<#=association.Entity.Name#>>(ObjectContext, "<#=association.Entity.EntitySet#>", <#=stubEntity#>);
+			}							
+<#+
+}
+private string LowerInitial(string name)
+{
+   return name[0].ToString().ToLowerInvariant() + name.Substring(1);
+}
+#>
