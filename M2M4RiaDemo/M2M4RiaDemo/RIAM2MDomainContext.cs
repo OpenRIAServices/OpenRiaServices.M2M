@@ -7,24 +7,52 @@
 
 #region Domain Context
 
-namespace M2M4RiaDemo.Web
+namespace M2M4RiaDemo.Web.Service
 {
-	using M2M4RiaDemo.Web;
+	using M2M4RiaDemo.Web.Model;
 	
-    public partial class M2M4RiaDemoDomainContext
+    public partial class DemoContext
     {
         partial void OnCreated()
         {
-			EntityContainer.GetEntitySet<Patient>().EntityAdded +=
+			EntityContainer.GetEntitySet<Animal>().EntityAdded +=
 				(sender, args) =>
 				{
-					args.Entity.PatientDoctorToDoctorRemoved = (p) => EntityContainer.GetEntitySet<PatientDoctor>().Remove(p);
+					args.Entity.AnimalVetToVetRemoved = (p) => EntityContainer.GetEntitySet<AnimalVet>().Remove(p);
 				};
 				
-			EntityContainer.GetEntitySet<Doctor>().EntityAdded +=
+			EntityContainer.GetEntitySet<Vet>().EntityAdded +=
 				(sender, args) =>
 				{
-					args.Entity.PatientDoctorToPatientRemoved = (p) => EntityContainer.GetEntitySet<PatientDoctor>().Remove(p);
+					args.Entity.AnimalVetToAnimalRemoved = (p) => EntityContainer.GetEntitySet<AnimalVet>().Remove(p);
+				};
+				
+			EntityContainer.GetEntitySet<Trainer>().EntityAdded +=
+				(sender, args) =>
+				{
+					args.Entity.DogTrainerToDogRemoved = (p) => EntityContainer.GetEntitySet<DogTrainer>().Remove(p);
+				};
+				
+			EntityContainer.GetEntitySet<Animal>().EntityAdded +=
+				(sender, args) =>
+				{
+					if(args.Entity is Dog)
+					{
+						var entity = args.Entity as Dog;
+						
+						entity.DogFireHydrantToFireHydrantRemoved = (p) => EntityContainer.GetEntitySet<DogFireHydrant>().Remove(p);
+					}
+				};
+				
+			EntityContainer.GetEntitySet<Animal>().EntityAdded +=
+				(sender, args) =>
+				{
+					if(args.Entity is Dog)
+					{
+						var entity = args.Entity as Dog;
+						
+						entity.DogTrainerToTrainerRemoved = (p) => EntityContainer.GetEntitySet<DogTrainer>().Remove(p);
+					}
 				};
 				
 		}
@@ -36,91 +64,219 @@ namespace M2M4RiaDemo.Web
 #region Entities
 
 
-namespace M2M4RiaDemo.Web
+namespace M2M4RiaDemo.Web.Model
 {
-	using M2M4RiaDemo.Web;
+	using M2M4RiaDemo.Web.Service;
 	using RIAM2M.Web.Services.RIAM2MTools;
-	using M2M4RiaDemo.Web;
+	using M2M4RiaDemo.Web.Model;
 	using System;
 	
-	public partial class Patient
+	public partial class Animal
 	{
 	
 		//
-		// Code relating to the managing of the 'PatientDoctor' association from 'Patient' to 'Doctor'
+		// Code relating to the managing of the 'AnimalVet' association from 'Animal' to 'Vet'
 		//
 		
 		/// <summary>
-		/// Provides a point for the Domain Context to hook into to manage the removal of 'PatientDoctorToDoctor' association records from the 'Patient' entity. Do not register to this action in your code.
+		/// Provides a point for the Domain Context to hook into to manage the removal of 'AnimalVetToVet' association records from the 'Animal' entity. Do not register to this action in your code.
 		/// </summary>
 		[Obsolete("This action is only intended for use by the RIA M2M solution.")]
-		public Action<PatientDoctor> PatientDoctorToDoctorRemoved;
+		public Action<AnimalVet> AnimalVetToVetRemoved;
 		
-		private M2MEntityCollection<PatientDoctor, Doctor> _DoctorSet;
+		private M2MEntityCollection<AnimalVet, Vet> _Vets;
 		
-		public M2MEntityCollection<PatientDoctor, Doctor> DoctorSet
+		public M2MEntityCollection<AnimalVet, Vet> Vets
 		{
 			get
 			{
-				if(_DoctorSet == null)
+				if(_Vets == null)
 				{
-					_DoctorSet = new M2MEntityCollection<PatientDoctor, Doctor>(this.PatientDoctorToDoctor, r => r.Doctor, (r, t2) => r.Doctor = t2, r => r.Patient = this, RemovePatientDoctorToDoctor);
+					_Vets = new M2MEntityCollection<AnimalVet, Vet>(this.AnimalVetToVet, r => r.Vet, (r, t2) => r.Vet = t2, r => r.Animal = this, RemoveAnimalVetToVet);
 				}
 				
-				return _DoctorSet;
+				return _Vets;
 			}
 		}
 		
-		private void RemovePatientDoctorToDoctor(PatientDoctor r)
+		private void RemoveAnimalVetToVet(AnimalVet r)
 		{
-			if(PatientDoctorToDoctorRemoved == null)
+			if(AnimalVetToVetRemoved == null)
 			{
-				this.PatientDoctorToDoctor.Remove(r);
+				this.AnimalVetToVet.Remove(r);
 			}
 			else
 			{
-				PatientDoctorToDoctorRemoved(r);
+				AnimalVetToVetRemoved(r);
 			}
 		}
 	}
 	
-	public partial class Doctor
+	public partial class Vet
 	{
 	
 		//
-		// Code relating to the managing of the 'PatientDoctor' association from 'Doctor' to 'Patient'
+		// Code relating to the managing of the 'AnimalVet' association from 'Vet' to 'Animal'
 		//
 		
 		/// <summary>
-		/// Provides a point for the Domain Context to hook into to manage the removal of 'PatientDoctorToPatient' association records from the 'Doctor' entity. Do not register to this action in your code.
+		/// Provides a point for the Domain Context to hook into to manage the removal of 'AnimalVetToAnimal' association records from the 'Vet' entity. Do not register to this action in your code.
 		/// </summary>
 		[Obsolete("This action is only intended for use by the RIA M2M solution.")]
-		public Action<PatientDoctor> PatientDoctorToPatientRemoved;
+		public Action<AnimalVet> AnimalVetToAnimalRemoved;
 		
-		private M2MEntityCollection<PatientDoctor, Patient> _PatientSet;
+		private M2MEntityCollection<AnimalVet, Animal> _Animals;
 		
-		public M2MEntityCollection<PatientDoctor, Patient> PatientSet
+		public M2MEntityCollection<AnimalVet, Animal> Animals
 		{
 			get
 			{
-				if(_PatientSet == null)
+				if(_Animals == null)
 				{
-					_PatientSet = new M2MEntityCollection<PatientDoctor, Patient>(this.PatientDoctorToPatient, r => r.Patient, (r, t2) => r.Patient = t2, r => r.Doctor = this, RemovePatientDoctorToPatient);
+					_Animals = new M2MEntityCollection<AnimalVet, Animal>(this.AnimalVetToAnimal, r => r.Animal, (r, t2) => r.Animal = t2, r => r.Vet = this, RemoveAnimalVetToAnimal);
 				}
 				
-				return _PatientSet;
+				return _Animals;
 			}
 		}
 		
-		private void RemovePatientDoctorToPatient(PatientDoctor r)
+		private void RemoveAnimalVetToAnimal(AnimalVet r)
 		{
-			if(PatientDoctorToPatientRemoved == null)
+			if(AnimalVetToAnimalRemoved == null)
 			{
-				this.PatientDoctorToPatient.Remove(r);
+				this.AnimalVetToAnimal.Remove(r);
 			}
 			else
 			{
-				PatientDoctorToPatientRemoved(r);
+				AnimalVetToAnimalRemoved(r);
+			}
+		}
+	}
+	
+	public partial class FireHydrant
+	{
+	
+	}
+	
+	public partial class Trainer
+	{
+	
+		//
+		// Code relating to the managing of the 'DogTrainer' association from 'Trainer' to 'Dog'
+		//
+		
+		/// <summary>
+		/// Provides a point for the Domain Context to hook into to manage the removal of 'DogTrainerToDog' association records from the 'Trainer' entity. Do not register to this action in your code.
+		/// </summary>
+		[Obsolete("This action is only intended for use by the RIA M2M solution.")]
+		public Action<DogTrainer> DogTrainerToDogRemoved;
+		
+		private M2MEntityCollection<DogTrainer, Dog> _Dogs;
+		
+		public M2MEntityCollection<DogTrainer, Dog> Dogs
+		{
+			get
+			{
+				if(_Dogs == null)
+				{
+					_Dogs = new M2MEntityCollection<DogTrainer, Dog>(this.DogTrainerToDog, r => r.Dog, (r, t2) => r.Dog = t2, r => r.Trainer = this, RemoveDogTrainerToDog);
+				}
+				
+				return _Dogs;
+			}
+		}
+		
+		private void RemoveDogTrainerToDog(DogTrainer r)
+		{
+			if(DogTrainerToDogRemoved == null)
+			{
+				this.DogTrainerToDog.Remove(r);
+			}
+			else
+			{
+				DogTrainerToDogRemoved(r);
+			}
+		}
+	}
+	
+	public partial class Food
+	{
+	
+	}
+	
+	public partial class Dog
+	{
+	
+		//
+		// Code relating to the managing of the 'DogFireHydrant' association from 'Dog' to 'FireHydrant'
+		//
+		
+		/// <summary>
+		/// Provides a point for the Domain Context to hook into to manage the removal of 'DogFireHydrantToFireHydrant' association records from the 'Dog' entity. Do not register to this action in your code.
+		/// </summary>
+		[Obsolete("This action is only intended for use by the RIA M2M solution.")]
+		public Action<DogFireHydrant> DogFireHydrantToFireHydrantRemoved;
+		
+		private M2MEntityCollection<DogFireHydrant, FireHydrant> _FireHydrants;
+		
+		public M2MEntityCollection<DogFireHydrant, FireHydrant> FireHydrants
+		{
+			get
+			{
+				if(_FireHydrants == null)
+				{
+					_FireHydrants = new M2MEntityCollection<DogFireHydrant, FireHydrant>(this.DogFireHydrantToFireHydrant, r => r.FireHydrant, (r, t2) => r.FireHydrant = t2, r => r.Dog = this, RemoveDogFireHydrantToFireHydrant);
+				}
+				
+				return _FireHydrants;
+			}
+		}
+		
+		private void RemoveDogFireHydrantToFireHydrant(DogFireHydrant r)
+		{
+			if(DogFireHydrantToFireHydrantRemoved == null)
+			{
+				this.DogFireHydrantToFireHydrant.Remove(r);
+			}
+			else
+			{
+				DogFireHydrantToFireHydrantRemoved(r);
+			}
+		}
+		//
+		// Code relating to the managing of the 'DogTrainer' association from 'Dog' to 'Trainer'
+		//
+		
+		/// <summary>
+		/// Provides a point for the Domain Context to hook into to manage the removal of 'DogTrainerToTrainer' association records from the 'Dog' entity. Do not register to this action in your code.
+		/// </summary>
+		[Obsolete("This action is only intended for use by the RIA M2M solution.")]
+		public Action<DogTrainer> DogTrainerToTrainerRemoved;
+		
+		private M2MEntityCollection<DogTrainer, Trainer> _Trainers;
+		
+		public M2MEntityCollection<DogTrainer, Trainer> Trainers
+		{
+			get
+			{
+				if(_Trainers == null)
+				{
+					_Trainers = new M2MEntityCollection<DogTrainer, Trainer>(this.DogTrainerToTrainer, r => r.Trainer, (r, t2) => r.Trainer = t2, r => r.Dog = this, RemoveDogTrainerToTrainer);
+				}
+				
+				return _Trainers;
+			}
+		}
+		
+		private void RemoveDogTrainerToTrainer(DogTrainer r)
+		{
+			if(DogTrainerToTrainerRemoved == null)
+			{
+				this.DogTrainerToTrainer.Remove(r);
+			}
+			else
+			{
+				DogTrainerToTrainerRemoved(r);
 			}
 		}
 	}

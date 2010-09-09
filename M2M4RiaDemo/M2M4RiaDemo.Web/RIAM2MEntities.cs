@@ -8,7 +8,7 @@
 
 #region Entities
 
-namespace M2M4RiaDemo.Web  
+namespace M2M4RiaDemo.Web.Model  
 {
 	using System;
 	using System.ComponentModel.DataAnnotations;
@@ -20,64 +20,188 @@ namespace M2M4RiaDemo.Web
 	// Association Entity Types
 	//
 	[Obsolete("This class is only intended for use by the RIA M2M solution")]
-	public partial class PatientDoctor
+	public partial class AnimalVet
 	{
 
-		// 'PatientDoctorToDoctor' associationSet from 'Doctor.Id' to 'PatientDoctor.DoctorId'
-		private int _DoctorId;
+		// 'AnimalVetToVet' associationSet from 'Vet.VetId' to 'AnimalVet.VetId'
+		private int _VetId;
 		
 		[DataMember]
 		[Key]
-		public int DoctorId
+		public int VetId
 		{
 			get
 			{
-				if(Doctor != null)
+				if(Vet != null)
 				{
-					if(_DoctorId != Doctor.Id && _DoctorId == 0)
-						_DoctorId = Doctor.Id;
+					if(_VetId != Vet.VetId && _VetId == 0)
+						_VetId = Vet.VetId;
 				}
 				
-				return _DoctorId;
+				return _VetId;
 			}
 			set
 			{
-				_DoctorId = value;
+				_VetId = value;
 			}
 		}
 		
 		[Include]
-		[Association("PatientDoctorToDoctor", "DoctorId", "Id", IsForeignKey = true)]
+		[Association("AnimalVetToVet", "VetId", "VetId", IsForeignKey = true)]
 		[DataMember]
-		public Doctor Doctor { get; set; }
+		public Vet Vet { get; set; }
 		
-		// 'PatientDoctorToPatient' associationSet from 'Patient.Id' to 'PatientDoctor.PatientId'
-		private int _PatientId;
+		// 'AnimalVetToAnimal' associationSet from 'Animal.AnimalId' to 'AnimalVet.AnimalId'
+		private int _AnimalId;
 
 		[DataMember]
 		[Key]
-		public int PatientId
+		public int AnimalId
 		{
 			get
 			{
-				if(Patient != null)
+				if(Animal != null)
 				{
-					if(_PatientId != Patient.Id && _PatientId == 0)
-						_PatientId = Patient.Id;
+					if(_AnimalId != Animal.AnimalId && _AnimalId == 0)
+						_AnimalId = Animal.AnimalId;
 				}
 
-				return _PatientId;
+				return _AnimalId;
 			}
 			set
 			{
-				_PatientId = value;
+				_AnimalId = value;
 			}
 		}
 		
 		[Include]
-		[Association("PatientDoctorToPatient", "PatientId", "Id", IsForeignKey = true)]
+		[Association("AnimalVetToAnimal", "AnimalId", "AnimalId", IsForeignKey = true)]
 		[DataMember]
-		public Patient Patient { get; set; }
+		public Animal Animal { get; set; }
+
+	}
+		
+	[Obsolete("This class is only intended for use by the RIA M2M solution")]
+	public partial class DogFireHydrant
+	{
+
+		// 'DogFireHydrantToFireHydrant' associationSet from 'FireHydrant.FireHydrantId' to 'DogFireHydrant.FireHydrantId'
+		private int _FireHydrantId;
+		
+		[DataMember]
+		[Key]
+		public int FireHydrantId
+		{
+			get
+			{
+				if(FireHydrant != null)
+				{
+					if(_FireHydrantId != FireHydrant.FireHydrantId && _FireHydrantId == 0)
+						_FireHydrantId = FireHydrant.FireHydrantId;
+				}
+				
+				return _FireHydrantId;
+			}
+			set
+			{
+				_FireHydrantId = value;
+			}
+		}
+		
+		[Include]
+		[Association("DogFireHydrantToFireHydrant", "FireHydrantId", "FireHydrantId", IsForeignKey = true)]
+		[DataMember]
+		public FireHydrant FireHydrant { get; set; }
+		
+		// 'DogFireHydrantToDog' associationSet from 'Dog.AnimalId' to 'DogFireHydrant.DogId'
+		private int _DogId;
+
+		[DataMember]
+		[Key]
+		public int DogId
+		{
+			get
+			{
+				if(Dog != null)
+				{
+					if(_DogId != Dog.AnimalId && _DogId == 0)
+						_DogId = Dog.AnimalId;
+				}
+
+				return _DogId;
+			}
+			set
+			{
+				_DogId = value;
+			}
+		}
+		
+		[Include]
+		[Association("DogFireHydrantToDog", "DogId", "AnimalId", IsForeignKey = true)]
+		[DataMember]
+		public Dog Dog { get; set; }
+
+	}
+		
+	[Obsolete("This class is only intended for use by the RIA M2M solution")]
+	public partial class DogTrainer
+	{
+
+		// 'DogTrainerToTrainer' associationSet from 'Trainer.TrainerId' to 'DogTrainer.TrainerId'
+		private int _TrainerId;
+		
+		[DataMember]
+		[Key]
+		public int TrainerId
+		{
+			get
+			{
+				if(Trainer != null)
+				{
+					if(_TrainerId != Trainer.TrainerId && _TrainerId == 0)
+						_TrainerId = Trainer.TrainerId;
+				}
+				
+				return _TrainerId;
+			}
+			set
+			{
+				_TrainerId = value;
+			}
+		}
+		
+		[Include]
+		[Association("DogTrainerToTrainer", "TrainerId", "TrainerId", IsForeignKey = true)]
+		[DataMember]
+		public Trainer Trainer { get; set; }
+		
+		// 'DogTrainerToDog' associationSet from 'Dog.AnimalId' to 'DogTrainer.DogId'
+		private int _DogId;
+
+		[DataMember]
+		[Key]
+		public int DogId
+		{
+			get
+			{
+				if(Dog != null)
+				{
+					if(_DogId != Dog.AnimalId && _DogId == 0)
+						_DogId = Dog.AnimalId;
+				}
+
+				return _DogId;
+			}
+			set
+			{
+				_DogId = value;
+			}
+		}
+		
+		[Include]
+		[Association("DogTrainerToDog", "DogId", "AnimalId", IsForeignKey = true)]
+		[DataMember]
+		public Dog Dog { get; set; }
 
 	}
 		
@@ -85,59 +209,150 @@ namespace M2M4RiaDemo.Web
 	// Regular Entity Types
 	//
 		
-	public partial class Patient
+	public partial class Animal
 	{
-		// 'PatientDoctorToDoctor' associationSet from 'Doctor.Id' to 'PatientDoctor.DoctorId'
-		private M2MEntityCollection<PatientDoctor, Doctor> _PatientDoctorToDoctor;
+		// 'AnimalVetToVet' associationSet from 'Vet.VetId' to 'AnimalVet.VetId'
+		private M2MEntityCollection<AnimalVet, Vet> _AnimalVetToVet;
 		
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
-		[Association("PatientDoctorToPatient", "Id", "PatientId", IsForeignKey = false)]
-		public M2MEntityCollection<PatientDoctor, Doctor> PatientDoctorToDoctor
+		[Association("AnimalVetToAnimal", "AnimalId", "AnimalId", IsForeignKey = false)]
+		public M2MEntityCollection<AnimalVet, Vet> AnimalVetToVet
 		{
 			get
 			{
-				if(_PatientDoctorToDoctor == null)
+				if(_AnimalVetToVet == null)
 				{
-					_PatientDoctorToDoctor = new M2MEntityCollection<PatientDoctor, Doctor>
+					_AnimalVetToVet = new M2MEntityCollection<AnimalVet, Vet>
 					(
-						DoctorSet,
-						(r) => new PatientDoctor { Patient = this, Doctor = r },
-						pd => pd.Doctor
+						Vets,
+						(r) => new AnimalVet { Animal = this, Vet = r },
+						pd => pd.Vet
 					);
 				}
 				
-				return _PatientDoctorToDoctor;
+				return _AnimalVetToVet;
 			}
 		}
 		
 	}
 		
-	public partial class Doctor
+	public partial class Vet
 	{
-		// 'PatientDoctorToPatient' associationSet from 'Patient.Id' to 'PatientDoctor.PatientId'
-		private M2MEntityCollection<PatientDoctor, Patient> _PatientDoctorToPatient;
+		// 'AnimalVetToAnimal' associationSet from 'Animal.AnimalId' to 'AnimalVet.AnimalId'
+		private M2MEntityCollection<AnimalVet, Animal> _AnimalVetToAnimal;
 		
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
-		[Association("PatientDoctorToDoctor", "Id", "DoctorId", IsForeignKey = false)]
-		public M2MEntityCollection<PatientDoctor, Patient> PatientDoctorToPatient
+		[Association("AnimalVetToVet", "VetId", "VetId", IsForeignKey = false)]
+		public M2MEntityCollection<AnimalVet, Animal> AnimalVetToAnimal
 		{
 			get
 			{
-				if(_PatientDoctorToPatient == null)
+				if(_AnimalVetToAnimal == null)
 				{
-					_PatientDoctorToPatient = new M2MEntityCollection<PatientDoctor, Patient>
+					_AnimalVetToAnimal = new M2MEntityCollection<AnimalVet, Animal>
 					(
-						PatientSet,
-						(r) => new PatientDoctor { Doctor = this, Patient = r },
-						pd => pd.Patient
+						Animals,
+						(r) => new AnimalVet { Vet = this, Animal = r },
+						pd => pd.Animal
 					);
 				}
 				
-				return _PatientDoctorToPatient;
+				return _AnimalVetToAnimal;
+			}
+		}
+		
+	}
+		
+	public partial class FireHydrant
+	{
+	}
+		
+	public partial class Trainer
+	{
+		// 'DogTrainerToDog' associationSet from 'Dog.AnimalId' to 'DogTrainer.DogId'
+		private M2MEntityCollection<DogTrainer, Dog> _DogTrainerToDog;
+		
+		[Obsolete("This property is only intended for use by the RIA M2M solution")]
+		[DataMember]
+		[Include]
+		[Association("DogTrainerToTrainer", "TrainerId", "TrainerId", IsForeignKey = false)]
+		public M2MEntityCollection<DogTrainer, Dog> DogTrainerToDog
+		{
+			get
+			{
+				if(_DogTrainerToDog == null)
+				{
+					_DogTrainerToDog = new M2MEntityCollection<DogTrainer, Dog>
+					(
+						Dogs,
+						(r) => new DogTrainer { Trainer = this, Dog = r },
+						pd => pd.Dog
+					);
+				}
+				
+				return _DogTrainerToDog;
+			}
+		}
+		
+	}
+		
+	public partial class Food
+	{
+	}
+		
+	public partial class Dog
+	{
+		// 'DogFireHydrantToFireHydrant' associationSet from 'FireHydrant.FireHydrantId' to 'DogFireHydrant.FireHydrantId'
+		private M2MEntityCollection<DogFireHydrant, FireHydrant> _DogFireHydrantToFireHydrant;
+		
+		[Obsolete("This property is only intended for use by the RIA M2M solution")]
+		[DataMember]
+		[Include]
+		[Association("DogFireHydrantToDog", "AnimalId", "DogId", IsForeignKey = false)]
+		public M2MEntityCollection<DogFireHydrant, FireHydrant> DogFireHydrantToFireHydrant
+		{
+			get
+			{
+				if(_DogFireHydrantToFireHydrant == null)
+				{
+					_DogFireHydrantToFireHydrant = new M2MEntityCollection<DogFireHydrant, FireHydrant>
+					(
+						FireHydrants,
+						(r) => new DogFireHydrant { Dog = this, FireHydrant = r },
+						pd => pd.FireHydrant
+					);
+				}
+				
+				return _DogFireHydrantToFireHydrant;
+			}
+		}
+		
+		// 'DogTrainerToTrainer' associationSet from 'Trainer.TrainerId' to 'DogTrainer.TrainerId'
+		private M2MEntityCollection<DogTrainer, Trainer> _DogTrainerToTrainer;
+		
+		[Obsolete("This property is only intended for use by the RIA M2M solution")]
+		[DataMember]
+		[Include]
+		[Association("DogTrainerToDog", "AnimalId", "DogId", IsForeignKey = false)]
+		public M2MEntityCollection<DogTrainer, Trainer> DogTrainerToTrainer
+		{
+			get
+			{
+				if(_DogTrainerToTrainer == null)
+				{
+					_DogTrainerToTrainer = new M2MEntityCollection<DogTrainer, Trainer>
+					(
+						Trainers,
+						(r) => new DogTrainer { Dog = this, Trainer = r },
+						pd => pd.Trainer
+					);
+				}
+				
+				return _DogTrainerToTrainer;
 			}
 		}
 		

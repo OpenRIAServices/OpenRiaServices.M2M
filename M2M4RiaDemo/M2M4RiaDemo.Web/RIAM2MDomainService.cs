@@ -8,179 +8,511 @@
 
 #region Domain Service
 
-namespace M2M4RiaDemo.Web
+namespace M2M4RiaDemo.Web.Service
 {
 	using System;
 	using System.Linq;
 	using System.Data;
 	using System.Data.Objects;
-	using M2M4RiaDemo.Web;
+	using M2M4RiaDemo.Web.Model;
 	
-	public partial class M2M4RiaDemoDomainService
+	public partial class DemoService
 	{
 		[Obsolete("This method is only intended for use by the RIA M2M solution")]
-		public IQueryable<PatientDoctor> GetPatientDoctorQuery()
+		public IQueryable<AnimalVet> GetAnimalVetQuery()
 		{
 			throw new System.NotImplementedException();
 		}
 		
 		[Obsolete("This method is only intended for use by the RIA M2M solution")]
-		public void InsertPatientDoctor(PatientDoctor linkEntity)
+		public void InsertAnimalVet(AnimalVet linkEntity)
 		{
-			// ** Process Patient end **
-			Patient end1Entity;
+			// ** Process Animal end **
+			Animal end1Entity;
 			
-			if (linkEntity.Patient != null)
+			if (linkEntity.Animal != null)
 			{
-				// If a reference of Patient is in the linkEntity that has been passed to this method, then get it.
-				end1Entity = linkEntity.Patient;
+				// If a reference of Animal is in the linkEntity that has been passed to this method, then get it.
+				end1Entity = linkEntity.Animal;
 			}
             else
             {
-                // If there is no reference to Patient in the linkEntity, then build Patient from the PatientId that has been passed in the linkEntity.
+                // If there is no reference to Animal in the linkEntity, then build Animal from the AnimalId that has been passed in the linkEntity.
 				//
 				// Note: In the situation where the entity that we are dealing with is abstract, then use one of it's 
 				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
 				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
 				// since all derived entities will posses the same many to many relationship from the base entity.
-                end1Entity = new Patient() { Id = linkEntity.PatientId };
+                end1Entity = new Animal() { AnimalId = linkEntity.AnimalId };
             }
 			
 			ObjectStateEntry end1StateEntry;
 			
-			// Check to see if Patient is already being tracked by they current entity framework object context.
+			// Check to see if Animal is already being tracked by they current entity framework object context.
             ObjectContext.ObjectStateManager.TryGetObjectStateEntry(end1Entity, out end1StateEntry);
 
 			if (end1StateEntry != null && end1StateEntry.State != EntityState.Detached)
             {
-                // If Patient is already being tracked by the object context, then use the instance of Patient that is being tracked instead of the current Patient
-                end1Entity = end1StateEntry.Entity as Patient;
+                // If Animal is already being tracked by the object context, then use the instance of Animal that is being tracked instead of the current Animal
+                end1Entity = end1StateEntry.Entity as Animal;
             }
             else
             {
-                // If Patient is not being tracked by the object context, then attach it.
-                ObjectContext.AttachTo("Patients", end1Entity);
+                // If Animal is not being tracked by the object context, then attach it.
+                ObjectContext.AttachTo("Animals", end1Entity);
             }
 				
 				
-			// ** Process Doctor **
-            Doctor end2Entity;
+			// ** Process Vet **
+            Vet end2Entity;
 
-            if (linkEntity.Doctor != null)
+            if (linkEntity.Vet != null)
             {
-                // If a reference of Doctor is in the linkEntity that has been passed to this method, then get it.
-                end2Entity = linkEntity.Doctor;
+                // If a reference of Vet is in the linkEntity that has been passed to this method, then get it.
+                end2Entity = linkEntity.Vet;
             }
             else
             {
-                // If there is no reference to Doctor in the linkEntity, then build Doctor from the DoctorId that has been passed in the linkEntity.
+                // If there is no reference to Vet in the linkEntity, then build Vet from the VetId that has been passed in the linkEntity.
                 //
 				// Note: In the situation where the entity that we are dealing with is abstract, then use one of it's 
 				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
 				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
 				// since all derived entities will posses the same many to many relationship from the base entity.
-				end2Entity = new Doctor() { Id = linkEntity.DoctorId };
+				end2Entity = new Vet() { VetId = linkEntity.VetId };
             }
 		
 			ObjectStateEntry end2StateEntry;
 
-            // Check to see if Doctor is already being tracked by they current entity framework object context.
+            // Check to see if Vet is already being tracked by they current entity framework object context.
             ObjectContext.ObjectStateManager.TryGetObjectStateEntry(end2Entity, out end2StateEntry);
 
             if (end2StateEntry != null && end2StateEntry.State != EntityState.Detached)
             {
-                // If Doctor is already being tracked by the object context, then use the instance of Doctor that is being tracked instead of the current Doctor
-                end2Entity = end2StateEntry.Entity as Doctor;
+                // If Vet is already being tracked by the object context, then use the instance of Vet that is being tracked instead of the current Vet
+                end2Entity = end2StateEntry.Entity as Vet;
             }
             else
             {
-                // If Doctor is not being tracked by the object context, then attach it.
-                ObjectContext.AttachTo("Doctors", end2Entity);
+                // If Vet is not being tracked by the object context, then attach it.
+                ObjectContext.AttachTo("Vets", end2Entity);
             }
 	
             // ** Add Relationship **
-			end1Entity.DoctorSet.Add(end2Entity);
+			end1Entity.Vets.Add(end2Entity);
 		}
 		
 		[Obsolete("This method is only intended for use by the RIA M2M solution")]
-		public void DeletePatientDoctor(PatientDoctor linkEntity)
+		public void DeleteAnimalVet(AnimalVet linkEntity)
 		{
-			// ** Process Patient end **
-			Patient end1Entity;
+			// ** Process Animal end **
+			Animal end1Entity;
 			
-			if (linkEntity.Patient != null)
+			if (linkEntity.Animal != null)
 			{
-				// If a reference of Patient is in the linkEntity that has been passed to this method, then get it.
-				end1Entity = linkEntity.Patient;
+				// If a reference of Animal is in the linkEntity that has been passed to this method, then get it.
+				end1Entity = linkEntity.Animal;
 			}
             else
             {
-                // If there is no reference to Patient in the linkEntity, then build Patient from the PatientId that has been passed in the linkEntity.
+                // If there is no reference to Animal in the linkEntity, then build Animal from the AnimalId that has been passed in the linkEntity.
                 //
 				// Note: In the situation where the entity that we are dealing with is abstract, then use one of it's 
 				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
 				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
 				// since all derived entities will posses the same many to many relationship from the base entity.
-				end1Entity = new Patient() { Id = linkEntity.PatientId };
+				end1Entity = new Animal() { AnimalId = linkEntity.AnimalId };
             }
 			
 			ObjectStateEntry end1StateEntry;
 			
-            EntityKey end1Key = ObjectContext.CreateEntityKey("Patients", end1Entity);
+            EntityKey end1Key = ObjectContext.CreateEntityKey("Animals", end1Entity);
 			
-			// Check to see if Patient is already being tracked by they current entity framework object context.
+			// Check to see if Animal is already being tracked by they current entity framework object context.
             ObjectContext.ObjectStateManager.TryGetObjectStateEntry(end1Key, out end1StateEntry);
 
 			if (end1StateEntry != null && end1StateEntry.State != EntityState.Detached)
             {
-                // If Patient is already being tracked by the object context, then use the instance of Patient that is being tracked instead of the current Patient
-                end1Entity = end1StateEntry.Entity as Patient;
+                // If Animal is already being tracked by the object context, then use the instance of Animal that is being tracked instead of the current Animal
+                end1Entity = end1StateEntry.Entity as Animal;
             }
 				
-			// ** Process Doctor **
-            Doctor end2Entity;
+			// ** Process Vet **
+            Vet end2Entity;
 
-            if (linkEntity.Doctor != null)
+            if (linkEntity.Vet != null)
             {
-                // If a reference of Doctor is in the linkEntity that has been passed to this method, then get it.
-                end2Entity = linkEntity.Doctor;
+                // If a reference of Vet is in the linkEntity that has been passed to this method, then get it.
+                end2Entity = linkEntity.Vet;
             }
             else
             {
-                // If there is no reference to Doctor in the linkEntity, then build Doctor from the DoctorId that has been passed in the linkEntity.
+                // If there is no reference to Vet in the linkEntity, then build Vet from the VetId that has been passed in the linkEntity.
                 //
 				// Note: In the situation where the entity that we are dealing with is abstract, then use one of it's 
 				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
 				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
 				// since all derived entities will posses the same many to many relationship from the base entity.
-				end2Entity = new Doctor() { Id = linkEntity.DoctorId };
+				end2Entity = new Vet() { VetId = linkEntity.VetId };
             }
 		
 			ObjectStateEntry end2StateEntry;
             
-			EntityKey end2Key = ObjectContext.CreateEntityKey("Doctors", end2Entity);
+			EntityKey end2Key = ObjectContext.CreateEntityKey("Vets", end2Entity);
 
-            // Check to see if Doctor is already being tracked by they current entity framework object context.
+            // Check to see if Vet is already being tracked by they current entity framework object context.
             ObjectContext.ObjectStateManager.TryGetObjectStateEntry(end2Key, out end2StateEntry);
 
             if (end2StateEntry != null && end2StateEntry.State != EntityState.Detached)
             {
-                // If Doctor is already being tracked by the object context, then use the instance of Doctor that is being tracked instead of the current Doctor
-                end2Entity = end2StateEntry.Entity as Doctor;
+                // If Vet is already being tracked by the object context, then use the instance of Vet that is being tracked instead of the current Vet
+                end2Entity = end2StateEntry.Entity as Vet;
             }
 	
-			// ** Attach Patient to the Object Context if it wasnt already attached **
+			// ** Attach Animal to the Object Context if it wasnt already attached **
             if (end1StateEntry == null || end1StateEntry.State == EntityState.Detached)
             {
-                // Build many to many relationship between Patient and Doctor so it can be removed after being attached.
-                end1Entity.DoctorSet.Add(end2Entity);
+                // Build many to many relationship between Animal and Vet so it can be removed after being attached.
+                end1Entity.Vets.Add(end2Entity);
 
-                // Attach Patient (Doctor will be attached indrectly through this method)
-                ObjectContext.AttachTo("Patients", end1Entity);
+                // Attach Animal (Vet will be attached indrectly through this method)
+                ObjectContext.AttachTo("Animals", end1Entity);
             }
 
             // ** Remove Relationship **
-            end1Entity.DoctorSet.Remove(end2Entity);
+            end1Entity.Vets.Remove(end2Entity);
+		
+		}
+		
+		[Obsolete("This method is only intended for use by the RIA M2M solution")]
+		public IQueryable<DogFireHydrant> GetDogFireHydrantQuery()
+		{
+			throw new System.NotImplementedException();
+		}
+		
+		[Obsolete("This method is only intended for use by the RIA M2M solution")]
+		public void InsertDogFireHydrant(DogFireHydrant linkEntity)
+		{
+			// ** Process Dog end **
+			Dog end1Entity;
+			
+			if (linkEntity.Dog != null)
+			{
+				// If a reference of Dog is in the linkEntity that has been passed to this method, then get it.
+				end1Entity = linkEntity.Dog;
+			}
+            else
+            {
+                // If there is no reference to Dog in the linkEntity, then build Dog from the DogId that has been passed in the linkEntity.
+				//
+				// Note: In the situation where the entity that we are dealing with is abstract, then use one of it's 
+				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
+				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
+				// since all derived entities will posses the same many to many relationship from the base entity.
+                end1Entity = new Dog() { AnimalId = linkEntity.DogId };
+            }
+			
+			ObjectStateEntry end1StateEntry;
+			
+			// Check to see if Dog is already being tracked by they current entity framework object context.
+            ObjectContext.ObjectStateManager.TryGetObjectStateEntry(end1Entity, out end1StateEntry);
+
+			if (end1StateEntry != null && end1StateEntry.State != EntityState.Detached)
+            {
+                // If Dog is already being tracked by the object context, then use the instance of Dog that is being tracked instead of the current Dog
+                end1Entity = end1StateEntry.Entity as Dog;
+            }
+            else
+            {
+                // If Dog is not being tracked by the object context, then attach it.
+                ObjectContext.AttachTo("Animals", end1Entity);
+            }
+				
+				
+			// ** Process FireHydrant **
+            FireHydrant end2Entity;
+
+            if (linkEntity.FireHydrant != null)
+            {
+                // If a reference of FireHydrant is in the linkEntity that has been passed to this method, then get it.
+                end2Entity = linkEntity.FireHydrant;
+            }
+            else
+            {
+                // If there is no reference to FireHydrant in the linkEntity, then build FireHydrant from the FireHydrantId that has been passed in the linkEntity.
+                //
+				// Note: In the situation where the entity that we are dealing with is abstract, then use one of it's 
+				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
+				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
+				// since all derived entities will posses the same many to many relationship from the base entity.
+				end2Entity = new FireHydrant() { FireHydrantId = linkEntity.FireHydrantId };
+            }
+		
+			ObjectStateEntry end2StateEntry;
+
+            // Check to see if FireHydrant is already being tracked by they current entity framework object context.
+            ObjectContext.ObjectStateManager.TryGetObjectStateEntry(end2Entity, out end2StateEntry);
+
+            if (end2StateEntry != null && end2StateEntry.State != EntityState.Detached)
+            {
+                // If FireHydrant is already being tracked by the object context, then use the instance of FireHydrant that is being tracked instead of the current FireHydrant
+                end2Entity = end2StateEntry.Entity as FireHydrant;
+            }
+            else
+            {
+                // If FireHydrant is not being tracked by the object context, then attach it.
+                ObjectContext.AttachTo("FireHydrants", end2Entity);
+            }
+	
+            // ** Add Relationship **
+			end1Entity.FireHydrants.Add(end2Entity);
+		}
+		
+		[Obsolete("This method is only intended for use by the RIA M2M solution")]
+		public void DeleteDogFireHydrant(DogFireHydrant linkEntity)
+		{
+			// ** Process Dog end **
+			Dog end1Entity;
+			
+			if (linkEntity.Dog != null)
+			{
+				// If a reference of Dog is in the linkEntity that has been passed to this method, then get it.
+				end1Entity = linkEntity.Dog;
+			}
+            else
+            {
+                // If there is no reference to Dog in the linkEntity, then build Dog from the DogId that has been passed in the linkEntity.
+                //
+				// Note: In the situation where the entity that we are dealing with is abstract, then use one of it's 
+				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
+				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
+				// since all derived entities will posses the same many to many relationship from the base entity.
+				end1Entity = new Dog() { AnimalId = linkEntity.DogId };
+            }
+			
+			ObjectStateEntry end1StateEntry;
+			
+            EntityKey end1Key = ObjectContext.CreateEntityKey("Animals", end1Entity);
+			
+			// Check to see if Dog is already being tracked by they current entity framework object context.
+            ObjectContext.ObjectStateManager.TryGetObjectStateEntry(end1Key, out end1StateEntry);
+
+			if (end1StateEntry != null && end1StateEntry.State != EntityState.Detached)
+            {
+                // If Dog is already being tracked by the object context, then use the instance of Dog that is being tracked instead of the current Dog
+                end1Entity = end1StateEntry.Entity as Dog;
+            }
+				
+			// ** Process FireHydrant **
+            FireHydrant end2Entity;
+
+            if (linkEntity.FireHydrant != null)
+            {
+                // If a reference of FireHydrant is in the linkEntity that has been passed to this method, then get it.
+                end2Entity = linkEntity.FireHydrant;
+            }
+            else
+            {
+                // If there is no reference to FireHydrant in the linkEntity, then build FireHydrant from the FireHydrantId that has been passed in the linkEntity.
+                //
+				// Note: In the situation where the entity that we are dealing with is abstract, then use one of it's 
+				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
+				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
+				// since all derived entities will posses the same many to many relationship from the base entity.
+				end2Entity = new FireHydrant() { FireHydrantId = linkEntity.FireHydrantId };
+            }
+		
+			ObjectStateEntry end2StateEntry;
+            
+			EntityKey end2Key = ObjectContext.CreateEntityKey("FireHydrants", end2Entity);
+
+            // Check to see if FireHydrant is already being tracked by they current entity framework object context.
+            ObjectContext.ObjectStateManager.TryGetObjectStateEntry(end2Key, out end2StateEntry);
+
+            if (end2StateEntry != null && end2StateEntry.State != EntityState.Detached)
+            {
+                // If FireHydrant is already being tracked by the object context, then use the instance of FireHydrant that is being tracked instead of the current FireHydrant
+                end2Entity = end2StateEntry.Entity as FireHydrant;
+            }
+	
+			// ** Attach Dog to the Object Context if it wasnt already attached **
+            if (end1StateEntry == null || end1StateEntry.State == EntityState.Detached)
+            {
+                // Build many to many relationship between Dog and FireHydrant so it can be removed after being attached.
+                end1Entity.FireHydrants.Add(end2Entity);
+
+                // Attach Dog (FireHydrant will be attached indrectly through this method)
+                ObjectContext.AttachTo("Animals", end1Entity);
+            }
+
+            // ** Remove Relationship **
+            end1Entity.FireHydrants.Remove(end2Entity);
+		
+		}
+		
+		[Obsolete("This method is only intended for use by the RIA M2M solution")]
+		public IQueryable<DogTrainer> GetDogTrainerQuery()
+		{
+			throw new System.NotImplementedException();
+		}
+		
+		[Obsolete("This method is only intended for use by the RIA M2M solution")]
+		public void InsertDogTrainer(DogTrainer linkEntity)
+		{
+			// ** Process Dog end **
+			Dog end1Entity;
+			
+			if (linkEntity.Dog != null)
+			{
+				// If a reference of Dog is in the linkEntity that has been passed to this method, then get it.
+				end1Entity = linkEntity.Dog;
+			}
+            else
+            {
+                // If there is no reference to Dog in the linkEntity, then build Dog from the DogId that has been passed in the linkEntity.
+				//
+				// Note: In the situation where the entity that we are dealing with is abstract, then use one of it's 
+				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
+				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
+				// since all derived entities will posses the same many to many relationship from the base entity.
+                end1Entity = new Dog() { AnimalId = linkEntity.DogId };
+            }
+			
+			ObjectStateEntry end1StateEntry;
+			
+			// Check to see if Dog is already being tracked by they current entity framework object context.
+            ObjectContext.ObjectStateManager.TryGetObjectStateEntry(end1Entity, out end1StateEntry);
+
+			if (end1StateEntry != null && end1StateEntry.State != EntityState.Detached)
+            {
+                // If Dog is already being tracked by the object context, then use the instance of Dog that is being tracked instead of the current Dog
+                end1Entity = end1StateEntry.Entity as Dog;
+            }
+            else
+            {
+                // If Dog is not being tracked by the object context, then attach it.
+                ObjectContext.AttachTo("Animals", end1Entity);
+            }
+				
+				
+			// ** Process Trainer **
+            Trainer end2Entity;
+
+            if (linkEntity.Trainer != null)
+            {
+                // If a reference of Trainer is in the linkEntity that has been passed to this method, then get it.
+                end2Entity = linkEntity.Trainer;
+            }
+            else
+            {
+                // If there is no reference to Trainer in the linkEntity, then build Trainer from the TrainerId that has been passed in the linkEntity.
+                //
+				// Note: In the situation where the entity that we are dealing with is abstract, then use one of it's 
+				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
+				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
+				// since all derived entities will posses the same many to many relationship from the base entity.
+				end2Entity = new Trainer() { TrainerId = linkEntity.TrainerId };
+            }
+		
+			ObjectStateEntry end2StateEntry;
+
+            // Check to see if Trainer is already being tracked by they current entity framework object context.
+            ObjectContext.ObjectStateManager.TryGetObjectStateEntry(end2Entity, out end2StateEntry);
+
+            if (end2StateEntry != null && end2StateEntry.State != EntityState.Detached)
+            {
+                // If Trainer is already being tracked by the object context, then use the instance of Trainer that is being tracked instead of the current Trainer
+                end2Entity = end2StateEntry.Entity as Trainer;
+            }
+            else
+            {
+                // If Trainer is not being tracked by the object context, then attach it.
+                ObjectContext.AttachTo("Trainers", end2Entity);
+            }
+	
+            // ** Add Relationship **
+			end1Entity.Trainers.Add(end2Entity);
+		}
+		
+		[Obsolete("This method is only intended for use by the RIA M2M solution")]
+		public void DeleteDogTrainer(DogTrainer linkEntity)
+		{
+			// ** Process Dog end **
+			Dog end1Entity;
+			
+			if (linkEntity.Dog != null)
+			{
+				// If a reference of Dog is in the linkEntity that has been passed to this method, then get it.
+				end1Entity = linkEntity.Dog;
+			}
+            else
+            {
+                // If there is no reference to Dog in the linkEntity, then build Dog from the DogId that has been passed in the linkEntity.
+                //
+				// Note: In the situation where the entity that we are dealing with is abstract, then use one of it's 
+				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
+				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
+				// since all derived entities will posses the same many to many relationship from the base entity.
+				end1Entity = new Dog() { AnimalId = linkEntity.DogId };
+            }
+			
+			ObjectStateEntry end1StateEntry;
+			
+            EntityKey end1Key = ObjectContext.CreateEntityKey("Animals", end1Entity);
+			
+			// Check to see if Dog is already being tracked by they current entity framework object context.
+            ObjectContext.ObjectStateManager.TryGetObjectStateEntry(end1Key, out end1StateEntry);
+
+			if (end1StateEntry != null && end1StateEntry.State != EntityState.Detached)
+            {
+                // If Dog is already being tracked by the object context, then use the instance of Dog that is being tracked instead of the current Dog
+                end1Entity = end1StateEntry.Entity as Dog;
+            }
+				
+			// ** Process Trainer **
+            Trainer end2Entity;
+
+            if (linkEntity.Trainer != null)
+            {
+                // If a reference of Trainer is in the linkEntity that has been passed to this method, then get it.
+                end2Entity = linkEntity.Trainer;
+            }
+            else
+            {
+                // If there is no reference to Trainer in the linkEntity, then build Trainer from the TrainerId that has been passed in the linkEntity.
+                //
+				// Note: In the situation where the entity that we are dealing with is abstract, then use one of it's 
+				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
+				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
+				// since all derived entities will posses the same many to many relationship from the base entity.
+				end2Entity = new Trainer() { TrainerId = linkEntity.TrainerId };
+            }
+		
+			ObjectStateEntry end2StateEntry;
+            
+			EntityKey end2Key = ObjectContext.CreateEntityKey("Trainers", end2Entity);
+
+            // Check to see if Trainer is already being tracked by they current entity framework object context.
+            ObjectContext.ObjectStateManager.TryGetObjectStateEntry(end2Key, out end2StateEntry);
+
+            if (end2StateEntry != null && end2StateEntry.State != EntityState.Detached)
+            {
+                // If Trainer is already being tracked by the object context, then use the instance of Trainer that is being tracked instead of the current Trainer
+                end2Entity = end2StateEntry.Entity as Trainer;
+            }
+	
+			// ** Attach Dog to the Object Context if it wasnt already attached **
+            if (end1StateEntry == null || end1StateEntry.State == EntityState.Detached)
+            {
+                // Build many to many relationship between Dog and Trainer so it can be removed after being attached.
+                end1Entity.Trainers.Add(end2Entity);
+
+                // Attach Dog (Trainer will be attached indrectly through this method)
+                ObjectContext.AttachTo("Animals", end1Entity);
+            }
+
+            // ** Remove Relationship **
+            end1Entity.Trainers.Remove(end2Entity);
 		
 		}
 		
