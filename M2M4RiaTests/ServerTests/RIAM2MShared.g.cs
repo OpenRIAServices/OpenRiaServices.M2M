@@ -95,11 +95,11 @@ namespace ServerTests
             
             #line 1 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\M2MGenerator.ttinclude"
 
-EdmxFilePath = @"M2M4RiaTests\DemoModel.edmx";
+EdmxFilePath = @"M2M4RiaTests\M2M4RiaTestModel.edmx";
 EntityModelNamespace = "ClientTests.Web";
 DomainServiceNamespace = "ClientTests.Web";
-DomainServiceName = "DemoService";
-DomainContextName = "DemoContext";
+DomainServiceName = "M2M4RiaTestService";
+DomainContextName = "M2M4RiaTestContext";
 
             
             #line default

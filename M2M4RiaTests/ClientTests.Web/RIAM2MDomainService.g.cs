@@ -21,7 +21,7 @@ namespace ClientTests.Web
 	
 	using ClientTests.Web;
 	
-	public partial class DemoService
+	public partial class M2M4RiaTestService
 	{
 	[Obsolete("This method is only intended for use by the RIA M2M solution")]
 	public void InsertAnimalVet(AnimalVet linkEntity)

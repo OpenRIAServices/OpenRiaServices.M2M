@@ -2,7 +2,7 @@
 <TestSettings name="Local" id="01bec322-a98e-46ec-9f08-c03c5cc3c9af" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <Description>These are default test settings for a local test run.</Description>
   <Deployment>
-    <DeploymentItem filename="M2M4RiaTests\DemoModel.edmx" />
+    <DeploymentItem filename="M2M4RiaTests\M2M4RiaTestModel.edmx" />
   </Deployment>
   <Execution>
     <TestTypeSpecific>

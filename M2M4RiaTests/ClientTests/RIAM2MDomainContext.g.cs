@@ -15,7 +15,7 @@ namespace ClientTests.Web
     using System.ServiceModel.DomainServices.Client;
 	using ClientTests.Web;
 	
-    public partial class DemoContext
+    public partial class M2M4RiaTestContext
     {
         partial void OnCreated()
         {

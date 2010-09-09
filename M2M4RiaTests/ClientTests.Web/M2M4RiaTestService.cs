@@ -18,7 +18,7 @@ namespace ClientTests.Web
     // Also consider adding roles to restrict access as appropriate.
     // [RequiresAuthentication]
     [EnableClientAccess()]
-    public partial class DemoService : LinqToEntitiesDomainService<DemoModelContainer>
+    public partial class M2M4RiaTestService : LinqToEntitiesDomainService<M2M4RiaTestModelContainer>
     {
 
         // TODO:

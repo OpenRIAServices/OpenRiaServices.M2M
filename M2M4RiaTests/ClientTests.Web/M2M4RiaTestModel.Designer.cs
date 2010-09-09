@@ -18,48 +18,48 @@ using System.Runtime.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("DemoModel", "AnimalVet", "Animal", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(M2M4RiaDemo.Web.Model.Animal), "Vet", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(M2M4RiaDemo.Web.Model.Vet))]
-[assembly: EdmRelationshipAttribute("DemoModel", "DogFireHydrant", "Dog", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(M2M4RiaDemo.Web.Model.Dog), "FireHydrant", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(M2M4RiaDemo.Web.Model.FireHydrant))]
-[assembly: EdmRelationshipAttribute("DemoModel", "OwnerAnimal", "Owner", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(M2M4RiaDemo.Web.Model.Owner), "Animal", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(M2M4RiaDemo.Web.Model.Animal), true)]
-[assembly: EdmRelationshipAttribute("DemoModel", "DogChewedShoe", "Dog", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(M2M4RiaDemo.Web.Model.Dog), "ChewedShoe", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(M2M4RiaDemo.Web.Model.ChewedShoe), true)]
-[assembly: EdmRelationshipAttribute("DemoModel", "DogTrainer", "Dog", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(M2M4RiaDemo.Web.Model.Dog), "Trainer", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(M2M4RiaDemo.Web.Model.Trainer))]
-[assembly: EdmRelationshipAttribute("DemoModel", "AnimalFood", "Animal", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(M2M4RiaDemo.Web.Model.Animal), "Food", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(M2M4RiaDemo.Web.Model.Food))]
+[assembly: EdmRelationshipAttribute("M2M4RiaModel", "AnimalVet", "Animal", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Animal), "Vet", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Vet))]
+[assembly: EdmRelationshipAttribute("M2M4RiaModel", "DogFireHydrant", "Dog", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Dog), "FireHydrant", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.FireHydrant))]
+[assembly: EdmRelationshipAttribute("M2M4RiaModel", "OwnerAnimal", "Owner", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ClientTests.Web.Owner), "Animal", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Animal), true)]
+[assembly: EdmRelationshipAttribute("M2M4RiaModel", "DogChewedShoe", "Dog", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ClientTests.Web.Dog), "ChewedShoe", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.ChewedShoe), true)]
+[assembly: EdmRelationshipAttribute("M2M4RiaModel", "DogTrainer", "Dog", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Dog), "Trainer", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Trainer))]
+[assembly: EdmRelationshipAttribute("M2M4RiaModel", "AnimalFood", "Animal", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Animal), "Food", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Food))]
 
 #endregion
 
-namespace M2M4RiaDemo.Web.Model
+namespace ClientTests.Web
 {
     #region Contexts
     
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    public partial class DemoModelContainer : ObjectContext
+    public partial class M2M4RiaTestModelContainer : ObjectContext
     {
         #region Constructors
     
         /// <summary>
-        /// Initializes a new DemoModelContainer object using the connection string found in the 'DemoModelContainer' section of the application configuration file.
+        /// Initializes a new M2M4RiaTestModelContainer object using the connection string found in the 'M2M4RiaTestModelContainer' section of the application configuration file.
         /// </summary>
-        public DemoModelContainer() : base("name=DemoModelContainer", "DemoModelContainer")
+        public M2M4RiaTestModelContainer() : base("name=M2M4RiaTestModelContainer", "M2M4RiaTestModelContainer")
         {
             this.ContextOptions.LazyLoadingEnabled = true;
             OnContextCreated();
         }
     
         /// <summary>
-        /// Initialize a new DemoModelContainer object.
+        /// Initialize a new M2M4RiaTestModelContainer object.
         /// </summary>
-        public DemoModelContainer(string connectionString) : base(connectionString, "DemoModelContainer")
+        public M2M4RiaTestModelContainer(string connectionString) : base(connectionString, "M2M4RiaTestModelContainer")
         {
             this.ContextOptions.LazyLoadingEnabled = true;
             OnContextCreated();
         }
     
         /// <summary>
-        /// Initialize a new DemoModelContainer object.
+        /// Initialize a new M2M4RiaTestModelContainer object.
         /// </summary>
-        public DemoModelContainer(EntityConnection connection) : base(connection, "DemoModelContainer")
+        public M2M4RiaTestModelContainer(EntityConnection connection) : base(connection, "M2M4RiaTestModelContainer")
         {
             this.ContextOptions.LazyLoadingEnabled = true;
             OnContextCreated();
@@ -257,7 +257,7 @@ namespace M2M4RiaDemo.Web.Model
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="DemoModel", Name="Animal")]
+    [EdmEntityTypeAttribute(NamespaceName="M2M4RiaModel", Name="Animal")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     [KnownTypeAttribute(typeof(Dog))]
@@ -367,18 +367,18 @@ namespace M2M4RiaDemo.Web.Model
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("DemoModel", "AnimalVet", "Vet")]
+        [EdmRelationshipNavigationPropertyAttribute("M2M4RiaModel", "AnimalVet", "Vet")]
         public EntityCollection<Vet> Vets
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Vet>("DemoModel.AnimalVet", "Vet");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Vet>("M2M4RiaModel.AnimalVet", "Vet");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Vet>("DemoModel.AnimalVet", "Vet", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Vet>("M2M4RiaModel.AnimalVet", "Vet", value);
                 }
             }
         }
@@ -389,16 +389,16 @@ namespace M2M4RiaDemo.Web.Model
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("DemoModel", "OwnerAnimal", "Owner")]
+        [EdmRelationshipNavigationPropertyAttribute("M2M4RiaModel", "OwnerAnimal", "Owner")]
         public Owner Owner
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Owner>("DemoModel.OwnerAnimal", "Owner").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Owner>("M2M4RiaModel.OwnerAnimal", "Owner").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Owner>("DemoModel.OwnerAnimal", "Owner").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Owner>("M2M4RiaModel.OwnerAnimal", "Owner").Value = value;
             }
         }
         /// <summary>
@@ -410,13 +410,13 @@ namespace M2M4RiaDemo.Web.Model
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Owner>("DemoModel.OwnerAnimal", "Owner");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Owner>("M2M4RiaModel.OwnerAnimal", "Owner");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Owner>("DemoModel.OwnerAnimal", "Owner", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Owner>("M2M4RiaModel.OwnerAnimal", "Owner", value);
                 }
             }
         }
@@ -427,7 +427,7 @@ namespace M2M4RiaDemo.Web.Model
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="DemoModel", Name="Cat")]
+    [EdmEntityTypeAttribute(NamespaceName="M2M4RiaModel", Name="Cat")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class Cat : Animal
@@ -483,7 +483,7 @@ namespace M2M4RiaDemo.Web.Model
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="DemoModel", Name="ChewedShoe")]
+    [EdmEntityTypeAttribute(NamespaceName="M2M4RiaModel", Name="ChewedShoe")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class ChewedShoe : EntityObject
@@ -593,16 +593,16 @@ namespace M2M4RiaDemo.Web.Model
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("DemoModel", "DogChewedShoe", "Dog")]
+        [EdmRelationshipNavigationPropertyAttribute("M2M4RiaModel", "DogChewedShoe", "Dog")]
         public Dog Dog
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Dog>("DemoModel.DogChewedShoe", "Dog").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Dog>("M2M4RiaModel.DogChewedShoe", "Dog").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Dog>("DemoModel.DogChewedShoe", "Dog").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Dog>("M2M4RiaModel.DogChewedShoe", "Dog").Value = value;
             }
         }
         /// <summary>
@@ -614,13 +614,13 @@ namespace M2M4RiaDemo.Web.Model
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Dog>("DemoModel.DogChewedShoe", "Dog");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Dog>("M2M4RiaModel.DogChewedShoe", "Dog");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Dog>("DemoModel.DogChewedShoe", "Dog", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Dog>("M2M4RiaModel.DogChewedShoe", "Dog", value);
                 }
             }
         }
@@ -631,7 +631,7 @@ namespace M2M4RiaDemo.Web.Model
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="DemoModel", Name="Dog")]
+    [EdmEntityTypeAttribute(NamespaceName="M2M4RiaModel", Name="Dog")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class Dog : Animal
@@ -690,18 +690,18 @@ namespace M2M4RiaDemo.Web.Model
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("DemoModel", "DogFireHydrant", "FireHydrant")]
+        [EdmRelationshipNavigationPropertyAttribute("M2M4RiaModel", "DogFireHydrant", "FireHydrant")]
         public EntityCollection<FireHydrant> FireHydrants
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<FireHydrant>("DemoModel.DogFireHydrant", "FireHydrant");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<FireHydrant>("M2M4RiaModel.DogFireHydrant", "FireHydrant");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<FireHydrant>("DemoModel.DogFireHydrant", "FireHydrant", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<FireHydrant>("M2M4RiaModel.DogFireHydrant", "FireHydrant", value);
                 }
             }
         }
@@ -712,18 +712,18 @@ namespace M2M4RiaDemo.Web.Model
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("DemoModel", "DogChewedShoe", "ChewedShoe")]
+        [EdmRelationshipNavigationPropertyAttribute("M2M4RiaModel", "DogChewedShoe", "ChewedShoe")]
         public EntityCollection<ChewedShoe> ChewedShoes
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ChewedShoe>("DemoModel.DogChewedShoe", "ChewedShoe");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ChewedShoe>("M2M4RiaModel.DogChewedShoe", "ChewedShoe");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ChewedShoe>("DemoModel.DogChewedShoe", "ChewedShoe", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ChewedShoe>("M2M4RiaModel.DogChewedShoe", "ChewedShoe", value);
                 }
             }
         }
@@ -734,18 +734,18 @@ namespace M2M4RiaDemo.Web.Model
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("DemoModel", "DogTrainer", "Trainer")]
+        [EdmRelationshipNavigationPropertyAttribute("M2M4RiaModel", "DogTrainer", "Trainer")]
         public EntityCollection<Trainer> Trainers
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Trainer>("DemoModel.DogTrainer", "Trainer");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Trainer>("M2M4RiaModel.DogTrainer", "Trainer");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Trainer>("DemoModel.DogTrainer", "Trainer", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Trainer>("M2M4RiaModel.DogTrainer", "Trainer", value);
                 }
             }
         }
@@ -756,7 +756,7 @@ namespace M2M4RiaDemo.Web.Model
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="DemoModel", Name="FireHydrant")]
+    [EdmEntityTypeAttribute(NamespaceName="M2M4RiaModel", Name="FireHydrant")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class FireHydrant : EntityObject
@@ -837,7 +837,7 @@ namespace M2M4RiaDemo.Web.Model
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="DemoModel", Name="Food")]
+    [EdmEntityTypeAttribute(NamespaceName="M2M4RiaModel", Name="Food")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class Food : EntityObject
@@ -918,7 +918,7 @@ namespace M2M4RiaDemo.Web.Model
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="DemoModel", Name="Owner")]
+    [EdmEntityTypeAttribute(NamespaceName="M2M4RiaModel", Name="Owner")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class Owner : EntityObject
@@ -1002,18 +1002,18 @@ namespace M2M4RiaDemo.Web.Model
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("DemoModel", "OwnerAnimal", "Animal")]
+        [EdmRelationshipNavigationPropertyAttribute("M2M4RiaModel", "OwnerAnimal", "Animal")]
         public EntityCollection<Animal> Animals
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Animal>("DemoModel.OwnerAnimal", "Animal");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Animal>("M2M4RiaModel.OwnerAnimal", "Animal");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Animal>("DemoModel.OwnerAnimal", "Animal", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Animal>("M2M4RiaModel.OwnerAnimal", "Animal", value);
                 }
             }
         }
@@ -1024,7 +1024,7 @@ namespace M2M4RiaDemo.Web.Model
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="DemoModel", Name="Trainer")]
+    [EdmEntityTypeAttribute(NamespaceName="M2M4RiaModel", Name="Trainer")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class Trainer : EntityObject
@@ -1108,18 +1108,18 @@ namespace M2M4RiaDemo.Web.Model
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("DemoModel", "DogTrainer", "Dog")]
+        [EdmRelationshipNavigationPropertyAttribute("M2M4RiaModel", "DogTrainer", "Dog")]
         public EntityCollection<Dog> Dogs
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Dog>("DemoModel.DogTrainer", "Dog");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Dog>("M2M4RiaModel.DogTrainer", "Dog");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Dog>("DemoModel.DogTrainer", "Dog", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Dog>("M2M4RiaModel.DogTrainer", "Dog", value);
                 }
             }
         }
@@ -1130,7 +1130,7 @@ namespace M2M4RiaDemo.Web.Model
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="DemoModel", Name="Vet")]
+    [EdmEntityTypeAttribute(NamespaceName="M2M4RiaModel", Name="Vet")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class Vet : EntityObject
@@ -1214,18 +1214,18 @@ namespace M2M4RiaDemo.Web.Model
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("DemoModel", "AnimalVet", "Animal")]
+        [EdmRelationshipNavigationPropertyAttribute("M2M4RiaModel", "AnimalVet", "Animal")]
         public EntityCollection<Animal> Animals
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Animal>("DemoModel.AnimalVet", "Animal");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Animal>("M2M4RiaModel.AnimalVet", "Animal");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Animal>("DemoModel.AnimalVet", "Animal", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Animal>("M2M4RiaModel.AnimalVet", "Animal", value);
                 }
             }
         }

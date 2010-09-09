@@ -11,7 +11,7 @@ namespace RIAM2M.Web.Tests
     {
         // The unit test settings for this solution have been configured to copy the DemoMode.edmx file to the root directory
         // of the unit test's workspace.  See the "Deployment" menu under the Local.testsettings file in the "Solution Items" solution folder.
-        private const string EdmxFilePath = "DemoModel.edmx";
+        private const string EdmxFilePath = "M2M4RiaTestModel.edmx";
         private readonly Type[] ExpectedAssocationTypes = new Type[] { };
 
         private RIAM2MShared.M2MData _M2MDataObject;
