@@ -3,8 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="clr-namespace:M2M4RiaDemo.Models"
     xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:models="clr-namespace:M2M4RiaDemo.Models"
     mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="400">
 
@@ -24,30 +24,30 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ListBox SelectedItem="{Binding SelectedPatient,Mode=TwoWay}" ItemsSource="{Binding PatientList}" Grid.Row="1" />
-        <ListBox Grid.Row="3" SelectedItem="{Binding SelectedPatientDoctor,Mode=TwoWay}" ItemsSource="{Binding SelectedPatient.DoctorSet }" />
-        <ListBox Grid.Column="2" Grid.Row="1" SelectedItem="{Binding SelectedDoctor,Mode=TwoWay}" ItemsSource="{Binding DoctorList}"/>
-        <ListBox Grid.Column="2" Grid.Row="3" SelectedItem="{Binding SelectedDoctorPatient,Mode=TwoWay}" ItemsSource="{Binding SelectedDoctor.PatientSet}"/>
-        <ListBox Grid.Column="1" Grid.RowSpan="3" Grid.Row="1" ItemsSource="{Binding PatientDoctors}"/>
+        <ListBox SelectedItem="{Binding SelectedDog,Mode=TwoWay}" ItemsSource="{Binding DogList}" Grid.Row="1" />
+        <ListBox Grid.Row="3" SelectedItem="{Binding SelectedDogTrainer,Mode=TwoWay}" ItemsSource="{Binding SelectedDog.Trainers }" />
+        <ListBox Grid.Column="2" Grid.Row="1" SelectedItem="{Binding SelectedTrainer,Mode=TwoWay}" ItemsSource="{Binding TrainerList}"/>
+        <ListBox Grid.Column="2" Grid.Row="3" SelectedItem="{Binding SelectedTrainerDog,Mode=TwoWay}" ItemsSource="{Binding SelectedTrainer.Dogs}"/>
+        <ListBox Grid.Column="1" Grid.RowSpan="3" Grid.Row="1" ItemsSource="{Binding DogTrainers}"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <sdk:Label Content="PatientSet"  />
-            <sdk:Label Content="{Binding PatientList.Count}"/>
+            <sdk:Label Content="DogSet"  />
+            <sdk:Label Content="{Binding DogList.Count}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center">
-            <sdk:Label Content="PatientDoctors"  />
-            <sdk:Label Content="{Binding PatientDoctors.Count}"/>
+            <sdk:Label Content="DogTrainers"  />
+            <sdk:Label Content="{Binding DogTrainers.Count}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Center">
-            <sdk:Label Content="DoctorSet"  />
-            <sdk:Label Content="{Binding DoctorList.Count}"/>
+            <sdk:Label Content="TrainerSet"  />
+            <sdk:Label Content="{Binding TrainerList.Count}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" >
-            <sdk:Label Content="Patient.DoctorSet"  />
-            <sdk:Label Content="{Binding SelectedPatient.DoctorSet.Count}"/>
+            <sdk:Label Content="Dog.Trainers"  />
+            <sdk:Label Content="{Binding SelectedDog.Trainers.Count}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Center">
-            <sdk:Label Content="Doctor.PatientSet"  />
-            <sdk:Label Content="{Binding SelectedDoctor.PatientSet.Count}"/>
+            <sdk:Label Content="Trainer.Dogs"  />
+            <sdk:Label Content="{Binding SelectedTrainer.Dogs.Count}"/>
         </StackPanel>
         <Grid Grid.ColumnSpan="3" Grid.Row="4" >
             <Grid.ColumnDefinitions>
@@ -62,12 +62,11 @@
             </Grid.ColumnDefinitions>
             <CheckBox Content="AutoSave" IsChecked="{Binding Path=AutoSave, Mode=TwoWay}" VerticalAlignment="Center" ToolTipService.ToolTip="Submit changes to server as soon as an entity/association has been created/deleted"/>
             <Button Content="Save" Grid.Column="1" Command="{Binding Save}" />
-            <Button Content="AddDoctor" Grid.Column="2" Command="{Binding AddDoctor}"/>
-            <Button Content="DeleteDoctor" Grid.Column="3" Command="{Binding DeleteDoctor}"/>
-            <Button Content="CreateDoctor" Grid.Column="4" Command="{Binding CreateDoctor}"/>
-            <Button Content="AddPatient" Grid.Column="5" Command="{Binding AddPatient}"/>
-            <Button Content="DeletePatient" Grid.Column="6" Command="{Binding DeletePatient}"/>
-            <Button Content="CreatePatient" Grid.Column="7" Command="{Binding CreatePatient}"/>
+            <Button Content="AddTrainer" Grid.Column="2" Command="{Binding AddTrainer}"/>
+            <Button Content="DeleteTrainer" Grid.Column="3" Command="{Binding DeleteTrainer}"/>
+            <Button Content="CreateTrainer" Grid.Column="4" Command="{Binding CreateTrainer}"/>
+            <Button Content="AddDog" Grid.Column="5" Command="{Binding AddDog}"/>
+            <Button Content="DeleteDog" Grid.Column="6" Command="{Binding DeleteDog}"/>
+            <Button Content="CreateDog" Grid.Column="7" Command="{Binding CreateDog}"/>
         </Grid>
-    </Grid>
-</UserControl>
+    </Grid></UserControl>

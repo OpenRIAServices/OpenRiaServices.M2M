@@ -4,6 +4,9 @@ using System.Linq;
 using System.ServiceModel.DomainServices.Client;
 using System.Windows.Input;
 using M2M4RiaDemo.Web;
+using M2M4RiaDemo.Web.Service;
+using System.Collections.Generic;
+using M2M4RiaDemo.Web.Model;
 
 namespace M2M4RiaDemo.Models
 {
@@ -45,11 +48,11 @@ namespace M2M4RiaDemo.Models
         {
             if (DesignerProperties.IsInDesignTool == false)
             {
-                PatientList = c.Patients;
-                DoctorList = c.Doctors;
-                PatientDoctors = c.EntityContainer.GetEntitySet<PatientDoctor>();
-                c.Load(c.GetPatientsQuery());
-                c.Load(c.GetDoctorsQuery());
+                DogList = c.Animals;
+                TrainerList = c.Trainers;
+                DogTrainers = c.EntityContainer.GetEntitySet<DogTrainer>();
+                c.Load(c.GetDogsQuery());
+                c.Load(c.GetTrainersQuery());
             }
         }
         public void CreateDatabase(Action action)
@@ -70,113 +73,113 @@ namespace M2M4RiaDemo.Models
             }
         }
 
-        private Patient selectedPatient;
-        public Patient SelectedPatient
+        private Dog selectedDog;
+        public Dog SelectedDog
         {
-            get { return selectedPatient; }
+            get { return selectedDog; }
             set
             {
-                selectedPatient = value;
-                RaisePropertyChanged("SelectedPatient");
+                selectedDog = value;
+                RaisePropertyChanged("SelectedDog");
             }
         }
 
-        private Doctor selectedPatientDoctor;
-        public Doctor SelectedPatientDoctor
+        private Trainer selectedDogTrainer;
+        public Trainer SelectedDogTrainer
         {
-            get { return selectedPatientDoctor; }
-            set { selectedPatientDoctor = value; RaisePropertyChanged("SelectedPatientDoctor"); }
+            get { return selectedDogTrainer; }
+            set { selectedDogTrainer = value; RaisePropertyChanged("SelectedDogTrainer"); }
         }
 
-        private Doctor selectedDoctor;
-        public Doctor SelectedDoctor
+        private Trainer selectedTrainer;
+        public Trainer SelectedTrainer
         {
-            get { return selectedDoctor; }
-            set { selectedDoctor = value; RaisePropertyChanged("SelectedDoctor"); }
+            get { return selectedTrainer; }
+            set { selectedTrainer = value; RaisePropertyChanged("SelectedTrainer"); }
         }
 
-        private Patient selectedDoctorPatient;
-        public Patient SelectedDoctorPatient
+        private Dog selectedTrainerDog;
+        public Dog SelectedTrainerDog
         {
-            get { return selectedDoctorPatient; }
-            set { selectedDoctorPatient = value; RaisePropertyChanged("SelectedDoctorPatient"); }
+            get { return selectedTrainerDog; }
+            set { selectedTrainerDog = value; RaisePropertyChanged("SelectedTrainerDog"); }
         }
 
-        private AddDoctorCommand _addDoctorCommand;
-        public AddDoctorCommand AddDoctor
+        private AddTrainerCommand _addTrainerCommand;
+        public AddTrainerCommand AddTrainer
         {
             get
             {
-                if (_addDoctorCommand == null)
-                    _addDoctorCommand = new AddDoctorCommand(this);
-                return _addDoctorCommand;
+                if (_addTrainerCommand == null)
+                    _addTrainerCommand = new AddTrainerCommand(this);
+                return _addTrainerCommand;
             }
         }
 
-        private AddPatientCommand _addPatientCommand;
-        public AddPatientCommand AddPatient
+        private AddDogCommand _addDogCommand;
+        public AddDogCommand AddDog
         {
             get
             {
-                if (_addPatientCommand == null)
-                    _addPatientCommand = new AddPatientCommand(this);
-                return _addPatientCommand;
+                if (_addDogCommand == null)
+                    _addDogCommand = new AddDogCommand(this);
+                return _addDogCommand;
             }
-            set { _addPatientCommand = value; }
+            set { _addDogCommand = value; }
         }
 
-        private DeleteDoctorCommand _deleteDoctorCommand;
-        public DeleteDoctorCommand DeleteDoctor
+        private DeleteTrainerCommand _deleteTrainerCommand;
+        public DeleteTrainerCommand DeleteTrainer
         {
             get
             {
-                if (_deleteDoctorCommand == null)
-                    _deleteDoctorCommand = new DeleteDoctorCommand(this);
-                return _deleteDoctorCommand;
+                if (_deleteTrainerCommand == null)
+                    _deleteTrainerCommand = new DeleteTrainerCommand(this);
+                return _deleteTrainerCommand;
             }
-            set { _deleteDoctorCommand = value; }
+            set { _deleteTrainerCommand = value; }
         }
 
-        private DeletePatientCommand _deletePatientCommand;
-        public DeletePatientCommand DeletePatient
+        private DeleteDogCommand _deleteDogCommand;
+        public DeleteDogCommand DeleteDog
         {
             get
             {
-                if (_deletePatientCommand == null)
-                    _deletePatientCommand = new DeletePatientCommand(this);
-                return _deletePatientCommand;
+                if (_deleteDogCommand == null)
+                    _deleteDogCommand = new DeleteDogCommand(this);
+                return _deleteDogCommand;
             }
-            set { _deletePatientCommand = value; }
+            set { _deleteDogCommand = value; }
         }
 
-        private CreateDoctorCommand _createDoctorCommand;
-        public CreateDoctorCommand CreateDoctor
+        private CreateTrainerCommand _createTrainerCommand;
+        public CreateTrainerCommand CreateTrainer
         {
             get
             {
-                if (_createDoctorCommand == null)
-                    _createDoctorCommand = new CreateDoctorCommand(this);
-                return _createDoctorCommand;
+                if (_createTrainerCommand == null)
+                    _createTrainerCommand = new CreateTrainerCommand(this);
+                return _createTrainerCommand;
             }
-            set { _createDoctorCommand = value; }
+            set { _createTrainerCommand = value; }
         }
 
-        private CreatePatientCommand _createPatientCommand;
-        public CreatePatientCommand CreatePatient
+        private CreateDogCommand _createDogCommand;
+        public CreateDogCommand CreateDog
         {
             get
             {
-                if (_createPatientCommand == null)
-                    _createPatientCommand = new CreatePatientCommand(this);
-                return _createPatientCommand;
+                if (_createDogCommand == null)
+                    _createDogCommand = new CreateDogCommand(this);
+                return _createDogCommand;
             }
-            set { _createPatientCommand = value; }
+            set { _createDogCommand = value; }
         }
 
 
-        public EntitySet<Patient> PatientList { get; set; }
-        public EntitySet<Doctor> DoctorList { get; set; }
-        public EntitySet<PatientDoctor> PatientDoctors { get; set; }
+        public EntitySet<Animal> DogList { get; set; }
+        public EntitySet<Trainer> TrainerList { get; set; }
+        public EntitySet<DogTrainer> DogTrainers { get; set; }
 
         private SaveCommand _saveCommand;
         public SaveCommand Save
@@ -188,14 +191,14 @@ namespace M2M4RiaDemo.Models
                 return _saveCommand;
             }
         }
-        private M2M4RiaDemoDomainContext _c;
-        public M2M4RiaDemoDomainContext c
+        private DemoContext _c;
+        public DemoContext c
         {
             get
             {
                 if (_c == null)
                 {
-                    _c = new M2M4RiaDemoDomainContext();
+                    _c = new DemoContext();
                     _c.CreateDataBase();
                 }
                 return _c;
@@ -209,10 +212,6 @@ namespace M2M4RiaDemo.Models
                 var changes = c.EntityContainer.GetChanges();
                 c.SubmitChanges(callback =>
                 {
-                    if (callback.HasError == false)
-                    {
-                        Patient ps = c.Patients.First();
-                    }
                 }, null);
             }
         }
@@ -246,7 +245,6 @@ namespace M2M4RiaDemo.Models
 
         public override void Execute(object parameter)
         {
-            var x = homeModel.c.EntityContainer.GetChanges();
             homeModel.c.SubmitChanges(callback =>
             {
                 if (callback.HasError == true)
@@ -260,10 +258,10 @@ namespace M2M4RiaDemo.Models
                 homeModel.c.IsSubmitting == false;
         }
     }
-    public class AddDoctorCommand : MyCommand
+    public class AddTrainerCommand : MyCommand
     {
         private HomeModel homeModel;
-        public AddDoctorCommand(HomeModel homeModel)
+        public AddTrainerCommand(HomeModel homeModel)
         {
             this.homeModel = homeModel;
             homeModel.PropertyChanged += homeModel_PropertyChanged;
@@ -271,7 +269,7 @@ namespace M2M4RiaDemo.Models
 
         void homeModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "SelectedPatient" || e.PropertyName == "SelectedDoctor")
+            if (e.PropertyName == "SelectedDog" || e.PropertyName == "SelectedTrainer")
             {
                 CanExecute(null);
             }
@@ -279,21 +277,21 @@ namespace M2M4RiaDemo.Models
 
         public override void Execute(object parameter)
         {
-            homeModel.SelectedPatient.DoctorSet.Add(homeModel.SelectedDoctor);
+            homeModel.SelectedDog.Trainers.Add(homeModel.SelectedTrainer);
             homeModel.AutoSaveChanges();
             CanExecute(parameter);
         }
 
         protected override bool CheckCanExecute(object parameter)
         {
-            return homeModel.SelectedDoctor != null && homeModel.SelectedPatient != null &&
-                homeModel.SelectedPatient.DoctorSet.Contains(homeModel.SelectedDoctor) == false;
+            return homeModel.SelectedTrainer != null && homeModel.SelectedDog != null &&
+                homeModel.SelectedDog.Trainers.Contains(homeModel.SelectedTrainer) == false;
         }
     }
-    public class DeleteDoctorCommand : MyCommand
+    public class DeleteTrainerCommand : MyCommand
     {
         HomeModel homeModel;
-        public DeleteDoctorCommand(HomeModel homeModel)
+        public DeleteTrainerCommand(HomeModel homeModel)
         {
             this.homeModel = homeModel;
             homeModel.PropertyChanged += homeModel_PropertyChanged;
@@ -301,25 +299,25 @@ namespace M2M4RiaDemo.Models
 
         void homeModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "SelectedPatient" || e.PropertyName == "SelectedPatientDoctor")
+            if (e.PropertyName == "SelectedDog" || e.PropertyName == "SelectedDogTrainer")
                 CanExecute(null);
         }
         protected override bool CheckCanExecute(object parameter)
         {
-            return homeModel.SelectedPatient != null && homeModel.SelectedPatientDoctor != null;
+            return homeModel.SelectedDog != null && homeModel.SelectedDogTrainer != null;
         }
 
         public override void Execute(object parameter)
         {
-            homeModel.SelectedPatient.DoctorSet.Remove(homeModel.SelectedPatientDoctor);
+            homeModel.SelectedDog.Trainers.Remove(homeModel.SelectedDogTrainer);
             homeModel.AutoSaveChanges();
             CanExecute(parameter);
         }
     }
-    public class CreateDoctorCommand : MyCommand
+    public class CreateTrainerCommand : MyCommand
     {
         HomeModel homeModel;
-        public CreateDoctorCommand(HomeModel homeModel)
+        public CreateTrainerCommand(HomeModel homeModel)
         {
             this.homeModel = homeModel;
             homeModel.c.PropertyChanged += CheckCanExecute;
@@ -335,17 +333,17 @@ namespace M2M4RiaDemo.Models
             return homeModel.c.IsSubmitting == false;
         }
 
-        private int doctorCount;
+        private int trainerCount;
         public override void Execute(object parameter)
         {
-            homeModel.c.Doctors.Add(new Doctor { Name = "Doctor" + doctorCount++ });
+            homeModel.c.Trainers.Add(new Trainer { Name = "Trainer" + trainerCount++ });
             homeModel.AutoSaveChanges();
         }
     }
-    public class AddPatientCommand : MyCommand
+    public class AddDogCommand : MyCommand
     {
         HomeModel homeModel;
-        public AddPatientCommand(HomeModel homeModel)
+        public AddDogCommand(HomeModel homeModel)
         {
             this.homeModel = homeModel;
             homeModel.PropertyChanged += homeModel_PropertyChanged;
@@ -353,26 +351,26 @@ namespace M2M4RiaDemo.Models
 
         void homeModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "SelectedDoctor" || e.PropertyName == "SelectedPatient")
+            if (e.PropertyName == "SelectedTrainer" || e.PropertyName == "SelectedDog")
                 CanExecute(null);
         }
         protected override bool CheckCanExecute(object parameter)
         {
-            return homeModel.SelectedDoctor != null && homeModel.SelectedPatient != null &&
-                homeModel.SelectedDoctor.PatientSet.Contains(homeModel.SelectedPatient) == false;
+            return homeModel.SelectedTrainer != null && homeModel.SelectedDog != null &&
+                homeModel.SelectedTrainer.Dogs.Contains(homeModel.SelectedDog) == false;
         }
 
         public override void Execute(object parameter)
         {
-            homeModel.SelectedDoctor.PatientSet.Add(homeModel.SelectedPatient);
+            homeModel.SelectedTrainer.Dogs.Add(homeModel.SelectedDog);
             homeModel.AutoSaveChanges();
             CanExecute(parameter);
         }
     }
-    public class DeletePatientCommand : MyCommand
+    public class DeleteDogCommand : MyCommand
     {
         HomeModel homeModel;
-        public DeletePatientCommand(HomeModel homeModel)
+        public DeleteDogCommand(HomeModel homeModel)
         {
             this.homeModel = homeModel;
             homeModel.PropertyChanged += homeModel_PropertyChanged;
@@ -380,25 +378,25 @@ namespace M2M4RiaDemo.Models
 
         void homeModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "SelectedDoctor" || e.PropertyName == "SelectedDoctorPatient")
+            if (e.PropertyName == "SelectedTrainer" || e.PropertyName == "SelectedTrainerDog")
                 CanExecute(null);
         }
         protected override bool CheckCanExecute(object parameter)
         {
-            return homeModel.SelectedDoctor != null && homeModel.SelectedDoctorPatient != null;
+            return homeModel.SelectedTrainer != null && homeModel.SelectedTrainerDog != null;
         }
 
         public override void Execute(object parameter)
         {
-            homeModel.SelectedDoctor.PatientSet.Remove(homeModel.SelectedDoctorPatient);
+            homeModel.SelectedTrainer.Dogs.Remove(homeModel.SelectedTrainerDog);
             homeModel.AutoSaveChanges();
             CanExecute(parameter);
         }
     }
-    public class CreatePatientCommand : MyCommand
+    public class CreateDogCommand : MyCommand
     {
         HomeModel homeModel;
-        public CreatePatientCommand(HomeModel homeModel)
+        public CreateDogCommand(HomeModel homeModel)
         {
             this.homeModel = homeModel;
             homeModel.c.PropertyChanged += CheckCanExecute;
@@ -414,10 +412,10 @@ namespace M2M4RiaDemo.Models
             return homeModel.c.IsSubmitting == false;
         }
 
-        private int patientCount;
+        private int dogCount;
         public override void Execute(object parameter)
         {
-            homeModel.c.Patients.Add(new Patient { Name = "Patient" + patientCount++ });
+            homeModel.c.Animals.Add(new Dog { Name = "Dog" + dogCount++ });
             homeModel.AutoSaveChanges();
         }
     }
