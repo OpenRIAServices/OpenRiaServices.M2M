@@ -6,6 +6,7 @@
 
  
 
+// Instruct compiler not to warn about usage of obsolete members, because using them is intended.
 #pragma warning disable 618
 
 #region Domain Service
@@ -326,7 +327,7 @@ namespace M2M4RiaDemo.Web.Service
 
 #endregion
 
-
+// Restore compiler warnings when using obsolete methods
 #pragma warning restore 618
 
 
