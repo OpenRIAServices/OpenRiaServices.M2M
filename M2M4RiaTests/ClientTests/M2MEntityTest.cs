@@ -101,32 +101,5 @@ namespace M2M4Ria.Client.Tests
             Assert.IsNull(linkEntityFromVet, "Link entity found from vet to dog when no link entity was expected");
             Assert.IsNull(linkEntityFromDog, "Link entity found from dog to vet when no link entity was expected");
         }
-
-#pragma warning disable 618
-
-        /// <summary>
-        /// Checks to see if the Link Entity remove event is fired when calling the remove event to 
-        /// remove a many to many relationship on an entity.
-        /// </summary>
-        [TestMethod]
-        [Description("Checks to see if the Link Entity remove event is fired when calling the remove event to\n" +
-                     "remove a many to many relationship on an entity.")]
-        public void CheckLinkEntityRemoveEventFires()
-        {
-            bool DogToVetLinkRemoved = false;
-
-            Vet vet = new Vet();
-            Dog dog = new Dog();
-
-            vet.Animals.Add(dog);
-            dog.AnimalVetToVetRemoved += (e) =>
-            {
-                DogToVetLinkRemoved = true;
-            };
-
-            dog.Vets.Remove(vet);
-
-            Assert.IsTrue(DogToVetLinkRemoved, "Link Entity remove event did not fire when calling the remove method on a M2MEntityCollection");
-        }
     }
 }
