@@ -19,7 +19,7 @@ namespace M2M4RiaDemo.Web.Service
     // Also consider adding roles to restrict access as appropriate.
     // [RequiresAuthentication]
     [EnableClientAccess()]
-    public partial class DemoService : LinqToEntitiesDomainService<DemoModelContainer>
+    public partial class M2M4RiaDemoService : LinqToEntitiesDomainService<M2M4RiaDemoModelContainer>
     {
         /// <summary>
         /// Generate the test database.

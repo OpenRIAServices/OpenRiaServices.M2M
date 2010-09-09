@@ -61,7 +61,7 @@
     <Content Include="ClientBin\M2M4RiaDemo.xap" />
     <Content Include="M2M4RiaDemoTestPage.aspx" />
     <Content Include="M2M4RiaDemoTestPage.html" />
-    <Content Include="Model\DemoModel.edmx.sql" />
+    <Content Include="Model\M2M4RiaDemoModel.edmx.sql" />
     <Content Include="Silverlight.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -74,10 +74,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\DemoModel.Designer.cs">
+    <Compile Include="Model\M2M4RiaDemoModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DemoModel.edmx</DependentUpon>
+      <DependentUpon>M2M4RiaDemoModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RIAM2MDomainService.g.cs">
@@ -90,13 +90,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RIAM2MEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Service\DemoService.cs" />
-    <Compile Include="Service\DemoService.metadata.cs" />
+    <Compile Include="Service\M2M4RiaDemoService.cs" />
+    <Compile Include="Service\M2M4RiaDemoService.metadata.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="Model\DemoModel.edmx">
+    <EntityDeploy Include="Model\M2M4RiaDemoModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DemoModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>M2M4RiaDemoModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <None Include="RIAM2MDomainService.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

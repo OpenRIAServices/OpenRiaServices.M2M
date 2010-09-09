@@ -15,7 +15,7 @@ namespace M2M4RiaDemo.Web.Service
     using System.ServiceModel.DomainServices.Client;
 	using M2M4RiaDemo.Web.Model;
 	
-    public partial class DemoContext
+    public partial class M2M4RiaDemoContext
     {
         partial void OnCreated()
         {

@@ -183,14 +183,14 @@ namespace M2M4RiaDemo.Models
                 return _saveCommand;
             }
         }
-        private DemoContext _c;
-        public DemoContext c
+        private M2M4RiaDemoContext _c;
+        public M2M4RiaDemoContext c
         {
             get
             {
                 if (_c == null)
                 {
-                    _c = new DemoContext();
+                    _c = new M2M4RiaDemoContext();
                     _c.CreateDataBase(
                         callback =>
                         {

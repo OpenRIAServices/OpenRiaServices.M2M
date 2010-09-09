@@ -21,7 +21,7 @@ namespace M2M4RiaDemo.Web.Service
 	
 	using M2M4RiaDemo.Web.Model;
 	
-	public partial class DemoService
+	public partial class M2M4RiaDemoService
 	{
 	[Obsolete("This method is only intended for use by the RIA M2M solution")]
 	public void InsertAnimalVet(AnimalVet linkEntity)

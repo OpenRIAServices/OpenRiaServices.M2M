@@ -9,13 +9,13 @@ namespace M2M4Ria.Client.Tests
     [TestClass]
     public class DomainContextTest : SilverlightTest
     {
-        public DemoContext Context { get; set; }
+        public M2M4RiaTestContext Context { get; set; }
 
 
         [TestInitialize]
         public void TestInitialize()
         {
-            Context = new DemoContext();
+            Context = new M2M4RiaTestContext();
         }
 
         /// <summary>
