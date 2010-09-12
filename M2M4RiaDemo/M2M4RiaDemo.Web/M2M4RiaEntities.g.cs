@@ -14,6 +14,7 @@ namespace M2M4RiaDemo.Web.Model
 	#region Entities
 
 	using System;
+	using System.Collections.Generic;
 	using System.ComponentModel.DataAnnotations;
 	using System.Runtime.Serialization;
 	using System.ServiceModel.DomainServices.Server;
@@ -91,13 +92,13 @@ namespace M2M4RiaDemo.Web.Model
 	public partial class Trainer
 	{
 		// 'DogTrainerToDogSet' associationSet from 'Dog.DogId' to 'DogTrainer.DogId'
-		private EntityCollection<DogTrainer, Dog> _DogTrainerToDogSet;
+		private IEnumerable<DogTrainer> _DogTrainerToDogSet;
 		
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
 		[Association("DogTrainerToTrainerSet", "TrainerId", "TrainerId", IsForeignKey = false)]
-		public EntityCollection<DogTrainer, Dog> DogTrainerToDogSet
+		public IEnumerable<DogTrainer> DogTrainerToDogSet
 		{
 			get
 			{
@@ -120,13 +121,13 @@ namespace M2M4RiaDemo.Web.Model
 	public partial class Dog
 	{
 		// 'DogTrainerToTrainerSet' associationSet from 'Trainer.TrainerId' to 'DogTrainer.TrainerId'
-		private EntityCollection<DogTrainer, Trainer> _DogTrainerToTrainerSet;
+		private IEnumerable<DogTrainer> _DogTrainerToTrainerSet;
 		
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
 		[Association("DogTrainerToDogSet", "DogId", "DogId", IsForeignKey = false)]
-		public EntityCollection<DogTrainer, Trainer> DogTrainerToTrainerSet
+		public IEnumerable<DogTrainer> DogTrainerToTrainerSet
 		{
 			get
 			{

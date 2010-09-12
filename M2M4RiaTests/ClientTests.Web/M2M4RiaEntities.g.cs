@@ -14,6 +14,7 @@ namespace ClientTests.Web
 	#region Entities
 
 	using System;
+	using System.Collections.Generic;
 	using System.ComponentModel.DataAnnotations;
 	using System.Runtime.Serialization;
 	using System.ServiceModel.DomainServices.Server;
@@ -215,13 +216,13 @@ namespace ClientTests.Web
 	public partial class Animal
 	{
 		// 'AnimalVetToVetSet' associationSet from 'Vet.VetId' to 'AnimalVet.VetId'
-		private EntityCollection<AnimalVet, Vet> _AnimalVetToVetSet;
+		private IEnumerable<AnimalVet> _AnimalVetToVetSet;
 		
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
 		[Association("AnimalVetToAnimalSet", "AnimalId", "AnimalId", IsForeignKey = false)]
-		public EntityCollection<AnimalVet, Vet> AnimalVetToVetSet
+		public IEnumerable<AnimalVet> AnimalVetToVetSet
 		{
 			get
 			{
@@ -244,13 +245,13 @@ namespace ClientTests.Web
 	public partial class Vet
 	{
 		// 'AnimalVetToAnimalSet' associationSet from 'Animal.AnimalId' to 'AnimalVet.AnimalId'
-		private EntityCollection<AnimalVet, Animal> _AnimalVetToAnimalSet;
+		private IEnumerable<AnimalVet> _AnimalVetToAnimalSet;
 		
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
 		[Association("AnimalVetToVetSet", "VetId", "VetId", IsForeignKey = false)]
-		public EntityCollection<AnimalVet, Animal> AnimalVetToAnimalSet
+		public IEnumerable<AnimalVet> AnimalVetToAnimalSet
 		{
 			get
 			{
@@ -277,13 +278,13 @@ namespace ClientTests.Web
 	public partial class Trainer
 	{
 		// 'DogTrainerToDogSet' associationSet from 'Dog.AnimalId' to 'DogTrainer.DogId'
-		private EntityCollection<DogTrainer, Dog> _DogTrainerToDogSet;
+		private IEnumerable<DogTrainer> _DogTrainerToDogSet;
 		
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
 		[Association("DogTrainerToTrainerSet", "TrainerId", "TrainerId", IsForeignKey = false)]
-		public EntityCollection<DogTrainer, Dog> DogTrainerToDogSet
+		public IEnumerable<DogTrainer> DogTrainerToDogSet
 		{
 			get
 			{
@@ -310,13 +311,13 @@ namespace ClientTests.Web
 	public partial class Dog
 	{
 		// 'DogFireHydrantToFireHydrantSet' associationSet from 'FireHydrant.FireHydrantId' to 'DogFireHydrant.FireHydrantId'
-		private EntityCollection<DogFireHydrant, FireHydrant> _DogFireHydrantToFireHydrantSet;
+		private IEnumerable<DogFireHydrant> _DogFireHydrantToFireHydrantSet;
 		
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
 		[Association("DogFireHydrantToDogSet", "AnimalId", "DogId", IsForeignKey = false)]
-		public EntityCollection<DogFireHydrant, FireHydrant> DogFireHydrantToFireHydrantSet
+		public IEnumerable<DogFireHydrant> DogFireHydrantToFireHydrantSet
 		{
 			get
 			{
@@ -335,13 +336,13 @@ namespace ClientTests.Web
 		}
 		
 		// 'DogTrainerToTrainerSet' associationSet from 'Trainer.TrainerId' to 'DogTrainer.TrainerId'
-		private EntityCollection<DogTrainer, Trainer> _DogTrainerToTrainerSet;
+		private IEnumerable<DogTrainer> _DogTrainerToTrainerSet;
 		
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
 		[Association("DogTrainerToDogSet", "AnimalId", "DogId", IsForeignKey = false)]
-		public EntityCollection<DogTrainer, Trainer> DogTrainerToTrainerSet
+		public IEnumerable<DogTrainer> DogTrainerToTrainerSet
 		{
 			get
 			{
