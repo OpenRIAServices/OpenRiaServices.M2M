@@ -61,9 +61,9 @@ namespace M2M4RiaDemo.Web.Model
 		// Code relating to the managing of the 'DogTrainer' association from 'Trainer' to 'Dog'
 		//
 		
-		private EntityCollection<DogTrainer, Dog> _Dogs;
+		private IEntityCollection<Dog> _Dogs;
 		
-		public EntityCollection<DogTrainer, Dog> Dogs
+		public IEntityCollection<Dog> Dogs
 		{
 			get
 			{
@@ -96,9 +96,9 @@ namespace M2M4RiaDemo.Web.Model
 		// Code relating to the managing of the 'DogTrainer' association from 'Dog' to 'Trainer'
 		//
 		
-		private EntityCollection<DogTrainer, Trainer> _Trainers;
+		private IEntityCollection<Trainer> _Trainers;
 		
-		public EntityCollection<DogTrainer, Trainer> Trainers
+		public IEntityCollection<Trainer> Trainers
 		{
 			get
 			{
@@ -138,12 +138,51 @@ namespace M2M4RiaDemo.Web.Model
 		using System.Linq;
 		using System.ServiceModel.DomainServices.Client;
 
+        /// <summary>
+        /// Defines methods for manipulation a generic EntityCollection 
+        /// </summary>
+        /// <typeparam name="TEntity">The type of the elements in the collection</typeparam>
+        public interface IEntityCollection<TEntity> : IEnumerable<TEntity>, IEnumerable, INotifyCollectionChanged, INotifyPropertyChanged
+        {
+            /// <summary>
+            /// Gets the current count of entities in this collection
+            /// </summary>
+            int Count { get; }
+            /// <summary>
+            /// Event raised whenever an System.ServiceModel.DomainServices.Client.Entity
+            /// is added to this collection
+            /// </summary>
+            event EventHandler<EntityCollectionChangedEventArgs<TEntity>> EntityAdded;
+            /// <summary>
+            /// Event raised whenever an System.ServiceModel.DomainServices.Client.Entity
+            /// is removed from this collection
+            /// </summary>
+            event EventHandler<EntityCollectionChangedEventArgs<TEntity>> EntityRemoved;
+            /// <summary>
+            /// Add the specified entity to this collection. If the entity is unattached,
+            /// it will be added to its System.ServiceModel.DomainServices.Client.EntitySet
+            /// automatically.
+            /// </summary>
+            /// <param name="entity"> The entity to add</param>
+            void Add(TEntity entity);
+            /// <summary>
+            /// Returns an enumerator for this collection
+            /// </summary>
+            /// <returns>An enumerator for this collection</returns>
+            IEnumerator<TEntity> GetEnumerator();
+            /// <summary>
+            /// Remove the specified entity from this collection.
+            /// </summary>
+            /// <param name="entity">The entity to remove</param>
+            void Remove(TEntity entity);
+        }
+
 		/// <summary>
 		/// M2M-specific entity collection class. It vorms a view on the underlying jointable collection.
 		/// </summary>
 		/// <typeparam name="JoinType"></typeparam>
 		/// <typeparam name="TEntity"></typeparam>
-		public class EntityCollection<JoinType, TEntity> : IEnumerable<TEntity>, IEnumerable, INotifyCollectionChanged, INotifyPropertyChanged
+		public class EntityCollection<JoinType, TEntity> : IEntityCollection<TEntity>
 			where JoinType : Entity, new()
 			where TEntity : Entity
 		{
