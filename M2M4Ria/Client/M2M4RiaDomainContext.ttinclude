@@ -106,11 +106,6 @@ namespace <#= EntityModelNamespace #>
             /// <param name="entity"> The entity to add</param>
             void Add(TEntity entity);
             /// <summary>
-            /// Returns an enumerator for this collection
-            /// </summary>
-            /// <returns>An enumerator for this collection</returns>
-            IEnumerator<TEntity> GetEnumerator();
-            /// <summary>
             /// Remove the specified entity from this collection.
             /// </summary>
             /// <param name="entity">The entity to remove</param>
