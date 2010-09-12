@@ -24,6 +24,7 @@ namespace <#= EntityModelNamespace #>
 	#region Entities
 
 	using System;
+	using System.Collections.Generic;
 	using System.ComponentModel.DataAnnotations;
 	using System.Runtime.Serialization;
 	using System.ServiceModel.DomainServices.Server;
@@ -127,13 +128,13 @@ namespace <#= EntityModelNamespace #>
 				string ToAssociationSetPrivate = "_" + associationSet.OtherEntityToLink.LinkTableNavProp;
 #>
 		// '<#= associationSet.OtherEntityToLink.LinkTableNavProp #>' associationSet from '<#= associationSet.OtherEntityToLink.Entity #>.<#= associationSet.OtherEntityToLink.PK #>' to '<#= associationSet.Name #>.<#= associationSet.OtherEntityToLink.FK #>'
-		private EntityCollection<<#= associationSet.Name #>, <#= associationSet.OtherEntityToLink.Entity #>> <#= ToAssociationSetPrivate #>;
+		private IEnumerable<<#= associationSet.Name #>> <#= ToAssociationSetPrivate #>;
 		
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
 		[Association("<#= associationSet.ThisEntityToLink.LinkTableNavProp #>", "<#= associationSet.ThisEntityToLink.PK #>", "<#= associationSet.ThisEntityToLink.FK #>", IsForeignKey = false)]
-		public EntityCollection<<#= associationSet.Name #>, <#= associationSet.OtherEntityToLink.Entity #>> <#= associationSet.OtherEntityToLink.LinkTableNavProp #>
+		public IEnumerable<<#= associationSet.Name #>> <#= associationSet.OtherEntityToLink.LinkTableNavProp #>
 		{
 			get
 			{
