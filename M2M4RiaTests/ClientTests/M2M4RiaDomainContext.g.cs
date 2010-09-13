@@ -17,7 +17,7 @@ namespace ClientTests.Web
 	
     public partial class M2M4RiaTestContext
     {
-        partial void OnCreated()
+		partial void OnCreated()
         {
 			// Install handlers that set/reset EntitySet properties of link table entities when they are 
 			// added/removed from the domain context's entity sets. This is only needed as long as RIA
@@ -441,6 +441,4 @@ namespace ClientTests.Web
 
 // Restore compiler warnings when using obsolete methods
 #pragma warning restore 618
-
-
 
