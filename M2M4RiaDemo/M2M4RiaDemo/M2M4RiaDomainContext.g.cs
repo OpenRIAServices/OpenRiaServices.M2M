@@ -17,7 +17,17 @@ namespace M2M4RiaDemo.Web.Service
 	
     public partial class M2M4RiaDemoContext
     {
-        partial void OnCreated()
+        /// <summary>
+        /// Gets the set of <see cref="DogTrainer"/> entities that have been loaded into this <see cref="M2M4RiaDemoContext"/> instance.
+        /// </summary>
+        public EntitySet<DogTrainer> DogTrainers
+        {
+            get
+            {
+                return base.EntityContainer.GetEntitySet<DogTrainer>();
+            }
+        }
+		partial void OnCreated()
         {
 			// Install handlers that set/reset EntitySet properties of link table entities when they are 
 			// added/removed from the domain context's entity sets. This is only needed as long as RIA
@@ -297,6 +307,4 @@ namespace M2M4RiaDemo.Web.Model
 
 // Restore compiler warnings when using obsolete methods
 #pragma warning restore 618
-
-
 

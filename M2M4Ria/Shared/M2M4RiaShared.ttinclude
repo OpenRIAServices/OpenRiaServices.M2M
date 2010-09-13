@@ -9,36 +9,36 @@
 	/// Gets or sets the location of EDMX file 
 	/// </summary>
 	/// <returns></returns>
-	public string EdmxFilePath{get; set;}
+	public string EdmxFilePath{ get; set;}
 	/// <summary>
 	///  Gets or sets the name space of the entity model
 	/// </summary>
 	/// <returns></returns>
-	public string EntityModelNamespace{get; set;}
+	public string EntityModelNamespace{ get; set;}
 	
 	/// <summary>
 	/// Gets or sets the name space of the domain services
 	/// </summary>
 	/// <returns></returns>
-	public string DomainServiceNamespace{get; set;}
+	public string DomainServiceNamespace{ get; set;}
 
 	/// <summary>
 	/// Gets or sets the name of the domain service
 	/// </summary>
 	/// <returns></returns>
-	public string DomainServiceName{get; set; }
+	public string DomainServiceName{ get; set; }
 	
 	/// <summary>
 	/// Gets or sets the name of the domain context
 	/// </summary>
 	/// <returns></returns>
-	public string DomainContextName{get; set; }
+	public string DomainContextName{ get; set; }
 		
 	/// <summary>
-	/// Gets or sets whether the domain service should include a query method for join type objects
+	/// Gets or sets whether the domain context should give direct access to the entity set of join types
 	/// </summary>
 	/// <returns></returns>
-	public bool CreateQueryOperationForJoinType{get; set;}
+	public bool IsJoinTypeEntitySetAccessibleFromDomainContext{ get; set;}
 	
 	private const string ERROR_PK_SUPPORT = "Only entites containing unary primary key's are supported currently by this T4 Template.";
 	private CodeGenerationTools Code;

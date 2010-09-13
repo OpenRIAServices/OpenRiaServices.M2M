@@ -4,5 +4,5 @@ EntityModelNamespace = "M2M4RiaDemo.Web.Model";
 DomainServiceNamespace = "M2M4RiaDemo.Web.Service";
 DomainServiceName = "M2M4RiaDemoService";
 DomainContextName = "M2M4RiaDemoContext";
-CreateQueryOperationForJoinType = false;
+IsJoinTypeEntitySetAccessibleFromDomainContext = true;
 #>

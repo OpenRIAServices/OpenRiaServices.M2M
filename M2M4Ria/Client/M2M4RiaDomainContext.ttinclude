@@ -28,7 +28,16 @@ namespace <#= DomainServiceNamespace #>
 	
     public partial class <#= DomainContextName #>
     {
-        partial void OnCreated()
+<#
+	if(IsJoinTypeEntitySetAccessibleFromDomainContext == true)
+	{
+			foreach(M2MAssociationSet associationSet in m2mData.Associations)
+			{
+				CreateEntitySetPropertyForJoinType(associationSet);
+			}
+	}
+#>
+		partial void OnCreated()
         {
 			// Install handlers that set/reset EntitySet properties of link table entities when they are 
 			// added/removed from the domain context's entity sets. This is only needed as long as RIA
@@ -237,9 +246,22 @@ namespace <#= EntityModelNamespace #>
 
 // Restore compiler warnings when using obsolete methods
 #pragma warning restore 618
-
-
 <#+ 
+	private void CreateEntitySetPropertyForJoinType(M2MAssociationSet associationSet)
+	{
+#>
+        /// <summary>
+        /// Gets the set of <see cref="<#=associationSet.Name#>"/> entities that have been loaded into this <see cref="<#=DomainContextName#>"/> instance.
+        /// </summary>
+        public EntitySet<<#=associationSet.Name#>> <#=associationSet.Name#>s
+        {
+            get
+            {
+                return base.EntityContainer.GetEntitySet<<#=associationSet.Name#>>();
+            }
+        }
+<#+
+	}
 	private void CreateEntitySetSetter(M2MAssociationSet associationSet)
 	{
 		string entitySetName = associationSet.Name + "EntitySet";
