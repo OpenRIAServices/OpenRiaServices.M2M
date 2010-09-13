@@ -33,6 +33,12 @@
 	/// </summary>
 	/// <returns></returns>
 	public string DomainContextName{get; set; }
+		
+	/// <summary>
+	/// Gets or sets whether the domain service should include a query method for join type objects
+	/// </summary>
+	/// <returns></returns>
+	public bool CreateQueryOperationForJoinType{get; set;}
 	
 	private const string ERROR_PK_SUPPORT = "Only entites containing unary primary key's are supported currently by this T4 Template.";
 	private CodeGenerationTools Code;
