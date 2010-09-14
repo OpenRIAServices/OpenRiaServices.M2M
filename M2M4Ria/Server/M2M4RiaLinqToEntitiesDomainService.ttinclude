@@ -31,6 +31,27 @@ namespace <#= DomainServiceNamespace #>
 	
 	using <#= EntityModelNamespace #>;
 	
+	/// <summary>
+    /// This class defines Create and Delete operations for the following many-2-many relation(s):
+	///
+<#
+	foreach(M2MAssociationSet associationSet in m2mData.Associations)
+	{
+		if(associationSet.Entity1ToLink.HasM2MNavProp || associationSet.Entity2ToLink.HasM2MNavProp)
+		{
+#>
+    ///   <#=associationSet.Entity1ToLink.Entity.Name #> <--> <#=associationSet.Entity2ToLink.Entity.Name #>
+<#
+		}
+	}
+#>
+	/// 
+    /// We use stub entities to represent entities for which only the foreign key property is available in join type objects.
+    /// 
+    /// Note: If an entity type is abstract, we use one of its derived entities to act as the concrete type for the stub entity, 
+    /// because we can't instantiate the abstract type. The derived entity type that we use is not important, since all derived 
+    /// entities types will posses the same many to many relationship from the base entity.
+    /// </summary>
 	public partial class <#= DomainServiceName #>
 	{
 <# 
@@ -83,40 +104,43 @@ private void MakeInsertOperation(M2MAssociationSet associationSet)
 {
 	string end1Entity = LowerInitial(associationSet.Entity1ToLink.Entity.Name);
 	string end2Entity = LowerInitial(associationSet.Entity2ToLink.Entity.Name);
+	string linkEntityName = LowerInitial(associationSet.Name);
 #>
-	[Obsolete("This method is only intended for use by the RIA M2M solution")]
-	public void Insert<#= associationSet.Name #>(<#= associationSet.Name #> linkEntity)
-	{
+		[Obsolete("This method is only intended for use by the RIA M2M solution")]
+		public void Insert<#= associationSet.Name #>(<#= associationSet.Name #> <#= linkEntityName #>)
+		{
 <#+
-		MakeGetType(associationSet.Entity1ToLink); 
-		MakeGetType(associationSet.Entity2ToLink); 
+		MakeGetType(associationSet.Entity1ToLink, linkEntityName); 
+		MakeGetType(associationSet.Entity2ToLink, linkEntityName); 
 		if(associationSet.Entity1ToLink.HasM2MNavProp)
 		{
 #>
-		<#=end1Entity#>.<#= associationSet.Entity1ToLink.M2MNavProp #>.Add(<#=end2Entity#>);
+			<#=end1Entity#>.<#= associationSet.Entity1ToLink.M2MNavProp #>.Add(<#=end2Entity#>);
 <#+
 		}
 		else
 		{
 #>
-		<#=end2Entity#>.<#= associationSet.Entity2ToLink.M2MNavProp #>.Add(<#=end1Entity#>;
+         <#=end2Entity#>.<#= associationSet.Entity2ToLink.M2MNavProp #>.Add(<#=end1Entity#>;
 <#+
 		}
 #>
-	}
+		}
 <#+
 }
 private void MakeDeleteOperation(M2MAssociationSet associationSet)
 {		
 	string end1Entity = LowerInitial(associationSet.Entity1ToLink.Entity.Name);
 	string end2Entity = LowerInitial(associationSet.Entity2ToLink.Entity.Name);
+	string linkEntityName = LowerInitial(associationSet.Name);
+
 #>
-	[Obsolete("This method is only intended for use by the RIA M2M solution")]
-	public void Delete<#= associationSet.Name #>(<#= associationSet.Name #> linkEntity)
-	{
+		[Obsolete("This method is only intended for use by the RIA M2M solution")]
+		public void Delete<#= associationSet.Name #>(<#= associationSet.Name #> <#= linkEntityName #>)
+		{
 <#+			
-		MakeGetType(associationSet.Entity1ToLink); 
-		MakeGetType(associationSet.Entity2ToLink); 
+		MakeGetType(associationSet.Entity1ToLink, linkEntityName); 
+		MakeGetType(associationSet.Entity2ToLink, linkEntityName); 
 		if(associationSet.Entity1ToLink.HasM2MNavProp)
 		{
 #>
@@ -129,35 +153,21 @@ private void MakeDeleteOperation(M2MAssociationSet associationSet)
 			<#=end2Entity#>.<#= associationSet.Entity2ToLink.M2MNavProp #>.Remove(<#=end1Entity#>);
 <#+
 		}
-#>		
+#>
 		}
 <#+
 }
-private void MakeGetType(M2MAssociation association) 
+private void MakeGetType(M2MAssociation association, string linkEntityName) 
 {
 	string entityType = association.Entity.Name;
 	string entity = LowerInitial(entityType);
 	string concreteEntityType = association.Entity.IsAbstract ? association.Entity.DerivedEntityNames[0] : association.Entity.Name;
-	string stubEntity = LowerInitial(concreteEntityType) + "StubEntity";
+	string stubEntity = entity + "StubEntity";
 #>
-			// ** Process <#= association.Entity.Name #> end **
-			<#= entityType #> <#=entity#>;
-			
-			if (linkEntity.<#= entityType #> != null)
+			<#= entityType #> <#=entity#> = <#= linkEntityName #>.<#= entityType #>;			
+			if(<#=entity#> == null)
 			{
-				// If a reference of <#= entityType #> is in the linkEntity that has been passed to this method, then get it.
-				<#=entity#> = linkEntity.<#= entityType #>;
-			}
-			else
-			{
-				// If there is no reference to <#= entityType #> in the linkEntity, then build <#= entityType #> 
-				// from the <#= association.FK #> that has been passed in the linkEntity.
-				//
-				// Note: In the situation where the entity that we are dealing with is abstract, then use one of it's 
-				// derived entities to act as the concrete type for the end.  A derived entity is used in this situation 
-				// because you can't instantiate an abstract entity.  The derived entity that you use is not important,
-				// since all derived entities will posses the same many to many relationship from the base entity.
-				<#= entityType #> <#=stubEntity#> = new <#= concreteEntityType  #>() { <#= association.PK #> = linkEntity.<#= association.FK #> };
+				<#= entityType #> <#=stubEntity#> = new <#= concreteEntityType  #>() { <#= association.PK #> = <#= linkEntityName #>.<#= association.FK #> };
 				<#=entity#> = GetEntityByKey<<#=association.Entity.Name#>>(ObjectContext, "<#=association.Entity.EntitySet#>", <#=stubEntity#>);
 			}							
 <#+
