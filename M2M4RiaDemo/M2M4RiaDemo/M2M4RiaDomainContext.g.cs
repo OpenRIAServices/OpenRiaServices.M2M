@@ -244,15 +244,15 @@ namespace M2M4RiaDemo.Web.Model
 			{
 				if (e.NewItems != null)
 				{
-					TEntity entity = getEntity((JoinType)e.NewItems[0]);
-					e.NewItems[0] = entity == null ? entityToAdd : entity;
+                    TEntity entity = getEntity((JoinType)e.NewItems[0]);
+                    return new NotifyCollectionChangedEventArgs(e.Action, entity ?? entityToAdd, 0);
 				}
 				if (e.OldItems != null)
 				{
 					TEntity entity = getEntity((JoinType)e.OldItems[0]);
-					e.OldItems[0] = entity;
+                    return new NotifyCollectionChangedEventArgs(e.Action, entity, 0);
 				}
-				return e;
+                throw new Exception("Unsupported NotifyCollectionChangedEventArgs in M2M4Ria.EntityCollection");
 			}
 
 			public IEnumerator<TEntity> GetEnumerator()
