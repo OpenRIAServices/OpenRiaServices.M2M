@@ -82,9 +82,7 @@ namespace ClientTests.Web
 		[Association("AnimalVetToAnimalSet", "AnimalId", "AnimalId", IsForeignKey = true)]
 		[DataMember]
 		public Animal Animal { get; set; }
-
 	}
-		
 	[Obsolete("This class is only intended for use by the RIA M2M solution")]
 	public partial class DogFireHydrant
 	{
@@ -144,9 +142,7 @@ namespace ClientTests.Web
 		[Association("DogFireHydrantToDogSet", "DogId", "AnimalId", IsForeignKey = true)]
 		[DataMember]
 		public Dog Dog { get; set; }
-
 	}
-		
 	[Obsolete("This class is only intended for use by the RIA M2M solution")]
 	public partial class DogTrainer
 	{
@@ -206,13 +202,10 @@ namespace ClientTests.Web
 		[Association("DogTrainerToDogSet", "DogId", "AnimalId", IsForeignKey = true)]
 		[DataMember]
 		public Dog Dog { get; set; }
-
 	}
-		
 	//
 	// Regular Entity Types
 	//
-		
 	public partial class Animal
 	{
 		// 'AnimalVetToVetSet' associationSet from 'Vet.VetId' to 'AnimalVet.VetId'
@@ -234,13 +227,10 @@ namespace ClientTests.Web
 						(r) => new AnimalVet { Animal = this, Vet = r }
 					);
 				}
-				
 				return _AnimalVetToVetSet;
 			}
 		}
-		
 	}
-		
 	public partial class Vet
 	{
 		// 'AnimalVetToAnimalSet' associationSet from 'Animal.AnimalId' to 'AnimalVet.AnimalId'
@@ -262,17 +252,13 @@ namespace ClientTests.Web
 						(r) => new AnimalVet { Vet = this, Animal = r }
 					);
 				}
-				
 				return _AnimalVetToAnimalSet;
 			}
 		}
-		
 	}
-		
 	public partial class FireHydrant
 	{
 	}
-		
 	public partial class Trainer
 	{
 		// 'DogTrainerToDogSet' associationSet from 'Dog.AnimalId' to 'DogTrainer.DogId'
@@ -294,17 +280,13 @@ namespace ClientTests.Web
 						(r) => new DogTrainer { Trainer = this, Dog = r }
 					);
 				}
-				
 				return _DogTrainerToDogSet;
 			}
 		}
-		
 	}
-		
 	public partial class Food
 	{
 	}
-		
 	public partial class Dog
 	{
 		// 'DogFireHydrantToFireHydrantSet' associationSet from 'FireHydrant.FireHydrantId' to 'DogFireHydrant.FireHydrantId'
@@ -326,11 +308,9 @@ namespace ClientTests.Web
 						(r) => new DogFireHydrant { Dog = this, FireHydrant = r }
 					);
 				}
-				
 				return _DogFireHydrantToFireHydrantSet;
 			}
 		}
-		
 		// 'DogTrainerToTrainerSet' associationSet from 'Trainer.TrainerId' to 'DogTrainer.TrainerId'
 		private IEnumerable<DogTrainer> _DogTrainerToTrainerSet;
 		
@@ -350,11 +330,9 @@ namespace ClientTests.Web
 						(r) => new DogTrainer { Dog = this, Trainer = r }
 					);
 				}
-				
 				return _DogTrainerToTrainerSet;
 			}
 		}
-		
 	}
 	#endregion
 
@@ -363,12 +341,9 @@ namespace ClientTests.Web
 	{
 		using System;
 		using System.Collections.Generic;
-		using System.Data.Objects.DataClasses;
 		using System.Linq;
 
-		public class EntityCollection<JoinType, TEntity> : IEnumerable<JoinType>
-			where JoinType : new()
-			where TEntity : class
+		public class EntityCollection<JoinType, TEntity> : IEnumerable<JoinType> where JoinType : new()	where TEntity : class
 		{
 			private ICollection<TEntity> collection;
 			private Func<TEntity, JoinType> newJoinType;
@@ -382,8 +357,10 @@ namespace ClientTests.Web
 				this.collection = collection;
 				this.newJoinType = newJoinType;
 			}
-
-
+            /// <summary>
+            ///     Constructs an enumerator of JoinType objects which forms a jointype view on the underlying many-2-many collection 
+            /// </summary>
+            /// <returns>
 			System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 			{
 				return this.GetEnumerator();
@@ -396,10 +373,9 @@ namespace ClientTests.Web
 			{
 				return collection.Select(newJoinType).GetEnumerator();
 			}
-
 			/// <summary>
 			/// Not clear if this method should have an implementation. It is only called for newly created JoinType objects.
-			/// However, the corresponding domainservice operation will already take the appropriate action the add a new association obejct.
+			/// However, the corresponding domainservice operation will already take the appropriate action to add a new association object.
 			/// Is there a need to also add similar functionality here?
 			/// </summary>
 			/// <param name="entity"></param>
