@@ -231,8 +231,7 @@ namespace ClientTests.Web
 					_AnimalVetToVetSet = new EntityCollection<AnimalVet, Vet>
 					(
 						Vets,
-						(r) => new AnimalVet { Animal = this, Vet = r },
-						pd => pd.Vet
+						(r) => new AnimalVet { Animal = this, Vet = r }
 					);
 				}
 				
@@ -260,8 +259,7 @@ namespace ClientTests.Web
 					_AnimalVetToAnimalSet = new EntityCollection<AnimalVet, Animal>
 					(
 						Animals,
-						(r) => new AnimalVet { Vet = this, Animal = r },
-						pd => pd.Animal
+						(r) => new AnimalVet { Vet = this, Animal = r }
 					);
 				}
 				
@@ -293,8 +291,7 @@ namespace ClientTests.Web
 					_DogTrainerToDogSet = new EntityCollection<DogTrainer, Dog>
 					(
 						Dogs,
-						(r) => new DogTrainer { Trainer = this, Dog = r },
-						pd => pd.Dog
+						(r) => new DogTrainer { Trainer = this, Dog = r }
 					);
 				}
 				
@@ -326,8 +323,7 @@ namespace ClientTests.Web
 					_DogFireHydrantToFireHydrantSet = new EntityCollection<DogFireHydrant, FireHydrant>
 					(
 						FireHydrants,
-						(r) => new DogFireHydrant { Dog = this, FireHydrant = r },
-						pd => pd.FireHydrant
+						(r) => new DogFireHydrant { Dog = this, FireHydrant = r }
 					);
 				}
 				
@@ -351,8 +347,7 @@ namespace ClientTests.Web
 					_DogTrainerToTrainerSet = new EntityCollection<DogTrainer, Trainer>
 					(
 						Trainers,
-						(r) => new DogTrainer { Dog = this, Trainer = r },
-						pd => pd.Trainer
+						(r) => new DogTrainer { Dog = this, Trainer = r }
 					);
 				}
 				
@@ -377,17 +372,15 @@ namespace ClientTests.Web
 		{
 			private ICollection<TEntity> collection;
 			private Func<TEntity, JoinType> newJoinType;
-			private Func<JoinType, TEntity> getEntity;
 			/// <summary>
 			/// Constructor
 			/// </summary>
 			/// <param name="collection">Entity collection that represents a m2m relation</param>
 			/// <param name="newJoinType">The function used to create a new joint type entity and set both elements</param>
-			public EntityCollection(ICollection<TEntity> collection,Func<TEntity, JoinType> newJoinType, Func<JoinType, TEntity> getEntity)
+			public EntityCollection(ICollection<TEntity> collection,Func<TEntity, JoinType> newJoinType)
 			{
 				this.collection = collection;
 				this.newJoinType = newJoinType;
-				this.getEntity = getEntity;
 			}
 
 

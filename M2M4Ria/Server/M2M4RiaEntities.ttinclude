@@ -143,8 +143,7 @@ namespace <#= EntityModelNamespace #>
 					<#= ToAssociationSetPrivate #> = new EntityCollection<<#= associationSet.Name #>, <#= associationSet.OtherEntityToLink.Entity #>>
 					(
 						<#= associationSet.ThisEntityToLink.M2MNavProp #>,
-						(r) => new <#= associationSet.Name #> { <#= associationSet.ThisEntityToLink.Entity  #> = this, <#= associationSet.OtherEntityToLink.Entity #> = r },
-						pd => pd.<#= associationSet.OtherEntityToLink.Entity #>
+						(r) => new <#= associationSet.Name #> { <#= associationSet.ThisEntityToLink.Entity  #> = this, <#= associationSet.OtherEntityToLink.Entity #> = r }
 					);
 				}
 				
@@ -176,17 +175,15 @@ namespace <#= EntityModelNamespace #>
 		{
 			private ICollection<TEntity> collection;
 			private Func<TEntity, JoinType> newJoinType;
-			private Func<JoinType, TEntity> getEntity;
 			/// <summary>
 			/// Constructor
 			/// </summary>
 			/// <param name="collection">Entity collection that represents a m2m relation</param>
 			/// <param name="newJoinType">The function used to create a new joint type entity and set both elements</param>
-			public EntityCollection(ICollection<TEntity> collection,Func<TEntity, JoinType> newJoinType, Func<JoinType, TEntity> getEntity)
+			public EntityCollection(ICollection<TEntity> collection,Func<TEntity, JoinType> newJoinType)
 			{
 				this.collection = collection;
 				this.newJoinType = newJoinType;
-				this.getEntity = getEntity;
 			}
 
 

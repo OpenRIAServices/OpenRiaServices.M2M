@@ -107,8 +107,7 @@ namespace M2M4RiaDemo.Web.Model
 					_DogTrainerToDogSet = new EntityCollection<DogTrainer, Dog>
 					(
 						Dogs,
-						(r) => new DogTrainer { Trainer = this, Dog = r },
-						pd => pd.Dog
+						(r) => new DogTrainer { Trainer = this, Dog = r }
 					);
 				}
 				
@@ -136,8 +135,7 @@ namespace M2M4RiaDemo.Web.Model
 					_DogTrainerToTrainerSet = new EntityCollection<DogTrainer, Trainer>
 					(
 						Trainers,
-						(r) => new DogTrainer { Dog = this, Trainer = r },
-						pd => pd.Trainer
+						(r) => new DogTrainer { Dog = this, Trainer = r }
 					);
 				}
 				
@@ -162,17 +160,15 @@ namespace M2M4RiaDemo.Web.Model
 		{
 			private ICollection<TEntity> collection;
 			private Func<TEntity, JoinType> newJoinType;
-			private Func<JoinType, TEntity> getEntity;
 			/// <summary>
 			/// Constructor
 			/// </summary>
 			/// <param name="collection">Entity collection that represents a m2m relation</param>
 			/// <param name="newJoinType">The function used to create a new joint type entity and set both elements</param>
-			public EntityCollection(ICollection<TEntity> collection,Func<TEntity, JoinType> newJoinType, Func<JoinType, TEntity> getEntity)
+			public EntityCollection(ICollection<TEntity> collection,Func<TEntity, JoinType> newJoinType)
 			{
 				this.collection = collection;
 				this.newJoinType = newJoinType;
-				this.getEntity = getEntity;
 			}
 
 
