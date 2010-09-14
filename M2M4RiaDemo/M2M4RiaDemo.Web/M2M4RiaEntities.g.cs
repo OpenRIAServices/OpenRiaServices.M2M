@@ -82,13 +82,10 @@ namespace M2M4RiaDemo.Web.Model
 		[Association("DogTrainerToDogSet", "DogId", "DogId", IsForeignKey = true)]
 		[DataMember]
 		public Dog Dog { get; set; }
-
 	}
-		
 	//
 	// Regular Entity Types
 	//
-		
 	public partial class Trainer
 	{
 		// 'DogTrainerToDogSet' associationSet from 'Dog.DogId' to 'DogTrainer.DogId'
@@ -110,13 +107,10 @@ namespace M2M4RiaDemo.Web.Model
 						(r) => new DogTrainer { Trainer = this, Dog = r }
 					);
 				}
-				
 				return _DogTrainerToDogSet;
 			}
 		}
-		
 	}
-		
 	public partial class Dog
 	{
 		// 'DogTrainerToTrainerSet' associationSet from 'Trainer.TrainerId' to 'DogTrainer.TrainerId'
@@ -138,11 +132,9 @@ namespace M2M4RiaDemo.Web.Model
 						(r) => new DogTrainer { Dog = this, Trainer = r }
 					);
 				}
-				
 				return _DogTrainerToTrainerSet;
 			}
 		}
-		
 	}
 	#endregion
 
@@ -151,12 +143,9 @@ namespace M2M4RiaDemo.Web.Model
 	{
 		using System;
 		using System.Collections.Generic;
-		using System.Data.Objects.DataClasses;
 		using System.Linq;
 
-		public class EntityCollection<JoinType, TEntity> : IEnumerable<JoinType>
-			where JoinType : new()
-			where TEntity : class
+		public class EntityCollection<JoinType, TEntity> : IEnumerable<JoinType> where JoinType : new()	where TEntity : class
 		{
 			private ICollection<TEntity> collection;
 			private Func<TEntity, JoinType> newJoinType;
@@ -170,8 +159,10 @@ namespace M2M4RiaDemo.Web.Model
 				this.collection = collection;
 				this.newJoinType = newJoinType;
 			}
-
-
+            /// <summary>
+            ///     Constructs an enumerator of JoinType objects which forms a jointype view on the underlying many-2-many collection 
+            /// </summary>
+            /// <returns>
 			System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 			{
 				return this.GetEnumerator();
@@ -184,10 +175,9 @@ namespace M2M4RiaDemo.Web.Model
 			{
 				return collection.Select(newJoinType).GetEnumerator();
 			}
-
 			/// <summary>
 			/// Not clear if this method should have an implementation. It is only called for newly created JoinType objects.
-			/// However, the corresponding domainservice operation will already take the appropriate action the add a new association obejct.
+			/// However, the corresponding domainservice operation will already take the appropriate action to add a new association object.
 			/// Is there a need to also add similar functionality here?
 			/// </summary>
 			/// <param name="entity"></param>
