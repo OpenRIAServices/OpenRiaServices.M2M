@@ -376,17 +376,22 @@ namespace ClientTests.Web
 			/// <returns></returns>
 			private NotifyCollectionChangedEventArgs MakeNotifyCollectionChangedEventArgs(NotifyCollectionChangedEventArgs e)
 			{
-				if (e.NewItems != null)
-				{
-                    TEntity entity = getEntity((JoinType)e.NewItems[0]);
-                    return new NotifyCollectionChangedEventArgs(e.Action, entity ?? entityToAdd, 0);
-				}
-				if (e.OldItems != null)
-				{
-					TEntity entity = getEntity((JoinType)e.OldItems[0]);
-                    return new NotifyCollectionChangedEventArgs(e.Action, entity, 0);
-				}
-                throw new Exception("Unsupported NotifyCollectionChangedEventArgs in M2M4Ria.EntityCollection");
+                switch (e.Action)
+                {
+                    case NotifyCollectionChangedAction.Add:
+                        {
+                            TEntity entity = getEntity((JoinType)e.NewItems[0]);
+                            return new NotifyCollectionChangedEventArgs(e.Action, entity ?? entityToAdd, 0);
+                        }
+                    case NotifyCollectionChangedAction.Remove:
+                        {
+                            TEntity entity = getEntity((JoinType)e.OldItems[0]);
+                            return new NotifyCollectionChangedEventArgs(e.Action, entity, 0);
+                        }
+                    case NotifyCollectionChangedAction.Reset:
+                        return new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
+                }
+                throw new Exception(String.Format("NotifyCollectionChangedAction.{0} action not supported by M2M4Ria.EntityCollection", e.Action.ToString()));
 			}
 
 			public IEnumerator<TEntity> GetEnumerator()
