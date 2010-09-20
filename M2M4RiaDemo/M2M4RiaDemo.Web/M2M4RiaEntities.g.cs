@@ -6,7 +6,6 @@
 // Instruct compiler not to warn about usage of obsolete members, because using them is intended.
 #pragma warning disable 618
 
-
 namespace M2M4RiaDemo.Web.Model
 {
 	#region Entities
@@ -14,10 +13,10 @@ namespace M2M4RiaDemo.Web.Model
 	using System;
 	using System.Collections.Generic;
 	using System.ComponentModel.DataAnnotations;
+	using System.Linq;
 	using System.Runtime.Serialization;
 	using System.ServiceModel.DomainServices.Server;
     using System.Xml.Serialization;
-	using M2M4Ria;
 
 	//
 	// Association Entity Types
@@ -86,106 +85,37 @@ namespace M2M4RiaDemo.Web.Model
 	//
 	public partial class Trainer
 	{
-		// 'DogTrainerToDogSet' associationSet from 'Dog.DogId' to 'DogTrainer.DogId'
-		private IEnumerable<DogTrainer> _DogTrainerToDogSet;
-
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
 		[Association("DogTrainerToTrainerSet", "TrainerId", "TrainerId", IsForeignKey = false)]
-		public IEnumerable<DogTrainer> DogTrainerToDogSet
+		public IList<DogTrainer> DogTrainerToDogSet
 		{
 			get
 			{
-				if(_DogTrainerToDogSet == null)
-				{
-					_DogTrainerToDogSet = new EntityCollection<DogTrainer, Dog>
-					(
-						Dogs,
-						(r) => new DogTrainer { Trainer = this, Dog = r }
-					);
-				}
-				return _DogTrainerToDogSet;
+				Func<Dog, DogTrainer> makeJoinType = 
+					e => new DogTrainer { Trainer = this, Dog = e };
+				return Dogs.Select(makeJoinType).ToList();
 			}
 		}
 	}
 	public partial class Dog
 	{
-		// 'DogTrainerToTrainerSet' associationSet from 'Trainer.TrainerId' to 'DogTrainer.TrainerId'
-		private IEnumerable<DogTrainer> _DogTrainerToTrainerSet;
-
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
 		[Association("DogTrainerToDogSet", "DogId", "DogId", IsForeignKey = false)]
-		public IEnumerable<DogTrainer> DogTrainerToTrainerSet
+		public IList<DogTrainer> DogTrainerToTrainerSet
 		{
 			get
 			{
-				if(_DogTrainerToTrainerSet == null)
-				{
-					_DogTrainerToTrainerSet = new EntityCollection<DogTrainer, Trainer>
-					(
-						Trainers,
-						(r) => new DogTrainer { Dog = this, Trainer = r }
-					);
-				}
-				return _DogTrainerToTrainerSet;
+				Func<Trainer, DogTrainer> makeJoinType = 
+					e => new DogTrainer { Dog = this, Trainer = e };
+				return Trainers.Select(makeJoinType).ToList();
 			}
 		}
 	}
 	#endregion
-
-	#region EntityCollection
-	namespace M2M4Ria
-	{
-		using System;
-		using System.Collections.Generic;
-		using System.Linq;
-
-		public class EntityCollection<JoinType, TEntity> : IEnumerable<JoinType> where JoinType : new()	where TEntity : class
-		{
-			private ICollection<TEntity> collection;
-			private Func<TEntity, JoinType> newJoinType;
-			/// <summary>
-			/// Constructor
-			/// </summary>
-			/// <param name="collection">Entity collection that represents a m2m relation</param>
-			/// <param name="newJoinType">The function used to create a new joint type entity and set both elements</param>
-			public EntityCollection(ICollection<TEntity> collection,Func<TEntity, JoinType> newJoinType)
-			{
-				this.collection = collection;
-				this.newJoinType = newJoinType;
-			}
-            /// <summary>
-            ///     Constructs an enumerator of JoinType objects which forms a jointype view on the underlying many-2-many collection
-            /// </summary>
-            /// <returns>
-			System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-			{
-				return this.GetEnumerator();
-			}
-			/// <summary>
-			/// Construct an enumerator by creating JoinType objects for each element in the associated m2m collection
-			/// </summary>
-			/// <returns></returns>
-			public IEnumerator<JoinType> GetEnumerator()
-			{
-				return collection.Select(newJoinType).GetEnumerator();
-			}
-			/// <summary>
-			/// Not clear if this method should have an implementation. It is only called for newly created JoinType objects.
-			/// However, the corresponding domainservice operation will already take the appropriate action to add a new association object.
-			/// Is there a need to also add similar functionality here?
-			/// </summary>
-			/// <param name="entity"></param>
-			public void Add(JoinType entity)
-			{
-				// Empty
-			}
-		}
-	}
-#endregion
 }
 
 // Restore compiler warnings when using obsolete methods
