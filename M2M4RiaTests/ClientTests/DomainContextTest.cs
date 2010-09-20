@@ -29,7 +29,7 @@ namespace M2M4Ria.Client.Tests
         [TestMethod]
         [Asynchronous]
         [Description(
-            "This test creates a many to many relationship between two entities, and submits it to the domain context.\n"+
+            "This test creates a many to many relationship between two entities, and submits it to the domain context.\n" +
             "This test is successful when there are no errors during the domain context submit.")]
         public void M2MCreate()
         {
@@ -60,8 +60,8 @@ namespace M2M4Ria.Client.Tests
         /// </summary>
         [TestMethod]
         [Asynchronous]
-        [Description("This test creates a many to many relationship between two entites, submits it to the domain context, and then attempts\n"+
-        "to navigate from one side of the many to many relationship to the other via navigation properties.  This test is successful\n"+
+        [Description("This test creates a many to many relationship between two entites, submits it to the domain context, and then attempts\n" +
+        "to navigate from one side of the many to many relationship to the other via navigation properties.  This test is successful\n" +
         "when a entity is retrieved upon navigating the many to many relationship.")]
         public void RetrieveEntityAndNavigate()
         {
@@ -99,7 +99,7 @@ namespace M2M4Ria.Client.Tests
         /// </summary>
         [TestMethod]
         [Asynchronous]
-        [Description("This test creates a many to many relationship between two entities, submits it to the domain context, removes the relationship,\n"+
+        [Description("This test creates a many to many relationship between two entities, submits it to the domain context, removes the relationship,\n" +
                      "and then submits to the domain context again.  This test is successful when there are no errors during the domain context submit.")]
         public void RetrieveEntityAndRemove()
         {
@@ -197,10 +197,12 @@ namespace M2M4Ria.Client.Tests
         [Description("Checks to see if the entityset property is set to null when removing an entity from a context.\n")]
         public void CheckLinkEntitySetIsNull()
         {
-            AnimalVet animalVet  = new AnimalVet{
-                 Animal = new Dog(),
-                 Vet = new Vet()};
-                
+            AnimalVet animalVet = new AnimalVet
+            {
+                Animal = new Dog(),
+                Vet = new Vet()
+            };
+
             var entityset = Context.EntityContainer.GetEntitySet<AnimalVet>();
             entityset.Add(animalVet);
             entityset.Remove(animalVet);
@@ -208,5 +210,59 @@ namespace M2M4Ria.Client.Tests
             Assert.IsNull(animalVet.EntitySet, "EntitySet property for link entity is not set to null when removing the owning entity to a context");
         }
 
+        [TestMethod]
+        [Asynchronous]
+        [Description("Test that checks if entitycollection is valid after updating the keys of two entities of an m2m relation")]
+        public void EntityKeyUpdateTest()
+        {
+            // Create one entity
+            Dog dog = new Dog { Name = "dog" };
+            Context.Animals.Add(dog);
+
+            // Create another
+            Trainer trainer = new Trainer { Name = "trainer" };
+            Context.Trainers.Add(trainer);
+
+            // Join them using a join table entity
+            DogTrainer dogTrainer = new DogTrainer
+            {
+                Dog = dog,
+                Trainer = trainer
+            };
+            dog.DogTrainerToTrainerSet.Add(dogTrainer);
+
+            dog.PropertyChanged += entity_PropertyChanged;
+            trainer.PropertyChanged += entity_PropertyChanged;
+
+            // Verify that both entity collections now contain a single element
+            Assert.AreEqual(1, trainer.DogTrainerToDogSet.Count());
+            Assert.AreEqual(1, dog.DogTrainerToTrainerSet.Count());
+
+            // Use submitchanges to send new eneities to server and to retrieve real key values back
+            SubmitOperation submitOperation = Context.SubmitChanges();
+            EnqueueConditional(() => submitOperation.IsComplete);
+
+            EnqueueCallback(
+                () =>
+                {
+                    // Elements in entity collections should be the same as before.
+                    Assert.AreEqual(1, trainer.DogTrainerToDogSet.Count());
+                    Assert.AreEqual(1, dog.DogTrainerToTrainerSet.Count());
+                });
+            EnqueueTestComplete();
+        }
+
+        void entity_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (sender is Dog && e.PropertyName == "DogId")
+            {
+                ((Dog)sender).DogTrainerToTrainerSet.ToList();
+            }
+            else
+                if (sender is Trainer && e.PropertyName == "TrainerId")
+                {
+                    ((Trainer)sender).DogTrainerToDogSet.ToList();
+                }
+        }
     }
 }
