@@ -31,9 +31,16 @@ namespace M2M4RiaDemo.Web.Service
     /// Note: If an entity type is abstract, we use one of its derived entities to act as the concrete type for the stub entity, 
     /// because we can't instantiate the abstract type. The derived entity type that we use is not important, since all derived 
     /// entities types will posses the same many to many relationship from the base entity.
+	///
+	/// Note: We generate Update operations for the join types to deal with a WCF RIA bug (http://forums.silverlight.net/forums/p/201613/470578.aspx#470578). 
+	/// Update operations are really not needed and also not used.
     /// </summary>
 	public partial class M2M4RiaDemoService
 	{
+		[Obsolete("This method is only intended for use by the RIA M2M solution")]
+		public void UpdateDogTrainer(DogTrainer dogTrainer)
+		{
+		}
 		[Obsolete("This method is only intended for use by the RIA M2M solution")]
 		public void InsertDogTrainer(DogTrainer dogTrainer)
 		{
