@@ -1,6 +1,5 @@
 ﻿
 
- 
 
 // M2M4RiaShared.ttinclude has been located and loaded.
 
@@ -14,26 +13,26 @@ namespace ClientTests.Web
 {
     using System.ServiceModel.DomainServices.Client;
 	using ClientTests.Web;
-	
+
     public partial class M2M4RiaTestContext
     {
 		partial void OnCreated()
         {
-			// Install handlers that set/reset EntitySet properties of link table entities when they are 
+			// Install handlers that set/reset EntitySet properties of link table entities when they are
 			// added/removed from the domain context's entity sets. This is only needed as long as RIA
 			// doesn't provide access from an Entity to its EntitySet.
 			EntitySet< AnimalVet > AnimalVetEntitySet = EntityContainer.GetEntitySet< AnimalVet>();
 			AnimalVetEntitySet.EntityAdded += (sender, args) => args.Entity.EntitySet = AnimalVetEntitySet;
 			AnimalVetEntitySet.EntityRemoved += (sender, args) => args.Entity.EntitySet = null;
-			
+
 			EntitySet< DogFireHydrant > DogFireHydrantEntitySet = EntityContainer.GetEntitySet< DogFireHydrant>();
 			DogFireHydrantEntitySet.EntityAdded += (sender, args) => args.Entity.EntitySet = DogFireHydrantEntitySet;
 			DogFireHydrantEntitySet.EntityRemoved += (sender, args) => args.Entity.EntitySet = null;
-			
+
 			EntitySet< DogTrainer > DogTrainerEntitySet = EntityContainer.GetEntitySet< DogTrainer>();
 			DogTrainerEntitySet.EntityAdded += (sender, args) => args.Entity.EntitySet = DogTrainerEntitySet;
 			DogTrainerEntitySet.EntityRemoved += (sender, args) => args.Entity.EntitySet = null;
-			
+
 		}
 	}
 }
@@ -43,12 +42,12 @@ namespace ClientTests.Web
 namespace ClientTests.Web
 {
 	#region Entities
-	
+
 	using System;
 	using System.ServiceModel.DomainServices.Client;
 
 	using M2M4Ria;
-	
+
   	/// <summary>
 	/// This class provides access to the entity's entity set. This is only needed as long as RIA
 	// doesn't provide this access it self.
@@ -90,13 +89,13 @@ namespace ClientTests.Web
 	}
 	public partial class Animal
 	{
-	
+
 		//
 		// Code relating to the managing of the 'AnimalVet' association from 'Animal' to 'Vet'
 		//
-		
+
 		private IEntityCollection<Vet> _Vets;
-		
+
 		public IEntityCollection<Vet> Vets
 		{
 			get
@@ -105,11 +104,11 @@ namespace ClientTests.Web
 				{
 					_Vets = new EntityCollection<AnimalVet, Vet>(this.AnimalVetToVetSet, r => r.Vet, (r, t2) => r.Vet = t2, r => r.Animal = this, RemoveFromAnimalVetToVetSet);
 				}
-				
+
 				return _Vets;
 			}
 		}
-		
+
 		private void RemoveFromAnimalVetToVetSet(AnimalVet r)
 		{
 			if(r.EntitySet == null)
@@ -122,16 +121,15 @@ namespace ClientTests.Web
 			}
 		}
 	}
-	
 	public partial class Vet
 	{
-	
+
 		//
 		// Code relating to the managing of the 'AnimalVet' association from 'Vet' to 'Animal'
 		//
-		
+
 		private IEntityCollection<Animal> _Animals;
-		
+
 		public IEntityCollection<Animal> Animals
 		{
 			get
@@ -140,11 +138,11 @@ namespace ClientTests.Web
 				{
 					_Animals = new EntityCollection<AnimalVet, Animal>(this.AnimalVetToAnimalSet, r => r.Animal, (r, t2) => r.Animal = t2, r => r.Vet = this, RemoveFromAnimalVetToAnimalSet);
 				}
-				
+
 				return _Animals;
 			}
 		}
-		
+
 		private void RemoveFromAnimalVetToAnimalSet(AnimalVet r)
 		{
 			if(r.EntitySet == null)
@@ -157,21 +155,19 @@ namespace ClientTests.Web
 			}
 		}
 	}
-	
 	public partial class FireHydrant
 	{
-	
+
 	}
-	
 	public partial class Trainer
 	{
-	
+
 		//
 		// Code relating to the managing of the 'DogTrainer' association from 'Trainer' to 'Dog'
 		//
-		
+
 		private IEntityCollection<Dog> _Dogs;
-		
+
 		public IEntityCollection<Dog> Dogs
 		{
 			get
@@ -180,11 +176,11 @@ namespace ClientTests.Web
 				{
 					_Dogs = new EntityCollection<DogTrainer, Dog>(this.DogTrainerToDogSet, r => r.Dog, (r, t2) => r.Dog = t2, r => r.Trainer = this, RemoveFromDogTrainerToDogSet);
 				}
-				
+
 				return _Dogs;
 			}
 		}
-		
+
 		private void RemoveFromDogTrainerToDogSet(DogTrainer r)
 		{
 			if(r.EntitySet == null)
@@ -197,21 +193,19 @@ namespace ClientTests.Web
 			}
 		}
 	}
-	
 	public partial class Food
 	{
-	
+
 	}
-	
 	public partial class Dog
 	{
-	
+
 		//
 		// Code relating to the managing of the 'DogFireHydrant' association from 'Dog' to 'FireHydrant'
 		//
-		
+
 		private IEntityCollection<FireHydrant> _FireHydrants;
-		
+
 		public IEntityCollection<FireHydrant> FireHydrants
 		{
 			get
@@ -220,11 +214,11 @@ namespace ClientTests.Web
 				{
 					_FireHydrants = new EntityCollection<DogFireHydrant, FireHydrant>(this.DogFireHydrantToFireHydrantSet, r => r.FireHydrant, (r, t2) => r.FireHydrant = t2, r => r.Dog = this, RemoveFromDogFireHydrantToFireHydrantSet);
 				}
-				
+
 				return _FireHydrants;
 			}
 		}
-		
+
 		private void RemoveFromDogFireHydrantToFireHydrantSet(DogFireHydrant r)
 		{
 			if(r.EntitySet == null)
@@ -239,9 +233,9 @@ namespace ClientTests.Web
 		//
 		// Code relating to the managing of the 'DogTrainer' association from 'Dog' to 'Trainer'
 		//
-		
+
 		private IEntityCollection<Trainer> _Trainers;
-		
+
 		public IEntityCollection<Trainer> Trainers
 		{
 			get
@@ -250,11 +244,11 @@ namespace ClientTests.Web
 				{
 					_Trainers = new EntityCollection<DogTrainer, Trainer>(this.DogTrainerToTrainerSet, r => r.Trainer, (r, t2) => r.Trainer = t2, r => r.Dog = this, RemoveFromDogTrainerToTrainerSet);
 				}
-				
+
 				return _Trainers;
 			}
 		}
-		
+
 		private void RemoveFromDogTrainerToTrainerSet(DogTrainer r)
 		{
 			if(r.EntitySet == null)
@@ -267,7 +261,6 @@ namespace ClientTests.Web
 			}
 		}
 	}
-	
 	#endregion
 
 	#region EntityCollection
@@ -283,7 +276,7 @@ namespace ClientTests.Web
 		using System.ServiceModel.DomainServices.Client;
 
         /// <summary>
-        /// Defines methods for manipulation a generic EntityCollection 
+        /// Defines methods for manipulation a generic EntityCollection
         /// </summary>
         /// <typeparam name="TEntity">The type of the elements in the collection</typeparam>
         public interface IEntityCollection<TEntity> : IEnumerable<TEntity>, IEnumerable, INotifyCollectionChanged, INotifyPropertyChanged
@@ -331,7 +324,7 @@ namespace ClientTests.Web
 			Action<JoinType> setParent;
 			Action<JoinType> removeAction;
 			/// <summary>
-			/// 
+			///
 			/// </summary>
 			/// <param name="collection">The collection of associations to which this collection is connected</param>
 			/// <param name="getEntity">The function used to get the entity object out of a join type entity</param>
@@ -439,9 +432,7 @@ namespace ClientTests.Web
 			public event PropertyChangedEventHandler PropertyChanged;
 		}
 	}
-
 	#endregion
-
 }
 
 // Restore compiler warnings when using obsolete methods

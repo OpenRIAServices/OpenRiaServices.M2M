@@ -3,8 +3,8 @@
 <#@ import namespace="System.Diagnostics" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Collections" #>
-<#@ import namespace="System.Collections.Generic" #> 
-<#   
+<#@ import namespace="System.Collections.Generic" #>
+<#
 //
 // Change the file path below to the path of the M2M4RiaShared.ttinclude in your project
 //
@@ -25,7 +25,7 @@ namespace <#= DomainServiceNamespace #>
 {
     using System.ServiceModel.DomainServices.Client;
 	using <#= EntityModelNamespace #>;
-	
+
     public partial class <#= DomainContextName #>
     {
 <#
@@ -39,7 +39,7 @@ namespace <#= DomainServiceNamespace #>
 #>
 		partial void OnCreated()
         {
-			// Install handlers that set/reset EntitySet properties of link table entities when they are 
+			// Install handlers that set/reset EntitySet properties of link table entities when they are
 			// added/removed from the domain context's entity sets. This is only needed as long as RIA
 			// doesn't provide access from an Entity to its EntitySet.
 <#
@@ -57,12 +57,12 @@ namespace <#= DomainServiceNamespace #>
 namespace <#= EntityModelNamespace #>
 {
 	#region Entities
-	
+
 	using System;
 	using System.ServiceModel.DomainServices.Client;
 
 	using M2M4Ria;
-	
+
 <#
 	foreach(M2MAssociationSet associationSet in m2mData.Associations)
 	{
@@ -88,7 +88,7 @@ namespace <#= EntityModelNamespace #>
 		using System.ServiceModel.DomainServices.Client;
 
         /// <summary>
-        /// Defines methods for manipulation a generic EntityCollection 
+        /// Defines methods for manipulation a generic EntityCollection
         /// </summary>
         /// <typeparam name="TEntity">The type of the elements in the collection</typeparam>
         public interface IEntityCollection<TEntity> : IEnumerable<TEntity>, IEnumerable, INotifyCollectionChanged, INotifyPropertyChanged
@@ -136,7 +136,7 @@ namespace <#= EntityModelNamespace #>
 			Action<JoinType> setParent;
 			Action<JoinType> removeAction;
 			/// <summary>
-			/// 
+			///
 			/// </summary>
 			/// <param name="collection">The collection of associations to which this collection is connected</param>
 			/// <param name="getEntity">The function used to get the entity object out of a join type entity</param>
@@ -244,14 +244,12 @@ namespace <#= EntityModelNamespace #>
 			public event PropertyChangedEventHandler PropertyChanged;
 		}
 	}
-
 	#endregion
-
 }
 
 // Restore compiler warnings when using obsolete methods
 #pragma warning restore 618
-<#+ 
+<#+
 	private void CreateEntitySetPropertyForJoinType(M2MAssociationSet associationSet)
 	{
 #>
@@ -276,7 +274,7 @@ namespace <#= EntityModelNamespace #>
 			EntitySet< <#=associationSet.Name #> > <#=entitySetName#> = EntityContainer.GetEntitySet< <#=associationSet.Name#>>();
 			<#=entitySetName#>.EntityAdded += (sender, args) => args.Entity.EntitySet = <#=entitySetName#>;
 			<#=entitySetName#>.EntityRemoved += (sender, args) => args.Entity.EntitySet = null;
-			
+
 <#+
 		}
 	}
@@ -307,8 +305,8 @@ namespace <#= EntityModelNamespace #>
 #>
 	public partial class <#= entity.Name #>
 	{
-	
-<#+ 
+
+<#+
 		foreach(M2MEntityAssociationSet association in entity.Associations)
 		{
 			if(association.ThisEntityToLink.HasM2MNavProp)
@@ -318,9 +316,9 @@ namespace <#= EntityModelNamespace #>
 		//
 		// Code relating to the managing of the '<#= association.Name #>' association from '<#= association.ThisEntityToLink.Entity #>' to '<#= association.OtherEntityToLink.Entity #>'
 		//
-		
+
 		private IEntityCollection<<#= association.OtherEntityToLink.Entity #>> _<#= association.ThisEntityToLink.M2MNavProp #>;
-		
+
 		public IEntityCollection<<#= association.OtherEntityToLink.Entity #>> <#= association.ThisEntityToLink.M2MNavProp #>
 		{
 			get
@@ -329,11 +327,11 @@ namespace <#= EntityModelNamespace #>
 				{
 					_<#= association.ThisEntityToLink.M2MNavProp #> = new EntityCollection<<#= association.Name #>, <#= association.OtherEntityToLink.Entity #>>(this.<#= association.OtherEntityToLink.LinkTableNavProp #>, r => r.<#= association.OtherEntityToLink.Entity #>, (r, t2) => r.<#= association.OtherEntityToLink.Entity #> = t2, r => r.<#= association.ThisEntityToLink.Entity #> = this, <#= removeMethod #>);
 				}
-				
+
 				return _<#= association.ThisEntityToLink.M2MNavProp #>;
 			}
 		}
-		
+
 		private void <#= removeMethod #>(<#= association.Name #> r)
 		{
 			if(r.EntitySet == null)
@@ -350,9 +348,8 @@ namespace <#= EntityModelNamespace #>
 		}
 #>
 	}
-	
-<#+ 
-	}	
+<#+
+	}
 #>
 
 

@@ -3,8 +3,8 @@
 <#@ import namespace="System.Diagnostics" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Collections" #>
-<#@ import namespace="System.Collections.Generic" #> 
-<#   
+<#@ import namespace="System.Collections.Generic" #>
+<#
 //
 // Change the file path below to the path of the M2M4RiaShared.ttinclude in your project
 //
@@ -14,12 +14,12 @@
 
 M2MData m2mData = GenerateM2MData();
 
-#> 
+#>
 // Instruct compiler not to warn about usage of obsolete members, because using them is intended.
 #pragma warning disable 618
 
 
-namespace <#= EntityModelNamespace #>  
+namespace <#= EntityModelNamespace #>
 {
 	#region Entities
 
@@ -41,7 +41,7 @@ namespace <#= EntityModelNamespace #>
 		string fromPKId = associationSet.Entity2ToLink.Entity + "." + associationSet.Entity2ToLink.PK;
 		string toFKIdPrivate = "_" + associationSet.Entity1ToLink.FK;
 		string toPKId = associationSet.Entity1ToLink.Entity + "." + associationSet.Entity1ToLink.PK;
-		
+
 		// If entities on either side of the M2M relationship don't have a navigation property to each other, then there is no need to output this.
 		if(associationSet.Entity1ToLink.HasM2MNavProp || associationSet.Entity2ToLink.HasM2MNavProp)
 		{
@@ -49,10 +49,9 @@ namespace <#= EntityModelNamespace #>
 	[Obsolete("This class is only intended for use by the RIA M2M solution")]
 	public partial class <#= associationSet.Name #>
 	{
-
 		// '<#= associationSet.Entity2ToLink.LinkTableNavProp #>' associationSet from '<#= associationSet.Entity2ToLink.Entity #>.<#= associationSet.Entity2ToLink.PK #>' to '<#= associationSet.Name #>.<#= associationSet.Entity2ToLink.FK #>'
 		private <#= associationSet.Entity2ToLink.DataType #> <#= fromFKIdPrivate #>;
-		
+
 		[DataMember]
 		[Key]
 		public <#= associationSet.Entity2ToLink.DataType #> <#= associationSet.Entity2ToLink.FK #>
@@ -64,7 +63,6 @@ namespace <#= EntityModelNamespace #>
 					if(<#= fromFKIdPrivate #> != <#= fromPKId #> && <#= fromFKIdPrivate #> == 0)
 						<#= fromFKIdPrivate #> = <#= fromPKId #>;
 				}
-				
 				return <#= fromFKIdPrivate #>;
 			}
 			set
@@ -72,13 +70,13 @@ namespace <#= EntityModelNamespace #>
 				<#= fromFKIdPrivate #> = value;
 			}
 		}
-		
+
 		[Include]
-		[XmlIgnore]		
+		[XmlIgnore]
 		[Association("<#=associationSet.Entity2ToLink.LinkTableNavProp #>", "<#= associationSet.Entity2ToLink.FK #>", "<#= associationSet.Entity2ToLink.PK #>", IsForeignKey = true)]
 		[DataMember]
 		public <#= associationSet.Entity2ToLink.Entity #> <#= associationSet.Entity2ToLink.Entity #> { get; set; }
-		
+
 		// '<#= associationSet.Entity1ToLink.LinkTableNavProp #>' associationSet from '<#= associationSet.Entity1ToLink.Entity #>.<#= associationSet.Entity1ToLink.PK #>' to '<#= associationSet.Name #>.<#= associationSet.Entity1ToLink.FK #>'
 		private <#= associationSet.Entity1ToLink.DataType #> <#= toFKIdPrivate #>;
 
@@ -93,7 +91,6 @@ namespace <#= EntityModelNamespace #>
 					if(<#= toFKIdPrivate #> != <#= toPKId #> && <#= toFKIdPrivate #> == 0)
 						<#= toFKIdPrivate #> = <#= toPKId #>;
 				}
-
 				return <#= toFKIdPrivate #>;
 			}
 			set
@@ -101,7 +98,7 @@ namespace <#= EntityModelNamespace #>
 				<#= toFKIdPrivate #> = value;
 			}
 		}
-		
+
 		[Include]
 		[XmlIgnore]
 		[Association("<#= associationSet.Entity1ToLink.LinkTableNavProp #>", "<#= associationSet.Entity1ToLink.FK #>", "<#= associationSet.Entity1ToLink.PK #>", IsForeignKey = true)]
@@ -121,16 +118,16 @@ namespace <#= EntityModelNamespace #>
 #>
 	public partial class <#= entity.Name #>
 	{
-<# 
+<#
 		foreach(M2MEntityAssociationSet associationSet in entity.Associations)
 		{
 			if(associationSet.ThisEntityToLink.HasM2MNavProp)
-			{			
+			{
 				string ToAssociationSetPrivate = "_" + associationSet.OtherEntityToLink.LinkTableNavProp;
 #>
 		// '<#= associationSet.OtherEntityToLink.LinkTableNavProp #>' associationSet from '<#= associationSet.OtherEntityToLink.Entity #>.<#= associationSet.OtherEntityToLink.PK #>' to '<#= associationSet.Name #>.<#= associationSet.OtherEntityToLink.FK #>'
 		private IEnumerable<<#= associationSet.Name #>> <#= ToAssociationSetPrivate #>;
-		
+
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
@@ -150,8 +147,8 @@ namespace <#= EntityModelNamespace #>
 				return <#= ToAssociationSetPrivate #>;
 			}
 		}
-<# 
-		}			
+<#
+		}
 	}
 #>
 	}
@@ -182,7 +179,7 @@ namespace <#= EntityModelNamespace #>
 				this.newJoinType = newJoinType;
 			}
             /// <summary>
-            ///     Constructs an enumerator of JoinType objects which forms a jointype view on the underlying many-2-many collection 
+            ///     Constructs an enumerator of JoinType objects which forms a jointype view on the underlying many-2-many collection
             /// </summary>
             /// <returns>
 			System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
@@ -214,5 +211,5 @@ namespace <#= EntityModelNamespace #>
 
 // Restore compiler warnings when using obsolete methods
 #pragma warning restore 618
-		
+
 
