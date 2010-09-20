@@ -9,7 +9,7 @@
 // Change the file path below to the path of the M2M4RiaShared.ttinclude in your project
 //
 #>
-<#@ include file="$(SolutionDir)\M2M4Ria\Shared\M2M4RiaShared.ttinclude" #>
+<#@ include file="..\Shared\M2M4RiaShared.ttinclude" #>
 <#
 
 M2MData m2mData = GenerateM2MData();
