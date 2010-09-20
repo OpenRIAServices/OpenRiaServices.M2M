@@ -1,15 +1,13 @@
 ﻿
 
- 
 
 // M2M4RiaShared.ttinclude has been located and loaded.
 
- 
 // Instruct compiler not to warn about usage of obsolete members, because using them is intended.
 #pragma warning disable 618
 
 
-namespace ClientTests.Web  
+namespace ClientTests.Web
 {
 	#region Entities
 
@@ -27,10 +25,9 @@ namespace ClientTests.Web
 	[Obsolete("This class is only intended for use by the RIA M2M solution")]
 	public partial class AnimalVet
 	{
-
 		// 'AnimalVetToVetSet' associationSet from 'Vet.VetId' to 'AnimalVet.VetId'
 		private int _VetId;
-		
+
 		[DataMember]
 		[Key]
 		public int VetId
@@ -42,7 +39,6 @@ namespace ClientTests.Web
 					if(_VetId != Vet.VetId && _VetId == 0)
 						_VetId = Vet.VetId;
 				}
-				
 				return _VetId;
 			}
 			set
@@ -50,13 +46,13 @@ namespace ClientTests.Web
 				_VetId = value;
 			}
 		}
-		
+
 		[Include]
-		[XmlIgnore]		
+		[XmlIgnore]
 		[Association("AnimalVetToVetSet", "VetId", "VetId", IsForeignKey = true)]
 		[DataMember]
 		public Vet Vet { get; set; }
-		
+
 		// 'AnimalVetToAnimalSet' associationSet from 'Animal.AnimalId' to 'AnimalVet.AnimalId'
 		private int _AnimalId;
 
@@ -71,7 +67,6 @@ namespace ClientTests.Web
 					if(_AnimalId != Animal.AnimalId && _AnimalId == 0)
 						_AnimalId = Animal.AnimalId;
 				}
-
 				return _AnimalId;
 			}
 			set
@@ -79,7 +74,7 @@ namespace ClientTests.Web
 				_AnimalId = value;
 			}
 		}
-		
+
 		[Include]
 		[XmlIgnore]
 		[Association("AnimalVetToAnimalSet", "AnimalId", "AnimalId", IsForeignKey = true)]
@@ -89,10 +84,9 @@ namespace ClientTests.Web
 	[Obsolete("This class is only intended for use by the RIA M2M solution")]
 	public partial class DogFireHydrant
 	{
-
 		// 'DogFireHydrantToFireHydrantSet' associationSet from 'FireHydrant.FireHydrantId' to 'DogFireHydrant.FireHydrantId'
 		private int _FireHydrantId;
-		
+
 		[DataMember]
 		[Key]
 		public int FireHydrantId
@@ -104,7 +98,6 @@ namespace ClientTests.Web
 					if(_FireHydrantId != FireHydrant.FireHydrantId && _FireHydrantId == 0)
 						_FireHydrantId = FireHydrant.FireHydrantId;
 				}
-				
 				return _FireHydrantId;
 			}
 			set
@@ -112,13 +105,13 @@ namespace ClientTests.Web
 				_FireHydrantId = value;
 			}
 		}
-		
+
 		[Include]
-		[XmlIgnore]		
+		[XmlIgnore]
 		[Association("DogFireHydrantToFireHydrantSet", "FireHydrantId", "FireHydrantId", IsForeignKey = true)]
 		[DataMember]
 		public FireHydrant FireHydrant { get; set; }
-		
+
 		// 'DogFireHydrantToDogSet' associationSet from 'Dog.AnimalId' to 'DogFireHydrant.DogId'
 		private int _DogId;
 
@@ -133,7 +126,6 @@ namespace ClientTests.Web
 					if(_DogId != Dog.AnimalId && _DogId == 0)
 						_DogId = Dog.AnimalId;
 				}
-
 				return _DogId;
 			}
 			set
@@ -141,7 +133,7 @@ namespace ClientTests.Web
 				_DogId = value;
 			}
 		}
-		
+
 		[Include]
 		[XmlIgnore]
 		[Association("DogFireHydrantToDogSet", "DogId", "AnimalId", IsForeignKey = true)]
@@ -151,10 +143,9 @@ namespace ClientTests.Web
 	[Obsolete("This class is only intended for use by the RIA M2M solution")]
 	public partial class DogTrainer
 	{
-
 		// 'DogTrainerToTrainerSet' associationSet from 'Trainer.TrainerId' to 'DogTrainer.TrainerId'
 		private int _TrainerId;
-		
+
 		[DataMember]
 		[Key]
 		public int TrainerId
@@ -166,7 +157,6 @@ namespace ClientTests.Web
 					if(_TrainerId != Trainer.TrainerId && _TrainerId == 0)
 						_TrainerId = Trainer.TrainerId;
 				}
-				
 				return _TrainerId;
 			}
 			set
@@ -174,13 +164,13 @@ namespace ClientTests.Web
 				_TrainerId = value;
 			}
 		}
-		
+
 		[Include]
-		[XmlIgnore]		
+		[XmlIgnore]
 		[Association("DogTrainerToTrainerSet", "TrainerId", "TrainerId", IsForeignKey = true)]
 		[DataMember]
 		public Trainer Trainer { get; set; }
-		
+
 		// 'DogTrainerToDogSet' associationSet from 'Dog.AnimalId' to 'DogTrainer.DogId'
 		private int _DogId;
 
@@ -195,7 +185,6 @@ namespace ClientTests.Web
 					if(_DogId != Dog.AnimalId && _DogId == 0)
 						_DogId = Dog.AnimalId;
 				}
-
 				return _DogId;
 			}
 			set
@@ -203,7 +192,7 @@ namespace ClientTests.Web
 				_DogId = value;
 			}
 		}
-		
+
 		[Include]
 		[XmlIgnore]
 		[Association("DogTrainerToDogSet", "DogId", "AnimalId", IsForeignKey = true)]
@@ -217,7 +206,7 @@ namespace ClientTests.Web
 	{
 		// 'AnimalVetToVetSet' associationSet from 'Vet.VetId' to 'AnimalVet.VetId'
 		private IEnumerable<AnimalVet> _AnimalVetToVetSet;
-		
+
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
@@ -242,7 +231,7 @@ namespace ClientTests.Web
 	{
 		// 'AnimalVetToAnimalSet' associationSet from 'Animal.AnimalId' to 'AnimalVet.AnimalId'
 		private IEnumerable<AnimalVet> _AnimalVetToAnimalSet;
-		
+
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
@@ -270,7 +259,7 @@ namespace ClientTests.Web
 	{
 		// 'DogTrainerToDogSet' associationSet from 'Dog.AnimalId' to 'DogTrainer.DogId'
 		private IEnumerable<DogTrainer> _DogTrainerToDogSet;
-		
+
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
@@ -298,7 +287,7 @@ namespace ClientTests.Web
 	{
 		// 'DogFireHydrantToFireHydrantSet' associationSet from 'FireHydrant.FireHydrantId' to 'DogFireHydrant.FireHydrantId'
 		private IEnumerable<DogFireHydrant> _DogFireHydrantToFireHydrantSet;
-		
+
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
@@ -320,7 +309,7 @@ namespace ClientTests.Web
 		}
 		// 'DogTrainerToTrainerSet' associationSet from 'Trainer.TrainerId' to 'DogTrainer.TrainerId'
 		private IEnumerable<DogTrainer> _DogTrainerToTrainerSet;
-		
+
 		[Obsolete("This property is only intended for use by the RIA M2M solution")]
 		[DataMember]
 		[Include]
@@ -365,7 +354,7 @@ namespace ClientTests.Web
 				this.newJoinType = newJoinType;
 			}
             /// <summary>
-            ///     Constructs an enumerator of JoinType objects which forms a jointype view on the underlying many-2-many collection 
+            ///     Constructs an enumerator of JoinType objects which forms a jointype view on the underlying many-2-many collection
             /// </summary>
             /// <returns>
 			System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
@@ -397,6 +386,6 @@ namespace ClientTests.Web
 
 // Restore compiler warnings when using obsolete methods
 #pragma warning restore 618
-		
+
 
 

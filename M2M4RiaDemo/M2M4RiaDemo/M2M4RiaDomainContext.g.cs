@@ -1,6 +1,5 @@
 ﻿
 
- 
 
 // M2M4RiaShared.ttinclude has been located and loaded.
 
@@ -14,7 +13,7 @@ namespace M2M4RiaDemo.Web.Service
 {
     using System.ServiceModel.DomainServices.Client;
 	using M2M4RiaDemo.Web.Model;
-	
+
     public partial class M2M4RiaDemoContext
     {
         /// <summary>
@@ -29,13 +28,13 @@ namespace M2M4RiaDemo.Web.Service
         }
 		partial void OnCreated()
         {
-			// Install handlers that set/reset EntitySet properties of link table entities when they are 
+			// Install handlers that set/reset EntitySet properties of link table entities when they are
 			// added/removed from the domain context's entity sets. This is only needed as long as RIA
 			// doesn't provide access from an Entity to its EntitySet.
 			EntitySet< DogTrainer > DogTrainerEntitySet = EntityContainer.GetEntitySet< DogTrainer>();
 			DogTrainerEntitySet.EntityAdded += (sender, args) => args.Entity.EntitySet = DogTrainerEntitySet;
 			DogTrainerEntitySet.EntityRemoved += (sender, args) => args.Entity.EntitySet = null;
-			
+
 		}
 	}
 }
@@ -45,12 +44,12 @@ namespace M2M4RiaDemo.Web.Service
 namespace M2M4RiaDemo.Web.Model
 {
 	#region Entities
-	
+
 	using System;
 	using System.ServiceModel.DomainServices.Client;
 
 	using M2M4Ria;
-	
+
   	/// <summary>
 	/// This class provides access to the entity's entity set. This is only needed as long as RIA
 	// doesn't provide this access it self.
@@ -66,13 +65,13 @@ namespace M2M4RiaDemo.Web.Model
 	}
 	public partial class Trainer
 	{
-	
+
 		//
 		// Code relating to the managing of the 'DogTrainer' association from 'Trainer' to 'Dog'
 		//
-		
+
 		private IEntityCollection<Dog> _Dogs;
-		
+
 		public IEntityCollection<Dog> Dogs
 		{
 			get
@@ -81,11 +80,11 @@ namespace M2M4RiaDemo.Web.Model
 				{
 					_Dogs = new EntityCollection<DogTrainer, Dog>(this.DogTrainerToDogSet, r => r.Dog, (r, t2) => r.Dog = t2, r => r.Trainer = this, RemoveFromDogTrainerToDogSet);
 				}
-				
+
 				return _Dogs;
 			}
 		}
-		
+
 		private void RemoveFromDogTrainerToDogSet(DogTrainer r)
 		{
 			if(r.EntitySet == null)
@@ -98,16 +97,15 @@ namespace M2M4RiaDemo.Web.Model
 			}
 		}
 	}
-	
 	public partial class Dog
 	{
-	
+
 		//
 		// Code relating to the managing of the 'DogTrainer' association from 'Dog' to 'Trainer'
 		//
-		
+
 		private IEntityCollection<Trainer> _Trainers;
-		
+
 		public IEntityCollection<Trainer> Trainers
 		{
 			get
@@ -116,11 +114,11 @@ namespace M2M4RiaDemo.Web.Model
 				{
 					_Trainers = new EntityCollection<DogTrainer, Trainer>(this.DogTrainerToTrainerSet, r => r.Trainer, (r, t2) => r.Trainer = t2, r => r.Dog = this, RemoveFromDogTrainerToTrainerSet);
 				}
-				
+
 				return _Trainers;
 			}
 		}
-		
+
 		private void RemoveFromDogTrainerToTrainerSet(DogTrainer r)
 		{
 			if(r.EntitySet == null)
@@ -133,7 +131,6 @@ namespace M2M4RiaDemo.Web.Model
 			}
 		}
 	}
-	
 	#endregion
 
 	#region EntityCollection
@@ -149,7 +146,7 @@ namespace M2M4RiaDemo.Web.Model
 		using System.ServiceModel.DomainServices.Client;
 
         /// <summary>
-        /// Defines methods for manipulation a generic EntityCollection 
+        /// Defines methods for manipulation a generic EntityCollection
         /// </summary>
         /// <typeparam name="TEntity">The type of the elements in the collection</typeparam>
         public interface IEntityCollection<TEntity> : IEnumerable<TEntity>, IEnumerable, INotifyCollectionChanged, INotifyPropertyChanged
@@ -197,7 +194,7 @@ namespace M2M4RiaDemo.Web.Model
 			Action<JoinType> setParent;
 			Action<JoinType> removeAction;
 			/// <summary>
-			/// 
+			///
 			/// </summary>
 			/// <param name="collection">The collection of associations to which this collection is connected</param>
 			/// <param name="getEntity">The function used to get the entity object out of a join type entity</param>
@@ -305,9 +302,7 @@ namespace M2M4RiaDemo.Web.Model
 			public event PropertyChangedEventHandler PropertyChanged;
 		}
 	}
-
 	#endregion
-
 }
 
 // Restore compiler warnings when using obsolete methods
