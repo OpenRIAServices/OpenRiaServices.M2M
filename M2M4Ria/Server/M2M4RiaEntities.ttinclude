@@ -28,6 +28,7 @@ namespace <#= EntityModelNamespace #>
 	using System.ComponentModel.DataAnnotations;
 	using System.Runtime.Serialization;
 	using System.ServiceModel.DomainServices.Server;
+    using System.Xml.Serialization;
 	using M2M4Ria;
 
 	//
@@ -73,6 +74,7 @@ namespace <#= EntityModelNamespace #>
 		}
 		
 		[Include]
+		[XmlIgnore]		
 		[Association("<#=associationSet.Entity2ToLink.LinkTableNavProp #>", "<#= associationSet.Entity2ToLink.FK #>", "<#= associationSet.Entity2ToLink.PK #>", IsForeignKey = true)]
 		[DataMember]
 		public <#= associationSet.Entity2ToLink.Entity #> <#= associationSet.Entity2ToLink.Entity #> { get; set; }
@@ -101,6 +103,7 @@ namespace <#= EntityModelNamespace #>
 		}
 		
 		[Include]
+		[XmlIgnore]
 		[Association("<#= associationSet.Entity1ToLink.LinkTableNavProp #>", "<#= associationSet.Entity1ToLink.FK #>", "<#= associationSet.Entity1ToLink.PK #>", IsForeignKey = true)]
 		[DataMember]
 		public <#= associationSet.Entity1ToLink.Entity #> <#= associationSet.Entity1ToLink.Entity #> { get; set; }

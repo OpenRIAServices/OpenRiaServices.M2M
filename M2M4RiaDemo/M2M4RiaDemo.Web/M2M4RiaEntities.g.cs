@@ -18,6 +18,7 @@ namespace M2M4RiaDemo.Web.Model
 	using System.ComponentModel.DataAnnotations;
 	using System.Runtime.Serialization;
 	using System.ServiceModel.DomainServices.Server;
+    using System.Xml.Serialization;
 	using M2M4Ria;
 
 	//
@@ -51,6 +52,7 @@ namespace M2M4RiaDemo.Web.Model
 		}
 		
 		[Include]
+		[XmlIgnore]		
 		[Association("DogTrainerToTrainerSet", "TrainerId", "TrainerId", IsForeignKey = true)]
 		[DataMember]
 		public Trainer Trainer { get; set; }
@@ -79,6 +81,7 @@ namespace M2M4RiaDemo.Web.Model
 		}
 		
 		[Include]
+		[XmlIgnore]
 		[Association("DogTrainerToDogSet", "DogId", "DogId", IsForeignKey = true)]
 		[DataMember]
 		public Dog Dog { get; set; }

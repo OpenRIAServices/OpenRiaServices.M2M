@@ -18,6 +18,7 @@ namespace ClientTests.Web
 	using System.ComponentModel.DataAnnotations;
 	using System.Runtime.Serialization;
 	using System.ServiceModel.DomainServices.Server;
+    using System.Xml.Serialization;
 	using M2M4Ria;
 
 	//
@@ -51,6 +52,7 @@ namespace ClientTests.Web
 		}
 		
 		[Include]
+		[XmlIgnore]		
 		[Association("AnimalVetToVetSet", "VetId", "VetId", IsForeignKey = true)]
 		[DataMember]
 		public Vet Vet { get; set; }
@@ -79,6 +81,7 @@ namespace ClientTests.Web
 		}
 		
 		[Include]
+		[XmlIgnore]
 		[Association("AnimalVetToAnimalSet", "AnimalId", "AnimalId", IsForeignKey = true)]
 		[DataMember]
 		public Animal Animal { get; set; }
@@ -111,6 +114,7 @@ namespace ClientTests.Web
 		}
 		
 		[Include]
+		[XmlIgnore]		
 		[Association("DogFireHydrantToFireHydrantSet", "FireHydrantId", "FireHydrantId", IsForeignKey = true)]
 		[DataMember]
 		public FireHydrant FireHydrant { get; set; }
@@ -139,6 +143,7 @@ namespace ClientTests.Web
 		}
 		
 		[Include]
+		[XmlIgnore]
 		[Association("DogFireHydrantToDogSet", "DogId", "AnimalId", IsForeignKey = true)]
 		[DataMember]
 		public Dog Dog { get; set; }
@@ -171,6 +176,7 @@ namespace ClientTests.Web
 		}
 		
 		[Include]
+		[XmlIgnore]		
 		[Association("DogTrainerToTrainerSet", "TrainerId", "TrainerId", IsForeignKey = true)]
 		[DataMember]
 		public Trainer Trainer { get; set; }
@@ -199,6 +205,7 @@ namespace ClientTests.Web
 		}
 		
 		[Include]
+		[XmlIgnore]
 		[Association("DogTrainerToDogSet", "DogId", "AnimalId", IsForeignKey = true)]
 		[DataMember]
 		public Dog Dog { get; set; }
