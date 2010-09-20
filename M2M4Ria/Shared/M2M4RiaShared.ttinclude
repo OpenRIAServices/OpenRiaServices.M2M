@@ -1,343 +1,343 @@
 ﻿<#@ include file="EF.Utility.CS.ttinclude"#>
 // M2M4RiaShared.ttinclude has been located and loaded.
 <#+
-	// ** Change these values in a separate .tt file according to the needs of your project. **
-	//
-	// *****************************************************
+    // ** Change these values in a separate .tt file according to the needs of your project. **
+    //
+    // *****************************************************
 
-	/// <summary>
-	/// Gets or sets the location of EDMX file
-	/// </summary>
-	/// <returns></returns>
-	public string EdmxFilePath{ get; set;}
-	/// <summary>
-	///  Gets or sets the name space of the entity model
-	/// </summary>
-	/// <returns></returns>
-	public string EntityModelNamespace{ get; set;}
+    /// <summary>
+    /// Gets or sets the location of EDMX file
+    /// </summary>
+    /// <returns></returns>
+    public string EdmxFilePath{ get; set;}
+    /// <summary>
+    ///  Gets or sets the name space of the entity model
+    /// </summary>
+    /// <returns></returns>
+    public string EntityModelNamespace{ get; set;}
 
-	/// <summary>
-	/// Gets or sets the name space of the domain services
-	/// </summary>
-	/// <returns></returns>
-	public string DomainServiceNamespace{ get; set;}
+    /// <summary>
+    /// Gets or sets the name space of the domain services
+    /// </summary>
+    /// <returns></returns>
+    public string DomainServiceNamespace{ get; set;}
 
-	/// <summary>
-	/// Gets or sets the name of the domain service
-	/// </summary>
-	/// <returns></returns>
-	public string DomainServiceName{ get; set; }
+    /// <summary>
+    /// Gets or sets the name of the domain service
+    /// </summary>
+    /// <returns></returns>
+    public string DomainServiceName{ get; set; }
 
-	/// <summary>
-	/// Gets or sets the name of the domain context
-	/// </summary>
-	/// <returns></returns>
-	public string DomainContextName{ get; set; }
+    /// <summary>
+    /// Gets or sets the name of the domain context
+    /// </summary>
+    /// <returns></returns>
+    public string DomainContextName{ get; set; }
 
-	/// <summary>
-	/// Gets or sets whether the domain context should give direct access to the entity set of join types
-	/// </summary>
-	/// <returns></returns>
-	public bool IsJoinTypeEntitySetAccessibleFromDomainContext{ get; set;}
+    /// <summary>
+    /// Gets or sets whether the domain context should give direct access to the entity set of join types
+    /// </summary>
+    /// <returns></returns>
+    public bool IsJoinTypeEntitySetAccessibleFromDomainContext{ get; set;}
 
-	private const string ERROR_PK_SUPPORT = "Only entites containing unary primary key's are supported currently by this T4 Template.";
-	private CodeGenerationTools Code;
-	private MetadataTools Tools;
+    private const string ERROR_PK_SUPPORT = "Only entites containing unary primary key's are supported currently by this T4 Template.";
+    private CodeGenerationTools Code;
+    private MetadataTools Tools;
 
-	public M2MData GenerateM2MData()
-	{
+    public M2MData GenerateM2MData()
+    {
 
-		//System.Diagnostics.Debugger.Break();
-		M2MData m2mData = new M2MData();
+        //System.Diagnostics.Debugger.Break();
+        M2MData m2mData = new M2MData();
 
-		Code = new CodeGenerationTools(this);
-		MetadataLoader loader = new MetadataLoader(this);
-		Tools = new MetadataTools(this);
-		EdmItemCollection ItemCollection;
+        Code = new CodeGenerationTools(this);
+        MetadataLoader loader = new MetadataLoader(this);
+        Tools = new MetadataTools(this);
+        EdmItemCollection ItemCollection;
 
-		try
-		{
-			loader.CreateEdmItemCollection(EdmxFilePath);
+        try
+        {
+            loader.CreateEdmItemCollection(EdmxFilePath);
 
-			ItemCollection = loader.CreateEdmItemCollection(EdmxFilePath);
-		}
-		catch(TargetInvocationException ex)
-		{
-			if(ex.InnerException is FileNotFoundException)
-			{
+            ItemCollection = loader.CreateEdmItemCollection(EdmxFilePath);
+        }
+        catch(TargetInvocationException ex)
+        {
+            if(ex.InnerException is FileNotFoundException)
+            {
 #>
 //
 // ERROR: Unable to locate Entity Framework edmx file at path "<#= EdmxFilePath #>"
 //
 <#+
-				throw new FileNotFoundException("Unable to located Entity Framework edmx file at path " + EdmxFilePath, ex);
-			}
+                throw new FileNotFoundException("Unable to located Entity Framework edmx file at path " + EdmxFilePath, ex);
+            }
 
-			throw;
-		}
+            throw;
+        }
 
-		// Retrieve all many to many associations
-		AssociationType[] associations =
-		(
-			from i in ItemCollection.GetItems<AssociationType>()
-			where i.AssociationEndMembers[0].RelationshipMultiplicity == RelationshipMultiplicity.Many &&
-			i.AssociationEndMembers[1].RelationshipMultiplicity == RelationshipMultiplicity.Many
-			select i
-		).ToArray<AssociationType>();
+        // Retrieve all many to many associations
+        AssociationType[] associations =
+        (
+            from i in ItemCollection.GetItems<AssociationType>()
+            where i.AssociationEndMembers[0].RelationshipMultiplicity == RelationshipMultiplicity.Many &&
+            i.AssociationEndMembers[1].RelationshipMultiplicity == RelationshipMultiplicity.Many
+            select i
+        ).ToArray<AssociationType>();
 
-		EntityContainer entityContainer = ItemCollection.GetItems<EntityContainer>().First();
+        EntityContainer entityContainer = ItemCollection.GetItems<EntityContainer>().First();
 
-		// Retrieve all entities that have many to many associations
-		EntityType[] entities = ItemCollection.GetItems<EntityType>().Where<EntityType>
-		(
-			i => associations.Any<AssociationType>(j => i.Name == j.AssociationEndMembers[0].Name || i.Name == j.AssociationEndMembers[1].Name)
-		).ToArray<EntityType>();
-
-
-		// ** Build M2M Entities **
-		foreach(EntityType entity in entities)
-		{
-			M2MEntity m2mEntity = new M2MEntity();
-			m2mEntity.BaseEntityName = Code.Escape(entity.BaseType);
-			m2mEntity.Name = Code.Escape(entity);
-			m2mEntity.IsAbstract = entity.Abstract;
-			m2mEntity.EntitySet = Code.Escape(GetEntitySetForEntity(entity, entityContainer).Name);
-
-			m2mData.Entities.Add(m2mEntity);
-		}
-
-		// ** Build M2M Associations **
-		foreach(AssociationType association in associations)
-		{
-			M2MAssociationSet m2mAssociationSet = new M2MAssociationSet();
-			m2mAssociationSet.Name = Code.Escape(association);
-
-			// ** Populate "Entity1ToLink" half of the many to many association
-			// Retrieve the first entity of the association
-			EntityType entity1 = GetEntityForAssociationEnd(entities, association.AssociationEndMembers[0]);
-
-			if(entity1.KeyMembers.Count > 1)
-				throw new InvalidOperationException(ERROR_PK_SUPPORT);
-
-			m2mAssociationSet.Entity1ToLink = new M2MAssociation();
-			m2mAssociationSet.Entity1ToLink.Entity = GetM2MEntityForEntity(entity1, m2mData.Entities);
-			// NOTE: Only entites containing unary primary key's are supported currently.
-			m2mAssociationSet.Entity1ToLink.PK = Code.Escape(entity1.KeyMembers[0]);
-			m2mAssociationSet.Entity1ToLink.DataType = Code.Escape(entity1.KeyMembers[0].TypeUsage);
-			m2mAssociationSet.Entity1ToLink.LinkTableNavProp = Code.Escape(association) + "To" + Code.Escape(entity1) + "Set";
-			m2mAssociationSet.Entity1ToLink.FK = Code.Escape(entity1) + "Id";
-
-			// Retrieve navigation property navigating from the first entity to the second entity (if exists)
-			NavigationProperty entity1NavProp = GetNavigationPropertyForAssociationEnd(entity1, association);
-			m2mAssociationSet.Entity1ToLink.HasM2MNavProp = false;
-			if(entity1NavProp != null)
-			{
-				m2mAssociationSet.Entity1ToLink.HasM2MNavProp = true;
-				m2mAssociationSet.Entity1ToLink.M2MNavProp = Code.Escape(entity1NavProp);
-			}
+        // Retrieve all entities that have many to many associations
+        EntityType[] entities = ItemCollection.GetItems<EntityType>().Where<EntityType>
+        (
+            i => associations.Any<AssociationType>(j => i.Name == j.AssociationEndMembers[0].Name || i.Name == j.AssociationEndMembers[1].Name)
+        ).ToArray<EntityType>();
 
 
-			// ** Populate "entity2ToLink" half of the many to many association
-			// Retrieve the entity that matches second entity of the association
-			EntityType entity2 = GetEntityForAssociationEnd(entities, association.AssociationEndMembers[1]);
+        // ** Build M2M Entities **
+        foreach(EntityType entity in entities)
+        {
+            M2MEntity m2mEntity = new M2MEntity();
+            m2mEntity.BaseEntityName = Code.Escape(entity.BaseType);
+            m2mEntity.Name = Code.Escape(entity);
+            m2mEntity.IsAbstract = entity.Abstract;
+            m2mEntity.EntitySet = Code.Escape(GetEntitySetForEntity(entity, entityContainer).Name);
 
-			if(entity2.KeyMembers.Count > 1)
-				throw new InvalidOperationException(ERROR_PK_SUPPORT);
+            m2mData.Entities.Add(m2mEntity);
+        }
 
-			m2mAssociationSet.Entity2ToLink = new M2MAssociation();
-			m2mAssociationSet.Entity2ToLink.Entity = GetM2MEntityForEntity(entity2, m2mData.Entities);
-			// NOTE: Only entites containing unary primary key's are supported currently.
-			m2mAssociationSet.Entity2ToLink.PK = Code.Escape(entity2.KeyMembers[0]);
-			m2mAssociationSet.Entity2ToLink.DataType = Code.Escape(entity2.KeyMembers[0].TypeUsage);
-			m2mAssociationSet.Entity2ToLink.LinkTableNavProp = Code.Escape(association) + "To" + Code.Escape(entity2) + "Set";
-			m2mAssociationSet.Entity2ToLink.FK = Code.Escape(entity2) + "Id";
+        // ** Build M2M Associations **
+        foreach(AssociationType association in associations)
+        {
+            M2MAssociationSet m2mAssociationSet = new M2MAssociationSet();
+            m2mAssociationSet.Name = Code.Escape(association);
 
-			// Retrieve navigation propery navigating from the second entity to the first entity (if exists)
-			NavigationProperty entity2NavProp = GetNavigationPropertyForAssociationEnd(entity2, association);
-			m2mAssociationSet.Entity2ToLink.HasM2MNavProp = false;
-			if(entity2NavProp != null)
-			{
-				m2mAssociationSet.Entity2ToLink.HasM2MNavProp = true;
-				m2mAssociationSet.Entity2ToLink.M2MNavProp = Code.Escape(entity2NavProp);
-			}
+            // ** Populate "Entity1ToLink" half of the many to many association
+            // Retrieve the first entity of the association
+            EntityType entity1 = GetEntityForAssociationEnd(entities, association.AssociationEndMembers[0]);
 
-			m2mData.Associations.Add(m2mAssociationSet);
-		}
+            if(entity1.KeyMembers.Count > 1)
+                throw new InvalidOperationException(ERROR_PK_SUPPORT);
 
-		// ** Link M2M Entities to M2M Associations**
-		foreach(EntityType entity in entities)
-		{
-			// Retrieve M2MEntity for entity.
-			M2MEntity m2mEntity =
-				(from e in m2mData.Entities
-				where e.Name == Code.Escape(entity)
-				select e).First();
+            m2mAssociationSet.Entity1ToLink = new M2MAssociation();
+            m2mAssociationSet.Entity1ToLink.Entity = GetM2MEntityForEntity(entity1, m2mData.Entities);
+            // NOTE: Only entites containing unary primary key's are supported currently.
+            m2mAssociationSet.Entity1ToLink.PK = Code.Escape(entity1.KeyMembers[0]);
+            m2mAssociationSet.Entity1ToLink.DataType = Code.Escape(entity1.KeyMembers[0].TypeUsage);
+            m2mAssociationSet.Entity1ToLink.LinkTableNavProp = Code.Escape(association) + "To" + Code.Escape(entity1) + "Set";
+            m2mAssociationSet.Entity1ToLink.FK = Code.Escape(entity1) + "Id";
 
-			// Retrieve a string list of all Dervied types that derive from this entity
-			m2mEntity.DerivedEntityNames = new List<string>
-				(
-					(from e in Tools.GetSubtypesOf(entity, ItemCollection, false)
-					select Code.Escape(e.Name)).ToArray()
-				);
+            // Retrieve navigation property navigating from the first entity to the second entity (if exists)
+            NavigationProperty entity1NavProp = GetNavigationPropertyForAssociationEnd(entity1, association);
+            m2mAssociationSet.Entity1ToLink.HasM2MNavProp = false;
+            if(entity1NavProp != null)
+            {
+                m2mAssociationSet.Entity1ToLink.HasM2MNavProp = true;
+                m2mAssociationSet.Entity1ToLink.M2MNavProp = Code.Escape(entity1NavProp);
+            }
 
-			// Retrieve all associations that link to this entity
-			M2MAssociationSet[] m2mAssociationSets =
-				(from a in m2mData.Associations
-				where a.Entity1ToLink.Entity.Name == Code.Escape(entity) || a.Entity2ToLink.Entity.Name == Code.Escape(entity)
-				select a).ToArray();
 
-			// Build M2MEntityAssociationSets which describe the many to many association from the perspective
-			// of this entity.
-			foreach(M2MAssociationSet i in m2mAssociationSets)
-			{
-				M2MEntityAssociationSet m2mEntityAssociationSet = new M2MEntityAssociationSet();
+            // ** Populate "entity2ToLink" half of the many to many association
+            // Retrieve the entity that matches second entity of the association
+            EntityType entity2 = GetEntityForAssociationEnd(entities, association.AssociationEndMembers[1]);
 
-				m2mEntityAssociationSet.Name = i.Name;
+            if(entity2.KeyMembers.Count > 1)
+                throw new InvalidOperationException(ERROR_PK_SUPPORT);
 
-				if(i.Entity1ToLink.Entity.Name == Code.Escape(entity))
-				{
-					m2mEntityAssociationSet.ThisEntityToLink = i.Entity1ToLink;
-					m2mEntityAssociationSet.OtherEntityToLink = i.Entity2ToLink;
-				}
-				else
-				{
-					m2mEntityAssociationSet.ThisEntityToLink = i.Entity2ToLink;
-					m2mEntityAssociationSet.OtherEntityToLink = i.Entity1ToLink;
-				}
+            m2mAssociationSet.Entity2ToLink = new M2MAssociation();
+            m2mAssociationSet.Entity2ToLink.Entity = GetM2MEntityForEntity(entity2, m2mData.Entities);
+            // NOTE: Only entites containing unary primary key's are supported currently.
+            m2mAssociationSet.Entity2ToLink.PK = Code.Escape(entity2.KeyMembers[0]);
+            m2mAssociationSet.Entity2ToLink.DataType = Code.Escape(entity2.KeyMembers[0].TypeUsage);
+            m2mAssociationSet.Entity2ToLink.LinkTableNavProp = Code.Escape(association) + "To" + Code.Escape(entity2) + "Set";
+            m2mAssociationSet.Entity2ToLink.FK = Code.Escape(entity2) + "Id";
 
-				m2mEntity.Associations.Add(m2mEntityAssociationSet);
-			}
-		}
+            // Retrieve navigation propery navigating from the second entity to the first entity (if exists)
+            NavigationProperty entity2NavProp = GetNavigationPropertyForAssociationEnd(entity2, association);
+            m2mAssociationSet.Entity2ToLink.HasM2MNavProp = false;
+            if(entity2NavProp != null)
+            {
+                m2mAssociationSet.Entity2ToLink.HasM2MNavProp = true;
+                m2mAssociationSet.Entity2ToLink.M2MNavProp = Code.Escape(entity2NavProp);
+            }
 
-		//System.Diagnostics.Debugger.Break();
-		return m2mData;
-	}
+            m2mData.Associations.Add(m2mAssociationSet);
+        }
 
-	/// <summary>
-	/// Retrieves the EntityType that links up to the AssociationEndMember provided.
-	/// </summary>
-	private EntityType GetEntityForAssociationEnd(EntityType[] entities, AssociationEndMember associationMember)
-	{
-		return
-			(from e in entities
-			where e.Name == associationMember.Name
-			select e).First();
-	}
+        // ** Link M2M Entities to M2M Associations**
+        foreach(EntityType entity in entities)
+        {
+            // Retrieve M2MEntity for entity.
+            M2MEntity m2mEntity =
+                (from e in m2mData.Entities
+                where e.Name == Code.Escape(entity)
+                select e).First();
 
-	/// <summary>
-	/// Retrieves a NavigationProperty on a EntityType that links to the provided AssociationType.  Returns null if no NavigationProperty can be found.
-	/// </summary>
-	private NavigationProperty GetNavigationPropertyForAssociationEnd(EntityType entity, AssociationType association)
-	{
-		return
-			(from n in entity.NavigationProperties
-			where n.RelationshipType == association
-			select n).FirstOrDefault();
-	}
+            // Retrieve a string list of all Dervied types that derive from this entity
+            m2mEntity.DerivedEntityNames = new List<string>
+                (
+                    (from e in Tools.GetSubtypesOf(entity, ItemCollection, false)
+                    select Code.Escape(e.Name)).ToArray()
+                );
 
-	private EntitySetBase GetEntitySetForEntity(EntityType entity, EntityContainer entityContainer)
-	{
-		return
-			(from e in entityContainer.BaseEntitySets
-			where e.ElementType == entity || Tools.IsSubtypeOf(entity, e.ElementType)
-			select e).First();
-	}
+            // Retrieve all associations that link to this entity
+            M2MAssociationSet[] m2mAssociationSets =
+                (from a in m2mData.Associations
+                where a.Entity1ToLink.Entity.Name == Code.Escape(entity) || a.Entity2ToLink.Entity.Name == Code.Escape(entity)
+                select a).ToArray();
 
-	private M2MEntity GetM2MEntityForEntity(EntityType entity, List<M2MEntity> m2mEntities)
-	{
-		return
-			(from e in m2mEntities
-			where e.Name == Code.Escape(entity.Name)
-			select e).First();
-	}
+            // Build M2MEntityAssociationSets which describe the many to many association from the perspective
+            // of this entity.
+            foreach(M2MAssociationSet i in m2mAssociationSets)
+            {
+                M2MEntityAssociationSet m2mEntityAssociationSet = new M2MEntityAssociationSet();
 
-	/// <summary>
-	/// Represents an entity that has a many to many association with another entity
-	/// </summary>
-	public class M2MEntity
-	{
-		public M2MEntity()
-		{
-			DerivedEntityNames = new List<string>();
-			Associations = new List<M2MEntityAssociationSet>();
-		}
+                m2mEntityAssociationSet.Name = i.Name;
 
-		public string Name { get; set; }
-		public string BaseEntityName { get; set; }
-		public bool IsBaseEntity { get { return BaseEntityName == null; } }
-		public string EntitySet { get; set; }
-		public bool IsAbstract { get; set; }
-		public List<string> DerivedEntityNames { get; set; }
-		public List<M2MEntityAssociationSet> Associations { get; set; }
+                if(i.Entity1ToLink.Entity.Name == Code.Escape(entity))
+                {
+                    m2mEntityAssociationSet.ThisEntityToLink = i.Entity1ToLink;
+                    m2mEntityAssociationSet.OtherEntityToLink = i.Entity2ToLink;
+                }
+                else
+                {
+                    m2mEntityAssociationSet.ThisEntityToLink = i.Entity2ToLink;
+                    m2mEntityAssociationSet.OtherEntityToLink = i.Entity1ToLink;
+                }
 
-		public override string ToString()
-		{
-			return string.IsNullOrEmpty(Name) ? base.ToString() : Name;
-		}
-	}
+                m2mEntity.Associations.Add(m2mEntityAssociationSet);
+            }
+        }
 
-	/// <summary>
-	/// Describes a single association between an entity and link entity in a Many to Many relationship.
-	/// </summary>
-	public class M2MAssociation
-	{
-		public string PK { get; set; }
-		public string DataType { get; set; }
-		public M2MEntity Entity { get; set; }
-		public bool HasM2MNavProp { get; set; }
-		public string M2MNavProp { get; set; }
-		public string LinkTableNavProp { get; set; }
-		public string FK { get; set; }
+        //System.Diagnostics.Debugger.Break();
+        return m2mData;
+    }
 
-		public override string ToString()
-		{
-			return string.IsNullOrEmpty(LinkTableNavProp) ? base.ToString() : LinkTableNavProp;
-		}
-	}
+    /// <summary>
+    /// Retrieves the EntityType that links up to the AssociationEndMember provided.
+    /// </summary>
+    private EntityType GetEntityForAssociationEnd(EntityType[] entities, AssociationEndMember associationMember)
+    {
+        return
+            (from e in entities
+            where e.Name == associationMember.Name
+            select e).First();
+    }
 
-	/// <summary>
-	/// Holds many to many associations relative a link table entity
-	/// </summary>
-	public class M2MAssociationSet
-	{
-		public M2MAssociation Entity1ToLink { get; set; }
-		public M2MAssociation Entity2ToLink { get; set; }
-		public string Name { get; set; }
+    /// <summary>
+    /// Retrieves a NavigationProperty on a EntityType that links to the provided AssociationType.  Returns null if no NavigationProperty can be found.
+    /// </summary>
+    private NavigationProperty GetNavigationPropertyForAssociationEnd(EntityType entity, AssociationType association)
+    {
+        return
+            (from n in entity.NavigationProperties
+            where n.RelationshipType == association
+            select n).FirstOrDefault();
+    }
 
-		public override string ToString()
-		{
-			return string.IsNullOrEmpty(Name) ? base.ToString() : Name;
-		}
-	}
+    private EntitySetBase GetEntitySetForEntity(EntityType entity, EntityContainer entityContainer)
+    {
+        return
+            (from e in entityContainer.BaseEntitySets
+            where e.ElementType == entity || Tools.IsSubtypeOf(entity, e.ElementType)
+            select e).First();
+    }
 
-	/// <summary>
-	/// Holds many to many associations relative to an entity
-	/// </summary>
-	public class M2MEntityAssociationSet
-	{
-		public M2MAssociation ThisEntityToLink { get; set; }
-		public M2MAssociation OtherEntityToLink { get; set; }
-		public string Name { get; set; }
+    private M2MEntity GetM2MEntityForEntity(EntityType entity, List<M2MEntity> m2mEntities)
+    {
+        return
+            (from e in m2mEntities
+            where e.Name == Code.Escape(entity.Name)
+            select e).First();
+    }
 
-		public override string ToString()
-		{
-			return string.IsNullOrEmpty(Name) ? base.ToString() : Name;
-		}
-	}
+    /// <summary>
+    /// Represents an entity that has a many to many association with another entity
+    /// </summary>
+    public class M2MEntity
+    {
+        public M2MEntity()
+        {
+            DerivedEntityNames = new List<string>();
+            Associations = new List<M2MEntityAssociationSet>();
+        }
 
-	/// <summary>
-	/// A container that holds Entity and Association information for many to many relationships
-	/// </summary>
-	public class M2MData
-	{
-		public M2MData()
-		{
-			Entities = new List<M2MEntity>();
-			Associations = new List<M2MAssociationSet>();
-		}
+        public string Name { get; set; }
+        public string BaseEntityName { get; set; }
+        public bool IsBaseEntity { get { return BaseEntityName == null; } }
+        public string EntitySet { get; set; }
+        public bool IsAbstract { get; set; }
+        public List<string> DerivedEntityNames { get; set; }
+        public List<M2MEntityAssociationSet> Associations { get; set; }
 
-		public List<M2MEntity> Entities { get; private set; }
-		public List<M2MAssociationSet> Associations { get; private set; }
-	}
+        public override string ToString()
+        {
+            return string.IsNullOrEmpty(Name) ? base.ToString() : Name;
+        }
+    }
+
+    /// <summary>
+    /// Describes a single association between an entity and link entity in a Many to Many relationship.
+    /// </summary>
+    public class M2MAssociation
+    {
+        public string PK { get; set; }
+        public string DataType { get; set; }
+        public M2MEntity Entity { get; set; }
+        public bool HasM2MNavProp { get; set; }
+        public string M2MNavProp { get; set; }
+        public string LinkTableNavProp { get; set; }
+        public string FK { get; set; }
+
+        public override string ToString()
+        {
+            return string.IsNullOrEmpty(LinkTableNavProp) ? base.ToString() : LinkTableNavProp;
+        }
+    }
+
+    /// <summary>
+    /// Holds many to many associations relative a link table entity
+    /// </summary>
+    public class M2MAssociationSet
+    {
+        public M2MAssociation Entity1ToLink { get; set; }
+        public M2MAssociation Entity2ToLink { get; set; }
+        public string Name { get; set; }
+
+        public override string ToString()
+        {
+            return string.IsNullOrEmpty(Name) ? base.ToString() : Name;
+        }
+    }
+
+    /// <summary>
+    /// Holds many to many associations relative to an entity
+    /// </summary>
+    public class M2MEntityAssociationSet
+    {
+        public M2MAssociation ThisEntityToLink { get; set; }
+        public M2MAssociation OtherEntityToLink { get; set; }
+        public string Name { get; set; }
+
+        public override string ToString()
+        {
+            return string.IsNullOrEmpty(Name) ? base.ToString() : Name;
+        }
+    }
+
+    /// <summary>
+    /// A container that holds Entity and Association information for many to many relationships
+    /// </summary>
+    public class M2MData
+    {
+        public M2MData()
+        {
+            Entities = new List<M2MEntity>();
+            Associations = new List<M2MAssociationSet>();
+        }
+
+        public List<M2MEntity> Entities { get; private set; }
+        public List<M2MAssociationSet> Associations { get; private set; }
+    }
 
 #>
