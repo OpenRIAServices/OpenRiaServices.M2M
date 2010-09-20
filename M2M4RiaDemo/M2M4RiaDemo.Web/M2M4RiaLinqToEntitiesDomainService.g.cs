@@ -36,6 +36,7 @@ namespace M2M4RiaDemo.Web.Service
         [Obsolete("This method is only intended for use by the RIA M2M solution")]
         public void UpdateDogTrainer(DogTrainer dogTrainer)
         {
+            throw new NotSupportedException("Update operation on DogTrainer is not supported.");
         }
         [Obsolete("This method is only intended for use by the RIA M2M solution")]
         public void InsertDogTrainer(DogTrainer dogTrainer)
