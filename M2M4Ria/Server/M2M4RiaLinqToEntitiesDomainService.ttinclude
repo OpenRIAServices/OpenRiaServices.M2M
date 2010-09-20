@@ -115,6 +115,7 @@ private void MakeUpdateOperation(M2MAssociationSet associationSet)
         [Obsolete("This method is only intended for use by the RIA M2M solution")]
         public void Update<#= associationSet.Name #>(<#= associationSet.Name #> <#= linkEntityName #>)
         {
+            throw new NotSupportedException("Update operation on <#= associationSet.Name #> is not supported.");
         }
 <#+
 }

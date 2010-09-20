@@ -37,6 +37,7 @@ namespace ClientTests.Web
         [Obsolete("This method is only intended for use by the RIA M2M solution")]
         public void UpdateAnimalVet(AnimalVet animalVet)
         {
+            throw new NotSupportedException("Update operation on AnimalVet is not supported.");
         }
         [Obsolete("This method is only intended for use by the RIA M2M solution")]
         public void InsertAnimalVet(AnimalVet animalVet)
@@ -75,6 +76,7 @@ namespace ClientTests.Web
         [Obsolete("This method is only intended for use by the RIA M2M solution")]
         public void UpdateDogFireHydrant(DogFireHydrant dogFireHydrant)
         {
+            throw new NotSupportedException("Update operation on DogFireHydrant is not supported.");
         }
         [Obsolete("This method is only intended for use by the RIA M2M solution")]
         public void InsertDogFireHydrant(DogFireHydrant dogFireHydrant)
@@ -113,6 +115,7 @@ namespace ClientTests.Web
         [Obsolete("This method is only intended for use by the RIA M2M solution")]
         public void UpdateDogTrainer(DogTrainer dogTrainer)
         {
+            throw new NotSupportedException("Update operation on DogTrainer is not supported.");
         }
         [Obsolete("This method is only intended for use by the RIA M2M solution")]
         public void InsertDogTrainer(DogTrainer dogTrainer)
