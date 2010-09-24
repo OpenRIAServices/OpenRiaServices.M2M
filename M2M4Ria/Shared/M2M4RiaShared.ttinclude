@@ -218,9 +218,11 @@
     /// </summary>
     private EntityType GetEntityForAssociationEnd(EntityType[] entities, AssociationEndMember associationMember)
     {
+		string entityName = ((System.Data.Metadata.Edm.RefType)associationMember.TypeUsage.EdmType).ElementType.Name;
+		
         return
             (from e in entities
-            where e.Name == associationMember.Name
+            where e.Name == entityName
             select e).First();
     }
 
