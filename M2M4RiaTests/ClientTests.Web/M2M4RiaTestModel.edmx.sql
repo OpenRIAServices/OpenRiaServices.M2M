@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 08/28/2010 20:08:02
+-- Date Created: 12/14/2010 10:06:53
 -- Generated from EDMX file: C:\undergit\RIA\m2m4ria\M2M4RiaTests\ClientTests.Web\M2M4RiaTestModel.edmx
 -- --------------------------------------------------
 
@@ -195,6 +195,13 @@ CREATE TABLE [dbo].[AnimalFood] (
 );
 GO
 
+-- Creating table 'CatAnimal'
+CREATE TABLE [dbo].[CatAnimal] (
+    [Cats_AnimalId] int  NOT NULL,
+    [Animals_AnimalId] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -275,6 +282,12 @@ GO
 ALTER TABLE [dbo].[AnimalFood]
 ADD CONSTRAINT [PK_AnimalFood]
     PRIMARY KEY NONCLUSTERED ([AnimalFood_Food_AnimalId], [AnimalFood_Animal_FoodId] ASC);
+GO
+
+-- Creating primary key on [Cats_AnimalId], [Animals_AnimalId] in table 'CatAnimal'
+ALTER TABLE [dbo].[CatAnimal]
+ADD CONSTRAINT [PK_CatAnimal]
+    PRIMARY KEY NONCLUSTERED ([Cats_AnimalId], [Animals_AnimalId] ASC);
 GO
 
 -- --------------------------------------------------
@@ -399,6 +412,29 @@ ADD CONSTRAINT [FK_AnimalFood_Food]
 CREATE INDEX [IX_FK_AnimalFood_Food]
 ON [dbo].[AnimalFood]
     ([AnimalFood_Animal_FoodId]);
+GO
+
+-- Creating foreign key on [Cats_AnimalId] in table 'CatAnimal'
+ALTER TABLE [dbo].[CatAnimal]
+ADD CONSTRAINT [FK_CatAnimal_Cat]
+    FOREIGN KEY ([Cats_AnimalId])
+    REFERENCES [dbo].[Animals_Cat]
+        ([AnimalId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Animals_AnimalId] in table 'CatAnimal'
+ALTER TABLE [dbo].[CatAnimal]
+ADD CONSTRAINT [FK_CatAnimal_Animal]
+    FOREIGN KEY ([Animals_AnimalId])
+    REFERENCES [dbo].[Animals]
+        ([AnimalId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CatAnimal_Animal'
+CREATE INDEX [IX_FK_CatAnimal_Animal]
+ON [dbo].[CatAnimal]
+    ([Animals_AnimalId]);
 GO
 
 -- Creating foreign key on [AnimalId] in table 'Animals_Dog'
