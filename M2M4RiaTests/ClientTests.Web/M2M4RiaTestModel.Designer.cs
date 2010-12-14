@@ -24,6 +24,7 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("M2M4RiaModel", "DogChewedShoe", "Dog", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ClientTests.Web.Dog), "ChewedShoe", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.ChewedShoe), true)]
 [assembly: EdmRelationshipAttribute("M2M4RiaModel", "DogTrainer", "Dog", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Dog), "Trainer", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Trainer))]
 [assembly: EdmRelationshipAttribute("M2M4RiaModel", "AnimalFood", "Animal", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Animal), "Food", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Food))]
+[assembly: EdmRelationshipAttribute("M2M4RiaModel", "CatAnimal", "Cat", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Cat), "Animal", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Animal))]
 
 #endregion
 
@@ -420,6 +421,28 @@ namespace ClientTests.Web
                 }
             }
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("M2M4RiaModel", "CatAnimal", "Cat")]
+        public EntityCollection<Cat> Cats
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Cat>("M2M4RiaModel.CatAnimal", "Cat");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Cat>("M2M4RiaModel.CatAnimal", "Cat", value);
+                }
+            }
+        }
 
         #endregion
     }
@@ -478,6 +501,31 @@ namespace ClientTests.Web
 
         #endregion
     
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("M2M4RiaModel", "CatAnimal", "Animal")]
+        public EntityCollection<Animal> Animals
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Animal>("M2M4RiaModel.CatAnimal", "Animal");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Animal>("M2M4RiaModel.CatAnimal", "Animal", value);
+                }
+            }
+        }
+
+        #endregion
     }
     
     /// <summary>

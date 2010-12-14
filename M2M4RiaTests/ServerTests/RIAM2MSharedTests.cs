@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ServerTests;
+using System.Data.Metadata.Edm;
 
 namespace RIAM2M.Web.Tests
 {
@@ -42,7 +43,7 @@ namespace RIAM2M.Web.Tests
         [TestMethod]
         public void GenerateM2MData_InspectReturnType_ShouldContainRequiredAssociationSets()
         {
-            string[] requiredAssociationSets = { "AnimalVet", "DogFireHydrant", "DogTrainer", "AnimalFood" };
+            string[] requiredAssociationSets = { "AnimalVet", "DogFireHydrant", "DogTrainer", "AnimalFood", "CatAnimal" };
 
             Assert.IsTrue(M2MDataObject.Associations.All(e => requiredAssociationSets.Contains(e.Name)), "M2MData.Associations does not match the expected AsssociationSet list");
         }
@@ -53,7 +54,7 @@ namespace RIAM2M.Web.Tests
         [TestMethod]
         public void GenerateM2MData_InspectReturnType_ShouldContainRequiredEntities()
         {
-            string[] requiredEntities = { "Animal", "Vet", "FireHydrant", "Trainer", "Food", "Dog" };
+            string[] requiredEntities = { "Animal", "Vet", "FireHydrant", "Trainer", "Food", "Dog", "Cat"};
 
             Assert.IsTrue(M2MDataObject.Entities.All(e => requiredEntities.Contains(e.Name)), "M2MData.Entities does not match the expected Entities list");
         }
@@ -68,6 +69,13 @@ namespace RIAM2M.Web.Tests
 
             CheckAssociationIsValid(associationSet.Entity1ToLink, "Entity1ToLink", "int", "Animal", "AnimalId", true, "AnimalVetToAnimalSet", "Vets", "AnimalId");
             CheckAssociationIsValid(associationSet.Entity2ToLink, "Entity2ToLink", "int", "Vet", "VetId", true, "AnimalVetToVetSet", "Animals", "VetId");
+        }
+        [TestMethod]
+        public void GenerateM2MData_InspectReturnType_CheckAssociationSetIsValidForCatAnimal()
+        {
+            M2M4RiaShared.M2MAssociationSet associationSet = GetAssociationSetByName("CatAnimal");
+            CheckAssociationIsValid(associationSet.Entity2ToLink, "Entity2ToLink", "int", "Animal", "AnimalId", true, "CatAnimalToAnimalSet", "Cats", "AnimalId");
+            CheckAssociationIsValid(associationSet.Entity1ToLink, "Entity1ToLink", "int", "Cat", "CatId", true, "CatAnimalToCatSet", "Animals", "AnimalId");
         }
 
         /// <summary>
@@ -113,7 +121,7 @@ namespace RIAM2M.Web.Tests
         [TestMethod]
         public void GenerateM2MData_InspectReturnType_CheckEntityIsValidForAnimal()
         {
-            CheckEntityIsValid("Animal", new string[] { "AnimalFood", "AnimalVet" }, new string[] { "Cat", "Dog" }, "Animals", false, true, null); 
+            CheckEntityIsValid("Animal", new string[] { "AnimalFood", "AnimalVet", "CatAnimal" }, new string[] { "Cat", "Dog" }, "Animals", false, true, null); 
         }
 
         /// <summary>

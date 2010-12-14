@@ -128,7 +128,7 @@
             m2mAssociationSet.Entity1ToLink.FK = Code.Escape(entity1) + "Id";
 
             // Retrieve navigation property navigating from the first entity to the second entity (if exists)
-            NavigationProperty entity1NavProp = GetNavigationPropertyForAssociationEnd(entity1, association);
+            NavigationProperty entity1NavProp = GetNavigationPropertyForAssociationEnd(entity1, association, association.AssociationEndMembers[0]);
             m2mAssociationSet.Entity1ToLink.HasM2MNavProp = false;
             if(entity1NavProp != null)
             {
@@ -153,7 +153,7 @@
             m2mAssociationSet.Entity2ToLink.FK = Code.Escape(entity2) + "Id";
 
             // Retrieve navigation propery navigating from the second entity to the first entity (if exists)
-            NavigationProperty entity2NavProp = GetNavigationPropertyForAssociationEnd(entity2, association);
+            NavigationProperty entity2NavProp = GetNavigationPropertyForAssociationEnd(entity2, association, association.AssociationEndMembers[1]);
             m2mAssociationSet.Entity2ToLink.HasM2MNavProp = false;
             if(entity2NavProp != null)
             {
@@ -229,11 +229,11 @@
     /// <summary>
     /// Retrieves a NavigationProperty on a EntityType that links to the provided AssociationType.  Returns null if no NavigationProperty can be found.
     /// </summary>
-    private NavigationProperty GetNavigationPropertyForAssociationEnd(EntityType entity, AssociationType association)
+    private NavigationProperty GetNavigationPropertyForAssociationEnd(EntityType entity, AssociationType association, AssociationEndMember end)
     {
         return
             (from n in entity.NavigationProperties
-            where n.RelationshipType == association
+            where n.RelationshipType == association && n.FromEndMember == end
             select n).FirstOrDefault();
     }
 
