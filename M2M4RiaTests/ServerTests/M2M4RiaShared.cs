@@ -352,9 +352,11 @@ this.Write("\"\r\n//\r\n");
     /// </summary>
     private EntityType GetEntityForAssociationEnd(EntityType[] entities, AssociationEndMember associationMember)
     {
+		string entityName = ((System.Data.Metadata.Edm.RefType)associationMember.TypeUsage.EdmType).ElementType.Name;
+		
         return
             (from e in entities
-            where e.Name == associationMember.Name
+            where e.Name == entityName
             select e).First();
     }
 
@@ -479,7 +481,7 @@ this.Write("\"\r\n//\r\n");
         #line default
         #line hidden
         
-        #line 25 "c:\Program Files\Microsoft Visual Studio 10.0\Common7\IDE\Extensions\Microsoft\Entity Framework Tools\Templates\Includes\EF.Utility.CS.ttinclude"
+        #line 25 "C:\Program Files\Microsoft Visual Studio 10.0\Common7\IDE\Extensions\Microsoft\Entity Framework Tools\Templates\Includes\EF.Utility.CS.ttinclude"
 
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 

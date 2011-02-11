@@ -33,6 +33,10 @@ namespace ClientTests.Web
             DogTrainerEntitySet.EntityAdded += (sender, args) => args.Entity.EntitySet = DogTrainerEntitySet;
             DogTrainerEntitySet.EntityRemoved += (sender, args) => args.Entity.EntitySet = null;
 
+            EntitySet< CatAnimal > CatAnimalEntitySet = EntityContainer.GetEntitySet< CatAnimal>();
+            CatAnimalEntitySet.EntityAdded += (sender, args) => args.Entity.EntitySet = CatAnimalEntitySet;
+            CatAnimalEntitySet.EntityRemoved += (sender, args) => args.Entity.EntitySet = null;
+
         }
     }
 }
@@ -87,6 +91,19 @@ namespace ClientTests.Web
         [Obsolete("This property is only intended for use by the M2M4Ria solution.")]
         public EntitySet<DogTrainer> EntitySet{ get; set; }
     }
+    /// <summary>
+    /// This class provides access to the entity's entity set. This is only needed as long as RIA
+    /// doesn't provide this access it self.
+    /// </summary>
+    public partial class CatAnimal
+    {
+        /// <summary>
+        /// Gets or sets the EntitySet the link table entity is contained in. It is set by the domain context
+        /// when the link entity is added to an entity set, and reset to null when it is removed from an entity set.
+        /// </summary>
+        [Obsolete("This property is only intended for use by the M2M4Ria solution.")]
+        public EntitySet<CatAnimal> EntitySet{ get; set; }
+    }
     public partial class Animal
     {
         //
@@ -111,6 +128,34 @@ namespace ClientTests.Web
             if(r.EntitySet == null)
             {
                 this.AnimalVetToVetSet.Remove(r);
+            }
+            else
+            {
+                r.EntitySet.Remove(r);
+            }
+        }
+        //
+        // Code relating to the managing of the 'CatAnimal' association from 'Animal' to 'Cat'
+        //
+        private IEntityCollection<Cat> _Cats;
+
+        public IEntityCollection<Cat> Cats
+        {
+            get
+            {
+                if(_Cats == null)
+                {
+                    _Cats = new EntityCollection<CatAnimal, Cat>(this.CatAnimalToCatSet, r => r.Cat, (r, t2) => r.Cat = t2, r => r.Animal = this, RemoveFromCatAnimalToCatSet);
+                }
+                return _Cats;
+            }
+        }
+
+        private void RemoveFromCatAnimalToCatSet(CatAnimal r)
+        {
+            if(r.EntitySet == null)
+            {
+                this.CatAnimalToCatSet.Remove(r);
             }
             else
             {
@@ -238,6 +283,37 @@ namespace ClientTests.Web
             if(r.EntitySet == null)
             {
                 this.DogTrainerToTrainerSet.Remove(r);
+            }
+            else
+            {
+                r.EntitySet.Remove(r);
+            }
+        }
+    }
+    public partial class Cat
+    {
+        //
+        // Code relating to the managing of the 'CatAnimal' association from 'Cat' to 'Animal'
+        //
+        private IEntityCollection<Animal> _Animals;
+
+        public IEntityCollection<Animal> Animals
+        {
+            get
+            {
+                if(_Animals == null)
+                {
+                    _Animals = new EntityCollection<CatAnimal, Animal>(this.CatAnimalToAnimalSet, r => r.Animal, (r, t2) => r.Animal = t2, r => r.Cat = this, RemoveFromCatAnimalToAnimalSet);
+                }
+                return _Animals;
+            }
+        }
+
+        private void RemoveFromCatAnimalToAnimalSet(CatAnimal r)
+        {
+            if(r.EntitySet == null)
+            {
+                this.CatAnimalToAnimalSet.Remove(r);
             }
             else
             {

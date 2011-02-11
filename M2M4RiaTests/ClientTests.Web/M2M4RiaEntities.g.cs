@@ -198,6 +198,65 @@ namespace ClientTests.Web
         [DataMember]
         public Dog Dog { get; set; }
     }
+    [Obsolete("This class is only intended for use by the RIA M2M solution")]
+    public partial class CatAnimal
+    {
+        // 'CatAnimalToAnimalSet' associationSet from 'Animal.AnimalId' to 'CatAnimal.AnimalId'
+        private int _AnimalId;
+
+        [DataMember]
+        [Key]
+        public int AnimalId
+        {
+            get
+            {
+                if(Animal != null)
+                {
+                    if(_AnimalId != Animal.AnimalId && _AnimalId == 0)
+                        _AnimalId = Animal.AnimalId;
+                }
+                return _AnimalId;
+            }
+            set
+            {
+                _AnimalId = value;
+            }
+        }
+
+        [Include]
+        [XmlIgnore]
+        [Association("CatAnimalToAnimalSet", "AnimalId", "AnimalId", IsForeignKey = true)]
+        [DataMember]
+        public Animal Animal { get; set; }
+
+        // 'CatAnimalToCatSet' associationSet from 'Cat.AnimalId' to 'CatAnimal.CatId'
+        private int _CatId;
+
+        [DataMember]
+        [Key]
+        public int CatId
+        {
+            get
+            {
+                if(Cat != null)
+                {
+                    if(_CatId != Cat.AnimalId && _CatId == 0)
+                        _CatId = Cat.AnimalId;
+                }
+                return _CatId;
+            }
+            set
+            {
+                _CatId = value;
+            }
+        }
+
+        [Include]
+        [XmlIgnore]
+        [Association("CatAnimalToCatSet", "CatId", "AnimalId", IsForeignKey = true)]
+        [DataMember]
+        public Cat Cat { get; set; }
+    }
     //
     // Regular Entity Types
     //
@@ -214,6 +273,19 @@ namespace ClientTests.Web
                 Func<Vet, AnimalVet> makeJoinType = 
                     e => new AnimalVet { Animal = this, Vet = e };
                 return Vets.Select(makeJoinType).ToList();
+            }
+        }
+        [Obsolete("This property is only intended for use by the RIA M2M solution")]
+        [DataMember]
+        [Include]
+        [Association("CatAnimalToAnimalSet", "AnimalId", "AnimalId", IsForeignKey = false)]
+        public IList<CatAnimal> CatAnimalToCatSet
+        {
+            get
+            {
+                Func<Cat, CatAnimal> makeJoinType = 
+                    e => new CatAnimal { Animal = this, Cat = e };
+                return Cats.Select(makeJoinType).ToList();
             }
         }
     }
@@ -281,6 +353,22 @@ namespace ClientTests.Web
                 Func<Trainer, DogTrainer> makeJoinType = 
                     e => new DogTrainer { Dog = this, Trainer = e };
                 return Trainers.Select(makeJoinType).ToList();
+            }
+        }
+    }
+    public partial class Cat
+    {
+        [Obsolete("This property is only intended for use by the RIA M2M solution")]
+        [DataMember]
+        [Include]
+        [Association("CatAnimalToCatSet", "AnimalId", "CatId", IsForeignKey = false)]
+        public IList<CatAnimal> CatAnimalToAnimalSet
+        {
+            get
+            {
+                Func<Animal, CatAnimal> makeJoinType = 
+                    e => new CatAnimal { Cat = this, Animal = e };
+                return Animals.Select(makeJoinType).ToList();
             }
         }
     }
