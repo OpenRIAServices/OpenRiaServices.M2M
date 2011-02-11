@@ -22,6 +22,7 @@ namespace ClientTests.Web
     ///   Animal <--> Vet
     ///   Dog <--> FireHydrant
     ///   Dog <--> Trainer
+    ///   Cat <--> Animal
     ///
     /// We use stub entities to represent entities for which only the foreign key property is available in join type objects.
     ///
@@ -150,6 +151,45 @@ namespace ClientTests.Web
                 trainer = GetEntityByKey<Trainer>(ObjectContext, "Trainers", trainerStubEntity);
             }
             dog.Trainers.Remove(trainer);
+        }
+        [Obsolete("This method is only intended for use by the RIA M2M solution")]
+        public void UpdateCatAnimal(CatAnimal catAnimal)
+        {
+            throw new NotSupportedException("Update operation on CatAnimal is not supported.");
+        }
+        [Obsolete("This method is only intended for use by the RIA M2M solution")]
+        public void InsertCatAnimal(CatAnimal catAnimal)
+        {
+            Cat cat = catAnimal.Cat;
+            if(cat == null)
+            {
+                Cat catStubEntity = new Cat() { AnimalId = catAnimal.CatId };
+                cat = GetEntityByKey<Cat>(ObjectContext, "Animals", catStubEntity);
+            }
+            Animal animal = catAnimal.Animal;
+            if(animal == null)
+            {
+                Animal animalStubEntity = new Animal() { AnimalId = catAnimal.AnimalId };
+                animal = GetEntityByKey<Animal>(ObjectContext, "Animals", animalStubEntity);
+            }
+            cat.Animals.Add(animal);
+        }
+        [Obsolete("This method is only intended for use by the RIA M2M solution")]
+        public void DeleteCatAnimal(CatAnimal catAnimal)
+        {
+            Cat cat = catAnimal.Cat;
+            if(cat == null)
+            {
+                Cat catStubEntity = new Cat() { AnimalId = catAnimal.CatId };
+                cat = GetEntityByKey<Cat>(ObjectContext, "Animals", catStubEntity);
+            }
+            Animal animal = catAnimal.Animal;
+            if(animal == null)
+            {
+                Animal animalStubEntity = new Animal() { AnimalId = catAnimal.AnimalId };
+                animal = GetEntityByKey<Animal>(ObjectContext, "Animals", animalStubEntity);
+            }
+            cat.Animals.Remove(animal);
         }
 
 #region GetEntityByKey
