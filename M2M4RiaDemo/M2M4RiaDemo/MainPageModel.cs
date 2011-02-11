@@ -363,6 +363,7 @@ namespace M2M4RiaDemo.Models
         public override void Execute(object parameter)
         {
             mainPageModel.SelectedTrainer.Dogs.Add(mainPageModel.SelectedDog);
+            mainPageModel.SelectedTrainer.Name = "SomeName" + GetHashCode();
             mainPageModel.AutoSaveChanges();
             CanExecute(parameter);
         }

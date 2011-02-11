@@ -434,12 +434,12 @@ namespace ClientTests.Web
                     case NotifyCollectionChangedAction.Add:
                         {
                             TEntity entity = getEntity((JoinType)e.NewItems[0]);
-                            return new NotifyCollectionChangedEventArgs(e.Action, entity ?? entityToAdd, 0);
+                            return new NotifyCollectionChangedEventArgs(e.Action, entity ?? entityToAdd, indexOfChange);
                         }
                     case NotifyCollectionChangedAction.Remove:
                         {
                             TEntity entity = getEntity((JoinType)e.OldItems[0]);
-                            return new NotifyCollectionChangedEventArgs(e.Action, entity, 0);
+                            return new NotifyCollectionChangedEventArgs(e.Action, entity, indexOfChange);
                         }
                     case NotifyCollectionChangedAction.Reset:
                         return new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
@@ -465,10 +465,25 @@ namespace ClientTests.Web
                 }
             }
 
+            private int IndexOf(TEntity entity)
+            {
+                int index = 0;
+                foreach(TEntity e in this){
+                    if(e == entity)
+                        return index;
+                    index++;
+                }
+                return -1;
+            }
+
+            // Indicates the index where a change of the collection occurred.
+            private int indexOfChange;
+
             TEntity entityToAdd = null;
             public void Add(TEntity entity)
             {
                 entityToAdd = entity;
+                indexOfChange = this.Count;
                 JoinType joinTypeToAdd = new JoinType();
                 setParent(joinTypeToAdd);
                 setEntity(joinTypeToAdd, entity);
@@ -481,6 +496,7 @@ namespace ClientTests.Web
             /// <param name="entity"></param>
             public void Remove(TEntity entity)
             {
+                indexOfChange = IndexOf(entity);
                 JoinType joinTypeToRemove = collection.SingleOrDefault(jt => getEntity(jt) == entity);
                 if (joinTypeToRemove != null)
                     removeAction(joinTypeToRemove);
