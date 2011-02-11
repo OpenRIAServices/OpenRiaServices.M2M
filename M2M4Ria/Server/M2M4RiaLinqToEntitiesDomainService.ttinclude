@@ -85,7 +85,7 @@ namespace <#= DomainServiceNamespace #>
         /// <param name="qualifiedEntitySetName"></param>
         /// <param name="stubEntity"></param>
         /// <returns></returns>
-        private static T GetEntityByKey<T>(ObjectContext ctx, string qualifiedEntitySetName, T stubEntity) where T : EntityObject
+        private static T GetEntityByKey<T>(ObjectContext ctx, string qualifiedEntitySetName, T stubEntity)
         {
             ObjectStateEntry state;
             EntityKey key = ctx.CreateEntityKey(qualifiedEntitySetName, stubEntity);
