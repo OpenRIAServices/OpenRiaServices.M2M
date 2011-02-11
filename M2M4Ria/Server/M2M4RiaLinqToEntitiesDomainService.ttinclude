@@ -27,6 +27,7 @@ namespace <#= DomainServiceNamespace #>
     using System.Data;
     using System.Data.Objects;
     using System.Data.Objects.DataClasses;
+	using System.Linq;
 <#
     if(EntityModelNamespace != DomainServiceNamespace)
     {
@@ -186,7 +187,13 @@ private void MakeGetType(M2MAssociation association, string linkEntityName)
             <#= entityType #> <#=entity#> = <#= linkEntityName #>.<#= entityType #>;
             if(<#=entity#> == null)
             {
-                <#= entityType #> <#=stubEntity#> = new <#= concreteEntityType  #>() { <#= association.PK #> = <#= linkEntityName #>.<#= association.FK #> };
+			   <#=entity#> = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
+			      .OfType<<#= concreteEntityType #>>()
+				  .SingleOrDefault(e => e.<#= association.PK #> == <#= linkEntityName #>.<#= association.FK #> );
+			}
+            if(<#=entity#> == null)
+            {
+                <#= entityType #> <#=stubEntity#> = new <#= concreteEntityType #>() { <#= association.PK #> = <#= linkEntityName #>.<#= association.FK #> };
                 <#=entity#> = GetEntityByKey<<#=association.Entity.Name#>>(ObjectContext, "<#=association.Entity.EntitySet#>", <#=stubEntity#>);
             }
 <#+

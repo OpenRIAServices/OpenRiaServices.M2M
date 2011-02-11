@@ -15,6 +15,7 @@ namespace M2M4RiaDemo.Web.Service
     using System.Data;
     using System.Data.Objects;
     using System.Data.Objects.DataClasses;
+	using System.Linq;
     using M2M4RiaDemo.Web.Model;
 	
     /// <summary>
@@ -44,10 +45,22 @@ namespace M2M4RiaDemo.Web.Service
             Dog dog = dogTrainer.Dog;
             if(dog == null)
             {
+			   dog = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
+			      .OfType<Dog>()
+				  .SingleOrDefault(e => e.DogId == dogTrainer.DogId );
+			}
+            if(dog == null)
+            {
                 Dog dogStubEntity = new Dog() { DogId = dogTrainer.DogId };
                 dog = GetEntityByKey<Dog>(ObjectContext, "Dogs", dogStubEntity);
             }
             Trainer trainer = dogTrainer.Trainer;
+            if(trainer == null)
+            {
+			   trainer = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
+			      .OfType<Trainer>()
+				  .SingleOrDefault(e => e.TrainerId == dogTrainer.TrainerId );
+			}
             if(trainer == null)
             {
                 Trainer trainerStubEntity = new Trainer() { TrainerId = dogTrainer.TrainerId };
@@ -61,10 +74,22 @@ namespace M2M4RiaDemo.Web.Service
             Dog dog = dogTrainer.Dog;
             if(dog == null)
             {
+			   dog = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
+			      .OfType<Dog>()
+				  .SingleOrDefault(e => e.DogId == dogTrainer.DogId );
+			}
+            if(dog == null)
+            {
                 Dog dogStubEntity = new Dog() { DogId = dogTrainer.DogId };
                 dog = GetEntityByKey<Dog>(ObjectContext, "Dogs", dogStubEntity);
             }
             Trainer trainer = dogTrainer.Trainer;
+            if(trainer == null)
+            {
+			   trainer = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
+			      .OfType<Trainer>()
+				  .SingleOrDefault(e => e.TrainerId == dogTrainer.TrainerId );
+			}
             if(trainer == null)
             {
                 Trainer trainerStubEntity = new Trainer() { TrainerId = dogTrainer.TrainerId };
