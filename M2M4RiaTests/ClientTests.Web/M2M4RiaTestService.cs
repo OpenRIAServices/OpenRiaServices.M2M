@@ -20,6 +20,17 @@ namespace ClientTests.Web
     [EnableClientAccess()]
     public partial class M2M4RiaTestService : LinqToEntitiesDomainService<M2M4RiaTestModelContainer>
     {
+        /// <summary>
+        /// Generate the test database.
+        /// </summary>
+        [Invoke]
+        public void CreateDataBase()
+        {
+            if(this.ObjectContext.DatabaseExists() == false)
+            {
+                this.ObjectContext.CreateDatabase();
+            }
+        }
 
         // TODO:
         // Consider constraining the results of your query method.  If you need additional input you can

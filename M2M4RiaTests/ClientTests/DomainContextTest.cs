@@ -16,6 +16,7 @@ namespace M2M4Ria.Client.Tests
         public void TestInitialize()
         {
             Context = new M2M4RiaTestContext();
+            Context.CreateDataBase();
         }
 
         /// <summary>
@@ -40,7 +41,7 @@ namespace M2M4Ria.Client.Tests
             Context.Vets.Add(vet);
 
             SubmitOperation submitOperation = Context.SubmitChanges();
-
+           
             EnqueueConditional(() => submitOperation.IsComplete);
             EnqueueCallback
             (
