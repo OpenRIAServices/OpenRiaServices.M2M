@@ -41,13 +41,13 @@ namespace M2M4Ria.Client.Tests
             Context.Vets.Add(vet);
 
             SubmitOperation submitOperation = Context.SubmitChanges();
-           
+
             EnqueueConditional(() => submitOperation.IsComplete);
             EnqueueCallback
             (
                 () =>
                 {
-                    if (submitOperation.HasError)
+                    if(submitOperation.HasError)
                         throw new AssertFailedException("Unable to create many to many relationship between entities", submitOperation.Error);
                 }
             );
@@ -134,7 +134,7 @@ namespace M2M4Ria.Client.Tests
             (
                 () =>
                 {
-                    if (submitOperation.HasError)
+                    if(submitOperation.HasError)
                         throw new AssertFailedException("Unable to remove many to many relationship between entities", submitOperation.Error);
                 }
             );
@@ -165,7 +165,7 @@ namespace M2M4Ria.Client.Tests
             (
                 () =>
                 {
-                    if (submitOperation.HasError)
+                    if(submitOperation.HasError)
                         throw new AssertFailedException("Unable to create two m2m relations at once", submitOperation.Error);
                 }
             );
@@ -255,15 +255,84 @@ namespace M2M4Ria.Client.Tests
 
         void entity_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (sender is Dog && e.PropertyName == "DogId")
+            if(sender is Dog && e.PropertyName == "DogId")
             {
                 ((Dog)sender).DogTrainerToTrainerSet.ToList();
             }
             else
-                if (sender is Trainer && e.PropertyName == "TrainerId")
+                if(sender is Trainer && e.PropertyName == "TrainerId")
                 {
                     ((Trainer)sender).DogTrainerToDogSet.ToList();
                 }
+        }
+
+        [TestMethod]
+        [Asynchronous]
+        [Description("Test adding an m2m relation to an entity with changes")]
+        public void AddM2MtoChangedEntityTest()
+        {
+            // Create one entity
+            Dog dog = new Dog { Name = "dog" };
+            Context.Animals.Add(dog);
+
+            // Create another
+            Trainer trainer = new Trainer { Name = "trainer" };
+            Context.Trainers.Add(trainer);
+
+            SubmitOperation submitOperation = Context.SubmitChanges();
+            EnqueueConditional(() => submitOperation.IsComplete);
+
+            EnqueueCallback(
+                () =>
+                {
+                    dog.Name = "Dog2";
+                    dog.Trainers.Add(trainer);
+                    var submitOperation2 = Context.SubmitChanges();
+                    EnqueueConditional(() => submitOperation2.IsComplete);
+                    EnqueueCallback(
+                        () => { 
+                            Assert.IsFalse(submitOperation2.HasError); 
+                        });
+                });
+            EnqueueTestComplete();
+        }
+        [Asynchronous]
+        [TestMethod]
+        [Description("Create an entity, then an m2m relation, then delete both")]
+        public void CreateThenDeleteTest()
+        {
+            // Create one entity
+            Dog dog = new Dog { Name = "dog" };
+            Context.Animals.Add(dog);
+
+            // Create another
+            Trainer trainer = new Trainer { Name = "trainer" };
+            Context.Trainers.Add(trainer);
+
+            SubmitOperation submitOperation = Context.SubmitChanges();
+            EnqueueConditional(() => submitOperation.IsComplete);
+
+            EnqueueCallback(
+                () =>
+                {
+                    dog.Trainers.Add(trainer);
+                    var submitOperation2 = Context.SubmitChanges();
+                    EnqueueConditional(() => submitOperation2.IsComplete);
+                    EnqueueCallback(
+                        () =>
+                        {
+                            dog.Trainers.Remove(trainer);
+                            Context.Animals.Remove(dog);
+                            var submitOperation3 = Context.SubmitChanges();
+                            EnqueueConditional(() => submitOperation3.IsComplete);
+                            EnqueueCallback(
+                                () =>
+                                {
+                                    Assert.IsFalse(submitOperation3.HasError);
+                                });
+                        });
+                });
+            EnqueueTestComplete();
         }
     }
 }
