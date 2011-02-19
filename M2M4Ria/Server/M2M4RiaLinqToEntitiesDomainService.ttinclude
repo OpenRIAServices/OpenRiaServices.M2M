@@ -141,7 +141,7 @@ private void MakeInsertOperation(M2MAssociationSet associationSet)
         else
         {
 #>
-         <#=end2Entity#>.<#= associationSet.Entity2ToLink.M2MNavProp #>.Add(<#=end1Entity#>;
+            <#=end2Entity#>.<#= associationSet.Entity2ToLink.M2MNavProp #>.Add(<#=end1Entity#>);
 <#+
         }
 #>
@@ -164,12 +164,20 @@ private void MakeDeleteOperation(M2MAssociationSet associationSet)
         if(associationSet.Entity1ToLink.HasM2MNavProp)
         {
 #>
+            if(<#=end1Entity#>.<#= associationSet.Entity1ToLink.M2MNavProp #>.IsLoaded == false)
+            {
+                <#=end1Entity#>.<#= associationSet.Entity1ToLink.M2MNavProp #>.Attach(<#=end2Entity#>);
+            }
             <#=end1Entity#>.<#= associationSet.Entity1ToLink.M2MNavProp #>.Remove(<#=end2Entity#>);
 <#+
         }
         else
         {
 #>
+            if(<#=end2Entity#>.<#= associationSet.Entity2ToLink.M2MNavProp #>.IsLoaded == false)
+            {
+                <#=end2Entity#>.<#= associationSet.Entity2ToLink.M2MNavProp #>.Attach(<#=end1Entity#>);
+            }
             <#=end2Entity#>.<#= associationSet.Entity2ToLink.M2MNavProp #>.Remove(<#=end1Entity#>);
 <#+
         }
@@ -193,7 +201,7 @@ private void MakeGetType(M2MAssociation association, string linkEntityName)
 			}
             if(<#=entity#> == null)
             {
-                <#= entityType #> <#=stubEntity#> = new <#= concreteEntityType #>() { <#= association.PK #> = <#= linkEntityName #>.<#= association.FK #> };
+                <#= entityType #> <#=stubEntity#> = new <#= concreteEntityType #> { <#= association.PK #> = <#= linkEntityName #>.<#= association.FK #> };
                 <#=entity#> = GetEntityByKey<<#=association.Entity.Name#>>(ObjectContext, "<#=association.Entity.EntitySet#>", <#=stubEntity#>);
             }
 <#+
