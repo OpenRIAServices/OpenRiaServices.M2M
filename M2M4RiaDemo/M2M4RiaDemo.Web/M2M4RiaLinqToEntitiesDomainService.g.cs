@@ -51,7 +51,7 @@ namespace M2M4RiaDemo.Web.Service
 			}
             if(dog == null)
             {
-                Dog dogStubEntity = new Dog() { DogId = dogTrainer.DogId };
+                Dog dogStubEntity = new Dog { DogId = dogTrainer.DogId };
                 dog = GetEntityByKey<Dog>(ObjectContext, "Dogs", dogStubEntity);
             }
             Trainer trainer = dogTrainer.Trainer;
@@ -63,7 +63,7 @@ namespace M2M4RiaDemo.Web.Service
 			}
             if(trainer == null)
             {
-                Trainer trainerStubEntity = new Trainer() { TrainerId = dogTrainer.TrainerId };
+                Trainer trainerStubEntity = new Trainer { TrainerId = dogTrainer.TrainerId };
                 trainer = GetEntityByKey<Trainer>(ObjectContext, "Trainers", trainerStubEntity);
             }
             dog.Trainers.Add(trainer);
@@ -80,7 +80,7 @@ namespace M2M4RiaDemo.Web.Service
 			}
             if(dog == null)
             {
-                Dog dogStubEntity = new Dog() { DogId = dogTrainer.DogId };
+                Dog dogStubEntity = new Dog { DogId = dogTrainer.DogId };
                 dog = GetEntityByKey<Dog>(ObjectContext, "Dogs", dogStubEntity);
             }
             Trainer trainer = dogTrainer.Trainer;
@@ -92,9 +92,13 @@ namespace M2M4RiaDemo.Web.Service
 			}
             if(trainer == null)
             {
-                Trainer trainerStubEntity = new Trainer() { TrainerId = dogTrainer.TrainerId };
+                Trainer trainerStubEntity = new Trainer { TrainerId = dogTrainer.TrainerId };
                 trainer = GetEntityByKey<Trainer>(ObjectContext, "Trainers", trainerStubEntity);
             }
+            if(dog.Trainers.IsLoaded == false)
+			{
+			    dog.Trainers.Attach(trainer);
+			}
             dog.Trainers.Remove(trainer);
         }
 
@@ -107,7 +111,7 @@ namespace M2M4RiaDemo.Web.Service
         /// <param name="qualifiedEntitySetName"></param>
         /// <param name="stubEntity"></param>
         /// <returns></returns>
-        private static T GetEntityByKey<T>(ObjectContext ctx, string qualifiedEntitySetName, T stubEntity) where T : EntityObject
+        private static T GetEntityByKey<T>(ObjectContext ctx, string qualifiedEntitySetName, T stubEntity)
         {
             ObjectStateEntry state;
             EntityKey key = ctx.CreateEntityKey(qualifiedEntitySetName, stubEntity);
