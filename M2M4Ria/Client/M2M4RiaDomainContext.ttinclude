@@ -132,23 +132,24 @@ namespace <#= EntityModelNamespace #>
         {
             EntityCollection<JoinType> collection;
             Func<JoinType, TEntity> getEntity;
-            Action<JoinType, TEntity> setEntity;
-            Action<JoinType> setParent;
             Action<JoinType> removeAction;
+			Action<TEntity> addAction;
             /// <summary>
             ///
             /// </summary>
             /// <param name="collection">The collection of associations to which this collection is connected</param>
             /// <param name="getEntity">The function used to get the entity object out of a join type entity</param>
             /// <param name="setEntity">The function used to set the entity object in a join type entity</param>
-            public EntityCollection(EntityCollection<JoinType> collection, Func<JoinType, TEntity> getEntity,
-                Action<JoinType, TEntity> setEntity, Action<JoinType> setParent, Action<JoinType> removeAction)
+            public EntityCollection(
+				EntityCollection<JoinType> collection,
+				Func<JoinType, TEntity> getEntity,
+                Action<JoinType> removeAction,
+				Action<TEntity> addAction)
             {
                 this.collection = collection;
                 this.getEntity = getEntity;
-                this.setEntity = setEntity;
-                this.setParent = setParent;
                 this.removeAction = removeAction;
+                this.addAction = addAction;
 
                 collection.EntityAdded += (a, b) =>
                 {
@@ -186,7 +187,7 @@ namespace <#= EntityModelNamespace #>
                     case NotifyCollectionChangedAction.Add:
                         {
                             TEntity entity = getEntity((JoinType)e.NewItems[0]);
-                            return new NotifyCollectionChangedEventArgs(e.Action, entity ?? entityToAdd, indexOfChange);
+                            return new NotifyCollectionChangedEventArgs(e.Action, entity, indexOfChange);
                         }
                     case NotifyCollectionChangedAction.Remove:
                         {
@@ -231,16 +232,11 @@ namespace <#= EntityModelNamespace #>
             // Indicates the index where a change of the collection occurred.
             private int indexOfChange;
 
-            TEntity entityToAdd = null;
             public void Add(TEntity entity)
             {
-                entityToAdd = entity;
-                indexOfChange = this.Count;
-                JoinType joinTypeToAdd = new JoinType();
-                setParent(joinTypeToAdd);
-                setEntity(joinTypeToAdd, entity);
-                entityToAdd = null;
+			    addAction(entity);
             }
+
             /// <summary>
             /// Use remove on the entityset on the domain context, rather than this functioln
             /// There seems to be a limitation of RIA which requires that associations should be deleted on the domain context
@@ -294,20 +290,54 @@ namespace <#= EntityModelNamespace #>
 <#+
         }
     }
+	private void CreateAssociationMethod(string m2mName, M2MAssociation a1, M2MAssociation a2)
+	{
+	   string a1Entity = a1.Entity.Name;
+	   string a1EntityLowerInitial = LowerInitial(a1.Entity.Name);
+	   string a2Entity = a2.Entity.Name;
+	   string a2EntityLowerInitial = LowerInitial(a2.Entity.Name);
+#>
+        /// <summary>
+        /// This method attaches <#=a1Entity#> and <#=a2Entity#> to the current join table entity, in such a way
+        /// that both navigation properties are set before an INotifyCollectionChanged event is fired.
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="<#=a1EntityLowerInitial#>"></param>
+        /// <param name="<#=a2EntityLowerInitial#>"></param>
+        [Obsolete("This property is only intended for use by the M2M4Ria solution.")]
+        public static void Attach<#=a2Entity#>To<#=a1Entity#>(<#=m2mName#> r, <#=a1Entity#> <#=a1EntityLowerInitial#>, <#=a2Entity#> <#=a2EntityLowerInitial#>)
+        {
+            var dummy = r.<#=a2Entity#>; // this is to instantiate the EntityRef<<#=a2Entity#>>
+            r._<#=a2EntityLowerInitial#>.Entity = <#=a2EntityLowerInitial#>;
+            r._<#=LowerInitial(a2.FK)#> = <#=a2EntityLowerInitial#>.<#=a2.PK#>;
+
+            r.<#=a1Entity#> = <#=a1EntityLowerInitial#>;
+
+            r._<#=a2EntityLowerInitial#>.Entity = null;
+            r._<#=LowerInitial(a2.FK)#> = default(<#=a2.DataType#>);
+            r.<#=a2Entity#> = <#=a2EntityLowerInitial#>;
+        }
+<#+
+	}
     private void CreateAssociation(M2MAssociationSet associationSet)
     {
         if(associationSet.Entity1ToLink.HasM2MNavProp || associationSet.Entity2ToLink.HasM2MNavProp)
         {
 #>
     /// <summary>
-    /// This class provides access to the entity's entity set. This is only needed as long as RIA
-    /// doesn't provide this access it self.
+    /// This class provides access to the entity's entity set and contains methods for attaching
+	/// to entities to the link table in a single action.
     /// </summary>
     public partial class <#=associationSet.Name #>
     {
+<#+
+CreateAssociationMethod(associationSet.Name, associationSet.Entity1ToLink, associationSet.Entity2ToLink);
+CreateAssociationMethod(associationSet.Name, associationSet.Entity2ToLink, associationSet.Entity1ToLink);
+#>
         /// <summary>
         /// Gets or sets the EntitySet the link table entity is contained in. It is set by the domain context
         /// when the link entity is added to an entity set, and reset to null when it is removed from an entity set.
+		/// This method is only needed as long as RIA doesn't provide this access it self.
         /// </summary>
         [Obsolete("This property is only intended for use by the M2M4Ria solution.")]
         public EntitySet<<#=associationSet.Name#>> EntitySet{ get; set; }
@@ -326,7 +356,8 @@ namespace <#= EntityModelNamespace #>
         {
             if(association.ThisEntityToLink.HasM2MNavProp)
             {
-                string removeMethod = "RemoveFrom" + association.OtherEntityToLink.LinkTableNavProp;
+                string removeMethod = "Remove" + association.Name;
+                string addMethod = "Add" + association.Name;
 #>
         //
         // Code relating to the managing of the '<#= association.Name #>' association from '<#= association.ThisEntityToLink.Entity #>' to '<#= association.OtherEntityToLink.Entity #>'
@@ -339,12 +370,22 @@ namespace <#= EntityModelNamespace #>
             {
                 if(_<#= association.ThisEntityToLink.M2MNavProp #> == null)
                 {
-                    _<#= association.ThisEntityToLink.M2MNavProp #> = new EntityCollection<<#= association.Name #>, <#= association.OtherEntityToLink.Entity #>>(this.<#= association.OtherEntityToLink.LinkTableNavProp #>, r => r.<#= association.OtherEntityToLink.Entity #>, (r, t2) => r.<#= association.OtherEntityToLink.Entity #> = t2, r => r.<#= association.ThisEntityToLink.Entity #> = this, <#= removeMethod #>);
+                    _<#= association.ThisEntityToLink.M2MNavProp #> = new EntityCollection<<#=association.Name#>, <#=association.OtherEntityToLink.Entity#>>(
+						this.<#= association.OtherEntityToLink.LinkTableNavProp #>,
+						r => r.<#= association.OtherEntityToLink.Entity #>,
+						<#= removeMethod #>,
+						<#= addMethod #>
+				    );
                 }
                 return _<#= association.ThisEntityToLink.M2MNavProp #>;
             }
         }
 
+        private void <#= addMethod #>(<#= association.OtherEntityToLink.Entity  #> <#= LowerInitial(association.OtherEntityToLink.Entity.Name)#>)
+		{
+            var newJoinType = new <#= association.Name #>();
+            <#= association.Name #>.Attach<#= association.OtherEntityToLink.Entity #>To<#= association.ThisEntityToLink.Entity #>(newJoinType, this, <#= LowerInitial(association.OtherEntityToLink.Entity.Name)#>);
+		}
         private void <#= removeMethod #>(<#= association.Name #> r)
         {
             if(r.EntitySet == null)
@@ -363,6 +404,10 @@ namespace <#= EntityModelNamespace #>
     }
 <#+
     }
+	private string LowerInitial(string name)
+	{
+	   return name[0].ToString().ToLowerInvariant() + name.Substring(1);
+	}
 #>
 
 

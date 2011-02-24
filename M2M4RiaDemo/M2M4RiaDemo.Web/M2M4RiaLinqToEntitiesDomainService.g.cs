@@ -96,9 +96,9 @@ namespace M2M4RiaDemo.Web.Service
                 trainer = GetEntityByKey<Trainer>(ObjectContext, "Trainers", trainerStubEntity);
             }
             if(dog.Trainers.IsLoaded == false)
-			{
-			    dog.Trainers.Attach(trainer);
-			}
+            {
+                dog.Trainers.Attach(trainer);
+            }
             dog.Trainers.Remove(trainer);
         }
 

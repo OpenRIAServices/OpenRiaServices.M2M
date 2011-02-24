@@ -51,14 +51,55 @@ namespace M2M4RiaDemo.Web.Model
     using M2M4Ria;
 
     /// <summary>
-    /// This class provides access to the entity's entity set. This is only needed as long as RIA
-    /// doesn't provide this access it self.
+    /// This class provides access to the entity's entity set and contains methods for attaching
+	/// to entities to the link table in a single action.
     /// </summary>
     public partial class DogTrainer
     {
         /// <summary>
+        /// This method attaches Dog and Trainer to the current join table entity, in such a way
+        /// that both navigation properties are set before an INotifyCollectionChanged event is fired.
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="dog"></param>
+        /// <param name="trainer"></param>
+        [Obsolete("This property is only intended for use by the M2M4Ria solution.")]
+        public static void AttachTrainerToDog(DogTrainer r, Dog dog, Trainer trainer)
+        {
+            var dummy = r.Trainer; // this is to instantiate the EntityRef<Trainer>
+            r._trainer.Entity = trainer;
+            r._trainerId = trainer.TrainerId;
+
+            r.Dog = dog;
+
+            r._trainer.Entity = null;
+            r._trainerId = default(int);
+            r.Trainer = trainer;
+        }
+        /// <summary>
+        /// This method attaches Trainer and Dog to the current join table entity, in such a way
+        /// that both navigation properties are set before an INotifyCollectionChanged event is fired.
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="trainer"></param>
+        /// <param name="dog"></param>
+        [Obsolete("This property is only intended for use by the M2M4Ria solution.")]
+        public static void AttachDogToTrainer(DogTrainer r, Trainer trainer, Dog dog)
+        {
+            var dummy = r.Dog; // this is to instantiate the EntityRef<Dog>
+            r._dog.Entity = dog;
+            r._dogId = dog.DogId;
+
+            r.Trainer = trainer;
+
+            r._dog.Entity = null;
+            r._dogId = default(int);
+            r.Dog = dog;
+        }
+        /// <summary>
         /// Gets or sets the EntitySet the link table entity is contained in. It is set by the domain context
         /// when the link entity is added to an entity set, and reset to null when it is removed from an entity set.
+		/// This method is only needed as long as RIA doesn't provide this access it self.
         /// </summary>
         [Obsolete("This property is only intended for use by the M2M4Ria solution.")]
         public EntitySet<DogTrainer> EntitySet{ get; set; }
@@ -76,13 +117,23 @@ namespace M2M4RiaDemo.Web.Model
             {
                 if(_Dogs == null)
                 {
-                    _Dogs = new EntityCollection<DogTrainer, Dog>(this.DogTrainerToDogSet, r => r.Dog, (r, t2) => r.Dog = t2, r => r.Trainer = this, RemoveFromDogTrainerToDogSet);
+                    _Dogs = new EntityCollection<DogTrainer, Dog>(
+						this.DogTrainerToDogSet,
+						r => r.Dog,
+						RemoveDogTrainer,
+						AddDogTrainer
+				    );
                 }
                 return _Dogs;
             }
         }
 
-        private void RemoveFromDogTrainerToDogSet(DogTrainer r)
+        private void AddDogTrainer(Dog dog)
+		{
+            var newJoinType = new DogTrainer();
+            DogTrainer.AttachDogToTrainer(newJoinType, this, dog);
+		}
+        private void RemoveDogTrainer(DogTrainer r)
         {
             if(r.EntitySet == null)
             {
@@ -107,13 +158,23 @@ namespace M2M4RiaDemo.Web.Model
             {
                 if(_Trainers == null)
                 {
-                    _Trainers = new EntityCollection<DogTrainer, Trainer>(this.DogTrainerToTrainerSet, r => r.Trainer, (r, t2) => r.Trainer = t2, r => r.Dog = this, RemoveFromDogTrainerToTrainerSet);
+                    _Trainers = new EntityCollection<DogTrainer, Trainer>(
+						this.DogTrainerToTrainerSet,
+						r => r.Trainer,
+						RemoveDogTrainer,
+						AddDogTrainer
+				    );
                 }
                 return _Trainers;
             }
         }
 
-        private void RemoveFromDogTrainerToTrainerSet(DogTrainer r)
+        private void AddDogTrainer(Trainer trainer)
+		{
+            var newJoinType = new DogTrainer();
+            DogTrainer.AttachTrainerToDog(newJoinType, this, trainer);
+		}
+        private void RemoveDogTrainer(DogTrainer r)
         {
             if(r.EntitySet == null)
             {
@@ -184,23 +245,24 @@ namespace M2M4RiaDemo.Web.Model
         {
             EntityCollection<JoinType> collection;
             Func<JoinType, TEntity> getEntity;
-            Action<JoinType, TEntity> setEntity;
-            Action<JoinType> setParent;
             Action<JoinType> removeAction;
+			Action<TEntity> addAction;
             /// <summary>
             ///
             /// </summary>
             /// <param name="collection">The collection of associations to which this collection is connected</param>
             /// <param name="getEntity">The function used to get the entity object out of a join type entity</param>
             /// <param name="setEntity">The function used to set the entity object in a join type entity</param>
-            public EntityCollection(EntityCollection<JoinType> collection, Func<JoinType, TEntity> getEntity,
-                Action<JoinType, TEntity> setEntity, Action<JoinType> setParent, Action<JoinType> removeAction)
+            public EntityCollection(
+				EntityCollection<JoinType> collection,
+				Func<JoinType, TEntity> getEntity,
+                Action<JoinType> removeAction,
+				Action<TEntity> addAction)
             {
                 this.collection = collection;
                 this.getEntity = getEntity;
-                this.setEntity = setEntity;
-                this.setParent = setParent;
                 this.removeAction = removeAction;
+                this.addAction = addAction;
 
                 collection.EntityAdded += (a, b) =>
                 {
@@ -238,7 +300,7 @@ namespace M2M4RiaDemo.Web.Model
                     case NotifyCollectionChangedAction.Add:
                         {
                             TEntity entity = getEntity((JoinType)e.NewItems[0]);
-                            return new NotifyCollectionChangedEventArgs(e.Action, entity ?? entityToAdd, indexOfChange);
+                            return new NotifyCollectionChangedEventArgs(e.Action, entity, indexOfChange);
                         }
                     case NotifyCollectionChangedAction.Remove:
                         {
@@ -283,16 +345,11 @@ namespace M2M4RiaDemo.Web.Model
             // Indicates the index where a change of the collection occurred.
             private int indexOfChange;
 
-            TEntity entityToAdd = null;
             public void Add(TEntity entity)
             {
-                entityToAdd = entity;
-                indexOfChange = this.Count;
-                JoinType joinTypeToAdd = new JoinType();
-                setParent(joinTypeToAdd);
-                setEntity(joinTypeToAdd, entity);
-                entityToAdd = null;
+			    addAction(entity);
             }
+
             /// <summary>
             /// Use remove on the entityset on the domain context, rather than this functioln
             /// There seems to be a limitation of RIA which requires that associations should be deleted on the domain context
