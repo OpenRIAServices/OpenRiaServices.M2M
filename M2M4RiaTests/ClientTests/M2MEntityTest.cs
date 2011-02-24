@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using ClientTests.Web;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Specialized;
 
 namespace M2M4Ria.Client.Tests
 {
@@ -100,6 +101,28 @@ namespace M2M4Ria.Client.Tests
 
             Assert.IsNull(linkEntityFromVet, "Link entity found from vet to dog when no link entity was expected");
             Assert.IsNull(linkEntityFromDog, "Link entity found from dog to vet when no link entity was expected");
+        }
+        [TestMethod]
+        [Description("Test test checks that a newly created join table entity should not contain null values")]
+        public void CollectionChangedNotNullTest()
+        {
+            Dog dog = new Dog();
+            Trainer trainer = new Trainer();
+            ((INotifyCollectionChanged)dog.DogTrainerToTrainerSet).CollectionChanged += (sendr, args)=>{
+                DogTrainer dogTrainer = (DogTrainer)args.NewItems[0];
+
+                Assert.IsFalse(dogTrainer.Dog == null);
+                Assert.IsFalse(dogTrainer.Trainer == null);
+            };
+            ((INotifyCollectionChanged)trainer.DogTrainerToDogSet).CollectionChanged += (sender, args) =>
+            {
+                DogTrainer dogTrainer = (DogTrainer)args.NewItems[0];
+
+                Assert.IsFalse(dogTrainer.Dog == null);
+                Assert.IsFalse(dogTrainer.Trainer == null);
+            };
+            dog.Trainers.Add(new Trainer());
+            trainer.Dogs.Add(new Dog());
         }
     }
 }

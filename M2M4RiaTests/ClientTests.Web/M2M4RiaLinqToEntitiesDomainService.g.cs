@@ -53,7 +53,7 @@ namespace ClientTests.Web
 			}
             if(animal == null)
             {
-                Animal animalStubEntity = new Animal() { AnimalId = animalVet.AnimalId };
+                Animal animalStubEntity = new Animal { AnimalId = animalVet.AnimalId };
                 animal = GetEntityByKey<Animal>(ObjectContext, "Animals", animalStubEntity);
             }
             Vet vet = animalVet.Vet;
@@ -65,7 +65,7 @@ namespace ClientTests.Web
 			}
             if(vet == null)
             {
-                Vet vetStubEntity = new Vet() { VetId = animalVet.VetId };
+                Vet vetStubEntity = new Vet { VetId = animalVet.VetId };
                 vet = GetEntityByKey<Vet>(ObjectContext, "Vets", vetStubEntity);
             }
             animal.Vets.Add(vet);
@@ -82,7 +82,7 @@ namespace ClientTests.Web
 			}
             if(animal == null)
             {
-                Animal animalStubEntity = new Animal() { AnimalId = animalVet.AnimalId };
+                Animal animalStubEntity = new Animal { AnimalId = animalVet.AnimalId };
                 animal = GetEntityByKey<Animal>(ObjectContext, "Animals", animalStubEntity);
             }
             Vet vet = animalVet.Vet;
@@ -94,8 +94,12 @@ namespace ClientTests.Web
 			}
             if(vet == null)
             {
-                Vet vetStubEntity = new Vet() { VetId = animalVet.VetId };
+                Vet vetStubEntity = new Vet { VetId = animalVet.VetId };
                 vet = GetEntityByKey<Vet>(ObjectContext, "Vets", vetStubEntity);
+            }
+            if(animal.Vets.IsLoaded == false)
+            {
+                animal.Vets.Attach(vet);
             }
             animal.Vets.Remove(vet);
         }
@@ -116,7 +120,7 @@ namespace ClientTests.Web
 			}
             if(dog == null)
             {
-                Dog dogStubEntity = new Dog() { AnimalId = dogFireHydrant.DogId };
+                Dog dogStubEntity = new Dog { AnimalId = dogFireHydrant.DogId };
                 dog = GetEntityByKey<Dog>(ObjectContext, "Animals", dogStubEntity);
             }
             FireHydrant fireHydrant = dogFireHydrant.FireHydrant;
@@ -128,7 +132,7 @@ namespace ClientTests.Web
 			}
             if(fireHydrant == null)
             {
-                FireHydrant fireHydrantStubEntity = new FireHydrant() { FireHydrantId = dogFireHydrant.FireHydrantId };
+                FireHydrant fireHydrantStubEntity = new FireHydrant { FireHydrantId = dogFireHydrant.FireHydrantId };
                 fireHydrant = GetEntityByKey<FireHydrant>(ObjectContext, "FireHydrants", fireHydrantStubEntity);
             }
             dog.FireHydrants.Add(fireHydrant);
@@ -145,7 +149,7 @@ namespace ClientTests.Web
 			}
             if(dog == null)
             {
-                Dog dogStubEntity = new Dog() { AnimalId = dogFireHydrant.DogId };
+                Dog dogStubEntity = new Dog { AnimalId = dogFireHydrant.DogId };
                 dog = GetEntityByKey<Dog>(ObjectContext, "Animals", dogStubEntity);
             }
             FireHydrant fireHydrant = dogFireHydrant.FireHydrant;
@@ -157,8 +161,12 @@ namespace ClientTests.Web
 			}
             if(fireHydrant == null)
             {
-                FireHydrant fireHydrantStubEntity = new FireHydrant() { FireHydrantId = dogFireHydrant.FireHydrantId };
+                FireHydrant fireHydrantStubEntity = new FireHydrant { FireHydrantId = dogFireHydrant.FireHydrantId };
                 fireHydrant = GetEntityByKey<FireHydrant>(ObjectContext, "FireHydrants", fireHydrantStubEntity);
+            }
+            if(dog.FireHydrants.IsLoaded == false)
+            {
+                dog.FireHydrants.Attach(fireHydrant);
             }
             dog.FireHydrants.Remove(fireHydrant);
         }
@@ -179,7 +187,7 @@ namespace ClientTests.Web
 			}
             if(dog == null)
             {
-                Dog dogStubEntity = new Dog() { AnimalId = dogTrainer.DogId };
+                Dog dogStubEntity = new Dog { AnimalId = dogTrainer.DogId };
                 dog = GetEntityByKey<Dog>(ObjectContext, "Animals", dogStubEntity);
             }
             Trainer trainer = dogTrainer.Trainer;
@@ -191,7 +199,7 @@ namespace ClientTests.Web
 			}
             if(trainer == null)
             {
-                Trainer trainerStubEntity = new Trainer() { TrainerId = dogTrainer.TrainerId };
+                Trainer trainerStubEntity = new Trainer { TrainerId = dogTrainer.TrainerId };
                 trainer = GetEntityByKey<Trainer>(ObjectContext, "Trainers", trainerStubEntity);
             }
             dog.Trainers.Add(trainer);
@@ -208,7 +216,7 @@ namespace ClientTests.Web
 			}
             if(dog == null)
             {
-                Dog dogStubEntity = new Dog() { AnimalId = dogTrainer.DogId };
+                Dog dogStubEntity = new Dog { AnimalId = dogTrainer.DogId };
                 dog = GetEntityByKey<Dog>(ObjectContext, "Animals", dogStubEntity);
             }
             Trainer trainer = dogTrainer.Trainer;
@@ -220,8 +228,12 @@ namespace ClientTests.Web
 			}
             if(trainer == null)
             {
-                Trainer trainerStubEntity = new Trainer() { TrainerId = dogTrainer.TrainerId };
+                Trainer trainerStubEntity = new Trainer { TrainerId = dogTrainer.TrainerId };
                 trainer = GetEntityByKey<Trainer>(ObjectContext, "Trainers", trainerStubEntity);
+            }
+            if(dog.Trainers.IsLoaded == false)
+            {
+                dog.Trainers.Attach(trainer);
             }
             dog.Trainers.Remove(trainer);
         }
@@ -242,7 +254,7 @@ namespace ClientTests.Web
 			}
             if(cat == null)
             {
-                Cat catStubEntity = new Cat() { AnimalId = catAnimal.CatId };
+                Cat catStubEntity = new Cat { AnimalId = catAnimal.CatId };
                 cat = GetEntityByKey<Cat>(ObjectContext, "Animals", catStubEntity);
             }
             Animal animal = catAnimal.Animal;
@@ -254,7 +266,7 @@ namespace ClientTests.Web
 			}
             if(animal == null)
             {
-                Animal animalStubEntity = new Animal() { AnimalId = catAnimal.AnimalId };
+                Animal animalStubEntity = new Animal { AnimalId = catAnimal.AnimalId };
                 animal = GetEntityByKey<Animal>(ObjectContext, "Animals", animalStubEntity);
             }
             cat.Animals.Add(animal);
@@ -271,7 +283,7 @@ namespace ClientTests.Web
 			}
             if(cat == null)
             {
-                Cat catStubEntity = new Cat() { AnimalId = catAnimal.CatId };
+                Cat catStubEntity = new Cat { AnimalId = catAnimal.CatId };
                 cat = GetEntityByKey<Cat>(ObjectContext, "Animals", catStubEntity);
             }
             Animal animal = catAnimal.Animal;
@@ -283,8 +295,12 @@ namespace ClientTests.Web
 			}
             if(animal == null)
             {
-                Animal animalStubEntity = new Animal() { AnimalId = catAnimal.AnimalId };
+                Animal animalStubEntity = new Animal { AnimalId = catAnimal.AnimalId };
                 animal = GetEntityByKey<Animal>(ObjectContext, "Animals", animalStubEntity);
+            }
+            if(cat.Animals.IsLoaded == false)
+            {
+                cat.Animals.Attach(animal);
             }
             cat.Animals.Remove(animal);
         }
@@ -298,7 +314,7 @@ namespace ClientTests.Web
         /// <param name="qualifiedEntitySetName"></param>
         /// <param name="stubEntity"></param>
         /// <returns></returns>
-        private static T GetEntityByKey<T>(ObjectContext ctx, string qualifiedEntitySetName, T stubEntity) where T : EntityObject
+        private static T GetEntityByKey<T>(ObjectContext ctx, string qualifiedEntitySetName, T stubEntity)
         {
             ObjectStateEntry state;
             EntityKey key = ctx.CreateEntityKey(qualifiedEntitySetName, stubEntity);
