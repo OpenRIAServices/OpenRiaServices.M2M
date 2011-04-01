@@ -163,26 +163,39 @@ private void MakeDeleteOperation(M2MAssociationSet associationSet)
         MakeGetType(associationSet.Entity2ToLink, linkEntityName);
         if(associationSet.Entity1ToLink.HasM2MNavProp)
         {
+		   MakeRemove(associationSet.Entity1ToLink, end2Entity);
+	    }
+		else
+		{
+		   MakeRemove(associationSet.Entity2ToLink, end1Entity);
+	    }
 #>
-            if(<#=end1Entity#>.<#= associationSet.Entity1ToLink.M2MNavProp #>.IsLoaded == false)
-            {
-                <#=end1Entity#>.<#= associationSet.Entity1ToLink.M2MNavProp #>.Attach(<#=end2Entity#>);
-            }
-            <#=end1Entity#>.<#= associationSet.Entity1ToLink.M2MNavProp #>.Remove(<#=end2Entity#>);
+        }
 <#+
-        }
-        else
-        {
+}
+private void MakeRemove(M2MAssociation association, string entity)
+{
+    string parentEntity = LowerInitial(association.Entity.Name);
 #>
-            if(<#=end2Entity#>.<#= associationSet.Entity2ToLink.M2MNavProp #>.IsLoaded == false)
+            if(<#=parentEntity#>.<#= association.M2MNavProp #>.IsLoaded == false)
             {
-                <#=end2Entity#>.<#= associationSet.Entity2ToLink.M2MNavProp #>.Attach(<#=end1Entity#>);
+			    // We can't attach <#=entity#> if <#=parentEntity#> is deleted. In that case we
+				// temporarily reset the entity state of <#=parentEntity#>, then attach <#=entity#>
+				// and set the entity state of <#=parentEntity#> back to EntityState.Deleted.
+                ObjectStateEntry stateEntry = ObjectContext.ObjectStateManager.GetObjectStateEntry(<#=parentEntity#>);
+                EntityState state = stateEntry.State;
+
+                if(state == EntityState.Deleted)
+                {
+                    stateEntry.ChangeState(EntityState.Unchanged);
+                }
+                <#=parentEntity#>.<#= association.M2MNavProp #>.Attach(<#=entity#>);
+                if(stateEntry.State != state)
+                {
+                    stateEntry.ChangeState(state);
+                }
             }
-            <#=end2Entity#>.<#= associationSet.Entity2ToLink.M2MNavProp #>.Remove(<#=end1Entity#>);
-<#+
-        }
-#>
-        }
+            <#=parentEntity#>.<#= association.M2MNavProp #>.Remove(<#=entity#>);
 <#+
 }
 private void MakeGetType(M2MAssociation association, string linkEntityName)

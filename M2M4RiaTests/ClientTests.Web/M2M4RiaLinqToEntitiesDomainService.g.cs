@@ -99,7 +99,21 @@ namespace ClientTests.Web
             }
             if(animal.Vets.IsLoaded == false)
             {
+			    // We can't attach vet if animal is deleted. In that case we
+				// temporarily reset the entity state of animal, then attach vet
+				// and set the entity state of animal back to EntityState.Deleted.
+                ObjectStateEntry stateEntry = ObjectContext.ObjectStateManager.GetObjectStateEntry(animal);
+                EntityState state = stateEntry.State;
+
+                if(state == EntityState.Deleted)
+                {
+                    stateEntry.ChangeState(EntityState.Unchanged);
+                }
                 animal.Vets.Attach(vet);
+                if(stateEntry.State != state)
+                {
+                    stateEntry.ChangeState(state);
+                }
             }
             animal.Vets.Remove(vet);
         }
@@ -166,7 +180,21 @@ namespace ClientTests.Web
             }
             if(dog.FireHydrants.IsLoaded == false)
             {
+			    // We can't attach fireHydrant if dog is deleted. In that case we
+				// temporarily reset the entity state of dog, then attach fireHydrant
+				// and set the entity state of dog back to EntityState.Deleted.
+                ObjectStateEntry stateEntry = ObjectContext.ObjectStateManager.GetObjectStateEntry(dog);
+                EntityState state = stateEntry.State;
+
+                if(state == EntityState.Deleted)
+                {
+                    stateEntry.ChangeState(EntityState.Unchanged);
+                }
                 dog.FireHydrants.Attach(fireHydrant);
+                if(stateEntry.State != state)
+                {
+                    stateEntry.ChangeState(state);
+                }
             }
             dog.FireHydrants.Remove(fireHydrant);
         }
@@ -233,7 +261,21 @@ namespace ClientTests.Web
             }
             if(dog.Trainers.IsLoaded == false)
             {
+			    // We can't attach trainer if dog is deleted. In that case we
+				// temporarily reset the entity state of dog, then attach trainer
+				// and set the entity state of dog back to EntityState.Deleted.
+                ObjectStateEntry stateEntry = ObjectContext.ObjectStateManager.GetObjectStateEntry(dog);
+                EntityState state = stateEntry.State;
+
+                if(state == EntityState.Deleted)
+                {
+                    stateEntry.ChangeState(EntityState.Unchanged);
+                }
                 dog.Trainers.Attach(trainer);
+                if(stateEntry.State != state)
+                {
+                    stateEntry.ChangeState(state);
+                }
             }
             dog.Trainers.Remove(trainer);
         }
@@ -300,7 +342,21 @@ namespace ClientTests.Web
             }
             if(cat.Animals.IsLoaded == false)
             {
+			    // We can't attach animal if cat is deleted. In that case we
+				// temporarily reset the entity state of cat, then attach animal
+				// and set the entity state of cat back to EntityState.Deleted.
+                ObjectStateEntry stateEntry = ObjectContext.ObjectStateManager.GetObjectStateEntry(cat);
+                EntityState state = stateEntry.State;
+
+                if(state == EntityState.Deleted)
+                {
+                    stateEntry.ChangeState(EntityState.Unchanged);
+                }
                 cat.Animals.Attach(animal);
+                if(stateEntry.State != state)
+                {
+                    stateEntry.ChangeState(state);
+                }
             }
             cat.Animals.Remove(animal);
         }

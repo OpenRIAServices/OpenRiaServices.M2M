@@ -97,7 +97,21 @@ namespace M2M4RiaDemo.Web.Service
             }
             if(dog.Trainers.IsLoaded == false)
             {
+			    // We can't attach trainer if dog is deleted. In that case we
+				// temporarily reset the entity state of dog, then attach trainer
+				// and set the entity state of dog back to EntityState.Deleted.
+                ObjectStateEntry stateEntry = ObjectContext.ObjectStateManager.GetObjectStateEntry(dog);
+                EntityState state = stateEntry.State;
+
+                if(state == EntityState.Deleted)
+                {
+                    stateEntry.ChangeState(EntityState.Unchanged);
+                }
                 dog.Trainers.Attach(trainer);
+                if(stateEntry.State != state)
+                {
+                    stateEntry.ChangeState(state);
+                }
             }
             dog.Trainers.Remove(trainer);
         }

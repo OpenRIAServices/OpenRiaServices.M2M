@@ -3,6 +3,7 @@ using System.ServiceModel.DomainServices.Client;
 using ClientTests.Web;
 using Microsoft.Silverlight.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace M2M4Ria.Client.Tests
 {
@@ -290,8 +291,9 @@ namespace M2M4Ria.Client.Tests
                     var submitOperation2 = Context.SubmitChanges();
                     EnqueueConditional(() => submitOperation2.IsComplete);
                     EnqueueCallback(
-                        () => { 
-                            Assert.IsFalse(submitOperation2.HasError); 
+                        () =>
+                        {
+                            Assert.IsFalse(submitOperation2.HasError);
                         });
                 });
             EnqueueTestComplete();
@@ -332,6 +334,52 @@ namespace M2M4Ria.Client.Tests
                                 });
                         });
                 });
+            EnqueueTestComplete();
+        }
+        [Asynchronous]
+        [TestMethod]
+        public void DeleteParentTest()
+        {
+            // step1: create dog, vet and dogvet objects
+            var dog = new Dog { Name = "myDog" + DateTime.Now};
+            var vet = new Vet { Name = "MyVet" };
+            dog.Vets.Add(vet);
+            Context.Animals.Add(dog);
+
+            SubmitOperation submitOperation1 = Context.SubmitChanges();
+
+            EnqueueConditional(() => submitOperation1.IsComplete);
+            EnqueueCallback
+            (
+                () =>
+                {
+                    Assert.IsFalse(submitOperation1.HasError);
+                    // step2: remove dogvet and dog objects
+                    dog.Vets.Remove(vet);
+                    Context.Animals.Remove(dog);
+                    SubmitOperation submitOperation2 = Context.SubmitChanges();
+
+                    EnqueueConditional(() => submitOperation2.IsComplete);
+                    EnqueueCallback
+                    (
+                        () =>
+                        {
+                            Assert.IsFalse(submitOperation2.HasError);
+                            // step3 load all animals to verify that dog no longer ecists in the database
+                            LoadOperation loadOperation1 = Context.Load(Context.GetAnimalsQuery());
+
+                            EnqueueConditional(() => loadOperation1.IsComplete);
+                            EnqueueCallback
+                            (
+                                () =>
+                                {
+                                    Assert.IsFalse(loadOperation1.HasError);
+                                    Assert.IsFalse(Context.Animals.Contains(dog));
+                                });
+
+                        });
+                }
+            );
             EnqueueTestComplete();
         }
     }
