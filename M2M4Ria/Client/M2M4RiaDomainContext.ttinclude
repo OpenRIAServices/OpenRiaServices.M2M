@@ -238,8 +238,7 @@ namespace <#= EntityModelNamespace #>
             }
 
             /// <summary>
-            /// Use remove on the entityset on the domain context, rather than this functioln
-            /// There seems to be a limitation of RIA which requires that associations should be deleted on the domain context
+            /// Removes an m2m relation with the given entity.
             /// </summary>
             /// <param name="entity"></param>
             public void Remove(TEntity entity)
