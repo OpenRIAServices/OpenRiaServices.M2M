@@ -339,7 +339,7 @@ CreateAssociationMethod(associationSet.Name, associationSet.Entity2ToLink, assoc
 		/// This method is only needed as long as RIA doesn't provide this access it self.
         /// </summary>
         [Obsolete("This property is only intended for use by the M2M4Ria solution.")]
-        public EntitySet<<#=associationSet.Name#>> EntitySet{ get; set; }
+        public EntitySet<<#=associationSet.Name#>> EntitySet { get; set; }
     }
 <#+
         }
@@ -363,6 +363,9 @@ CreateAssociationMethod(associationSet.Name, associationSet.Entity2ToLink, assoc
         //
         private IEntityCollection<<#= association.OtherEntityToLink.Entity #>> _<#= association.ThisEntityToLink.M2MNavProp #>;
 
+        /// <summary>
+        /// Gets the collection of associated <see cref="<#= association.OtherEntityToLink.Entity #>"/> entities.
+        /// </summary>
         public IEntityCollection<<#= association.OtherEntityToLink.Entity #>> <#= association.ThisEntityToLink.M2MNavProp #>
         {
             get
