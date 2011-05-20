@@ -85,7 +85,7 @@
             select i
         ).ToArray<AssociationType>();
 
-        EntityContainer entityContainer = ItemCollection.GetItems<EntityContainer>().First();
+        EntityContainer entityContainer = ItemCollection.GetItems<EntityContainer>().FirstOrDefault();
 
         // Retrieve all entities that have many to many associations
         EntityType[] entities = ItemCollection.GetItems<EntityType>().Where<EntityType>
