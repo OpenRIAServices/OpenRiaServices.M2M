@@ -1,4 +1,4 @@
-﻿<#@ import namespace="System" #>
+<#@ import namespace="System" #>
 <#@ import namespace="System.IO" #>
 <#@ import namespace="System.Diagnostics" #>
 <#@ import namespace="System.Linq" #>
@@ -59,7 +59,8 @@ namespace <#= EntityModelNamespace #>
             {
                 if(<#= associationSet.Entity2ToLink.Entity #> != null)
                 {
-                    if(<#= fromFKIdPrivate #> != <#= fromPKId #> && <#= fromFKIdPrivate #> == 0)
+		            if(<#= fromFKIdPrivate #> != <#= fromPKId #> && <# if(associationSet.Entity2ToLink.DataType=="System.Guid") { #><#= fromFKIdPrivate #> == Guid.Empty<# } 
+																	   else {#><#= fromFKIdPrivate #> == <#= 0 #> <# } #>)
                         <#= fromFKIdPrivate #> = <#= fromPKId #>;
                 }
                 return <#= fromFKIdPrivate #>;
@@ -87,7 +88,8 @@ namespace <#= EntityModelNamespace #>
             {
                 if(<#= associationSet.Entity1ToLink.Entity #> != null)
                 {
-                    if(<#= toFKIdPrivate #> != <#= toPKId #> && <#= toFKIdPrivate #> == 0)
+		            if(<#= toFKIdPrivate #> != <#= toPKId #> && <# if(associationSet.Entity1ToLink.DataType=="System.Guid") { #><#= toFKIdPrivate #> == Guid.Empty<# } 
+																   else {#><#= toFKIdPrivate #> == <#= 0 #> <# } #>)
                         <#= toFKIdPrivate #> = <#= toPKId #>;
                 }
                 return <#= toFKIdPrivate #>;

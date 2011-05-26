@@ -35,7 +35,7 @@ namespace ClientTests.Web
             {
                 if(Vet != null)
                 {
-                    if(_VetId != Vet.VetId && _VetId == 0)
+		            if(_VetId != Vet.VetId && _VetId == 0 )
                         _VetId = Vet.VetId;
                 }
                 return _VetId;
@@ -63,7 +63,7 @@ namespace ClientTests.Web
             {
                 if(Animal != null)
                 {
-                    if(_AnimalId != Animal.AnimalId && _AnimalId == 0)
+		            if(_AnimalId != Animal.AnimalId && _AnimalId == 0 )
                         _AnimalId = Animal.AnimalId;
                 }
                 return _AnimalId;
@@ -94,7 +94,7 @@ namespace ClientTests.Web
             {
                 if(FireHydrant != null)
                 {
-                    if(_FireHydrantId != FireHydrant.FireHydrantId && _FireHydrantId == 0)
+		            if(_FireHydrantId != FireHydrant.FireHydrantId && _FireHydrantId == 0 )
                         _FireHydrantId = FireHydrant.FireHydrantId;
                 }
                 return _FireHydrantId;
@@ -122,7 +122,7 @@ namespace ClientTests.Web
             {
                 if(Dog != null)
                 {
-                    if(_DogId != Dog.AnimalId && _DogId == 0)
+		            if(_DogId != Dog.AnimalId && _DogId == 0 )
                         _DogId = Dog.AnimalId;
                 }
                 return _DogId;
@@ -153,7 +153,7 @@ namespace ClientTests.Web
             {
                 if(Trainer != null)
                 {
-                    if(_TrainerId != Trainer.TrainerId && _TrainerId == 0)
+		            if(_TrainerId != Trainer.TrainerId && _TrainerId == 0 )
                         _TrainerId = Trainer.TrainerId;
                 }
                 return _TrainerId;
@@ -181,7 +181,7 @@ namespace ClientTests.Web
             {
                 if(Dog != null)
                 {
-                    if(_DogId != Dog.AnimalId && _DogId == 0)
+		            if(_DogId != Dog.AnimalId && _DogId == 0 )
                         _DogId = Dog.AnimalId;
                 }
                 return _DogId;
@@ -212,7 +212,7 @@ namespace ClientTests.Web
             {
                 if(Animal != null)
                 {
-                    if(_AnimalId != Animal.AnimalId && _AnimalId == 0)
+		            if(_AnimalId != Animal.AnimalId && _AnimalId == 0 )
                         _AnimalId = Animal.AnimalId;
                 }
                 return _AnimalId;
@@ -240,7 +240,7 @@ namespace ClientTests.Web
             {
                 if(Cat != null)
                 {
-                    if(_CatId != Cat.AnimalId && _CatId == 0)
+		            if(_CatId != Cat.AnimalId && _CatId == 0 )
                         _CatId = Cat.AnimalId;
                 }
                 return _CatId;
