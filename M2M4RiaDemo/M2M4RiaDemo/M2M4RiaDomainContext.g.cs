@@ -102,7 +102,7 @@ namespace M2M4RiaDemo.Web.Model
 		/// This method is only needed as long as RIA doesn't provide this access it self.
         /// </summary>
         [Obsolete("This property is only intended for use by the M2M4Ria solution.")]
-        public EntitySet<DogTrainer> EntitySet{ get; set; }
+        public EntitySet<DogTrainer> EntitySet { get; set; }
     }
     public partial class Trainer
     {
@@ -111,6 +111,9 @@ namespace M2M4RiaDemo.Web.Model
         //
         private IEntityCollection<Dog> _Dogs;
 
+        /// <summary>
+        /// Gets the collection of associated <see cref="Dog"/> entities.
+        /// </summary>
         public IEntityCollection<Dog> Dogs
         {
             get
@@ -152,6 +155,9 @@ namespace M2M4RiaDemo.Web.Model
         //
         private IEntityCollection<Trainer> _Trainers;
 
+        /// <summary>
+        /// Gets the collection of associated <see cref="Trainer"/> entities.
+        /// </summary>
         public IEntityCollection<Trainer> Trainers
         {
             get
@@ -351,8 +357,7 @@ namespace M2M4RiaDemo.Web.Model
             }
 
             /// <summary>
-            /// Use remove on the entityset on the domain context, rather than this functioln
-            /// There seems to be a limitation of RIA which requires that associations should be deleted on the domain context
+            /// Removes an m2m relation with the given entity.
             /// </summary>
             /// <param name="entity"></param>
             public void Remove(TEntity entity)

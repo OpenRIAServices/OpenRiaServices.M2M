@@ -104,7 +104,7 @@ namespace ClientTests.Web
 		/// This method is only needed as long as RIA doesn't provide this access it self.
         /// </summary>
         [Obsolete("This property is only intended for use by the M2M4Ria solution.")]
-        public EntitySet<AnimalVet> EntitySet{ get; set; }
+        public EntitySet<AnimalVet> EntitySet { get; set; }
     }
     /// <summary>
     /// This class provides access to the entity's entity set and contains methods for attaching
@@ -158,7 +158,7 @@ namespace ClientTests.Web
 		/// This method is only needed as long as RIA doesn't provide this access it self.
         /// </summary>
         [Obsolete("This property is only intended for use by the M2M4Ria solution.")]
-        public EntitySet<DogFireHydrant> EntitySet{ get; set; }
+        public EntitySet<DogFireHydrant> EntitySet { get; set; }
     }
     /// <summary>
     /// This class provides access to the entity's entity set and contains methods for attaching
@@ -212,7 +212,7 @@ namespace ClientTests.Web
 		/// This method is only needed as long as RIA doesn't provide this access it self.
         /// </summary>
         [Obsolete("This property is only intended for use by the M2M4Ria solution.")]
-        public EntitySet<DogTrainer> EntitySet{ get; set; }
+        public EntitySet<DogTrainer> EntitySet { get; set; }
     }
     /// <summary>
     /// This class provides access to the entity's entity set and contains methods for attaching
@@ -266,7 +266,7 @@ namespace ClientTests.Web
 		/// This method is only needed as long as RIA doesn't provide this access it self.
         /// </summary>
         [Obsolete("This property is only intended for use by the M2M4Ria solution.")]
-        public EntitySet<CatAnimal> EntitySet{ get; set; }
+        public EntitySet<CatAnimal> EntitySet { get; set; }
     }
     public partial class Animal
     {
@@ -275,6 +275,9 @@ namespace ClientTests.Web
         //
         private IEntityCollection<Vet> _Vets;
 
+        /// <summary>
+        /// Gets the collection of associated <see cref="Vet"/> entities.
+        /// </summary>
         public IEntityCollection<Vet> Vets
         {
             get
@@ -313,6 +316,9 @@ namespace ClientTests.Web
         //
         private IEntityCollection<Cat> _Cats;
 
+        /// <summary>
+        /// Gets the collection of associated <see cref="Cat"/> entities.
+        /// </summary>
         public IEntityCollection<Cat> Cats
         {
             get
@@ -354,6 +360,9 @@ namespace ClientTests.Web
         //
         private IEntityCollection<Animal> _Animals;
 
+        /// <summary>
+        /// Gets the collection of associated <see cref="Animal"/> entities.
+        /// </summary>
         public IEntityCollection<Animal> Animals
         {
             get
@@ -398,6 +407,9 @@ namespace ClientTests.Web
         //
         private IEntityCollection<Dog> _Dogs;
 
+        /// <summary>
+        /// Gets the collection of associated <see cref="Dog"/> entities.
+        /// </summary>
         public IEntityCollection<Dog> Dogs
         {
             get
@@ -442,6 +454,9 @@ namespace ClientTests.Web
         //
         private IEntityCollection<FireHydrant> _FireHydrants;
 
+        /// <summary>
+        /// Gets the collection of associated <see cref="FireHydrant"/> entities.
+        /// </summary>
         public IEntityCollection<FireHydrant> FireHydrants
         {
             get
@@ -480,6 +495,9 @@ namespace ClientTests.Web
         //
         private IEntityCollection<Trainer> _Trainers;
 
+        /// <summary>
+        /// Gets the collection of associated <see cref="Trainer"/> entities.
+        /// </summary>
         public IEntityCollection<Trainer> Trainers
         {
             get
@@ -521,6 +539,9 @@ namespace ClientTests.Web
         //
         private IEntityCollection<Animal> _Animals;
 
+        /// <summary>
+        /// Gets the collection of associated <see cref="Animal"/> entities.
+        /// </summary>
         public IEntityCollection<Animal> Animals
         {
             get
@@ -720,8 +741,7 @@ namespace ClientTests.Web
             }
 
             /// <summary>
-            /// Use remove on the entityset on the domain context, rather than this functioln
-            /// There seems to be a limitation of RIA which requires that associations should be deleted on the domain context
+            /// Removes an m2m relation with the given entity.
             /// </summary>
             /// <param name="entity"></param>
             public void Remove(TEntity entity)

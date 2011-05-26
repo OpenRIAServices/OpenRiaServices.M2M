@@ -32,65 +32,8 @@ namespace ServerTests
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "10.0.0.0")]
     public partial class M2M4RiaShared : M2M4RiaSharedBase
     {
-        #region ToString Helpers
-        /// <summary>
-        /// Utility class to produce culture-oriented representation of an object as a string.
-        /// </summary>
-        public class ToStringInstanceHelper
-        {
-            private System.IFormatProvider formatProviderField  = global::System.Globalization.CultureInfo.InvariantCulture;
-            /// <summary>
-            /// Gets or sets format provider to be used by ToStringWithCulture method.
-            /// </summary>
-            public System.IFormatProvider FormatProvider
-            {
-                get
-                {
-                    return this.formatProviderField ;
-                }
-                set
-                {
-                    if ((value != null))
-                    {
-                        this.formatProviderField  = value;
-                    }
-                }
-            }
-            /// <summary>
-            /// This is called from the compile/run appdomain to convert objects within an expression block to a string
-            /// </summary>
-            public string ToStringWithCulture(object objectToConvert)
-            {
-                if ((objectToConvert == null))
-                {
-                    throw new global::System.ArgumentNullException("objectToConvert");
-                }
-                System.Type t = objectToConvert.GetType();
-                System.Reflection.MethodInfo method = t.GetMethod("ToString", new System.Type[] {
-                            typeof(System.IFormatProvider)});
-                if ((method == null))
-                {
-                    return objectToConvert.ToString();
-                }
-                else
-                {
-                    return ((string)(method.Invoke(objectToConvert, new object[] {
-                                this.formatProviderField })));
-                }
-            }
-        }
-        private ToStringInstanceHelper toStringHelperField = new ToStringInstanceHelper();
-        public ToStringInstanceHelper ToStringHelper
-        {
-            get
-            {
-                return this.toStringHelperField;
-            }
-        }
-        #endregion
         public virtual string TransformText()
         {
-            this.GenerationEnvironment = null;
             this.Write("\r\n");
             
             #line 1 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\M2MGenerator.ttinclude"
@@ -168,8 +111,6 @@ DomainContextName = "M2M4RiaTestContext";
 
         try
         {
-            loader.CreateEdmItemCollection(EdmxFilePath);
-
             ItemCollection = loader.CreateEdmItemCollection(EdmxFilePath);
         }
         catch(TargetInvocationException ex)
@@ -181,28 +122,28 @@ DomainContextName = "M2M4RiaTestContext";
         #line default
         #line hidden
         
-        #line 68 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
+        #line 66 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
 this.Write("//\r\n// ERROR: Unable to locate Entity Framework edmx file at path \"");
 
         
         #line default
         #line hidden
         
-        #line 70 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
+        #line 68 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
 this.Write(this.ToStringHelper.ToStringWithCulture(EdmxFilePath));
 
         
         #line default
         #line hidden
         
-        #line 70 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
+        #line 68 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
 this.Write("\"\r\n//\r\n");
 
         
         #line default
         #line hidden
         
-        #line 72 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
+        #line 70 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
 
                 throw new FileNotFoundException("Unable to located Entity Framework edmx file at path " + EdmxFilePath, ex);
             }
@@ -211,21 +152,17 @@ this.Write("\"\r\n//\r\n");
         }
 
         // Retrieve all many to many associations
-        AssociationType[] associations =
-        (
-            from i in ItemCollection.GetItems<AssociationType>()
-            where i.AssociationEndMembers[0].RelationshipMultiplicity == RelationshipMultiplicity.Many &&
-            i.AssociationEndMembers[1].RelationshipMultiplicity == RelationshipMultiplicity.Many
-            select i
-        ).ToArray<AssociationType>();
+        AssociationType[] associations =ItemCollection.GetItems<AssociationType>().Where(IsManyToMany).ToArray();
 
         EntityContainer entityContainer = ItemCollection.GetItems<EntityContainer>().First();
 
         // Retrieve all entities that have many to many associations
-        EntityType[] entities = ItemCollection.GetItems<EntityType>().Where<EntityType>
+		var allEntityTypes = ItemCollection.GetItems<EntityType>();
+        EntityType[] entities = allEntityTypes.Where
         (
-            i => associations.Any<AssociationType>(j => i.Name == j.AssociationEndMembers[0].Name || i.Name == j.AssociationEndMembers[1].Name)
-        ).ToArray<EntityType>();
+            type =>    associations.Any(assoc =>    assoc.AssociationEndMembers[0].GetEntityType() == type 
+                                                 || assoc.AssociationEndMembers[1].GetEntityType() == type)
+        ).ToArray();
 
 
         // ** Build M2M Entities **
@@ -346,7 +283,15 @@ this.Write("\"\r\n//\r\n");
         //System.Diagnostics.Debugger.Break();
         return m2mData;
     }
-
+    /// <summary>
+    /// Determines if the specified association is a many-to-many (*:*) association.
+    /// </summary>
+    private bool IsManyToMany(AssociationType assoc)
+    {
+        return
+            assoc.AssociationEndMembers[0].RelationshipMultiplicity == RelationshipMultiplicity.Many &&
+            assoc.AssociationEndMembers[1].RelationshipMultiplicity == RelationshipMultiplicity.Many;
+    }
     /// <summary>
     /// Retrieves the EntityType that links up to the AssociationEndMember provided.
     /// </summary>
@@ -1093,6 +1038,34 @@ public class MetadataTools
         }
 
         return ((AssociationType)navProperty.RelationshipType).ReferentialConstraints[0].ToProperties;
+    }
+
+    /// <summary>
+    /// True if this entity type requires the HandleCascadeDelete method defined and the method has
+    /// not been defined on any base type
+    /// </summary>
+    public bool NeedsHandleCascadeDeleteMethod(ItemCollection itemCollection, EntityType entity)
+    {
+        bool needsMethod = ContainsCascadeDeleteAssociation(itemCollection, entity);
+        // Check to make sure no base types have already declared this method
+        EntityType baseType = entity.BaseType as EntityType;
+        while(needsMethod && baseType != null)
+        {
+            needsMethod = !ContainsCascadeDeleteAssociation(itemCollection, baseType);
+            baseType = baseType.BaseType as EntityType;
+        }
+        return needsMethod;
+    }
+
+    /// <summary>
+    /// True if this entity type participates in any relationships where the other end has an OnDelete
+    /// cascade delete defined, or if it is the dependent in any identifying relationships
+    /// </summary>
+    private bool ContainsCascadeDeleteAssociation(ItemCollection itemCollection, EntityType entity)
+    {
+        return itemCollection.GetItems<AssociationType>().Where(a =>
+                ((RefType)a.AssociationEndMembers[0].TypeUsage.EdmType).ElementType == entity && IsCascadeDeletePrincipal(a.AssociationEndMembers[1]) ||
+                ((RefType)a.AssociationEndMembers[1].TypeUsage.EdmType).ElementType == entity && IsCascadeDeletePrincipal(a.AssociationEndMembers[0])).Any();
     }
 
     /// <summary>
@@ -2890,6 +2863,62 @@ public static class MetadataConstants
         {
             this.indentLengths.Clear();
             this.currentIndentField = "";
+        }
+        #endregion
+        #region ToString Helpers
+        /// <summary>
+        /// Utility class to produce culture-oriented representation of an object as a string.
+        /// </summary>
+        public class ToStringInstanceHelper
+        {
+            private System.IFormatProvider formatProviderField  = global::System.Globalization.CultureInfo.InvariantCulture;
+            /// <summary>
+            /// Gets or sets format provider to be used by ToStringWithCulture method.
+            /// </summary>
+            public System.IFormatProvider FormatProvider
+            {
+                get
+                {
+                    return this.formatProviderField ;
+                }
+                set
+                {
+                    if ((value != null))
+                    {
+                        this.formatProviderField  = value;
+                    }
+                }
+            }
+            /// <summary>
+            /// This is called from the compile/run appdomain to convert objects within an expression block to a string
+            /// </summary>
+            public string ToStringWithCulture(object objectToConvert)
+            {
+                if ((objectToConvert == null))
+                {
+                    throw new global::System.ArgumentNullException("objectToConvert");
+                }
+                System.Type t = objectToConvert.GetType();
+                System.Reflection.MethodInfo method = t.GetMethod("ToString", new System.Type[] {
+                            typeof(System.IFormatProvider)});
+                if ((method == null))
+                {
+                    return objectToConvert.ToString();
+                }
+                else
+                {
+                    return ((string)(method.Invoke(objectToConvert, new object[] {
+                                this.formatProviderField })));
+                }
+            }
+        }
+        private ToStringInstanceHelper toStringHelperField = new ToStringInstanceHelper();
+        public ToStringInstanceHelper ToStringHelper
+        {
+            get
+            {
+                return this.toStringHelperField;
+            }
         }
         #endregion
     }
