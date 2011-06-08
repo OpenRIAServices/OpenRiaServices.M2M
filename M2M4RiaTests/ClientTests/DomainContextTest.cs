@@ -4,6 +4,7 @@ using ClientTests.Web;
 using Microsoft.Silverlight.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using RiaServicesContrib;
 
 namespace M2M4Ria.Client.Tests
 {
@@ -190,7 +191,7 @@ namespace M2M4Ria.Client.Tests
             var entityset = Context.EntityContainer.GetEntitySet<AnimalVet>();
             entityset.Add(animalVet);
 
-            Assert.IsNotNull(animalVet.EntitySet, "EntitySet property for link entity is not set when adding the owning entity to a context");
+            Assert.IsNotNull(((IExtendedEntity)animalVet).EntitySet, "EntitySet property for link entity is not set when adding the owning entity to a context");
         }
         /// <summary>
         /// Checks to see if the entityset property is set to null when removing an entity from a context.
@@ -209,7 +210,7 @@ namespace M2M4Ria.Client.Tests
             entityset.Add(animalVet);
             entityset.Remove(animalVet);
 
-            Assert.IsNull(animalVet.EntitySet, "EntitySet property for link entity is not set to null when removing the owning entity to a context");
+            Assert.IsNull(((IExtendedEntity)animalVet).EntitySet, "EntitySet property for link entity is not set to null when removing the owning entity to a context");
         }
 
         [TestMethod]
