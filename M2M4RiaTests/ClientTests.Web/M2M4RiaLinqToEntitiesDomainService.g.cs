@@ -24,6 +24,7 @@ namespace ClientTests.Web
     ///   Dog <--> FireHydrant
     ///   Dog <--> Trainer
     ///   Cat <--> Animal
+    ///   Dog <--> Dog
     ///
     /// We use stub entities to represent entities for which only the foreign key property is available in join type objects.
     ///
@@ -336,6 +337,82 @@ namespace ClientTests.Web
                 }
             }
             cat.Animals.Remove(animal);
+        }
+        [Obsolete("This method is only intended for use by the RIA M2M solution")]
+        public void InsertDogDog(DogDog dogDog)
+        {
+            Dog dogAsPuppy = dogDog.DogAsPuppy;
+            if(dogAsPuppy == null)
+            {
+			   dogAsPuppy = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
+			      .OfType<Dog>()
+				  .SingleOrDefault(e => e.AnimalId == dogDog.DogAsPuppyId );
+			}
+            if(dogAsPuppy == null)
+            {
+                Dog dogAsPuppyStubEntity = new Dog { AnimalId = dogDog.DogAsPuppyId };
+                dogAsPuppy = GetEntityByKey<Dog>(ObjectContext, "Animals", dogAsPuppyStubEntity);
+            }
+            Dog dogAsParent = dogDog.DogAsParent;
+            if(dogAsParent == null)
+            {
+			   dogAsParent = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
+			      .OfType<Dog>()
+				  .SingleOrDefault(e => e.AnimalId == dogDog.DogAsParentId );
+			}
+            if(dogAsParent == null)
+            {
+                Dog dogAsParentStubEntity = new Dog { AnimalId = dogDog.DogAsParentId };
+                dogAsParent = GetEntityByKey<Dog>(ObjectContext, "Animals", dogAsParentStubEntity);
+            }
+            dogAsPuppy.Puppies.Add(dogAsParent);
+        }
+        [Obsolete("This method is only intended for use by the RIA M2M solution")]
+        public void DeleteDogDog(DogDog dogDog)
+        {
+            Dog dogAsPuppy = dogDog.DogAsPuppy;
+            if(dogAsPuppy == null)
+            {
+			   dogAsPuppy = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
+			      .OfType<Dog>()
+				  .SingleOrDefault(e => e.AnimalId == dogDog.DogAsPuppyId );
+			}
+            if(dogAsPuppy == null)
+            {
+                Dog dogAsPuppyStubEntity = new Dog { AnimalId = dogDog.DogAsPuppyId };
+                dogAsPuppy = GetEntityByKey<Dog>(ObjectContext, "Animals", dogAsPuppyStubEntity);
+            }
+            Dog dogAsParent = dogDog.DogAsParent;
+            if(dogAsParent == null)
+            {
+			   dogAsParent = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
+			      .OfType<Dog>()
+				  .SingleOrDefault(e => e.AnimalId == dogDog.DogAsParentId );
+			}
+            if(dogAsParent == null)
+            {
+                Dog dogAsParentStubEntity = new Dog { AnimalId = dogDog.DogAsParentId };
+                dogAsParent = GetEntityByKey<Dog>(ObjectContext, "Animals", dogAsParentStubEntity);
+            }
+            if(dogAsPuppy.Puppies.IsLoaded == false)
+            {
+			    // We can't attach dogAsParent if dogAsPuppy is deleted. In that case we
+				// temporarily reset the entity state of dogAsPuppy, then attach dogAsParent
+				// and set the entity state of dogAsPuppy back to EntityState.Deleted.
+                ObjectStateEntry stateEntry = ObjectContext.ObjectStateManager.GetObjectStateEntry(dogAsPuppy);
+                EntityState state = stateEntry.State;
+
+                if(state == EntityState.Deleted)
+                {
+                    stateEntry.ChangeState(EntityState.Unchanged);
+                }
+                dogAsPuppy.Puppies.Attach(dogAsParent);
+                if(stateEntry.State != state)
+                {
+                    stateEntry.ChangeState(state);
+                }
+            }
+            dogAsPuppy.Puppies.Remove(dogAsParent);
         }
 
 #region GetEntityByKey

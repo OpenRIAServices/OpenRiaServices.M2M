@@ -97,8 +97,8 @@ namespace M2M4RiaDemo.Web.Model
                     _Dogs = new EntityCollection<DogTrainer, Dog>(
 						this.DogTrainerToDogSet,
 						r => r.Dog,
-						RemoveDogTrainer,
-						AddDogTrainer
+						RemoveTrainerDog,
+						AddTrainerDog
 				    );
                 }
                 return _Dogs;
@@ -107,14 +107,14 @@ namespace M2M4RiaDemo.Web.Model
 
         // Instruct compiler not to warn about usage of obsolete members, because using them is intended.
         #pragma warning disable 618
-        private void AddDogTrainer(Dog dog)
+        private void AddTrainerDog(Dog dog)
 		{
             var newJoinType = new DogTrainer();
             DogTrainer.AttachDogToTrainer(newJoinType, this, dog);
 		}
 		#pragma warning restore 618
 
-        private void RemoveDogTrainer(DogTrainer r)
+        private void RemoveTrainerDog(DogTrainer r)
         {
             if(((IExtendedEntity)r).EntitySet == null)
             {

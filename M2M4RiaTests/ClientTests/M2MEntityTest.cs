@@ -37,12 +37,17 @@ namespace M2M4Ria.Client.Tests
         {
             Vet vet = new Vet();
             Dog dog = new Dog();
+            M2M4RiaTestContext ctx = new M2M4RiaTestContext();
+            ctx.Animals.Attach(dog);
 
             dog.Vets.Add(vet);
             vet.Animals.Remove(dog);
 
             Assert.IsFalse(vet.Animals.Contains(dog), "Found dog in vet collection when it shouldn't have been there.");
             Assert.IsFalse(dog.Vets.Contains(vet), "Found vet in dog collection when it shouldn't have been there.");
+
+            Assert.IsTrue(vet.Animals.Count() == 0);
+            Assert.IsTrue(dog.Vets.Count() == 0);
         }
 
         /// <summary>
@@ -103,7 +108,7 @@ namespace M2M4Ria.Client.Tests
             Assert.IsNull(linkEntityFromDog, "Link entity found from dog to vet when no link entity was expected");
         }
         [TestMethod]
-        [Description("Test test checks that a newly created join table entity should not contain null values")]
+        [Description("Test that checks that a newly created join table entity should not contain null values")]
         public void CollectionChangedNotNullTest()
         {
             Dog dog = new Dog();
@@ -123,6 +128,23 @@ namespace M2M4Ria.Client.Tests
             };
             dog.Trainers.Add(new Trainer());
             trainer.Dogs.Add(new Dog());
+        }
+        [TestMethod]
+        [Description("Test for self referencing m2m relation")]
+        public void SelfReferenceTest()
+        {
+            Dog parent = new Dog { AnimalId = -1 };
+            Dog puppy = new Dog { AnimalId = -2 };
+
+            M2M4RiaTestContext ctx = new M2M4RiaTestContext();
+            ctx.Animals.Attach(puppy);
+
+            parent.Puppies.Add(puppy);
+
+            Assert.IsTrue(puppy.Parents.Single() == parent);
+
+            puppy.Parents.Remove(parent);
+            Assert.IsTrue(parent.Puppies.Count() == 0);            
         }
     }
 }

@@ -257,6 +257,65 @@ namespace ClientTests.Web
         [DataMember]
         public Cat Cat { get; set; }
     }
+    [Obsolete("This class is only intended for use by the RIA M2M solution")]
+    public partial class DogDog
+    {
+        // 'DogDogToDogAsParentSet' associationSet from 'DogAsParent.AnimalId' to 'DogDog.DogAsParentId'
+        private int _DogAsParentId;
+
+        [DataMember]
+        [Key]
+        public int DogAsParentId
+        {
+            get
+            {
+                if(DogAsParent != null)
+                {
+		            if(_DogAsParentId != DogAsParent.AnimalId && _DogAsParentId == 0 )
+                        _DogAsParentId = DogAsParent.AnimalId;
+                }
+                return _DogAsParentId;
+            }
+            set
+            {
+                _DogAsParentId = value;
+            }
+        }
+
+        [Include]
+        [XmlIgnore]
+        [Association("DogDogToDogAsParentSet", "DogAsParentId", "AnimalId", IsForeignKey = true)]
+        [DataMember]
+        public Dog DogAsParent { get; set; }
+
+        // 'DogDogToDogAsPuppySet' associationSet from 'DogAsPuppy.AnimalId' to 'DogDog.DogAsPuppyId'
+        private int _DogAsPuppyId;
+
+        [DataMember]
+        [Key]
+        public int DogAsPuppyId
+        {
+            get
+            {
+                if(DogAsPuppy != null)
+                {
+		            if(_DogAsPuppyId != DogAsPuppy.AnimalId && _DogAsPuppyId == 0 )
+                        _DogAsPuppyId = DogAsPuppy.AnimalId;
+                }
+                return _DogAsPuppyId;
+            }
+            set
+            {
+                _DogAsPuppyId = value;
+            }
+        }
+
+        [Include]
+        [XmlIgnore]
+        [Association("DogDogToDogAsPuppySet", "DogAsPuppyId", "AnimalId", IsForeignKey = true)]
+        [DataMember]
+        public Dog DogAsPuppy { get; set; }
+    }
     //
     // Regular Entity Types
     //
@@ -353,6 +412,32 @@ namespace ClientTests.Web
                 Func<Trainer, DogTrainer> makeJoinType = 
                     e => new DogTrainer { Dog = this, Trainer = e };
                 return Trainers.Select(makeJoinType).ToList();
+            }
+        }
+        [Obsolete("This property is only intended for use by the RIA M2M solution")]
+        [DataMember]
+        [Include]
+        [Association("DogDogToDogAsPuppySet", "AnimalId", "DogAsPuppyId", IsForeignKey = false)]
+        public IList<DogDog> DogDogToDogAsParentSet
+        {
+            get
+            {
+                Func<Dog, DogDog> makeJoinType = 
+                    e => new DogDog { DogAsPuppy = this, DogAsParent = e };
+                return Puppies.Select(makeJoinType).ToList();
+            }
+        }
+        [Obsolete("This property is only intended for use by the RIA M2M solution")]
+        [DataMember]
+        [Include]
+        [Association("DogDogToDogAsParentSet", "AnimalId", "DogAsParentId", IsForeignKey = false)]
+        public IList<DogDog> DogDogToDogAsPuppySet
+        {
+            get
+            {
+                Func<Dog, DogDog> makeJoinType = 
+                    e => new DogDog { DogAsParent = this, DogAsPuppy = e };
+                return Parents.Select(makeJoinType).ToList();
             }
         }
     }

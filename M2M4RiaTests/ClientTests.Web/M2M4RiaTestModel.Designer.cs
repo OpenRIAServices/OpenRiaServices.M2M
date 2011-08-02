@@ -25,6 +25,7 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("M2M4RiaModel", "DogTrainer", "Dog", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Dog), "Trainer", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Trainer))]
 [assembly: EdmRelationshipAttribute("M2M4RiaModel", "AnimalFood", "Animal", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Animal), "Food", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Food))]
 [assembly: EdmRelationshipAttribute("M2M4RiaModel", "CatAnimal", "Cat", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Cat), "Animal", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Animal))]
+[assembly: EdmRelationshipAttribute("M2M4RiaModel", "DogDog", "Puppy", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Dog), "Parent", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Dog))]
 
 #endregion
 
@@ -794,6 +795,50 @@ namespace ClientTests.Web
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Trainer>("M2M4RiaModel.DogTrainer", "Trainer", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("M2M4RiaModel", "DogDog", "Parent")]
+        public EntityCollection<Dog> Puppies
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Dog>("M2M4RiaModel.DogDog", "Parent");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Dog>("M2M4RiaModel.DogDog", "Parent", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("M2M4RiaModel", "DogDog", "Puppy")]
+        public EntityCollection<Dog> Parents
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Dog>("M2M4RiaModel.DogDog", "Puppy");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Dog>("M2M4RiaModel.DogDog", "Puppy", value);
                 }
             }
         }

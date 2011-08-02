@@ -37,9 +37,9 @@ namespace <#= EntityModelNamespace #>
     foreach(M2MAssociationSet associationSet in m2mData.Associations)
     {
         string fromFKIdPrivate = "_" + associationSet.Entity2ToLink.FK;
-        string fromPKId = associationSet.Entity2ToLink.Entity + "." + associationSet.Entity2ToLink.PK;
+        string fromPKId = associationSet.Entity2ToLink.EntityNavProp + "." + associationSet.Entity2ToLink.PK;
         string toFKIdPrivate = "_" + associationSet.Entity1ToLink.FK;
-        string toPKId = associationSet.Entity1ToLink.Entity + "." + associationSet.Entity1ToLink.PK;
+        string toPKId = associationSet.Entity1ToLink.EntityNavProp + "." + associationSet.Entity1ToLink.PK;
 
         // If entities on either side of the M2M relationship don't have a navigation property to each other, then there is no need to output this.
         if(associationSet.Entity1ToLink.HasM2MNavProp || associationSet.Entity2ToLink.HasM2MNavProp)
@@ -48,18 +48,18 @@ namespace <#= EntityModelNamespace #>
     [Obsolete("This class is only intended for use by the RIA M2M solution")]
     public partial class <#= associationSet.Name #>
     {
-        // '<#= associationSet.Entity2ToLink.LinkTableNavProp #>' associationSet from '<#= associationSet.Entity2ToLink.Entity #>.<#= associationSet.Entity2ToLink.PK #>' to '<#= associationSet.Name #>.<#= associationSet.Entity2ToLink.FK #>'
-        private <#= associationSet.Entity2ToLink.DataType #> <#= fromFKIdPrivate #>;
+        // '<#= associationSet.Entity2ToLink.LinkTableNavProp #>' associationSet from '<#= associationSet.Entity2ToLink.EntityNavProp #>.<#= associationSet.Entity2ToLink.PK #>' to '<#= associationSet.Name #>.<#= associationSet.Entity2ToLink.FK #>'
+        private <#= associationSet.Entity2ToLink.PKDataType #> <#= fromFKIdPrivate #>;
 
         [DataMember]
         [Key]
-        public <#= associationSet.Entity2ToLink.DataType #> <#= associationSet.Entity2ToLink.FK #>
+        public <#= associationSet.Entity2ToLink.PKDataType #> <#= associationSet.Entity2ToLink.FK #>
         {
             get
             {
-                if(<#= associationSet.Entity2ToLink.Entity #> != null)
+                if(<#= associationSet.Entity2ToLink.EntityNavProp #> != null)
                 {
-		            if(<#= fromFKIdPrivate #> != <#= fromPKId #> && <# if(associationSet.Entity2ToLink.DataType=="System.Guid") { #><#= fromFKIdPrivate #> == Guid.Empty<# } 
+		            if(<#= fromFKIdPrivate #> != <#= fromPKId #> && <# if(associationSet.Entity2ToLink.PKDataType=="System.Guid") { #><#= fromFKIdPrivate #> == Guid.Empty<# } 
 																	   else {#><#= fromFKIdPrivate #> == <#= 0 #> <# } #>)
                         <#= fromFKIdPrivate #> = <#= fromPKId #>;
                 }
@@ -75,20 +75,20 @@ namespace <#= EntityModelNamespace #>
         [XmlIgnore]
         [Association("<#=associationSet.Entity2ToLink.LinkTableNavProp #>", "<#= associationSet.Entity2ToLink.FK #>", "<#= associationSet.Entity2ToLink.PK #>", IsForeignKey = true)]
         [DataMember]
-        public <#= associationSet.Entity2ToLink.Entity #> <#= associationSet.Entity2ToLink.Entity #> { get; set; }
+        public <#= associationSet.Entity2ToLink.Entity #> <#= associationSet.Entity2ToLink.EntityNavProp #> { get; set; }
 
-        // '<#= associationSet.Entity1ToLink.LinkTableNavProp #>' associationSet from '<#= associationSet.Entity1ToLink.Entity #>.<#= associationSet.Entity1ToLink.PK #>' to '<#= associationSet.Name #>.<#= associationSet.Entity1ToLink.FK #>'
-        private <#= associationSet.Entity1ToLink.DataType #> <#= toFKIdPrivate #>;
+        // '<#= associationSet.Entity1ToLink.LinkTableNavProp #>' associationSet from '<#= associationSet.Entity1ToLink.EntityNavProp #>.<#= associationSet.Entity1ToLink.PK #>' to '<#= associationSet.Name #>.<#= associationSet.Entity1ToLink.FK #>'
+        private <#= associationSet.Entity1ToLink.PKDataType #> <#= toFKIdPrivate #>;
 
         [DataMember]
         [Key]
-        public <#= associationSet.Entity1ToLink.DataType #> <#= associationSet.Entity1ToLink.FK #>
+        public <#= associationSet.Entity1ToLink.PKDataType #> <#= associationSet.Entity1ToLink.FK #>
         {
             get
             {
-                if(<#= associationSet.Entity1ToLink.Entity #> != null)
+                if(<#= associationSet.Entity1ToLink.EntityNavProp #> != null)
                 {
-		            if(<#= toFKIdPrivate #> != <#= toPKId #> && <# if(associationSet.Entity1ToLink.DataType=="System.Guid") { #><#= toFKIdPrivate #> == Guid.Empty<# } 
+		            if(<#= toFKIdPrivate #> != <#= toPKId #> && <# if(associationSet.Entity1ToLink.PKDataType=="System.Guid") { #><#= toFKIdPrivate #> == Guid.Empty<# } 
 																   else {#><#= toFKIdPrivate #> == <#= 0 #> <# } #>)
                         <#= toFKIdPrivate #> = <#= toPKId #>;
                 }
@@ -104,7 +104,7 @@ namespace <#= EntityModelNamespace #>
         [XmlIgnore]
         [Association("<#= associationSet.Entity1ToLink.LinkTableNavProp #>", "<#= associationSet.Entity1ToLink.FK #>", "<#= associationSet.Entity1ToLink.PK #>", IsForeignKey = true)]
         [DataMember]
-        public <#= associationSet.Entity1ToLink.Entity #> <#= associationSet.Entity1ToLink.Entity #> { get; set; }
+        public <#= associationSet.Entity1ToLink.Entity #> <#= associationSet.Entity1ToLink.EntityNavProp #> { get; set; }
     }
 <#
         }
@@ -135,7 +135,7 @@ namespace <#= EntityModelNamespace #>
             get
             {
                 Func<<#= associationSet.OtherEntityToLink.Entity #>, <#= associationSet.Name #>> makeJoinType = 
-                    e => new <#= associationSet.Name #> { <#= associationSet.ThisEntityToLink.Entity  #> = this, <#= associationSet.OtherEntityToLink.Entity #> = e };
+                    e => new <#= associationSet.Name #> { <#= associationSet.ThisEntityToLink.EntityNavProp  #> = this, <#= associationSet.OtherEntityToLink.EntityNavProp #> = e };
                 return <#= associationSet.ThisEntityToLink.M2MNavProp #>.Select(makeJoinType).ToList();
             }
         }
