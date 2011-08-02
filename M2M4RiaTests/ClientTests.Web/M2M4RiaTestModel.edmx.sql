@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 12/14/2010 10:06:53
+-- Date Created: 08/02/2011 10:42:53
 -- Generated from EDMX file: C:\undergit\RIA\m2m4ria\M2M4RiaTests\ClientTests.Web\M2M4RiaTestModel.edmx
 -- --------------------------------------------------
 
@@ -46,6 +46,12 @@ IF OBJECT_ID(N'[dbo].[FK_AnimalFood_Animal]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_AnimalFood_Food]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AnimalFood] DROP CONSTRAINT [FK_AnimalFood_Food];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CatAnimal_Cat]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CatAnimal] DROP CONSTRAINT [FK_CatAnimal_Cat];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CatAnimal_Animal]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CatAnimal] DROP CONSTRAINT [FK_CatAnimal_Animal];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Dog_inherits_Animal]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Animals_Dog] DROP CONSTRAINT [FK_Dog_inherits_Animal];
@@ -96,6 +102,9 @@ IF OBJECT_ID(N'[dbo].[DogTrainer]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[AnimalFood]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AnimalFood];
+GO
+IF OBJECT_ID(N'[dbo].[CatAnimal]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CatAnimal];
 GO
 
 -- --------------------------------------------------
@@ -202,6 +211,13 @@ CREATE TABLE [dbo].[CatAnimal] (
 );
 GO
 
+-- Creating table 'DogDog'
+CREATE TABLE [dbo].[DogDog] (
+    [Parents_AnimalId] int  NOT NULL,
+    [Puppies_AnimalId] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -288,6 +304,12 @@ GO
 ALTER TABLE [dbo].[CatAnimal]
 ADD CONSTRAINT [PK_CatAnimal]
     PRIMARY KEY NONCLUSTERED ([Cats_AnimalId], [Animals_AnimalId] ASC);
+GO
+
+-- Creating primary key on [Parents_AnimalId], [Puppies_AnimalId] in table 'DogDog'
+ALTER TABLE [dbo].[DogDog]
+ADD CONSTRAINT [PK_DogDog]
+    PRIMARY KEY NONCLUSTERED ([Parents_AnimalId], [Puppies_AnimalId] ASC);
 GO
 
 -- --------------------------------------------------
@@ -435,6 +457,29 @@ ADD CONSTRAINT [FK_CatAnimal_Animal]
 CREATE INDEX [IX_FK_CatAnimal_Animal]
 ON [dbo].[CatAnimal]
     ([Animals_AnimalId]);
+GO
+
+-- Creating foreign key on [Parents_AnimalId] in table 'DogDog'
+ALTER TABLE [dbo].[DogDog]
+ADD CONSTRAINT [FK_DogDog_Dog]
+    FOREIGN KEY ([Parents_AnimalId])
+    REFERENCES [dbo].[Animals_Dog]
+        ([AnimalId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Puppies_AnimalId] in table 'DogDog'
+ALTER TABLE [dbo].[DogDog]
+ADD CONSTRAINT [FK_DogDog_Dog1]
+    FOREIGN KEY ([Puppies_AnimalId])
+    REFERENCES [dbo].[Animals_Dog]
+        ([AnimalId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_DogDog_Dog1'
+CREATE INDEX [IX_FK_DogDog_Dog1]
+ON [dbo].[DogDog]
+    ([Puppies_AnimalId]);
 GO
 
 -- Creating foreign key on [AnimalId] in table 'Animals_Dog'

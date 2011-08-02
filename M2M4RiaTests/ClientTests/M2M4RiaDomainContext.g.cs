@@ -249,6 +249,63 @@ namespace ClientTests.Web
             }
         }
     }
+    /// <summary>
+    /// This class provides access to the entity's entity set and contains methods for attaching
+	/// to entities to the link table in a single action.
+    /// </summary>
+    public partial class DogDog : IExtendedEntity
+    {
+        /// <summary>
+        /// This method attaches DogAsPuppy and DogAsParent to the current join table entity, in such a way
+        /// that both navigation properties are set before an INotifyCollectionChanged event is fired.
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="dogAsPuppy"></param>
+        /// <param name="dogAsParent"></param>
+        [Obsolete("This property is only intended for use by the M2M4Ria solution.")]
+        public static void AttachDogAsParentToDogAsPuppy(DogDog r, Dog dogAsPuppy, Dog dogAsParent)
+        {
+            var dummy = r.DogAsParent; // this is to instantiate the EntityRef<DogAsParent>
+            r._dogAsParent.Entity = dogAsParent;
+            r._dogAsParentId = dogAsParent.AnimalId;
+
+            r.DogAsPuppy = dogAsPuppy;
+
+            r._dogAsParent.Entity = null;
+            r._dogAsParentId = default(int);
+            r.DogAsParent = dogAsParent;
+        }
+        /// <summary>
+        /// This method attaches DogAsParent and DogAsPuppy to the current join table entity, in such a way
+        /// that both navigation properties are set before an INotifyCollectionChanged event is fired.
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="dogAsParent"></param>
+        /// <param name="dogAsPuppy"></param>
+        [Obsolete("This property is only intended for use by the M2M4Ria solution.")]
+        public static void AttachDogAsPuppyToDogAsParent(DogDog r, Dog dogAsParent, Dog dogAsPuppy)
+        {
+            var dummy = r.DogAsPuppy; // this is to instantiate the EntityRef<DogAsPuppy>
+            r._dogAsPuppy.Entity = dogAsPuppy;
+            r._dogAsPuppyId = dogAsPuppy.AnimalId;
+
+            r.DogAsParent = dogAsParent;
+
+            r._dogAsPuppy.Entity = null;
+            r._dogAsPuppyId = default(int);
+            r.DogAsPuppy = dogAsPuppy;
+        }
+        /// <summary>
+        /// Gets the EntitySet the link table entity is contained in.
+        /// </summary>
+        EntitySet IExtendedEntity.EntitySet
+        {
+            get
+            {
+                return EntitySet;
+            }
+        }
+    }
     public partial class Animal
     {
         //
@@ -313,8 +370,8 @@ namespace ClientTests.Web
                     _Cats = new EntityCollection<CatAnimal, Cat>(
 						this.CatAnimalToCatSet,
 						r => r.Cat,
-						RemoveCatAnimal,
-						AddCatAnimal
+						RemoveAnimalCat,
+						AddAnimalCat
 				    );
                 }
                 return _Cats;
@@ -323,14 +380,14 @@ namespace ClientTests.Web
 
         // Instruct compiler not to warn about usage of obsolete members, because using them is intended.
         #pragma warning disable 618
-        private void AddCatAnimal(Cat cat)
+        private void AddAnimalCat(Cat cat)
 		{
             var newJoinType = new CatAnimal();
             CatAnimal.AttachCatToAnimal(newJoinType, this, cat);
 		}
 		#pragma warning restore 618
 
-        private void RemoveCatAnimal(CatAnimal r)
+        private void RemoveAnimalCat(CatAnimal r)
         {
             if(((IExtendedEntity)r).EntitySet == null)
             {
@@ -361,8 +418,8 @@ namespace ClientTests.Web
                     _Animals = new EntityCollection<AnimalVet, Animal>(
 						this.AnimalVetToAnimalSet,
 						r => r.Animal,
-						RemoveAnimalVet,
-						AddAnimalVet
+						RemoveVetAnimal,
+						AddVetAnimal
 				    );
                 }
                 return _Animals;
@@ -371,14 +428,14 @@ namespace ClientTests.Web
 
         // Instruct compiler not to warn about usage of obsolete members, because using them is intended.
         #pragma warning disable 618
-        private void AddAnimalVet(Animal animal)
+        private void AddVetAnimal(Animal animal)
 		{
             var newJoinType = new AnimalVet();
             AnimalVet.AttachAnimalToVet(newJoinType, this, animal);
 		}
 		#pragma warning restore 618
 
-        private void RemoveAnimalVet(AnimalVet r)
+        private void RemoveVetAnimal(AnimalVet r)
         {
             if(((IExtendedEntity)r).EntitySet == null)
             {
@@ -412,8 +469,8 @@ namespace ClientTests.Web
                     _Dogs = new EntityCollection<DogTrainer, Dog>(
 						this.DogTrainerToDogSet,
 						r => r.Dog,
-						RemoveDogTrainer,
-						AddDogTrainer
+						RemoveTrainerDog,
+						AddTrainerDog
 				    );
                 }
                 return _Dogs;
@@ -422,14 +479,14 @@ namespace ClientTests.Web
 
         // Instruct compiler not to warn about usage of obsolete members, because using them is intended.
         #pragma warning disable 618
-        private void AddDogTrainer(Dog dog)
+        private void AddTrainerDog(Dog dog)
 		{
             var newJoinType = new DogTrainer();
             DogTrainer.AttachDogToTrainer(newJoinType, this, dog);
 		}
 		#pragma warning restore 618
 
-        private void RemoveDogTrainer(DogTrainer r)
+        private void RemoveTrainerDog(DogTrainer r)
         {
             if(((IExtendedEntity)r).EntitySet == null)
             {
@@ -530,6 +587,96 @@ namespace ClientTests.Web
             if(((IExtendedEntity)r).EntitySet == null)
             {
                 this.DogTrainerToTrainerSet.Remove(r);
+            }
+            else
+            {
+                ((IExtendedEntity)r).EntitySet.Remove(r);
+            }
+        }
+        //
+        // Code relating to the managing of the 'DogDog' association from 'DogAsPuppy' to 'DogAsParent'
+        //
+        private IEntityCollection<Dog> _Puppies;
+
+        /// <summary>
+        /// Gets the collection of associated <see cref="Dog"/> entities.
+        /// </summary>
+        public IEntityCollection<Dog> Puppies
+        {
+            get
+            {
+                if(_Puppies == null)
+                {
+                    _Puppies = new EntityCollection<DogDog, Dog>(
+						this.DogDogToDogAsParentSet,
+						r => r.DogAsParent,
+						RemoveDogAsPuppyDogAsParent,
+						AddDogAsPuppyDogAsParent
+				    );
+                }
+                return _Puppies;
+            }
+        }
+
+        // Instruct compiler not to warn about usage of obsolete members, because using them is intended.
+        #pragma warning disable 618
+        private void AddDogAsPuppyDogAsParent(Dog dogAsParent)
+		{
+            var newJoinType = new DogDog();
+            DogDog.AttachDogAsParentToDogAsPuppy(newJoinType, this, dogAsParent);
+		}
+		#pragma warning restore 618
+
+        private void RemoveDogAsPuppyDogAsParent(DogDog r)
+        {
+            if(((IExtendedEntity)r).EntitySet == null)
+            {
+                this.DogDogToDogAsParentSet.Remove(r);
+            }
+            else
+            {
+                ((IExtendedEntity)r).EntitySet.Remove(r);
+            }
+        }
+        //
+        // Code relating to the managing of the 'DogDog' association from 'DogAsParent' to 'DogAsPuppy'
+        //
+        private IEntityCollection<Dog> _Parents;
+
+        /// <summary>
+        /// Gets the collection of associated <see cref="Dog"/> entities.
+        /// </summary>
+        public IEntityCollection<Dog> Parents
+        {
+            get
+            {
+                if(_Parents == null)
+                {
+                    _Parents = new EntityCollection<DogDog, Dog>(
+						this.DogDogToDogAsPuppySet,
+						r => r.DogAsPuppy,
+						RemoveDogAsParentDogAsPuppy,
+						AddDogAsParentDogAsPuppy
+				    );
+                }
+                return _Parents;
+            }
+        }
+
+        // Instruct compiler not to warn about usage of obsolete members, because using them is intended.
+        #pragma warning disable 618
+        private void AddDogAsParentDogAsPuppy(Dog dogAsPuppy)
+		{
+            var newJoinType = new DogDog();
+            DogDog.AttachDogAsPuppyToDogAsParent(newJoinType, this, dogAsPuppy);
+		}
+		#pragma warning restore 618
+
+        private void RemoveDogAsParentDogAsPuppy(DogDog r)
+        {
+            if(((IExtendedEntity)r).EntitySet == null)
+            {
+                this.DogDogToDogAsPuppySet.Remove(r);
             }
             else
             {

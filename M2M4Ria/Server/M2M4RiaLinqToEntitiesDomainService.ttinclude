@@ -107,8 +107,8 @@ namespace <#= DomainServiceNamespace #>
 <#+
 private void MakeInsertOperation(M2MAssociationSet associationSet)
 {
-    string end1Entity = LowerInitial(associationSet.Entity1ToLink.Entity.Name);
-    string end2Entity = LowerInitial(associationSet.Entity2ToLink.Entity.Name);
+    string end1Entity = LowerInitial(associationSet.Entity1ToLink.EntityNavProp);
+    string end2Entity = LowerInitial(associationSet.Entity2ToLink.EntityNavProp);
     string linkEntityName = LowerInitial(associationSet.Name);
 #>
         [Obsolete("This method is only intended for use by the RIA M2M solution")]
@@ -135,8 +135,8 @@ private void MakeInsertOperation(M2MAssociationSet associationSet)
 }
 private void MakeDeleteOperation(M2MAssociationSet associationSet)
 {
-    string end1Entity = LowerInitial(associationSet.Entity1ToLink.Entity.Name);
-    string end2Entity = LowerInitial(associationSet.Entity2ToLink.Entity.Name);
+    string end1Entity = LowerInitial(associationSet.Entity1ToLink.EntityNavProp);
+    string end2Entity = LowerInitial(associationSet.Entity2ToLink.EntityNavProp);
     string linkEntityName = LowerInitial(associationSet.Name);
 
 #>
@@ -160,7 +160,7 @@ private void MakeDeleteOperation(M2MAssociationSet associationSet)
 }
 private void MakeRemove(M2MAssociation association, string entity)
 {
-    string parentEntity = LowerInitial(association.Entity.Name);
+    string parentEntity = LowerInitial(association.EntityNavProp);
 #>
             if(<#=parentEntity#>.<#= association.M2MNavProp #>.IsLoaded == false)
             {
@@ -186,11 +186,11 @@ private void MakeRemove(M2MAssociation association, string entity)
 private void MakeGetType(M2MAssociation association, string linkEntityName)
 {
     string entityType = association.Entity.Name;
-    string entity = LowerInitial(entityType);
+    string entity = LowerInitial(association.EntityNavProp);
     string concreteEntityType = association.Entity.IsAbstract ? association.Entity.DerivedEntityNames[0] : association.Entity.Name;
     string stubEntity = entity + "StubEntity";
 #>
-            <#= entityType #> <#=entity#> = <#= linkEntityName #>.<#= entityType #>;
+            <#= entityType #> <#=entity#> = <#= linkEntityName #>.<#= association.EntityNavProp #>;
             if(<#=entity#> == null)
             {
 			   <#=entity#> = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)

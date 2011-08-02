@@ -106,20 +106,33 @@
             M2MAssociationSet m2mAssociationSet = new M2MAssociationSet();
             m2mAssociationSet.Name = Code.Escape(association);
 
-            // ** Populate "Entity1ToLink" half of the many to many association
             // Retrieve the first entity of the association
             EntityType entity1 = GetEntityForAssociationEnd(entities, association.AssociationEndMembers[0]);
+            // Retrieve the entity that matches second entity of the association
+            EntityType entity2 = GetEntityForAssociationEnd(entities, association.AssociationEndMembers[1]);
+
+            // Detect self referencing m2m relation
+			string entity1Suffix = "";
+			string entity2Suffix = "";
+			if(entity1 == entity2)
+			{
+			    entity1Suffix = "As"+association.AssociationEndMembers[0].Name;
+				entity2Suffix = "As"+association.AssociationEndMembers[1].Name;
+			}
+
+            // ** Populate "Entity1ToLink" half of the many to many association
 
             if(entity1.KeyMembers.Count > 1)
                 throw new InvalidOperationException(ERROR_PK_SUPPORT);
 
             m2mAssociationSet.Entity1ToLink = new M2MAssociation();
             m2mAssociationSet.Entity1ToLink.Entity = GetM2MEntityForEntity(entity1, m2mData.Entities);
+			m2mAssociationSet.Entity1ToLink.EntityNavProp = m2mAssociationSet.Entity1ToLink.Entity.Name + entity1Suffix;
             // NOTE: Only entites containing unary primary key's are supported currently.
             m2mAssociationSet.Entity1ToLink.PK = Code.Escape(entity1.KeyMembers[0]);
-            m2mAssociationSet.Entity1ToLink.DataType = Code.Escape(entity1.KeyMembers[0].TypeUsage);
-            m2mAssociationSet.Entity1ToLink.LinkTableNavProp = Code.Escape(association) + "To" + Code.Escape(entity1) + "Set";
-            m2mAssociationSet.Entity1ToLink.FK = Code.Escape(entity1) + "Id";
+            m2mAssociationSet.Entity1ToLink.PKDataType = Code.Escape(entity1.KeyMembers[0].TypeUsage);
+            m2mAssociationSet.Entity1ToLink.LinkTableNavProp = Code.Escape(association) + "To" + Code.Escape(entity1) + entity1Suffix + "Set";
+            m2mAssociationSet.Entity1ToLink.FK = Code.Escape(entity1) + entity1Suffix + "Id";
 
             // Retrieve navigation property navigating from the first entity to the second entity (if exists)
             NavigationProperty entity1NavProp = GetNavigationPropertyForAssociationEnd(entity1, association, association.AssociationEndMembers[0]);
@@ -132,19 +145,17 @@
 
 
             // ** Populate "entity2ToLink" half of the many to many association
-            // Retrieve the entity that matches second entity of the association
-            EntityType entity2 = GetEntityForAssociationEnd(entities, association.AssociationEndMembers[1]);
-
             if(entity2.KeyMembers.Count > 1)
                 throw new InvalidOperationException(ERROR_PK_SUPPORT);
 
             m2mAssociationSet.Entity2ToLink = new M2MAssociation();
             m2mAssociationSet.Entity2ToLink.Entity = GetM2MEntityForEntity(entity2, m2mData.Entities);
+			m2mAssociationSet.Entity2ToLink.EntityNavProp = m2mAssociationSet.Entity2ToLink.Entity.Name + entity2Suffix;
             // NOTE: Only entites containing unary primary key's are supported currently.
             m2mAssociationSet.Entity2ToLink.PK = Code.Escape(entity2.KeyMembers[0]);
-            m2mAssociationSet.Entity2ToLink.DataType = Code.Escape(entity2.KeyMembers[0].TypeUsage);
-            m2mAssociationSet.Entity2ToLink.LinkTableNavProp = Code.Escape(association) + "To" + Code.Escape(entity2) + "Set";
-            m2mAssociationSet.Entity2ToLink.FK = Code.Escape(entity2) + "Id";
+            m2mAssociationSet.Entity2ToLink.PKDataType = Code.Escape(entity2.KeyMembers[0].TypeUsage);
+            m2mAssociationSet.Entity2ToLink.LinkTableNavProp = Code.Escape(association) + "To" + Code.Escape(entity2) + entity2Suffix + "Set";
+            m2mAssociationSet.Entity2ToLink.FK = Code.Escape(entity2) + entity2Suffix + "Id";
 
             // Retrieve navigation propery navigating from the second entity to the first entity (if exists)
             NavigationProperty entity2NavProp = GetNavigationPropertyForAssociationEnd(entity2, association, association.AssociationEndMembers[1]);
@@ -184,22 +195,24 @@
             // of this entity.
             foreach(M2MAssociationSet i in m2mAssociationSets)
             {
-                M2MEntityAssociationSet m2mEntityAssociationSet = new M2MEntityAssociationSet();
-
-                m2mEntityAssociationSet.Name = i.Name;
-
                 if(i.Entity1ToLink.Entity.Name == Code.Escape(entity))
                 {
+                    M2MEntityAssociationSet m2mEntityAssociationSet = new M2MEntityAssociationSet();
+
+                    m2mEntityAssociationSet.Name = i.Name;
                     m2mEntityAssociationSet.ThisEntityToLink = i.Entity1ToLink;
                     m2mEntityAssociationSet.OtherEntityToLink = i.Entity2ToLink;
+                    m2mEntity.Associations.Add(m2mEntityAssociationSet);
                 }
-                else
+                if(i.Entity2ToLink.Entity.Name == Code.Escape(entity))
                 {
+                    M2MEntityAssociationSet m2mEntityAssociationSet = new M2MEntityAssociationSet();
+
+                    m2mEntityAssociationSet.Name = i.Name;
                     m2mEntityAssociationSet.ThisEntityToLink = i.Entity2ToLink;
                     m2mEntityAssociationSet.OtherEntityToLink = i.Entity1ToLink;
+                    m2mEntity.Associations.Add(m2mEntityAssociationSet);
                 }
-
-                m2mEntity.Associations.Add(m2mEntityAssociationSet);
             }
         }
 
@@ -286,8 +299,9 @@
     public class M2MAssociation
     {
         public string PK { get; set; }
-        public string DataType { get; set; }
+        public string PKDataType { get; set; }
         public M2MEntity Entity { get; set; }
+        public string EntityNavProp { get; set; }
         public bool HasM2MNavProp { get; set; }
         public string M2MNavProp { get; set; }
         public string LinkTableNavProp { get; set; }

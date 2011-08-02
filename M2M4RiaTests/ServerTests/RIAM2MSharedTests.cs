@@ -43,7 +43,7 @@ namespace RIAM2M.Web.Tests
         [TestMethod]
         public void GenerateM2MData_InspectReturnType_ShouldContainRequiredAssociationSets()
         {
-            string[] requiredAssociationSets = { "AnimalVet", "DogFireHydrant", "DogTrainer", "AnimalFood", "CatAnimal" };
+            string[] requiredAssociationSets = { "AnimalVet", "DogFireHydrant", "DogTrainer", "AnimalFood", "CatAnimal", "DogDog" };
 
             Assert.IsTrue(M2MDataObject.Associations.All(e => requiredAssociationSets.Contains(e.Name)), "M2MData.Associations does not match the expected AsssociationSet list");
         }
@@ -166,7 +166,7 @@ namespace RIAM2M.Web.Tests
         [TestMethod]
         public void GenerateM2MData_InspectReturnType_CheckEntityIsValidForDog()
         {
-            CheckEntityIsValid("Dog", new string[] { "DogFireHydrant", "DogTrainer" }, new string[] { }, "Animals", false, false, "Animal"); 
+            CheckEntityIsValid("Dog", new string[] { "DogFireHydrant", "DogTrainer", "DogDog" }, new string[] { }, "Animals", false, false, "Animal"); 
         }
 
         private void CheckEntityIsValid(string actualEntityName, string[] expectedAssociationSetNames, string[] expectedDerivedEntityNames, string expectedEntitySet, bool expectedIsAbstract, bool expectedIsBaseEntity, string expectedBaseEntityName)
@@ -187,7 +187,7 @@ namespace RIAM2M.Web.Tests
 
         private void CheckAssociationIsValid(M2M4RiaShared.M2MAssociation actualAssociation, string associationEndName, string expectedDataType, string expectedEntityName, string expectedFK, bool expectedHasM2MNavProp, string expectedLinkTableNavProp, string expectedM2MNavProp, string expectedPK)
         {
-            Assert.AreEqual(expectedDataType, actualAssociation.DataType, "DataType is not equal for association end '" + associationEndName + "'");
+            Assert.AreEqual(expectedDataType, actualAssociation.PKDataType, "PKDataType is not equal for association end '" + associationEndName + "'");
             Assert.IsNotNull(actualAssociation.Entity, "Entity is not set to an instance of an object for association end '" + associationEndName + "'. Entity '" + expectedEntityName + "' expected.");
             Assert.AreEqual(expectedEntityName, actualAssociation.Entity.Name, "Unexpected entity attached to association for association end '" + associationEndName + "'");
             Assert.AreEqual(expectedFK, actualAssociation.FK, "FK is not equal for association end '" + associationEndName + "'");
