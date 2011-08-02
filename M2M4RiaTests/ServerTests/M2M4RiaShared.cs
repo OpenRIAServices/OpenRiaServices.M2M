@@ -38,7 +38,7 @@ namespace ServerTests
             
             #line 1 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\M2MGenerator.ttinclude"
 
-EdmxFilePath = @"M2M4RiaTests\M2M4RiaTestModel.edmx";
+EdmxFilePath = @"..\M2M4RiaTestModel.edmx";
 EntityModelNamespace = "ClientTests.Web";
 DomainServiceNamespace = "ClientTests.Web";
 DomainServiceName = "M2M4RiaTestService";
@@ -51,6 +51,18 @@ DomainContextName = "M2M4RiaTestContext";
             this.Write("\r\n// M2M4RiaShared.ttinclude has been located and loaded.\r\n");
             this.Write("\r\n");
             return this.GenerationEnvironment.ToString();
+        }
+        private global::Microsoft.VisualStudio.TextTemplating.ITextTemplatingEngineHost hostValue;
+        public virtual global::Microsoft.VisualStudio.TextTemplating.ITextTemplatingEngineHost Host
+        {
+            get
+            {
+                return this.hostValue;
+            }
+            set
+            {
+                this.hostValue = value;
+            }
         }
         
         #line 3 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
@@ -111,6 +123,7 @@ DomainContextName = "M2M4RiaTestContext";
 
         try
         {
+            EdmxFilePath = Host.ResolvePath(EdmxFilePath);
             ItemCollection = loader.CreateEdmItemCollection(EdmxFilePath);
         }
         catch(TargetInvocationException ex)
@@ -122,28 +135,28 @@ DomainContextName = "M2M4RiaTestContext";
         #line default
         #line hidden
         
-        #line 66 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
+        #line 67 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
 this.Write("//\r\n// ERROR: Unable to locate Entity Framework edmx file at path \"");
 
         
         #line default
         #line hidden
         
-        #line 68 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
+        #line 69 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
 this.Write(this.ToStringHelper.ToStringWithCulture(EdmxFilePath));
 
         
         #line default
         #line hidden
         
-        #line 68 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
+        #line 69 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
 this.Write("\"\r\n//\r\n");
 
         
         #line default
         #line hidden
         
-        #line 70 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
+        #line 71 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
 
                 throw new FileNotFoundException("Unable to located Entity Framework edmx file at path " + EdmxFilePath, ex);
             }
