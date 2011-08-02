@@ -1,5 +1,5 @@
 ﻿<#
-EdmxFilePath = @"M2M4RiaTests\M2M4RiaTestModel.edmx";
+EdmxFilePath = @"..\M2M4RiaTestModel.edmx";
 EntityModelNamespace = "ClientTests.Web";
 DomainServiceNamespace = "ClientTests.Web";
 DomainServiceName = "M2M4RiaTestService";

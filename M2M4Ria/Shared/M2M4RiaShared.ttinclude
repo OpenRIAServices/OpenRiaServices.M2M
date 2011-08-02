@@ -57,6 +57,7 @@
 
         try
         {
+            EdmxFilePath = Host.ResolvePath(EdmxFilePath);
             ItemCollection = loader.CreateEdmItemCollection(EdmxFilePath);
         }
         catch(TargetInvocationException ex)
