@@ -59,9 +59,10 @@ namespace <#= EntityModelNamespace #>
             {
                 if(<#= associationSet.Entity2ToLink.EntityNavProp #> != null)
                 {
-		            if(<#= fromFKIdPrivate #> != <#= fromPKId #> && <# if(associationSet.Entity2ToLink.PKDataType=="System.Guid") { #><#= fromFKIdPrivate #> == Guid.Empty<# } 
-																	   else {#><#= fromFKIdPrivate #> == <#= 0 #> <# } #>)
+		            if(<#= fromFKIdPrivate #> != <#= fromPKId #> && <#= fromFKIdPrivate #> == default(<#=associationSet.Entity2ToLink.PKDataType#>))
+					{
                         <#= fromFKIdPrivate #> = <#= fromPKId #>;
+					}
                 }
                 return <#= fromFKIdPrivate #>;
             }
@@ -88,9 +89,10 @@ namespace <#= EntityModelNamespace #>
             {
                 if(<#= associationSet.Entity1ToLink.EntityNavProp #> != null)
                 {
-		            if(<#= toFKIdPrivate #> != <#= toPKId #> && <# if(associationSet.Entity1ToLink.PKDataType=="System.Guid") { #><#= toFKIdPrivate #> == Guid.Empty<# } 
-																   else {#><#= toFKIdPrivate #> == <#= 0 #> <# } #>)
+		            if(<#= toFKIdPrivate #> != <#= toPKId #> && <#= fromFKIdPrivate #> == default(<#=associationSet.Entity2ToLink.PKDataType#>))
+					{
                         <#= toFKIdPrivate #> = <#= toPKId #>;
+					}
                 }
                 return <#= toFKIdPrivate #>;
             }

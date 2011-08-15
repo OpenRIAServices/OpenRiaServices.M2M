@@ -35,8 +35,10 @@ namespace M2M4RiaDemo.Web.Model
             {
                 if(Trainer != null)
                 {
-		            if(_TrainerId != Trainer.TrainerId && _TrainerId == 0 )
+		            if(_TrainerId != Trainer.TrainerId && _TrainerId == default(int))
+					{
                         _TrainerId = Trainer.TrainerId;
+					}
                 }
                 return _TrainerId;
             }
@@ -63,8 +65,10 @@ namespace M2M4RiaDemo.Web.Model
             {
                 if(Dog != null)
                 {
-		            if(_DogId != Dog.DogId && _DogId == 0 )
+		            if(_DogId != Dog.DogId && _TrainerId == default(int))
+					{
                         _DogId = Dog.DogId;
+					}
                 }
                 return _DogId;
             }

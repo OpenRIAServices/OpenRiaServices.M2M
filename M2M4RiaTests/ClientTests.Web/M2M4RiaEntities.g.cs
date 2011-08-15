@@ -35,8 +35,10 @@ namespace ClientTests.Web
             {
                 if(Vet != null)
                 {
-		            if(_VetId != Vet.VetId && _VetId == 0 )
+		            if(_VetId != Vet.VetId && _VetId == default(int))
+					{
                         _VetId = Vet.VetId;
+					}
                 }
                 return _VetId;
             }
@@ -63,8 +65,10 @@ namespace ClientTests.Web
             {
                 if(Animal != null)
                 {
-		            if(_AnimalId != Animal.AnimalId && _AnimalId == 0 )
+		            if(_AnimalId != Animal.AnimalId && _VetId == default(int))
+					{
                         _AnimalId = Animal.AnimalId;
+					}
                 }
                 return _AnimalId;
             }
@@ -94,8 +98,10 @@ namespace ClientTests.Web
             {
                 if(FireHydrant != null)
                 {
-		            if(_FireHydrantId != FireHydrant.FireHydrantId && _FireHydrantId == 0 )
+		            if(_FireHydrantId != FireHydrant.FireHydrantId && _FireHydrantId == default(int))
+					{
                         _FireHydrantId = FireHydrant.FireHydrantId;
+					}
                 }
                 return _FireHydrantId;
             }
@@ -122,8 +128,10 @@ namespace ClientTests.Web
             {
                 if(Dog != null)
                 {
-		            if(_DogId != Dog.AnimalId && _DogId == 0 )
+		            if(_DogId != Dog.AnimalId && _FireHydrantId == default(int))
+					{
                         _DogId = Dog.AnimalId;
+					}
                 }
                 return _DogId;
             }
@@ -153,8 +161,10 @@ namespace ClientTests.Web
             {
                 if(Trainer != null)
                 {
-		            if(_TrainerId != Trainer.TrainerId && _TrainerId == 0 )
+		            if(_TrainerId != Trainer.TrainerId && _TrainerId == default(int))
+					{
                         _TrainerId = Trainer.TrainerId;
+					}
                 }
                 return _TrainerId;
             }
@@ -181,8 +191,10 @@ namespace ClientTests.Web
             {
                 if(Dog != null)
                 {
-		            if(_DogId != Dog.AnimalId && _DogId == 0 )
+		            if(_DogId != Dog.AnimalId && _TrainerId == default(int))
+					{
                         _DogId = Dog.AnimalId;
+					}
                 }
                 return _DogId;
             }
@@ -212,8 +224,10 @@ namespace ClientTests.Web
             {
                 if(Animal != null)
                 {
-		            if(_AnimalId != Animal.AnimalId && _AnimalId == 0 )
+		            if(_AnimalId != Animal.AnimalId && _AnimalId == default(int))
+					{
                         _AnimalId = Animal.AnimalId;
+					}
                 }
                 return _AnimalId;
             }
@@ -240,8 +254,10 @@ namespace ClientTests.Web
             {
                 if(Cat != null)
                 {
-		            if(_CatId != Cat.AnimalId && _CatId == 0 )
+		            if(_CatId != Cat.AnimalId && _AnimalId == default(int))
+					{
                         _CatId = Cat.AnimalId;
+					}
                 }
                 return _CatId;
             }
@@ -271,8 +287,10 @@ namespace ClientTests.Web
             {
                 if(DogAsParent != null)
                 {
-		            if(_DogAsParentId != DogAsParent.AnimalId && _DogAsParentId == 0 )
+		            if(_DogAsParentId != DogAsParent.AnimalId && _DogAsParentId == default(int))
+					{
                         _DogAsParentId = DogAsParent.AnimalId;
+					}
                 }
                 return _DogAsParentId;
             }
@@ -299,8 +317,10 @@ namespace ClientTests.Web
             {
                 if(DogAsPuppy != null)
                 {
-		            if(_DogAsPuppyId != DogAsPuppy.AnimalId && _DogAsPuppyId == 0 )
+		            if(_DogAsPuppyId != DogAsPuppy.AnimalId && _DogAsParentId == default(int))
+					{
                         _DogAsPuppyId = DogAsPuppy.AnimalId;
+					}
                 }
                 return _DogAsPuppyId;
             }
