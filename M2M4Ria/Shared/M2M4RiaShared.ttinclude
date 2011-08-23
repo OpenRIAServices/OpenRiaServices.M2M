@@ -29,12 +29,6 @@
     public string DomainServiceName{ get; set; }
 
     /// <summary>
-    /// Gets or sets the name of the domain context
-    /// </summary>
-    /// <returns></returns>
-    public string DomainContextName{ get; set; }
-
-    /// <summary>
     /// Gets or sets whether the domain context should give direct access to the entity set of join types
     /// </summary>
     /// <returns></returns>
