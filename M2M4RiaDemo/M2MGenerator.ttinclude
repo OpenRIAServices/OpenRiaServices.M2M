@@ -3,6 +3,5 @@ EdmxFilePath = @"..\M2M4RiaDemo.Web\Model\M2M4RiaDemoModel.edmx";
 EntityModelNamespace = "M2M4RiaDemo.Web.Model";
 DomainServiceNamespace = "M2M4RiaDemo.Web.Service";
 DomainServiceName = "M2M4RiaDemoService";
-DomainContextName = "M2M4RiaDemoContext";
 IsJoinTypeEntitySetAccessibleFromDomainContext = true;
 #>

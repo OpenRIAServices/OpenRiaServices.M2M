@@ -228,21 +228,6 @@ namespace <#= EntityModelNamespace #>.M2M4Ria
 #endregion
 
 <#+
-    private void CreateEntitySetPropertyForJoinType(M2MAssociationSet associationSet)
-    {
-#>
-        /// <summary>
-        /// Gets the set of <see cref="<#=associationSet.Name#>"/> entities that have been loaded into this <see cref="<#=DomainContextName#>"/> instance.
-        /// </summary>
-        public EntitySet<<#=associationSet.Name#>> <#=associationSet.Name#>s
-        {
-            get
-            {
-                return base.EntityContainer.GetEntitySet<<#=associationSet.Name#>>();
-            }
-        }
-<#+
-    }
 	private void CreateAssociationMethod(string m2mName, M2MAssociation a1, M2MAssociation a2)
 	{
 	   string a1Entity = a1.EntityNavProp;
