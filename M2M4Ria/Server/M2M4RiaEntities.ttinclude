@@ -89,7 +89,7 @@ namespace <#= EntityModelNamespace #>
             {
                 if(<#= associationSet.Entity1ToLink.EntityNavProp #> != null)
                 {
-		            if(<#= toFKIdPrivate #> != <#= toPKId #> && <#= fromFKIdPrivate #> == default(<#=associationSet.Entity2ToLink.PKDataType#>))
+		            if(<#= toFKIdPrivate #> != <#= toPKId #> && <#= toFKIdPrivate #> == default(<#=associationSet.Entity1ToLink.PKDataType#>))
 					{
                         <#= toFKIdPrivate #> = <#= toPKId #>;
 					}
