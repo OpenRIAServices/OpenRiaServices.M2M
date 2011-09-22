@@ -21,7 +21,7 @@ namespace M2M4RiaDemo.Web.Service
     /// <summary>
     /// This class defines Create and Delete operations for the following many-2-many relation(s):
     ///
-    ///   Dog <--> Trainer
+    ///   Dog &lt;--&gt; Trainer
     ///
     /// We use stub entities to represent entities for which only the foreign key property is available in join type objects.
     ///
@@ -39,11 +39,11 @@ namespace M2M4RiaDemo.Web.Service
             {
 			   dog = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
 			      .OfType<Dog>()
-				  .SingleOrDefault(e => e.DogId == dogTrainer.DogId );
+				  .SingleOrDefault(e => e.DogId == dogTrainer.DogDogId );
 			}
             if(dog == null)
             {
-                Dog dogStubEntity = new Dog { DogId = dogTrainer.DogId };
+                Dog dogStubEntity = new Dog { DogId = dogTrainer.DogDogId };
                 dog = GetEntityByKey<Dog>(ObjectContext, "Dogs", dogStubEntity);
             }
             Trainer trainer = dogTrainer.Trainer;
@@ -51,11 +51,11 @@ namespace M2M4RiaDemo.Web.Service
             {
 			   trainer = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
 			      .OfType<Trainer>()
-				  .SingleOrDefault(e => e.TrainerId == dogTrainer.TrainerId );
+				  .SingleOrDefault(e => e.TrainerId == dogTrainer.TrainerTrainerId );
 			}
             if(trainer == null)
             {
-                Trainer trainerStubEntity = new Trainer { TrainerId = dogTrainer.TrainerId };
+                Trainer trainerStubEntity = new Trainer { TrainerId = dogTrainer.TrainerTrainerId };
                 trainer = GetEntityByKey<Trainer>(ObjectContext, "Trainers", trainerStubEntity);
             }
             dog.Trainers.Add(trainer);
@@ -68,11 +68,11 @@ namespace M2M4RiaDemo.Web.Service
             {
 			   dog = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
 			      .OfType<Dog>()
-				  .SingleOrDefault(e => e.DogId == dogTrainer.DogId );
+				  .SingleOrDefault(e => e.DogId == dogTrainer.DogDogId );
 			}
             if(dog == null)
             {
-                Dog dogStubEntity = new Dog { DogId = dogTrainer.DogId };
+                Dog dogStubEntity = new Dog { DogId = dogTrainer.DogDogId };
                 dog = GetEntityByKey<Dog>(ObjectContext, "Dogs", dogStubEntity);
             }
             Trainer trainer = dogTrainer.Trainer;
@@ -80,11 +80,11 @@ namespace M2M4RiaDemo.Web.Service
             {
 			   trainer = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
 			      .OfType<Trainer>()
-				  .SingleOrDefault(e => e.TrainerId == dogTrainer.TrainerId );
+				  .SingleOrDefault(e => e.TrainerId == dogTrainer.TrainerTrainerId );
 			}
             if(trainer == null)
             {
-                Trainer trainerStubEntity = new Trainer { TrainerId = dogTrainer.TrainerId };
+                Trainer trainerStubEntity = new Trainer { TrainerId = dogTrainer.TrainerTrainerId };
                 trainer = GetEntityByKey<Trainer>(ObjectContext, "Trainers", trainerStubEntity);
             }
             if(dog.Trainers.IsLoaded == false)

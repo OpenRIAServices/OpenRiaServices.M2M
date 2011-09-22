@@ -20,11 +20,11 @@ namespace ClientTests.Web
     /// <summary>
     /// This class defines Create and Delete operations for the following many-2-many relation(s):
     ///
-    ///   Animal <--> Vet
-    ///   Dog <--> FireHydrant
-    ///   Dog <--> Trainer
-    ///   Cat <--> Animal
-    ///   Dog <--> Dog
+    ///   Animal &lt;--&gt; Vet
+    ///   Dog &lt;--&gt; FireHydrant
+    ///   Dog &lt;--&gt; Trainer
+    ///   Dog &lt;--&gt; Dog
+    ///   Cat &lt;--&gt; MarkedTerritory
     ///
     /// We use stub entities to represent entities for which only the foreign key property is available in join type objects.
     ///
@@ -42,11 +42,11 @@ namespace ClientTests.Web
             {
 			   animal = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
 			      .OfType<Animal>()
-				  .SingleOrDefault(e => e.AnimalId == animalVet.AnimalId );
+				  .SingleOrDefault(e => e.AnimalId == animalVet.AnimalAnimalId );
 			}
             if(animal == null)
             {
-                Animal animalStubEntity = new Animal { AnimalId = animalVet.AnimalId };
+                Animal animalStubEntity = new Animal { AnimalId = animalVet.AnimalAnimalId };
                 animal = GetEntityByKey<Animal>(ObjectContext, "Animals", animalStubEntity);
             }
             Vet vet = animalVet.Vet;
@@ -54,11 +54,11 @@ namespace ClientTests.Web
             {
 			   vet = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
 			      .OfType<Vet>()
-				  .SingleOrDefault(e => e.VetId == animalVet.VetId );
+				  .SingleOrDefault(e => e.VetId == animalVet.VetVetId );
 			}
             if(vet == null)
             {
-                Vet vetStubEntity = new Vet { VetId = animalVet.VetId };
+                Vet vetStubEntity = new Vet { VetId = animalVet.VetVetId };
                 vet = GetEntityByKey<Vet>(ObjectContext, "Vets", vetStubEntity);
             }
             animal.Vets.Add(vet);
@@ -71,11 +71,11 @@ namespace ClientTests.Web
             {
 			   animal = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
 			      .OfType<Animal>()
-				  .SingleOrDefault(e => e.AnimalId == animalVet.AnimalId );
+				  .SingleOrDefault(e => e.AnimalId == animalVet.AnimalAnimalId );
 			}
             if(animal == null)
             {
-                Animal animalStubEntity = new Animal { AnimalId = animalVet.AnimalId };
+                Animal animalStubEntity = new Animal { AnimalId = animalVet.AnimalAnimalId };
                 animal = GetEntityByKey<Animal>(ObjectContext, "Animals", animalStubEntity);
             }
             Vet vet = animalVet.Vet;
@@ -83,11 +83,11 @@ namespace ClientTests.Web
             {
 			   vet = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
 			      .OfType<Vet>()
-				  .SingleOrDefault(e => e.VetId == animalVet.VetId );
+				  .SingleOrDefault(e => e.VetId == animalVet.VetVetId );
 			}
             if(vet == null)
             {
-                Vet vetStubEntity = new Vet { VetId = animalVet.VetId };
+                Vet vetStubEntity = new Vet { VetId = animalVet.VetVetId };
                 vet = GetEntityByKey<Vet>(ObjectContext, "Vets", vetStubEntity);
             }
             if(animal.Vets.IsLoaded == false)
@@ -118,11 +118,11 @@ namespace ClientTests.Web
             {
 			   dog = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
 			      .OfType<Dog>()
-				  .SingleOrDefault(e => e.AnimalId == dogFireHydrant.DogId );
+				  .SingleOrDefault(e => e.AnimalId == dogFireHydrant.DogAnimalId );
 			}
             if(dog == null)
             {
-                Dog dogStubEntity = new Dog { AnimalId = dogFireHydrant.DogId };
+                Dog dogStubEntity = new Dog { AnimalId = dogFireHydrant.DogAnimalId };
                 dog = GetEntityByKey<Dog>(ObjectContext, "Animals", dogStubEntity);
             }
             FireHydrant fireHydrant = dogFireHydrant.FireHydrant;
@@ -130,11 +130,11 @@ namespace ClientTests.Web
             {
 			   fireHydrant = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
 			      .OfType<FireHydrant>()
-				  .SingleOrDefault(e => e.FireHydrantId == dogFireHydrant.FireHydrantId );
+				  .SingleOrDefault(e => e.FireHydrantId == dogFireHydrant.FireHydrantFireHydrantId );
 			}
             if(fireHydrant == null)
             {
-                FireHydrant fireHydrantStubEntity = new FireHydrant { FireHydrantId = dogFireHydrant.FireHydrantId };
+                FireHydrant fireHydrantStubEntity = new FireHydrant { FireHydrantId = dogFireHydrant.FireHydrantFireHydrantId };
                 fireHydrant = GetEntityByKey<FireHydrant>(ObjectContext, "FireHydrants", fireHydrantStubEntity);
             }
             dog.FireHydrants.Add(fireHydrant);
@@ -147,11 +147,11 @@ namespace ClientTests.Web
             {
 			   dog = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
 			      .OfType<Dog>()
-				  .SingleOrDefault(e => e.AnimalId == dogFireHydrant.DogId );
+				  .SingleOrDefault(e => e.AnimalId == dogFireHydrant.DogAnimalId );
 			}
             if(dog == null)
             {
-                Dog dogStubEntity = new Dog { AnimalId = dogFireHydrant.DogId };
+                Dog dogStubEntity = new Dog { AnimalId = dogFireHydrant.DogAnimalId };
                 dog = GetEntityByKey<Dog>(ObjectContext, "Animals", dogStubEntity);
             }
             FireHydrant fireHydrant = dogFireHydrant.FireHydrant;
@@ -159,11 +159,11 @@ namespace ClientTests.Web
             {
 			   fireHydrant = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
 			      .OfType<FireHydrant>()
-				  .SingleOrDefault(e => e.FireHydrantId == dogFireHydrant.FireHydrantId );
+				  .SingleOrDefault(e => e.FireHydrantId == dogFireHydrant.FireHydrantFireHydrantId );
 			}
             if(fireHydrant == null)
             {
-                FireHydrant fireHydrantStubEntity = new FireHydrant { FireHydrantId = dogFireHydrant.FireHydrantId };
+                FireHydrant fireHydrantStubEntity = new FireHydrant { FireHydrantId = dogFireHydrant.FireHydrantFireHydrantId };
                 fireHydrant = GetEntityByKey<FireHydrant>(ObjectContext, "FireHydrants", fireHydrantStubEntity);
             }
             if(dog.FireHydrants.IsLoaded == false)
@@ -194,11 +194,11 @@ namespace ClientTests.Web
             {
 			   dog = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
 			      .OfType<Dog>()
-				  .SingleOrDefault(e => e.AnimalId == dogTrainer.DogId );
+				  .SingleOrDefault(e => e.AnimalId == dogTrainer.DogAnimalId );
 			}
             if(dog == null)
             {
-                Dog dogStubEntity = new Dog { AnimalId = dogTrainer.DogId };
+                Dog dogStubEntity = new Dog { AnimalId = dogTrainer.DogAnimalId };
                 dog = GetEntityByKey<Dog>(ObjectContext, "Animals", dogStubEntity);
             }
             Trainer trainer = dogTrainer.Trainer;
@@ -206,11 +206,11 @@ namespace ClientTests.Web
             {
 			   trainer = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
 			      .OfType<Trainer>()
-				  .SingleOrDefault(e => e.TrainerId == dogTrainer.TrainerId );
+				  .SingleOrDefault(e => e.TrainerId == dogTrainer.TrainerTrainerId );
 			}
             if(trainer == null)
             {
-                Trainer trainerStubEntity = new Trainer { TrainerId = dogTrainer.TrainerId };
+                Trainer trainerStubEntity = new Trainer { TrainerId = dogTrainer.TrainerTrainerId };
                 trainer = GetEntityByKey<Trainer>(ObjectContext, "Trainers", trainerStubEntity);
             }
             dog.Trainers.Add(trainer);
@@ -223,11 +223,11 @@ namespace ClientTests.Web
             {
 			   dog = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
 			      .OfType<Dog>()
-				  .SingleOrDefault(e => e.AnimalId == dogTrainer.DogId );
+				  .SingleOrDefault(e => e.AnimalId == dogTrainer.DogAnimalId );
 			}
             if(dog == null)
             {
-                Dog dogStubEntity = new Dog { AnimalId = dogTrainer.DogId };
+                Dog dogStubEntity = new Dog { AnimalId = dogTrainer.DogAnimalId };
                 dog = GetEntityByKey<Dog>(ObjectContext, "Animals", dogStubEntity);
             }
             Trainer trainer = dogTrainer.Trainer;
@@ -235,11 +235,11 @@ namespace ClientTests.Web
             {
 			   trainer = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
 			      .OfType<Trainer>()
-				  .SingleOrDefault(e => e.TrainerId == dogTrainer.TrainerId );
+				  .SingleOrDefault(e => e.TrainerId == dogTrainer.TrainerTrainerId );
 			}
             if(trainer == null)
             {
-                Trainer trainerStubEntity = new Trainer { TrainerId = dogTrainer.TrainerId };
+                Trainer trainerStubEntity = new Trainer { TrainerId = dogTrainer.TrainerTrainerId };
                 trainer = GetEntityByKey<Trainer>(ObjectContext, "Trainers", trainerStubEntity);
             }
             if(dog.Trainers.IsLoaded == false)
@@ -263,82 +263,6 @@ namespace ClientTests.Web
             dog.Trainers.Remove(trainer);
         }
         [Obsolete("This method is only intended for use by the RIA M2M solution")]
-        public void InsertCatAnimal(CatAnimal catAnimal)
-        {
-            Cat cat = catAnimal.Cat;
-            if(cat == null)
-            {
-			   cat = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
-			      .OfType<Cat>()
-				  .SingleOrDefault(e => e.AnimalId == catAnimal.CatId );
-			}
-            if(cat == null)
-            {
-                Cat catStubEntity = new Cat { AnimalId = catAnimal.CatId };
-                cat = GetEntityByKey<Cat>(ObjectContext, "Animals", catStubEntity);
-            }
-            Animal animal = catAnimal.Animal;
-            if(animal == null)
-            {
-			   animal = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
-			      .OfType<Animal>()
-				  .SingleOrDefault(e => e.AnimalId == catAnimal.AnimalId );
-			}
-            if(animal == null)
-            {
-                Animal animalStubEntity = new Animal { AnimalId = catAnimal.AnimalId };
-                animal = GetEntityByKey<Animal>(ObjectContext, "Animals", animalStubEntity);
-            }
-            cat.Animals.Add(animal);
-        }
-        [Obsolete("This method is only intended for use by the RIA M2M solution")]
-        public void DeleteCatAnimal(CatAnimal catAnimal)
-        {
-            Cat cat = catAnimal.Cat;
-            if(cat == null)
-            {
-			   cat = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
-			      .OfType<Cat>()
-				  .SingleOrDefault(e => e.AnimalId == catAnimal.CatId );
-			}
-            if(cat == null)
-            {
-                Cat catStubEntity = new Cat { AnimalId = catAnimal.CatId };
-                cat = GetEntityByKey<Cat>(ObjectContext, "Animals", catStubEntity);
-            }
-            Animal animal = catAnimal.Animal;
-            if(animal == null)
-            {
-			   animal = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
-			      .OfType<Animal>()
-				  .SingleOrDefault(e => e.AnimalId == catAnimal.AnimalId );
-			}
-            if(animal == null)
-            {
-                Animal animalStubEntity = new Animal { AnimalId = catAnimal.AnimalId };
-                animal = GetEntityByKey<Animal>(ObjectContext, "Animals", animalStubEntity);
-            }
-            if(cat.Animals.IsLoaded == false)
-            {
-			    // We can't attach animal if cat is deleted. In that case we
-				// temporarily reset the entity state of cat, then attach animal
-				// and set the entity state of cat back to EntityState.Deleted.
-                ObjectStateEntry stateEntry = ObjectContext.ObjectStateManager.GetObjectStateEntry(cat);
-                EntityState state = stateEntry.State;
-
-                if(state == EntityState.Deleted)
-                {
-                    stateEntry.ChangeState(EntityState.Unchanged);
-                }
-                cat.Animals.Attach(animal);
-                if(stateEntry.State != state)
-                {
-                    stateEntry.ChangeState(state);
-                }
-            }
-            cat.Animals.Remove(animal);
-        }
-        [Obsolete("This method is only intended for use by the RIA M2M solution")]
         public void InsertDogDog(DogDog dogDog)
         {
             Dog dogAsPuppy = dogDog.DogAsPuppy;
@@ -346,11 +270,11 @@ namespace ClientTests.Web
             {
 			   dogAsPuppy = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
 			      .OfType<Dog>()
-				  .SingleOrDefault(e => e.AnimalId == dogDog.DogAsPuppyId );
+				  .SingleOrDefault(e => e.AnimalId == dogDog.DogAsPuppyAnimalId );
 			}
             if(dogAsPuppy == null)
             {
-                Dog dogAsPuppyStubEntity = new Dog { AnimalId = dogDog.DogAsPuppyId };
+                Dog dogAsPuppyStubEntity = new Dog { AnimalId = dogDog.DogAsPuppyAnimalId };
                 dogAsPuppy = GetEntityByKey<Dog>(ObjectContext, "Animals", dogAsPuppyStubEntity);
             }
             Dog dogAsParent = dogDog.DogAsParent;
@@ -358,11 +282,11 @@ namespace ClientTests.Web
             {
 			   dogAsParent = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
 			      .OfType<Dog>()
-				  .SingleOrDefault(e => e.AnimalId == dogDog.DogAsParentId );
+				  .SingleOrDefault(e => e.AnimalId == dogDog.DogAsParentAnimalId );
 			}
             if(dogAsParent == null)
             {
-                Dog dogAsParentStubEntity = new Dog { AnimalId = dogDog.DogAsParentId };
+                Dog dogAsParentStubEntity = new Dog { AnimalId = dogDog.DogAsParentAnimalId };
                 dogAsParent = GetEntityByKey<Dog>(ObjectContext, "Animals", dogAsParentStubEntity);
             }
             dogAsPuppy.Puppies.Add(dogAsParent);
@@ -375,11 +299,11 @@ namespace ClientTests.Web
             {
 			   dogAsPuppy = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
 			      .OfType<Dog>()
-				  .SingleOrDefault(e => e.AnimalId == dogDog.DogAsPuppyId );
+				  .SingleOrDefault(e => e.AnimalId == dogDog.DogAsPuppyAnimalId );
 			}
             if(dogAsPuppy == null)
             {
-                Dog dogAsPuppyStubEntity = new Dog { AnimalId = dogDog.DogAsPuppyId };
+                Dog dogAsPuppyStubEntity = new Dog { AnimalId = dogDog.DogAsPuppyAnimalId };
                 dogAsPuppy = GetEntityByKey<Dog>(ObjectContext, "Animals", dogAsPuppyStubEntity);
             }
             Dog dogAsParent = dogDog.DogAsParent;
@@ -387,11 +311,11 @@ namespace ClientTests.Web
             {
 			   dogAsParent = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
 			      .OfType<Dog>()
-				  .SingleOrDefault(e => e.AnimalId == dogDog.DogAsParentId );
+				  .SingleOrDefault(e => e.AnimalId == dogDog.DogAsParentAnimalId );
 			}
             if(dogAsParent == null)
             {
-                Dog dogAsParentStubEntity = new Dog { AnimalId = dogDog.DogAsParentId };
+                Dog dogAsParentStubEntity = new Dog { AnimalId = dogDog.DogAsParentAnimalId };
                 dogAsParent = GetEntityByKey<Dog>(ObjectContext, "Animals", dogAsParentStubEntity);
             }
             if(dogAsPuppy.Puppies.IsLoaded == false)
@@ -413,6 +337,82 @@ namespace ClientTests.Web
                 }
             }
             dogAsPuppy.Puppies.Remove(dogAsParent);
+        }
+        [Obsolete("This method is only intended for use by the RIA M2M solution")]
+        public void InsertCatMarkedTerritories(CatMarkedTerritories catMarkedTerritories)
+        {
+            Cat cat = catMarkedTerritories.Cat;
+            if(cat == null)
+            {
+			   cat = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
+			      .OfType<Cat>()
+				  .SingleOrDefault(e => e.AnimalId == catMarkedTerritories.CatAnimalId );
+			}
+            if(cat == null)
+            {
+                Cat catStubEntity = new Cat { AnimalId = catMarkedTerritories.CatAnimalId };
+                cat = GetEntityByKey<Cat>(ObjectContext, "Animals", catStubEntity);
+            }
+            MarkedTerritory markedTerritory = catMarkedTerritories.MarkedTerritory;
+            if(markedTerritory == null)
+            {
+			   markedTerritory = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
+			      .OfType<MarkedTerritory>()
+				  .SingleOrDefault(e => e.TerritoryId == catMarkedTerritories.MarkedTerritoryTerritoryId && e.CoordX == catMarkedTerritories.MarkedTerritoryCoordX && e.CoordY == catMarkedTerritories.MarkedTerritoryCoordY && e.CoordZ == catMarkedTerritories.MarkedTerritoryCoordZ );
+			}
+            if(markedTerritory == null)
+            {
+                MarkedTerritory markedTerritoryStubEntity = new MarkedTerritory { TerritoryId = catMarkedTerritories.MarkedTerritoryTerritoryId, CoordX = catMarkedTerritories.MarkedTerritoryCoordX, CoordY = catMarkedTerritories.MarkedTerritoryCoordY, CoordZ = catMarkedTerritories.MarkedTerritoryCoordZ };
+                markedTerritory = GetEntityByKey<MarkedTerritory>(ObjectContext, "MarkedTerritories", markedTerritoryStubEntity);
+            }
+            cat.MarkedTerritories.Add(markedTerritory);
+        }
+        [Obsolete("This method is only intended for use by the RIA M2M solution")]
+        public void DeleteCatMarkedTerritories(CatMarkedTerritories catMarkedTerritories)
+        {
+            Cat cat = catMarkedTerritories.Cat;
+            if(cat == null)
+            {
+			   cat = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
+			      .OfType<Cat>()
+				  .SingleOrDefault(e => e.AnimalId == catMarkedTerritories.CatAnimalId );
+			}
+            if(cat == null)
+            {
+                Cat catStubEntity = new Cat { AnimalId = catMarkedTerritories.CatAnimalId };
+                cat = GetEntityByKey<Cat>(ObjectContext, "Animals", catStubEntity);
+            }
+            MarkedTerritory markedTerritory = catMarkedTerritories.MarkedTerritory;
+            if(markedTerritory == null)
+            {
+			   markedTerritory = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
+			      .OfType<MarkedTerritory>()
+				  .SingleOrDefault(e => e.TerritoryId == catMarkedTerritories.MarkedTerritoryTerritoryId && e.CoordX == catMarkedTerritories.MarkedTerritoryCoordX && e.CoordY == catMarkedTerritories.MarkedTerritoryCoordY && e.CoordZ == catMarkedTerritories.MarkedTerritoryCoordZ );
+			}
+            if(markedTerritory == null)
+            {
+                MarkedTerritory markedTerritoryStubEntity = new MarkedTerritory { TerritoryId = catMarkedTerritories.MarkedTerritoryTerritoryId, CoordX = catMarkedTerritories.MarkedTerritoryCoordX, CoordY = catMarkedTerritories.MarkedTerritoryCoordY, CoordZ = catMarkedTerritories.MarkedTerritoryCoordZ };
+                markedTerritory = GetEntityByKey<MarkedTerritory>(ObjectContext, "MarkedTerritories", markedTerritoryStubEntity);
+            }
+            if(cat.MarkedTerritories.IsLoaded == false)
+            {
+			    // We can't attach markedTerritory if cat is deleted. In that case we
+				// temporarily reset the entity state of cat, then attach markedTerritory
+				// and set the entity state of cat back to EntityState.Deleted.
+                ObjectStateEntry stateEntry = ObjectContext.ObjectStateManager.GetObjectStateEntry(cat);
+                EntityState state = stateEntry.State;
+
+                if(state == EntityState.Deleted)
+                {
+                    stateEntry.ChangeState(EntityState.Unchanged);
+                }
+                cat.MarkedTerritories.Attach(markedTerritory);
+                if(stateEntry.State != state)
+                {
+                    stateEntry.ChangeState(state);
+                }
+            }
+            cat.MarkedTerritories.Remove(markedTerritory);
         }
 
 #region GetEntityByKey

@@ -46,7 +46,7 @@ namespace <#= DomainServiceNamespace #>
         if(associationSet.Entity1ToLink.HasM2MNavProp || associationSet.Entity2ToLink.HasM2MNavProp)
         {
 #>
-    ///   <#=associationSet.Entity1ToLink.Entity.Name #> <--> <#=associationSet.Entity2ToLink.Entity.Name #>
+    ///   <#=associationSet.Entity1ToLink.Entity.Name #> &lt;--&gt; <#=associationSet.Entity2ToLink.Entity.Name #>
 <#
         }
     }
@@ -189,17 +189,32 @@ private void MakeGetType(M2MAssociation association, string linkEntityName)
     string entity = LowerInitial(association.EntityNavProp);
     string concreteEntityType = association.Entity.IsAbstract ? association.Entity.DerivedEntityNames[0] : association.Entity.Name;
     string stubEntity = entity + "StubEntity";
+
+	var pkfk = association.PK.Zip(association.FK, (pk, fk) => new {PK = pk, FK = fk});
+
+	StringBuilder sb = new StringBuilder();
+	string associationSelector =
+		pkfk.Aggregate(sb,
+				(accum, next) => accum.Append(string.Format("e.{1} == {0}.{2} && ", linkEntityName, next.PK, next.FK)),
+				(accum) => accum.Remove(accum.Length - 4, 4).ToString());
+	sb.Clear();
+	string stubEntityInitializer =
+		pkfk.Aggregate(sb,
+				(accum, next) => accum.Append(string.Format("{1} = {0}.{2}, ", linkEntityName, next.PK, next.FK)),
+				(accum) => accum.Remove(accum.Length - 2, 2).ToString());
+	sb.Clear();
+
 #>
             <#= entityType #> <#=entity#> = <#= linkEntityName #>.<#= association.EntityNavProp #>;
             if(<#=entity#> == null)
             {
 			   <#=entity#> = ChangeSet.ChangeSetEntries.Select(cse => cse.Entity)
 			      .OfType<<#= concreteEntityType #>>()
-				  .SingleOrDefault(e => e.<#= association.PK #> == <#= linkEntityName #>.<#= association.FK #> );
+				  .SingleOrDefault(e => <#= associationSelector #> );
 			}
             if(<#=entity#> == null)
             {
-                <#= entityType #> <#=stubEntity#> = new <#= concreteEntityType #> { <#= association.PK #> = <#= linkEntityName #>.<#= association.FK #> };
+                <#= entityType #> <#=stubEntity#> = new <#= concreteEntityType #> { <#= stubEntityInitializer #> };
                 <#=entity#> = GetEntityByKey<<#=association.Entity.Name#>>(ObjectContext, "<#=association.Entity.EntitySet#>", <#=stubEntity#>);
             }
 <#+

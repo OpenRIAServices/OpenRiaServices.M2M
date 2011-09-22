@@ -97,6 +97,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MultiaryDomainContextTest.cs" />
     <Compile Include="DomainContextTest.cs" />
     <Compile Include="M2MEntityTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

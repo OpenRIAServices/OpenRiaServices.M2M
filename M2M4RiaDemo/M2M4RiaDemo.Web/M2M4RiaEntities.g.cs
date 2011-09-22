@@ -24,63 +24,63 @@ namespace M2M4RiaDemo.Web.Model
     [Obsolete("This class is only intended for use by the RIA M2M solution")]
     public partial class DogTrainer
     {
-        // 'DogTrainerToTrainerSet' associationSet from 'Trainer.TrainerId' to 'DogTrainer.TrainerId'
-        private int _TrainerId;
+        // 'DogTrainerToTrainerSet' associationSet from 'Trainer.TrainerId' to 'DogTrainer.TrainerTrainerId'
+        private int _TrainerTrainerId;
 
         [DataMember]
         [Key]
-        public int TrainerId
+        public int TrainerTrainerId
         {
             get
             {
                 if(Trainer != null)
                 {
-		            if(_TrainerId != Trainer.TrainerId && _TrainerId == default(int))
+		            if(_TrainerTrainerId != Trainer.TrainerId && _TrainerTrainerId == default(int))
 					{
-                        _TrainerId = Trainer.TrainerId;
+                        _TrainerTrainerId = Trainer.TrainerId;
 					}
                 }
-                return _TrainerId;
+                return _TrainerTrainerId;
             }
             set
             {
-                _TrainerId = value;
+                _TrainerTrainerId = value;
             }
         }
 
-        [Include]
-        [XmlIgnore]
-        [Association("DogTrainerToTrainerSet", "TrainerId", "TrainerId", IsForeignKey = true)]
-        [DataMember]
-        public Trainer Trainer { get; set; }
-
-        // 'DogTrainerToDogSet' associationSet from 'Dog.DogId' to 'DogTrainer.DogId'
-        private int _DogId;
+        // 'DogTrainerToDogSet' associationSet from 'Dog.DogId' to 'DogTrainer.DogDogId'
+        private int _DogDogId;
 
         [DataMember]
         [Key]
-        public int DogId
+        public int DogDogId
         {
             get
             {
                 if(Dog != null)
                 {
-		            if(_DogId != Dog.DogId && _TrainerId == default(int))
+		            if(_DogDogId != Dog.DogId && _DogDogId == default(int))
 					{
-                        _DogId = Dog.DogId;
+                        _DogDogId = Dog.DogId;
 					}
                 }
-                return _DogId;
+                return _DogDogId;
             }
             set
             {
-                _DogId = value;
+                _DogDogId = value;
             }
         }
 
         [Include]
         [XmlIgnore]
-        [Association("DogTrainerToDogSet", "DogId", "DogId", IsForeignKey = true)]
+        [Association("DogTrainerToTrainerSet", "TrainerTrainerId", "TrainerId", IsForeignKey = true)]
+        [DataMember]
+        public Trainer Trainer { get; set; }
+
+        [Include]
+        [XmlIgnore]
+        [Association("DogTrainerToDogSet", "DogDogId", "DogId", IsForeignKey = true)]
         [DataMember]
         public Dog Dog { get; set; }
     }
@@ -92,7 +92,7 @@ namespace M2M4RiaDemo.Web.Model
         [Obsolete("This property is only intended for use by the RIA M2M solution")]
         [DataMember]
         [Include]
-        [Association("DogTrainerToTrainerSet", "TrainerId", "TrainerId", IsForeignKey = false)]
+        [Association("DogTrainerToTrainerSet", "TrainerId", "TrainerTrainerId", IsForeignKey = false)]
         public IList<DogTrainer> DogTrainerToDogSet
         {
             get
@@ -108,7 +108,7 @@ namespace M2M4RiaDemo.Web.Model
         [Obsolete("This property is only intended for use by the RIA M2M solution")]
         [DataMember]
         [Include]
-        [Association("DogTrainerToDogSet", "DogId", "DogId", IsForeignKey = false)]
+        [Association("DogTrainerToDogSet", "DogId", "DogDogId", IsForeignKey = false)]
         public IList<DogTrainer> DogTrainerToTrainerSet
         {
             get
