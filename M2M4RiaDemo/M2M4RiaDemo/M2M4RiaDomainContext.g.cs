@@ -39,12 +39,12 @@ namespace M2M4RiaDemo.Web.Model
         {
             var dummy = r.Trainer; // this is to instantiate the EntityRef<Trainer>
             r._trainer.Entity = trainer;
-            r._trainerId = trainer.TrainerId;
+            r._trainerTrainerId = trainer.TrainerId;
 
             r.Dog = dog;
 
             r._trainer.Entity = null;
-            r._trainerId = default(int);
+            r._trainerTrainerId = default(int);
             r.Trainer = trainer;
         }
         /// <summary>
@@ -59,12 +59,12 @@ namespace M2M4RiaDemo.Web.Model
         {
             var dummy = r.Dog; // this is to instantiate the EntityRef<Dog>
             r._dog.Entity = dog;
-            r._dogId = dog.DogId;
+            r._dogDogId = dog.DogId;
 
             r.Trainer = trainer;
 
             r._dog.Entity = null;
-            r._dogId = default(int);
+            r._dogDogId = default(int);
             r.Dog = dog;
         }
         /// <summary>

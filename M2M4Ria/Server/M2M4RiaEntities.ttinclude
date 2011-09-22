@@ -36,30 +36,31 @@ namespace <#= EntityModelNamespace #>
 <#
     foreach(M2MAssociationSet associationSet in m2mData.Associations)
     {
-        string fromFKIdPrivate = "_" + associationSet.Entity2ToLink.FK;
-        string fromPKId = associationSet.Entity2ToLink.EntityNavProp + "." + associationSet.Entity2ToLink.PK;
-        string toFKIdPrivate = "_" + associationSet.Entity1ToLink.FK;
-        string toPKId = associationSet.Entity1ToLink.EntityNavProp + "." + associationSet.Entity1ToLink.PK;
-
-        // If entities on either side of the M2M relationship don't have a navigation property to each other, then there is no need to output this.
-        if(associationSet.Entity1ToLink.HasM2MNavProp || associationSet.Entity2ToLink.HasM2MNavProp)
-        {
 #>
     [Obsolete("This class is only intended for use by the RIA M2M solution")]
     public partial class <#= associationSet.Name #>
     {
-        // '<#= associationSet.Entity2ToLink.LinkTableNavProp #>' associationSet from '<#= associationSet.Entity2ToLink.EntityNavProp #>.<#= associationSet.Entity2ToLink.PK #>' to '<#= associationSet.Name #>.<#= associationSet.Entity2ToLink.FK #>'
-        private <#= associationSet.Entity2ToLink.PKDataType #> <#= fromFKIdPrivate #>;
+<#
+        // If entities on either side of the M2M relationship don't have a navigation property to each other, then there is no need to output this.
+        if(associationSet.Entity1ToLink.HasM2MNavProp || associationSet.Entity2ToLink.HasM2MNavProp)
+        {
+			for (int kI = 0; kI < associationSet.Entity2ToLink.PK.Count; kI++)
+			{
+		        string fromFKIdPrivate = "_" + associationSet.Entity2ToLink.FK[kI];
+		        string fromPKId = associationSet.Entity2ToLink.EntityNavProp + "." + associationSet.Entity2ToLink.PK[kI];
+#>
+        // '<#= associationSet.Entity2ToLink.LinkTableNavProp #>' associationSet from '<#= associationSet.Entity2ToLink.EntityNavProp #>.<#= associationSet.Entity2ToLink.PK[kI] #>' to '<#= associationSet.Name #>.<#= associationSet.Entity2ToLink.FK[kI] #>'
+        private <#= associationSet.Entity2ToLink.PKDataType[kI] #> <#= fromFKIdPrivate #>;
 
         [DataMember]
         [Key]
-        public <#= associationSet.Entity2ToLink.PKDataType #> <#= associationSet.Entity2ToLink.FK #>
+        public <#= associationSet.Entity2ToLink.PKDataType[kI] #> <#= associationSet.Entity2ToLink.FK[kI] #>
         {
             get
             {
                 if(<#= associationSet.Entity2ToLink.EntityNavProp #> != null)
                 {
-		            if(<#= fromFKIdPrivate #> != <#= fromPKId #> && <#= fromFKIdPrivate #> == default(<#=associationSet.Entity2ToLink.PKDataType#>))
+		            if(<#= fromFKIdPrivate #> != <#= fromPKId #> && <#= fromFKIdPrivate #> == default(<#=associationSet.Entity2ToLink.PKDataType[kI]#>))
 					{
                         <#= fromFKIdPrivate #> = <#= fromPKId #>;
 					}
@@ -71,25 +72,26 @@ namespace <#= EntityModelNamespace #>
                 <#= fromFKIdPrivate #> = value;
             }
         }
+<#
+			}
+			for (int kI = 0; kI < associationSet.Entity1ToLink.PK.Count; kI++)
+			{
+		        string toFKIdPrivate = "_" + associationSet.Entity1ToLink.FK[kI];
+		        string toPKId = associationSet.Entity1ToLink.EntityNavProp + "." + associationSet.Entity1ToLink.PK[kI];
+#>
 
-        [Include]
-        [XmlIgnore]
-        [Association("<#=associationSet.Entity2ToLink.LinkTableNavProp #>", "<#= associationSet.Entity2ToLink.FK #>", "<#= associationSet.Entity2ToLink.PK #>", IsForeignKey = true)]
-        [DataMember]
-        public <#= associationSet.Entity2ToLink.Entity #> <#= associationSet.Entity2ToLink.EntityNavProp #> { get; set; }
-
-        // '<#= associationSet.Entity1ToLink.LinkTableNavProp #>' associationSet from '<#= associationSet.Entity1ToLink.EntityNavProp #>.<#= associationSet.Entity1ToLink.PK #>' to '<#= associationSet.Name #>.<#= associationSet.Entity1ToLink.FK #>'
-        private <#= associationSet.Entity1ToLink.PKDataType #> <#= toFKIdPrivate #>;
+        // '<#= associationSet.Entity1ToLink.LinkTableNavProp #>' associationSet from '<#= associationSet.Entity1ToLink.EntityNavProp #>.<#= associationSet.Entity1ToLink.PK[kI] #>' to '<#= associationSet.Name #>.<#= associationSet.Entity1ToLink.FK[kI] #>'
+        private <#= associationSet.Entity1ToLink.PKDataType[kI] #> <#= toFKIdPrivate #>;
 
         [DataMember]
         [Key]
-        public <#= associationSet.Entity1ToLink.PKDataType #> <#= associationSet.Entity1ToLink.FK #>
+        public <#= associationSet.Entity1ToLink.PKDataType[kI] #> <#= associationSet.Entity1ToLink.FK[kI] #>
         {
             get
             {
                 if(<#= associationSet.Entity1ToLink.EntityNavProp #> != null)
                 {
-		            if(<#= toFKIdPrivate #> != <#= toPKId #> && <#= toFKIdPrivate #> == default(<#=associationSet.Entity1ToLink.PKDataType#>))
+		            if(<#= toFKIdPrivate #> != <#= toPKId #> && <#= toFKIdPrivate #> == default(<#=associationSet.Entity1ToLink.PKDataType[kI]#>))
 					{
                         <#= toFKIdPrivate #> = <#= toPKId #>;
 					}
@@ -101,16 +103,25 @@ namespace <#= EntityModelNamespace #>
                 <#= toFKIdPrivate #> = value;
             }
         }
+<#
+        	}
+		}
+#>
 
         [Include]
         [XmlIgnore]
-        [Association("<#= associationSet.Entity1ToLink.LinkTableNavProp #>", "<#= associationSet.Entity1ToLink.FK #>", "<#= associationSet.Entity1ToLink.PK #>", IsForeignKey = true)]
+        [Association("<#=associationSet.Entity2ToLink.LinkTableNavProp #>", "<#= associationSet.Entity2ToLink.FK.Aggregate((c,n) => c + "," + n) #>", "<#= associationSet.Entity2ToLink.PK.Aggregate((c,n) => c + "," + n) #>", IsForeignKey = true)]
+        [DataMember]
+        public <#= associationSet.Entity2ToLink.Entity #> <#= associationSet.Entity2ToLink.EntityNavProp #> { get; set; }
+
+        [Include]
+        [XmlIgnore]
+        [Association("<#= associationSet.Entity1ToLink.LinkTableNavProp #>", "<#= associationSet.Entity1ToLink.FK.Aggregate((c,n) => c + "," + n) #>", "<#= associationSet.Entity1ToLink.PK.Aggregate((c,n) => c + "," + n) #>", IsForeignKey = true)]
         [DataMember]
         public <#= associationSet.Entity1ToLink.Entity #> <#= associationSet.Entity1ToLink.EntityNavProp #> { get; set; }
     }
 <#
         }
-    }
 #>
     //
     // Regular Entity Types
@@ -131,7 +142,7 @@ namespace <#= EntityModelNamespace #>
         [Obsolete("This property is only intended for use by the RIA M2M solution")]
         [DataMember]
         [Include]
-        [Association("<#= associationSet.ThisEntityToLink.LinkTableNavProp #>", "<#= associationSet.ThisEntityToLink.PK #>", "<#= associationSet.ThisEntityToLink.FK #>", IsForeignKey = false)]
+        [Association("<#= associationSet.ThisEntityToLink.LinkTableNavProp #>", "<#= associationSet.ThisEntityToLink.PK.Aggregate((c,n) => c + "," + n) #>", "<#= associationSet.ThisEntityToLink.FK.Aggregate((c,n) => c + "," + n) #>", IsForeignKey = false)]
         public IList<<#= associationSet.Name #>> <#= associationSet.OtherEntityToLink.LinkTableNavProp #>
         {
             get

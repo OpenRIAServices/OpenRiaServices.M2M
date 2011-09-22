@@ -43,7 +43,7 @@ namespace RIAM2M.Web.Tests
         [TestMethod]
         public void GenerateM2MData_InspectReturnType_ShouldContainRequiredAssociationSets()
         {
-            string[] requiredAssociationSets = { "AnimalVet", "DogFireHydrant", "DogTrainer", "AnimalFood", "CatAnimal", "DogDog" };
+            string[] requiredAssociationSets = { "AnimalVet", "DogFireHydrant", "DogTrainer", "AnimalFood", "CatMarkedTerritories", "DogDog" };
 
             Assert.IsTrue(M2MDataObject.Associations.All(e => requiredAssociationSets.Contains(e.Name)), "M2MData.Associations does not match the expected AsssociationSet list");
         }
@@ -54,7 +54,7 @@ namespace RIAM2M.Web.Tests
         [TestMethod]
         public void GenerateM2MData_InspectReturnType_ShouldContainRequiredEntities()
         {
-            string[] requiredEntities = { "Animal", "Vet", "FireHydrant", "Trainer", "Food", "Dog", "Cat"};
+            string[] requiredEntities = { "Animal", "Vet", "FireHydrant", "Trainer", "Food", "Dog", "Cat", "MarkedTerritory" };
 
             Assert.IsTrue(M2MDataObject.Entities.All(e => requiredEntities.Contains(e.Name)), "M2MData.Entities does not match the expected Entities list");
         }
@@ -67,15 +67,15 @@ namespace RIAM2M.Web.Tests
         {
             M2M4RiaShared.M2MAssociationSet associationSet = GetAssociationSetByName("AnimalVet");
 
-            CheckAssociationIsValid(associationSet.Entity1ToLink, "Entity1ToLink", "int", "Animal", "AnimalId", true, "AnimalVetToAnimalSet", "Vets", "AnimalId");
-            CheckAssociationIsValid(associationSet.Entity2ToLink, "Entity2ToLink", "int", "Vet", "VetId", true, "AnimalVetToVetSet", "Animals", "VetId");
+            CheckUnaryAssociationIsValid(associationSet.Entity1ToLink, "Entity1ToLink", "int", "Animal", "AnimalAnimalId", true, "AnimalVetToAnimalSet", "Vets", "AnimalId");
+            CheckUnaryAssociationIsValid( associationSet.Entity2ToLink, "Entity2ToLink", "int", "Vet", "VetVetId", true, "AnimalVetToVetSet", "Animals", "VetId" );
         }
         [TestMethod]
-        public void GenerateM2MData_InspectReturnType_CheckAssociationSetIsValidForCatAnimal()
+        public void GenerateM2MData_InspectReturnType_CheckAssociationSetIsValidForCatMarkedTerritory()
         {
-            M2M4RiaShared.M2MAssociationSet associationSet = GetAssociationSetByName("CatAnimal");
-            CheckAssociationIsValid(associationSet.Entity2ToLink, "Entity2ToLink", "int", "Animal", "AnimalId", true, "CatAnimalToAnimalSet", "Cats", "AnimalId");
-            CheckAssociationIsValid(associationSet.Entity1ToLink, "Entity1ToLink", "int", "Cat", "CatId", true, "CatAnimalToCatSet", "Animals", "AnimalId");
+            M2M4RiaShared.M2MAssociationSet associationSet = GetAssociationSetByName( "CatMarkedTerritories" );
+            CheckMultiaryAssociationIsValid( associationSet.Entity2ToLink, 4, "Entity2ToLink", new[] { "System.Guid", "int", "int", "int" }, "MarkedTerritory", new[] { "MarkedTerritoryTerritoryId", "MarkedTerritoryCoordX", "MarkedTerritoryCoordY", "MarkedTerritoryCoordZ" }, true, "CatMarkedTerritoriesToMarkedTerritorySet", "Cats", new[] { "TerritoryId", "CoordX", "CoordY", "CoordZ" } );
+            CheckMultiaryAssociationIsValid( associationSet.Entity1ToLink, 1, "Entity1ToLink", new[] { "int" }, "Cat", new[] { "CatAnimalId" }, true, "CatMarkedTerritoriesToCatSet", "MarkedTerritories", new[] { "AnimalId" } );
         }
 
         /// <summary>
@@ -86,8 +86,8 @@ namespace RIAM2M.Web.Tests
         {
             M2M4RiaShared.M2MAssociationSet associationSet = GetAssociationSetByName("DogFireHydrant");
 
-            CheckAssociationIsValid(associationSet.Entity1ToLink, "Entity1ToLink", "int", "Dog", "DogId", true, "DogFireHydrantToDogSet", "FireHydrants", "AnimalId");
-            CheckAssociationIsValid(associationSet.Entity2ToLink, "Entity2ToLink", "int", "FireHydrant", "FireHydrantId", false, "DogFireHydrantToFireHydrantSet", null, "FireHydrantId");
+            CheckUnaryAssociationIsValid(associationSet.Entity1ToLink, "Entity1ToLink", "int", "Dog", "DogAnimalId", true, "DogFireHydrantToDogSet", "FireHydrants", "AnimalId");
+            CheckUnaryAssociationIsValid( associationSet.Entity2ToLink, "Entity2ToLink", "int", "FireHydrant", "FireHydrantFireHydrantId", false, "DogFireHydrantToFireHydrantSet", null, "FireHydrantId" );
         }
 
         /// <summary>
@@ -98,8 +98,8 @@ namespace RIAM2M.Web.Tests
         {
             M2M4RiaShared.M2MAssociationSet associationSet = GetAssociationSetByName("DogTrainer");
 
-            CheckAssociationIsValid(associationSet.Entity1ToLink, "Entity1ToLink", "int", "Dog", "DogId", true, "DogTrainerToDogSet", "Trainers", "AnimalId");
-            CheckAssociationIsValid(associationSet.Entity2ToLink, "Entity2ToLink", "int", "Trainer", "TrainerId", true, "DogTrainerToTrainerSet", "Dogs", "TrainerId");
+            CheckUnaryAssociationIsValid(associationSet.Entity1ToLink, "Entity1ToLink", "int", "Dog", "DogAnimalId", true, "DogTrainerToDogSet", "Trainers", "AnimalId");
+            CheckUnaryAssociationIsValid( associationSet.Entity2ToLink, "Entity2ToLink", "int", "Trainer", "TrainerTrainerId", true, "DogTrainerToTrainerSet", "Dogs", "TrainerId" );
         }
          
 
@@ -111,8 +111,8 @@ namespace RIAM2M.Web.Tests
         {
             M2M4RiaShared.M2MAssociationSet associationSet = GetAssociationSetByName("AnimalFood");
 
-            CheckAssociationIsValid(associationSet.Entity1ToLink, "Entity1ToLink", "int", "Animal", "AnimalId", false, "AnimalFoodToAnimalSet", null, "AnimalId");
-            CheckAssociationIsValid(associationSet.Entity2ToLink, "Entity2ToLink", "int", "Food", "FoodId", false, "AnimalFoodToFoodSet", null, "FoodId");
+            CheckUnaryAssociationIsValid(associationSet.Entity1ToLink, "Entity1ToLink", "int", "Animal", "AnimalAnimalId", false, "AnimalFoodToAnimalSet", null, "AnimalId");
+            CheckUnaryAssociationIsValid(associationSet.Entity2ToLink, "Entity2ToLink", "int", "Food", "FoodFoodId", false, "AnimalFoodToFoodSet", null, "FoodId");
         }
 
         /// <summary>
@@ -185,16 +185,33 @@ namespace RIAM2M.Web.Tests
             Assert.AreEqual(expectedBaseEntityName, entity.BaseEntityName, "BaseEntityName is not equal");
         }
 
-        private void CheckAssociationIsValid(M2M4RiaShared.M2MAssociation actualAssociation, string associationEndName, string expectedDataType, string expectedEntityName, string expectedFK, bool expectedHasM2MNavProp, string expectedLinkTableNavProp, string expectedM2MNavProp, string expectedPK)
+        private void CheckUnaryAssociationIsValid(M2M4RiaShared.M2MAssociation actualAssociation, string associationEndName, string expectedDataType, string expectedEntityName, string expectedFK, bool expectedHasM2MNavProp, string expectedLinkTableNavProp, string expectedM2MNavProp, string expectedPK)
         {
-            Assert.AreEqual(expectedDataType, actualAssociation.PKDataType, "PKDataType is not equal for association end '" + associationEndName + "'");
-            Assert.IsNotNull(actualAssociation.Entity, "Entity is not set to an instance of an object for association end '" + associationEndName + "'. Entity '" + expectedEntityName + "' expected.");
-            Assert.AreEqual(expectedEntityName, actualAssociation.Entity.Name, "Unexpected entity attached to association for association end '" + associationEndName + "'");
-            Assert.AreEqual(expectedFK, actualAssociation.FK, "FK is not equal for association end '" + associationEndName + "'");
-            Assert.AreEqual(expectedHasM2MNavProp, actualAssociation.HasM2MNavProp, "HasM2MNavProp is not equal for association end '" + associationEndName + "'");
-            Assert.AreEqual(expectedLinkTableNavProp, actualAssociation.LinkTableNavProp, "LinkTableNavProp is not equal for association end '" + associationEndName + "'");
-            Assert.AreEqual(expectedM2MNavProp, actualAssociation.M2MNavProp, "M2MNavProp is not equal for association end '" + associationEndName + "'");
-            Assert.AreEqual(expectedPK, actualAssociation.PK, "PK is not equal for association end '" + associationEndName + "'");
+            CheckMultiaryAssociationIsValid( actualAssociation, 1, associationEndName, new[] { expectedDataType }, expectedEntityName, new[] { expectedFK }, expectedHasM2MNavProp, expectedLinkTableNavProp, expectedM2MNavProp, new[] { expectedPK } );
+        }
+
+        private void CheckMultiaryAssociationIsValid( M2M4RiaShared.M2MAssociation actualAssociation, int arity, string associationEndName, string[] expectedDataTypes, string expectedEntityName, string[] expectedFKs, bool expectedHasM2MNavProp, string expectedLinkTableNavProp, string expectedM2MNavProp, string[] expectedPKs )
+        {
+            Assert.AreEqual( actualAssociation.PKDataType.Count, arity, "The arity of PKDataType of the association end '" + associationEndName + "' doesn't match" );
+            for( int i = 0; i < arity; i++ )
+            {
+                Assert.AreEqual( expectedDataTypes[i], actualAssociation.PKDataType[i], string.Format( "PKDataType[{0}] is not equal for association end '" + associationEndName + "'", i ) );
+            }
+            Assert.IsNotNull( actualAssociation.Entity, "Entity is not set to an instance of an object for association end '" + associationEndName + "'. Entity '" + expectedEntityName + "' expected." );
+            Assert.AreEqual( expectedEntityName, actualAssociation.Entity.Name, "Unexpected entity attached to association for association end '" + associationEndName + "'" );
+            Assert.AreEqual( actualAssociation.FK.Count, arity, "The arity of FK of the association end '" + associationEndName + "' doesn't match" );
+            for( int i = 0; i < arity; i++ )
+            {
+                Assert.AreEqual( expectedFKs[i], actualAssociation.FK[i], string.Format( "FK[{0}] is not equal for association end '" + associationEndName + "'", i ) );
+            }
+            Assert.AreEqual( expectedHasM2MNavProp, actualAssociation.HasM2MNavProp, "HasM2MNavProp is not equal for association end '" + associationEndName + "'" );
+            Assert.AreEqual( expectedLinkTableNavProp, actualAssociation.LinkTableNavProp, "LinkTableNavProp is not equal for association end '" + associationEndName + "'" );
+            Assert.AreEqual( expectedM2MNavProp, actualAssociation.M2MNavProp, "M2MNavProp is not equal for association end '" + associationEndName + "'" );
+            Assert.AreEqual( actualAssociation.PK.Count, arity, "The arity of PK of the association end '" + associationEndName + "' doesn't match" );
+            for( int i = 0; i < arity; i++ )
+            {
+                Assert.AreEqual( expectedPKs[i], actualAssociation.PK[i], string.Format( "PK[{0}] is not equal for association end '" + associationEndName + "'", i ) );
+            }
         }
 
         private M2M4RiaShared.M2MEntity GetEntityByName(string name)
@@ -212,6 +229,7 @@ namespace RIAM2M.Web.Tests
             try
             {
                 M2M4RiaShared template = new M2M4RiaShared();
+                template.Host = new Host();
 
                 template.EdmxFilePath = EdmxFilePath;
 
@@ -221,7 +239,7 @@ namespace RIAM2M.Web.Tests
             }
             catch (FileNotFoundException ex)
             {
-                throw new FileNotFoundException("Unable to located M2M4RiaTestModel.edmx file.  Make sure the 'Deployment' menu under the Local.testsettings file is configured to copy the DemoModel.edmx during test execution.  Check inner exception for extra details", ex);
+                throw new FileNotFoundException("Unable to locate M2M4RiaTestModel.edmx file.  Make sure the 'Deployment' menu under the Local.testsettings file is configured to copy the DemoModel.edmx during test execution.  Check inner exception for extra details", ex);
             }
         }
     }

@@ -247,12 +247,26 @@ namespace <#= EntityModelNamespace #>.M2M4Ria
         {
             var dummy = r.<#=a2Entity#>; // this is to instantiate the EntityRef<<#=a2Entity#>>
             r._<#=a2EntityLowerInitial#>.Entity = <#=a2EntityLowerInitial#>;
-            r._<#=LowerInitial(a2.FK)#> = <#=a2EntityLowerInitial#>.<#=a2.PK#>;
+<#+
+			for (int kI = 0; kI < a2.PK.Count; kI++)
+			{
+#>
+            r._<#=LowerInitial(a2.FK[kI])#> = <#=a2EntityLowerInitial#>.<#=a2.PK[kI]#>;
+<#+
+			}
+#>
 
             r.<#=a1Entity#> = <#=a1EntityLowerInitial#>;
 
             r._<#=a2EntityLowerInitial#>.Entity = null;
-            r._<#=LowerInitial(a2.FK)#> = default(<#=a2.PKDataType#>);
+<#+
+			for (int kI = 0; kI < a2.PK.Count; kI++)
+			{
+#>
+            r._<#=LowerInitial(a2.FK[kI])#> = default(<#=a2.PKDataType[kI]#>);
+<#+
+			}
+#>
             r.<#=a2Entity#> = <#=a2EntityLowerInitial#>;
         }
 <#+

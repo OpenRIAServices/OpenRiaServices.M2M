@@ -26,9 +26,10 @@ namespace ServerTests
     using System.CodeDom.Compiler;
     using Microsoft.CSharp;
     using System.Text;
+    using System.Collections;
     
     
-    #line 1 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\M2M4RiaShared.tt"
+    #line 1 "P:\M2M4RIA\M2M4RiaTests\ServerTests\M2M4RiaShared.tt"
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "10.0.0.0")]
     public partial class M2M4RiaShared : M2M4RiaSharedBase
     {
@@ -36,7 +37,7 @@ namespace ServerTests
         {
             this.Write("\r\n");
             
-            #line 1 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\M2MGenerator.ttinclude"
+            #line 1 "P:\M2M4RIA\M2M4RiaTests\ServerTests\..\M2MGenerator.ttinclude"
 
 EdmxFilePath = @"..\M2M4RiaTestModel.edmx";
 EntityModelNamespace = "ClientTests.Web";
@@ -47,7 +48,8 @@ DomainServiceName = "M2M4RiaTestService";
             #line default
             #line hidden
             this.Write("\r\n");
-            this.Write("\r\n// M2M4RiaShared.ttinclude has been located and loaded.\r\n");
+            this.Write("\r\n");
+            this.Write("// M2M4RiaShared.ttinclude has been located and loaded.\r\n");
             this.Write("\r\n");
             return this.GenerationEnvironment.ToString();
         }
@@ -64,7 +66,7 @@ DomainServiceName = "M2M4RiaTestService";
             }
         }
         
-        #line 3 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
+        #line 6 "P:\M2M4RIA\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
 
     // ** Change these values in a separate .tt file according to the needs of your project. **
     //
@@ -99,7 +101,6 @@ DomainServiceName = "M2M4RiaTestService";
     /// <returns></returns>
     public bool IsJoinTypeEntitySetAccessibleFromDomainContext{ get; set;}
 
-    private const string ERROR_PK_SUPPORT = "Only entites containing unary primary key's are supported currently by this T4 Template.";
     private CodeGenerationTools Code;
     private MetadataTools Tools;
 
@@ -128,28 +129,28 @@ DomainServiceName = "M2M4RiaTestService";
         #line default
         #line hidden
         
-        #line 61 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
+        #line 63 "P:\M2M4RIA\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
 this.Write("//\r\n// ERROR: Unable to locate Entity Framework edmx file at path \"");
 
         
         #line default
         #line hidden
         
-        #line 63 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
+        #line 65 "P:\M2M4RIA\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
 this.Write(this.ToStringHelper.ToStringWithCulture(EdmxFilePath));
 
         
         #line default
         #line hidden
         
-        #line 63 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
+        #line 65 "P:\M2M4RIA\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
 this.Write("\"\r\n//\r\n");
 
         
         #line default
         #line hidden
         
-        #line 65 "C:\undergit\RIA\m2m4ria\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
+        #line 67 "P:\M2M4RIA\M2M4RiaTests\ServerTests\..\..\M2M4Ria\Shared\M2M4RiaShared.ttinclude"
 
                 throw new FileNotFoundException("Unable to located Entity Framework edmx file at path " + EdmxFilePath, ex);
             }
@@ -204,18 +205,13 @@ this.Write("\"\r\n//\r\n");
 			}
 
             // ** Populate "Entity1ToLink" half of the many to many association
-
-            if(entity1.KeyMembers.Count > 1)
-                throw new InvalidOperationException(ERROR_PK_SUPPORT);
-
             m2mAssociationSet.Entity1ToLink = new M2MAssociation();
             m2mAssociationSet.Entity1ToLink.Entity = GetM2MEntityForEntity(entity1, m2mData.Entities);
 			m2mAssociationSet.Entity1ToLink.EntityNavProp = m2mAssociationSet.Entity1ToLink.Entity.Name + entity1Suffix;
-            // NOTE: Only entites containing unary primary key's are supported currently.
-            m2mAssociationSet.Entity1ToLink.PK = Code.Escape(entity1.KeyMembers[0]);
-            m2mAssociationSet.Entity1ToLink.PKDataType = Code.Escape(entity1.KeyMembers[0].TypeUsage);
+            m2mAssociationSet.Entity1ToLink.PK.AddRange(entity1.KeyMembers.Select(km => Code.Escape(km)));
+            m2mAssociationSet.Entity1ToLink.PKDataType.AddRange(entity1.KeyMembers.Select(km => Code.Escape(km.TypeUsage)));
             m2mAssociationSet.Entity1ToLink.LinkTableNavProp = Code.Escape(association) + "To" + Code.Escape(entity1) + entity1Suffix + "Set";
-            m2mAssociationSet.Entity1ToLink.FK = Code.Escape(entity1) + entity1Suffix + "Id";
+            m2mAssociationSet.Entity1ToLink.FK.AddRange(entity1.KeyMembers.Select(km => Code.Escape(entity1) + entity1Suffix + Code.Escape(km)));
 
             // Retrieve navigation property navigating from the first entity to the second entity (if exists)
             NavigationProperty entity1NavProp = GetNavigationPropertyForAssociationEnd(entity1, association, association.AssociationEndMembers[0]);
@@ -228,17 +224,13 @@ this.Write("\"\r\n//\r\n");
 
 
             // ** Populate "entity2ToLink" half of the many to many association
-            if(entity2.KeyMembers.Count > 1)
-                throw new InvalidOperationException(ERROR_PK_SUPPORT);
-
             m2mAssociationSet.Entity2ToLink = new M2MAssociation();
             m2mAssociationSet.Entity2ToLink.Entity = GetM2MEntityForEntity(entity2, m2mData.Entities);
 			m2mAssociationSet.Entity2ToLink.EntityNavProp = m2mAssociationSet.Entity2ToLink.Entity.Name + entity2Suffix;
-            // NOTE: Only entites containing unary primary key's are supported currently.
-            m2mAssociationSet.Entity2ToLink.PK = Code.Escape(entity2.KeyMembers[0]);
-            m2mAssociationSet.Entity2ToLink.PKDataType = Code.Escape(entity2.KeyMembers[0].TypeUsage);
+            m2mAssociationSet.Entity2ToLink.PK.AddRange(entity2.KeyMembers.Select(km => Code.Escape(km)));
+            m2mAssociationSet.Entity2ToLink.PKDataType.AddRange(entity2.KeyMembers.Select(km => Code.Escape(km.TypeUsage)));
             m2mAssociationSet.Entity2ToLink.LinkTableNavProp = Code.Escape(association) + "To" + Code.Escape(entity2) + entity2Suffix + "Set";
-            m2mAssociationSet.Entity2ToLink.FK = Code.Escape(entity2) + entity2Suffix + "Id";
+            m2mAssociationSet.Entity2ToLink.FK.AddRange(entity2.KeyMembers.Select(km => Code.Escape(entity2) + entity2Suffix + Code.Escape(km)));
 
             // Retrieve navigation propery navigating from the second entity to the first entity (if exists)
             NavigationProperty entity2NavProp = GetNavigationPropertyForAssociationEnd(entity2, association, association.AssociationEndMembers[1]);
@@ -381,14 +373,21 @@ this.Write("\"\r\n//\r\n");
     /// </summary>
     public class M2MAssociation
     {
-        public string PK { get; set; }
-        public string PKDataType { get; set; }
+		public M2MAssociation()
+		{
+			PK = new List<string>();
+			PKDataType = new List<string>();
+			FK = new List<string>();
+		}
+		
+        public List<string> PK { get; private set; }
+        public List<string> PKDataType { get; private set; }
         public M2MEntity Entity { get; set; }
         public string EntityNavProp { get; set; }
         public bool HasM2MNavProp { get; set; }
         public string M2MNavProp { get; set; }
         public string LinkTableNavProp { get; set; }
-        public string FK { get; set; }
+        public List<string> FK { get; private set; }
 
         public override string ToString()
         {
@@ -446,7 +445,7 @@ this.Write("\"\r\n//\r\n");
         #line default
         #line hidden
         
-        #line 25 "C:\Program Files\Microsoft Visual Studio 10.0\Common7\IDE\Extensions\Microsoft\Entity Framework Tools\Templates\Includes\EF.Utility.CS.ttinclude"
+        #line 25 "C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\Extensions\Microsoft\Entity Framework Tools\Templates\Includes\EF.Utility.CS.ttinclude"
 
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 

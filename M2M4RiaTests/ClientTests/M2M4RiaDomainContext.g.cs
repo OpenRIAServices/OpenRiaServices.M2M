@@ -39,12 +39,12 @@ namespace ClientTests.Web
         {
             var dummy = r.Vet; // this is to instantiate the EntityRef<Vet>
             r._vet.Entity = vet;
-            r._vetId = vet.VetId;
+            r._vetVetId = vet.VetId;
 
             r.Animal = animal;
 
             r._vet.Entity = null;
-            r._vetId = default(int);
+            r._vetVetId = default(int);
             r.Vet = vet;
         }
         /// <summary>
@@ -59,12 +59,12 @@ namespace ClientTests.Web
         {
             var dummy = r.Animal; // this is to instantiate the EntityRef<Animal>
             r._animal.Entity = animal;
-            r._animalId = animal.AnimalId;
+            r._animalAnimalId = animal.AnimalId;
 
             r.Vet = vet;
 
             r._animal.Entity = null;
-            r._animalId = default(int);
+            r._animalAnimalId = default(int);
             r.Animal = animal;
         }
         /// <summary>
@@ -96,12 +96,12 @@ namespace ClientTests.Web
         {
             var dummy = r.FireHydrant; // this is to instantiate the EntityRef<FireHydrant>
             r._fireHydrant.Entity = fireHydrant;
-            r._fireHydrantId = fireHydrant.FireHydrantId;
+            r._fireHydrantFireHydrantId = fireHydrant.FireHydrantId;
 
             r.Dog = dog;
 
             r._fireHydrant.Entity = null;
-            r._fireHydrantId = default(int);
+            r._fireHydrantFireHydrantId = default(int);
             r.FireHydrant = fireHydrant;
         }
         /// <summary>
@@ -116,12 +116,12 @@ namespace ClientTests.Web
         {
             var dummy = r.Dog; // this is to instantiate the EntityRef<Dog>
             r._dog.Entity = dog;
-            r._dogId = dog.AnimalId;
+            r._dogAnimalId = dog.AnimalId;
 
             r.FireHydrant = fireHydrant;
 
             r._dog.Entity = null;
-            r._dogId = default(int);
+            r._dogAnimalId = default(int);
             r.Dog = dog;
         }
         /// <summary>
@@ -153,12 +153,12 @@ namespace ClientTests.Web
         {
             var dummy = r.Trainer; // this is to instantiate the EntityRef<Trainer>
             r._trainer.Entity = trainer;
-            r._trainerId = trainer.TrainerId;
+            r._trainerTrainerId = trainer.TrainerId;
 
             r.Dog = dog;
 
             r._trainer.Entity = null;
-            r._trainerId = default(int);
+            r._trainerTrainerId = default(int);
             r.Trainer = trainer;
         }
         /// <summary>
@@ -173,70 +173,13 @@ namespace ClientTests.Web
         {
             var dummy = r.Dog; // this is to instantiate the EntityRef<Dog>
             r._dog.Entity = dog;
-            r._dogId = dog.AnimalId;
+            r._dogAnimalId = dog.AnimalId;
 
             r.Trainer = trainer;
 
             r._dog.Entity = null;
-            r._dogId = default(int);
+            r._dogAnimalId = default(int);
             r.Dog = dog;
-        }
-        /// <summary>
-        /// Gets the EntitySet the link table entity is contained in.
-        /// </summary>
-        EntitySet IExtendedEntity.EntitySet
-        {
-            get
-            {
-                return EntitySet;
-            }
-        }
-    }
-    /// <summary>
-    /// This class provides access to the entity's entity set and contains methods for attaching
-	/// to entities to the link table in a single action.
-    /// </summary>
-    public partial class CatAnimal : IExtendedEntity
-    {
-        /// <summary>
-        /// This method attaches Cat and Animal to the current join table entity, in such a way
-        /// that both navigation properties are set before an INotifyCollectionChanged event is fired.
-        /// </summary>
-        /// <param name="r"></param>
-        /// <param name="cat"></param>
-        /// <param name="animal"></param>
-        [Obsolete("This property is only intended for use by the M2M4Ria solution.")]
-        public static void AttachAnimalToCat(CatAnimal r, Cat cat, Animal animal)
-        {
-            var dummy = r.Animal; // this is to instantiate the EntityRef<Animal>
-            r._animal.Entity = animal;
-            r._animalId = animal.AnimalId;
-
-            r.Cat = cat;
-
-            r._animal.Entity = null;
-            r._animalId = default(int);
-            r.Animal = animal;
-        }
-        /// <summary>
-        /// This method attaches Animal and Cat to the current join table entity, in such a way
-        /// that both navigation properties are set before an INotifyCollectionChanged event is fired.
-        /// </summary>
-        /// <param name="r"></param>
-        /// <param name="animal"></param>
-        /// <param name="cat"></param>
-        [Obsolete("This property is only intended for use by the M2M4Ria solution.")]
-        public static void AttachCatToAnimal(CatAnimal r, Animal animal, Cat cat)
-        {
-            var dummy = r.Cat; // this is to instantiate the EntityRef<Cat>
-            r._cat.Entity = cat;
-            r._catId = cat.AnimalId;
-
-            r.Animal = animal;
-
-            r._cat.Entity = null;
-            r._catId = default(int);
-            r.Cat = cat;
         }
         /// <summary>
         /// Gets the EntitySet the link table entity is contained in.
@@ -267,12 +210,12 @@ namespace ClientTests.Web
         {
             var dummy = r.DogAsParent; // this is to instantiate the EntityRef<DogAsParent>
             r._dogAsParent.Entity = dogAsParent;
-            r._dogAsParentId = dogAsParent.AnimalId;
+            r._dogAsParentAnimalId = dogAsParent.AnimalId;
 
             r.DogAsPuppy = dogAsPuppy;
 
             r._dogAsParent.Entity = null;
-            r._dogAsParentId = default(int);
+            r._dogAsParentAnimalId = default(int);
             r.DogAsParent = dogAsParent;
         }
         /// <summary>
@@ -287,13 +230,76 @@ namespace ClientTests.Web
         {
             var dummy = r.DogAsPuppy; // this is to instantiate the EntityRef<DogAsPuppy>
             r._dogAsPuppy.Entity = dogAsPuppy;
-            r._dogAsPuppyId = dogAsPuppy.AnimalId;
+            r._dogAsPuppyAnimalId = dogAsPuppy.AnimalId;
 
             r.DogAsParent = dogAsParent;
 
             r._dogAsPuppy.Entity = null;
-            r._dogAsPuppyId = default(int);
+            r._dogAsPuppyAnimalId = default(int);
             r.DogAsPuppy = dogAsPuppy;
+        }
+        /// <summary>
+        /// Gets the EntitySet the link table entity is contained in.
+        /// </summary>
+        EntitySet IExtendedEntity.EntitySet
+        {
+            get
+            {
+                return EntitySet;
+            }
+        }
+    }
+    /// <summary>
+    /// This class provides access to the entity's entity set and contains methods for attaching
+	/// to entities to the link table in a single action.
+    /// </summary>
+    public partial class CatMarkedTerritories : IExtendedEntity
+    {
+        /// <summary>
+        /// This method attaches Cat and MarkedTerritory to the current join table entity, in such a way
+        /// that both navigation properties are set before an INotifyCollectionChanged event is fired.
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="cat"></param>
+        /// <param name="markedTerritory"></param>
+        [Obsolete("This property is only intended for use by the M2M4Ria solution.")]
+        public static void AttachMarkedTerritoryToCat(CatMarkedTerritories r, Cat cat, MarkedTerritory markedTerritory)
+        {
+            var dummy = r.MarkedTerritory; // this is to instantiate the EntityRef<MarkedTerritory>
+            r._markedTerritory.Entity = markedTerritory;
+            r._markedTerritoryTerritoryId = markedTerritory.TerritoryId;
+            r._markedTerritoryCoordX = markedTerritory.CoordX;
+            r._markedTerritoryCoordY = markedTerritory.CoordY;
+            r._markedTerritoryCoordZ = markedTerritory.CoordZ;
+
+            r.Cat = cat;
+
+            r._markedTerritory.Entity = null;
+            r._markedTerritoryTerritoryId = default(System.Guid);
+            r._markedTerritoryCoordX = default(int);
+            r._markedTerritoryCoordY = default(int);
+            r._markedTerritoryCoordZ = default(int);
+            r.MarkedTerritory = markedTerritory;
+        }
+        /// <summary>
+        /// This method attaches MarkedTerritory and Cat to the current join table entity, in such a way
+        /// that both navigation properties are set before an INotifyCollectionChanged event is fired.
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="markedTerritory"></param>
+        /// <param name="cat"></param>
+        [Obsolete("This property is only intended for use by the M2M4Ria solution.")]
+        public static void AttachCatToMarkedTerritory(CatMarkedTerritories r, MarkedTerritory markedTerritory, Cat cat)
+        {
+            var dummy = r.Cat; // this is to instantiate the EntityRef<Cat>
+            r._cat.Entity = cat;
+            r._catAnimalId = cat.AnimalId;
+
+            r.MarkedTerritory = markedTerritory;
+
+            r._cat.Entity = null;
+            r._catAnimalId = default(int);
+            r.Cat = cat;
         }
         /// <summary>
         /// Gets the EntitySet the link table entity is contained in.
@@ -347,51 +353,6 @@ namespace ClientTests.Web
             if(((IExtendedEntity)r).EntitySet == null)
             {
                 this.AnimalVetToVetSet.Remove(r);
-            }
-            else
-            {
-                ((IExtendedEntity)r).EntitySet.Remove(r);
-            }
-        }
-        //
-        // Code relating to the managing of the 'CatAnimal' association from 'Animal' to 'Cat'
-        //
-        private IEntityCollection<Cat> _Cats;
-
-        /// <summary>
-        /// Gets the collection of associated <see cref="Cat"/> entities.
-        /// </summary>
-        public IEntityCollection<Cat> Cats
-        {
-            get
-            {
-                if(_Cats == null)
-                {
-                    _Cats = new EntityCollection<CatAnimal, Cat>(
-						this.CatAnimalToCatSet,
-						r => r.Cat,
-						RemoveAnimalCat,
-						AddAnimalCat
-				    );
-                }
-                return _Cats;
-            }
-        }
-
-        // Instruct compiler not to warn about usage of obsolete members, because using them is intended.
-        #pragma warning disable 618
-        private void AddAnimalCat(Cat cat)
-		{
-            var newJoinType = new CatAnimal();
-            CatAnimal.AttachCatToAnimal(newJoinType, this, cat);
-		}
-		#pragma warning restore 618
-
-        private void RemoveAnimalCat(CatAnimal r)
-        {
-            if(((IExtendedEntity)r).EntitySet == null)
-            {
-                this.CatAnimalToCatSet.Remove(r);
             }
             else
             {
@@ -500,6 +461,54 @@ namespace ClientTests.Web
     }
     public partial class Food
     {
+    }
+    public partial class MarkedTerritory
+    {
+        //
+        // Code relating to the managing of the 'CatMarkedTerritories' association from 'MarkedTerritory' to 'Cat'
+        //
+        private IEntityCollection<Cat> _Cats;
+
+        /// <summary>
+        /// Gets the collection of associated <see cref="Cat"/> entities.
+        /// </summary>
+        public IEntityCollection<Cat> Cats
+        {
+            get
+            {
+                if(_Cats == null)
+                {
+                    _Cats = new EntityCollection<CatMarkedTerritories, Cat>(
+						this.CatMarkedTerritoriesToCatSet,
+						r => r.Cat,
+						RemoveMarkedTerritoryCat,
+						AddMarkedTerritoryCat
+				    );
+                }
+                return _Cats;
+            }
+        }
+
+        // Instruct compiler not to warn about usage of obsolete members, because using them is intended.
+        #pragma warning disable 618
+        private void AddMarkedTerritoryCat(Cat cat)
+		{
+            var newJoinType = new CatMarkedTerritories();
+            CatMarkedTerritories.AttachCatToMarkedTerritory(newJoinType, this, cat);
+		}
+		#pragma warning restore 618
+
+        private void RemoveMarkedTerritoryCat(CatMarkedTerritories r)
+        {
+            if(((IExtendedEntity)r).EntitySet == null)
+            {
+                this.CatMarkedTerritoriesToCatSet.Remove(r);
+            }
+            else
+            {
+                ((IExtendedEntity)r).EntitySet.Remove(r);
+            }
+        }
     }
     public partial class Dog
     {
@@ -687,44 +696,44 @@ namespace ClientTests.Web
     public partial class Cat
     {
         //
-        // Code relating to the managing of the 'CatAnimal' association from 'Cat' to 'Animal'
+        // Code relating to the managing of the 'CatMarkedTerritories' association from 'Cat' to 'MarkedTerritory'
         //
-        private IEntityCollection<Animal> _Animals;
+        private IEntityCollection<MarkedTerritory> _MarkedTerritories;
 
         /// <summary>
-        /// Gets the collection of associated <see cref="Animal"/> entities.
+        /// Gets the collection of associated <see cref="MarkedTerritory"/> entities.
         /// </summary>
-        public IEntityCollection<Animal> Animals
+        public IEntityCollection<MarkedTerritory> MarkedTerritories
         {
             get
             {
-                if(_Animals == null)
+                if(_MarkedTerritories == null)
                 {
-                    _Animals = new EntityCollection<CatAnimal, Animal>(
-						this.CatAnimalToAnimalSet,
-						r => r.Animal,
-						RemoveCatAnimal,
-						AddCatAnimal
+                    _MarkedTerritories = new EntityCollection<CatMarkedTerritories, MarkedTerritory>(
+						this.CatMarkedTerritoriesToMarkedTerritorySet,
+						r => r.MarkedTerritory,
+						RemoveCatMarkedTerritory,
+						AddCatMarkedTerritory
 				    );
                 }
-                return _Animals;
+                return _MarkedTerritories;
             }
         }
 
         // Instruct compiler not to warn about usage of obsolete members, because using them is intended.
         #pragma warning disable 618
-        private void AddCatAnimal(Animal animal)
+        private void AddCatMarkedTerritory(MarkedTerritory markedTerritory)
 		{
-            var newJoinType = new CatAnimal();
-            CatAnimal.AttachAnimalToCat(newJoinType, this, animal);
+            var newJoinType = new CatMarkedTerritories();
+            CatMarkedTerritories.AttachMarkedTerritoryToCat(newJoinType, this, markedTerritory);
 		}
 		#pragma warning restore 618
 
-        private void RemoveCatAnimal(CatAnimal r)
+        private void RemoveCatMarkedTerritory(CatMarkedTerritories r)
         {
             if(((IExtendedEntity)r).EntitySet == null)
             {
-                this.CatAnimalToAnimalSet.Remove(r);
+                this.CatMarkedTerritoriesToMarkedTerritorySet.Remove(r);
             }
             else
             {

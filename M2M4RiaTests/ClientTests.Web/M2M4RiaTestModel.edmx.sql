@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 08/02/2011 10:42:53
--- Generated from EDMX file: C:\undergit\RIA\m2m4ria\M2M4RiaTests\ClientTests.Web\M2M4RiaTestModel.edmx
+-- Date Created: 09/21/2011 19:24:18
+-- Generated from EDMX file: P:\M2M4RIA\M2M4RiaTests\ClientTests.Web\M2M4RiaTestModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -47,11 +47,17 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_AnimalFood_Food]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AnimalFood] DROP CONSTRAINT [FK_AnimalFood_Food];
 GO
-IF OBJECT_ID(N'[dbo].[FK_CatAnimal_Cat]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[CatAnimal] DROP CONSTRAINT [FK_CatAnimal_Cat];
+IF OBJECT_ID(N'[dbo].[FK_DogDog_Puppy]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[DogDog] DROP CONSTRAINT [FK_DogDog_Puppy];
 GO
-IF OBJECT_ID(N'[dbo].[FK_CatAnimal_Animal]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[CatAnimal] DROP CONSTRAINT [FK_CatAnimal_Animal];
+IF OBJECT_ID(N'[dbo].[FK_DogDog_Parent]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[DogDog] DROP CONSTRAINT [FK_DogDog_Parent];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CatMarkedTerritories_Cat]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CatMarkedTerritories] DROP CONSTRAINT [FK_CatMarkedTerritories_Cat];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CatMarkedTerritories_MarkedTerritories]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CatMarkedTerritories] DROP CONSTRAINT [FK_CatMarkedTerritories_MarkedTerritories];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Dog_inherits_Animal]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Animals_Dog] DROP CONSTRAINT [FK_Dog_inherits_Animal];
@@ -85,6 +91,9 @@ GO
 IF OBJECT_ID(N'[dbo].[Foods]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Foods];
 GO
+IF OBJECT_ID(N'[dbo].[MarkedTerritories]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[MarkedTerritories];
+GO
 IF OBJECT_ID(N'[dbo].[Animals_Dog]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Animals_Dog];
 GO
@@ -103,8 +112,11 @@ GO
 IF OBJECT_ID(N'[dbo].[AnimalFood]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AnimalFood];
 GO
-IF OBJECT_ID(N'[dbo].[CatAnimal]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[CatAnimal];
+IF OBJECT_ID(N'[dbo].[DogDog]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[DogDog];
+GO
+IF OBJECT_ID(N'[dbo].[CatMarkedTerritories]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CatMarkedTerritories];
 GO
 
 -- --------------------------------------------------
@@ -162,6 +174,15 @@ CREATE TABLE [dbo].[Foods] (
 );
 GO
 
+-- Creating table 'MarkedTerritories'
+CREATE TABLE [dbo].[MarkedTerritories] (
+    [TerritoryId] uniqueidentifier  NOT NULL,
+    [CoordX] int  NOT NULL,
+    [CoordY] int  NOT NULL,
+    [CoordZ] int  NOT NULL
+);
+GO
+
 -- Creating table 'Animals_Dog'
 CREATE TABLE [dbo].[Animals_Dog] (
     [ChasesCars] bit  NOT NULL,
@@ -204,17 +225,20 @@ CREATE TABLE [dbo].[AnimalFood] (
 );
 GO
 
--- Creating table 'CatAnimal'
-CREATE TABLE [dbo].[CatAnimal] (
-    [Cats_AnimalId] int  NOT NULL,
-    [Animals_AnimalId] int  NOT NULL
-);
-GO
-
 -- Creating table 'DogDog'
 CREATE TABLE [dbo].[DogDog] (
     [Parents_AnimalId] int  NOT NULL,
     [Puppies_AnimalId] int  NOT NULL
+);
+GO
+
+-- Creating table 'CatMarkedTerritories'
+CREATE TABLE [dbo].[CatMarkedTerritories] (
+    [Cats_AnimalId] int  NOT NULL,
+    [MarkedTerritories_TerritoryId] uniqueidentifier  NOT NULL,
+    [MarkedTerritories_CoordX] int  NOT NULL,
+    [MarkedTerritories_CoordY] int  NOT NULL,
+    [MarkedTerritories_CoordZ] int  NOT NULL
 );
 GO
 
@@ -264,6 +288,12 @@ ADD CONSTRAINT [PK_Foods]
     PRIMARY KEY CLUSTERED ([FoodId] ASC);
 GO
 
+-- Creating primary key on [TerritoryId], [CoordX], [CoordY], [CoordZ] in table 'MarkedTerritories'
+ALTER TABLE [dbo].[MarkedTerritories]
+ADD CONSTRAINT [PK_MarkedTerritories]
+    PRIMARY KEY CLUSTERED ([TerritoryId], [CoordX], [CoordY], [CoordZ] ASC);
+GO
+
 -- Creating primary key on [AnimalId] in table 'Animals_Dog'
 ALTER TABLE [dbo].[Animals_Dog]
 ADD CONSTRAINT [PK_Animals_Dog]
@@ -300,16 +330,16 @@ ADD CONSTRAINT [PK_AnimalFood]
     PRIMARY KEY NONCLUSTERED ([AnimalFood_Food_AnimalId], [AnimalFood_Animal_FoodId] ASC);
 GO
 
--- Creating primary key on [Cats_AnimalId], [Animals_AnimalId] in table 'CatAnimal'
-ALTER TABLE [dbo].[CatAnimal]
-ADD CONSTRAINT [PK_CatAnimal]
-    PRIMARY KEY NONCLUSTERED ([Cats_AnimalId], [Animals_AnimalId] ASC);
-GO
-
 -- Creating primary key on [Parents_AnimalId], [Puppies_AnimalId] in table 'DogDog'
 ALTER TABLE [dbo].[DogDog]
 ADD CONSTRAINT [PK_DogDog]
     PRIMARY KEY NONCLUSTERED ([Parents_AnimalId], [Puppies_AnimalId] ASC);
+GO
+
+-- Creating primary key on [Cats_AnimalId], [MarkedTerritories_TerritoryId], [MarkedTerritories_CoordX], [MarkedTerritories_CoordY], [MarkedTerritories_CoordZ] in table 'CatMarkedTerritories'
+ALTER TABLE [dbo].[CatMarkedTerritories]
+ADD CONSTRAINT [PK_CatMarkedTerritories]
+    PRIMARY KEY NONCLUSTERED ([Cats_AnimalId], [MarkedTerritories_TerritoryId], [MarkedTerritories_CoordX], [MarkedTerritories_CoordY], [MarkedTerritories_CoordZ] ASC);
 GO
 
 -- --------------------------------------------------
@@ -436,32 +466,9 @@ ON [dbo].[AnimalFood]
     ([AnimalFood_Animal_FoodId]);
 GO
 
--- Creating foreign key on [Cats_AnimalId] in table 'CatAnimal'
-ALTER TABLE [dbo].[CatAnimal]
-ADD CONSTRAINT [FK_CatAnimal_Cat]
-    FOREIGN KEY ([Cats_AnimalId])
-    REFERENCES [dbo].[Animals_Cat]
-        ([AnimalId])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating foreign key on [Animals_AnimalId] in table 'CatAnimal'
-ALTER TABLE [dbo].[CatAnimal]
-ADD CONSTRAINT [FK_CatAnimal_Animal]
-    FOREIGN KEY ([Animals_AnimalId])
-    REFERENCES [dbo].[Animals]
-        ([AnimalId])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_CatAnimal_Animal'
-CREATE INDEX [IX_FK_CatAnimal_Animal]
-ON [dbo].[CatAnimal]
-    ([Animals_AnimalId]);
-GO
-
 -- Creating foreign key on [Parents_AnimalId] in table 'DogDog'
 ALTER TABLE [dbo].[DogDog]
-ADD CONSTRAINT [FK_DogDog_Dog]
+ADD CONSTRAINT [FK_DogDog_Puppy]
     FOREIGN KEY ([Parents_AnimalId])
     REFERENCES [dbo].[Animals_Dog]
         ([AnimalId])
@@ -470,16 +477,39 @@ GO
 
 -- Creating foreign key on [Puppies_AnimalId] in table 'DogDog'
 ALTER TABLE [dbo].[DogDog]
-ADD CONSTRAINT [FK_DogDog_Dog1]
+ADD CONSTRAINT [FK_DogDog_Parent]
     FOREIGN KEY ([Puppies_AnimalId])
     REFERENCES [dbo].[Animals_Dog]
         ([AnimalId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 
--- Creating non-clustered index for FOREIGN KEY 'FK_DogDog_Dog1'
-CREATE INDEX [IX_FK_DogDog_Dog1]
+-- Creating non-clustered index for FOREIGN KEY 'FK_DogDog_Parent'
+CREATE INDEX [IX_FK_DogDog_Parent]
 ON [dbo].[DogDog]
     ([Puppies_AnimalId]);
+GO
+
+-- Creating foreign key on [Cats_AnimalId] in table 'CatMarkedTerritories'
+ALTER TABLE [dbo].[CatMarkedTerritories]
+ADD CONSTRAINT [FK_CatMarkedTerritories_Cat]
+    FOREIGN KEY ([Cats_AnimalId])
+    REFERENCES [dbo].[Animals_Cat]
+        ([AnimalId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [MarkedTerritories_TerritoryId], [MarkedTerritories_CoordX], [MarkedTerritories_CoordY], [MarkedTerritories_CoordZ] in table 'CatMarkedTerritories'
+ALTER TABLE [dbo].[CatMarkedTerritories]
+ADD CONSTRAINT [FK_CatMarkedTerritories_MarkedTerritories]
+    FOREIGN KEY ([MarkedTerritories_TerritoryId], [MarkedTerritories_CoordX], [MarkedTerritories_CoordY], [MarkedTerritories_CoordZ])
+    REFERENCES [dbo].[MarkedTerritories]
+        ([TerritoryId], [CoordX], [CoordY], [CoordZ])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CatMarkedTerritories_MarkedTerritories'
+CREATE INDEX [IX_FK_CatMarkedTerritories_MarkedTerritories]
+ON [dbo].[CatMarkedTerritories]
+    ([MarkedTerritories_TerritoryId], [MarkedTerritories_CoordX], [MarkedTerritories_CoordY], [MarkedTerritories_CoordZ]);
 GO
 
 -- Creating foreign key on [AnimalId] in table 'Animals_Dog'

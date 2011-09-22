@@ -13,14 +13,15 @@
     <EntitySet Name="ChewedShoes" EntityType="M2M4RiaModel.Store.ChewedShoes" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Trainers" EntityType="M2M4RiaModel.Store.Trainers" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Foods" EntityType="M2M4RiaModel.Store.Foods" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MarkedTerritories" EntityType="M2M4RiaModel.Store.MarkedTerritories" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Animals_Dog" EntityType="M2M4RiaModel.Store.Animals_Dog" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Animals_Cat" EntityType="M2M4RiaModel.Store.Animals_Cat" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AnimalVet" EntityType="M2M4RiaModel.Store.AnimalVet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="DogFireHydrant" EntityType="M2M4RiaModel.Store.DogFireHydrant" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="DogTrainer" EntityType="M2M4RiaModel.Store.DogTrainer" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AnimalFood" EntityType="M2M4RiaModel.Store.AnimalFood" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="CatAnimal" EntityType="M2M4RiaModel.Store.CatAnimal" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="DogDog" EntityType="M2M4RiaModel.Store.DogDog" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CatMarkedTerritories" EntityType="M2M4RiaModel.Store.CatMarkedTerritories" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_AnimalVet_Animal" Association="M2M4RiaModel.Store.FK_AnimalVet_Animal">
       <End Role="Animal" EntitySet="Animals" />
       <End Role="AnimalVet" EntitySet="AnimalVet" />
@@ -61,21 +62,21 @@
       <End Role="Food" EntitySet="Foods" />
       <End Role="AnimalFood" EntitySet="AnimalFood" />
     </AssociationSet>
-    <AssociationSet Name="FK_CatAnimal_Cat" Association="M2M4RiaModel.Store.FK_CatAnimal_Cat">
+    <AssociationSet Name="FK_DogDog_Puppy" Association="M2M4RiaModel.Store.FK_DogDog_Puppy">
+      <End Role="Puppy" EntitySet="Animals_Dog" />
+      <End Role="DogDog" EntitySet="DogDog" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DogDog_Parent" Association="M2M4RiaModel.Store.FK_DogDog_Parent">
+      <End Role="Parent" EntitySet="Animals_Dog" />
+      <End Role="DogDog" EntitySet="DogDog" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CatMarkedTerritories_Cat" Association="M2M4RiaModel.Store.FK_CatMarkedTerritories_Cat">
       <End Role="Cat" EntitySet="Animals_Cat" />
-      <End Role="CatAnimal" EntitySet="CatAnimal" />
+      <End Role="CatMarkedTerritories" EntitySet="CatMarkedTerritories" />
     </AssociationSet>
-    <AssociationSet Name="FK_CatAnimal_Animal" Association="M2M4RiaModel.Store.FK_CatAnimal_Animal">
-      <End Role="Animal" EntitySet="Animals" />
-      <End Role="CatAnimal" EntitySet="CatAnimal" />
-    </AssociationSet>
-    <AssociationSet Name="FK_DogDog_Dog" Association="M2M4RiaModel.Store.FK_DogDog_Dog">
-      <End Role="Dog" EntitySet="Animals_Dog" />
-      <End Role="DogDog" EntitySet="DogDog" />
-    </AssociationSet>
-    <AssociationSet Name="FK_DogDog_Dog1" Association="M2M4RiaModel.Store.FK_DogDog_Dog1">
-      <End Role="Dog1" EntitySet="Animals_Dog" />
-      <End Role="DogDog" EntitySet="DogDog" />
+    <AssociationSet Name="FK_CatMarkedTerritories_MarkedTerritories" Association="M2M4RiaModel.Store.FK_CatMarkedTerritories_MarkedTerritories">
+      <End Role="MarkedTerritories" EntitySet="MarkedTerritories" />
+      <End Role="CatMarkedTerritories" EntitySet="CatMarkedTerritories" />
     </AssociationSet>
     <AssociationSet Name="FK_Dog_inherits_Animal" Association="M2M4RiaModel.Store.FK_Dog_inherits_Animal">
       <End Role="Animal" EntitySet="Animals" />
@@ -137,6 +138,18 @@
     <Property Name="FoodId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
+  <EntityType Name="MarkedTerritories">
+    <Key>
+      <PropertyRef Name="TerritoryId" />
+      <PropertyRef Name="CoordX" />
+      <PropertyRef Name="CoordY" />
+      <PropertyRef Name="CoordZ" />
+    </Key>
+    <Property Name="TerritoryId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="CoordX" Type="int" Nullable="false" />
+    <Property Name="CoordY" Type="int" Nullable="false" />
+    <Property Name="CoordZ" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="Animals_Dog">
     <Key>
       <PropertyRef Name="AnimalId" />
@@ -183,14 +196,6 @@
     <Property Name="AnimalFood_Food_AnimalId" Type="int" Nullable="false" />
     <Property Name="AnimalFood_Animal_FoodId" Type="int" Nullable="false" />
   </EntityType>
-  <EntityType Name="CatAnimal">
-    <Key>
-      <PropertyRef Name="Cats_AnimalId" />
-      <PropertyRef Name="Animals_AnimalId" />
-    </Key>
-    <Property Name="Cats_AnimalId" Type="int" Nullable="false" />
-    <Property Name="Animals_AnimalId" Type="int" Nullable="false" />
-  </EntityType>
   <EntityType Name="DogDog">
     <Key>
       <PropertyRef Name="Parents_AnimalId" />
@@ -198,6 +203,20 @@
     </Key>
     <Property Name="Parents_AnimalId" Type="int" Nullable="false" />
     <Property Name="Puppies_AnimalId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CatMarkedTerritories">
+    <Key>
+      <PropertyRef Name="Cats_AnimalId" />
+      <PropertyRef Name="MarkedTerritories_TerritoryId" />
+      <PropertyRef Name="MarkedTerritories_CoordX" />
+      <PropertyRef Name="MarkedTerritories_CoordY" />
+      <PropertyRef Name="MarkedTerritories_CoordZ" />
+    </Key>
+    <Property Name="Cats_AnimalId" Type="int" Nullable="false" />
+    <Property Name="MarkedTerritories_TerritoryId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="MarkedTerritories_CoordX" Type="int" Nullable="false" />
+    <Property Name="MarkedTerritories_CoordY" Type="int" Nullable="false" />
+    <Property Name="MarkedTerritories_CoordZ" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="OwnerAnimal">
     <End Role="Owner" Type="M2M4RiaModel.Store.Owners" Multiplicity="0..1" />
@@ -319,35 +338,11 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_CatAnimal_Cat">
-    <End Role="Cat" Type="M2M4RiaModel.Store.Animals_Cat" Multiplicity="1" />
-    <End Role="CatAnimal" Type="M2M4RiaModel.Store.CatAnimal" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Cat">
-        <PropertyRef Name="AnimalId" />
-      </Principal>
-      <Dependent Role="CatAnimal">
-        <PropertyRef Name="Cats_AnimalId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_CatAnimal_Animal">
-    <End Role="CatAnimal" Type="M2M4RiaModel.Store.CatAnimal" Multiplicity="*" />
-    <End Role="Animal" Type="M2M4RiaModel.Store.Animals" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Animal">
-        <PropertyRef Name="AnimalId" />
-      </Principal>
-      <Dependent Role="CatAnimal">
-        <PropertyRef Name="Animals_AnimalId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_DogDog_Dog">
-    <End Role="Dog" Type="M2M4RiaModel.Store.Animals_Dog" Multiplicity="1" />
+  <Association Name="FK_DogDog_Puppy">
+    <End Role="Puppy" Type="M2M4RiaModel.Store.Animals_Dog" Multiplicity="1" />
     <End Role="DogDog" Type="M2M4RiaModel.Store.DogDog" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Dog">
+      <Principal Role="Puppy">
         <PropertyRef Name="AnimalId" />
       </Principal>
       <Dependent Role="DogDog">
@@ -355,15 +350,45 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_DogDog_Dog1">
+  <Association Name="FK_DogDog_Parent">
     <End Role="DogDog" Type="M2M4RiaModel.Store.DogDog" Multiplicity="*" />
-    <End Role="Dog1" Type="M2M4RiaModel.Store.Animals_Dog" Multiplicity="1" />
+    <End Role="Parent" Type="M2M4RiaModel.Store.Animals_Dog" Multiplicity="1" />
     <ReferentialConstraint>
-      <Principal Role="Dog1">
+      <Principal Role="Parent">
         <PropertyRef Name="AnimalId" />
       </Principal>
       <Dependent Role="DogDog">
         <PropertyRef Name="Puppies_AnimalId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CatMarkedTerritories_Cat">
+    <End Role="Cat" Type="M2M4RiaModel.Store.Animals_Cat" Multiplicity="1" />
+    <End Role="CatMarkedTerritories" Type="M2M4RiaModel.Store.CatMarkedTerritories" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cat">
+        <PropertyRef Name="AnimalId" />
+      </Principal>
+      <Dependent Role="CatMarkedTerritories">
+        <PropertyRef Name="Cats_AnimalId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CatMarkedTerritories_MarkedTerritories">
+    <End Role="CatMarkedTerritories" Type="M2M4RiaModel.Store.CatMarkedTerritories" Multiplicity="*" />
+    <End Role="MarkedTerritories" Type="M2M4RiaModel.Store.MarkedTerritories" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="MarkedTerritories">
+        <PropertyRef Name="TerritoryId" />
+        <PropertyRef Name="CoordX" />
+        <PropertyRef Name="CoordY" />
+        <PropertyRef Name="CoordZ" />
+      </Principal>
+      <Dependent Role="CatMarkedTerritories">
+        <PropertyRef Name="MarkedTerritories_TerritoryId" />
+        <PropertyRef Name="MarkedTerritories_CoordX" />
+        <PropertyRef Name="MarkedTerritories_CoordY" />
+        <PropertyRef Name="MarkedTerritories_CoordZ" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -427,13 +452,14 @@
             <End Role="Animal" EntitySet="Animals" />
             <End Role="Food" EntitySet="Foods" />
           </AssociationSet>
-          <AssociationSet Name="CatAnimal" Association="M2M4RiaModel.CatAnimal">
-            <End Role="Cat" EntitySet="Animals" />
-            <End Role="Animal" EntitySet="Animals" />
-          </AssociationSet>
           <AssociationSet Name="DogDog" Association="M2M4RiaModel.DogDog">
             <End Role="Puppy" EntitySet="Animals" />
             <End Role="Parent" EntitySet="Animals" />
+          </AssociationSet>
+          <EntitySet Name="MarkedTerritories" EntityType="M2M4RiaModel.MarkedTerritory" />
+          <AssociationSet Name="CatMarkedTerritories" Association="M2M4RiaModel.CatMarkedTerritories">
+            <End Role="Cat" EntitySet="Animals" />
+            <End Role="MarkedTerritories" EntitySet="MarkedTerritories" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Animal">
@@ -445,7 +471,6 @@
           <NavigationProperty Name="Owner" Relationship="M2M4RiaModel.OwnerAnimal" FromRole="Animal" ToRole="Owner" />
           <Property Type="Int32" Name="OwnerOwnerId" Nullable="true" />
           <Property Type="String" Name="Name" Nullable="false" />
-          <NavigationProperty Name="Cats" Relationship="M2M4RiaModel.CatAnimal" FromRole="Animal" ToRole="Cat" />
         </EntityType>
         <EntityType Name="Dog" BaseType="M2M4RiaModel.Animal" >
           <NavigationProperty Name="FireHydrants" Relationship="M2M4RiaModel.DogFireHydrant" FromRole="Dog" ToRole="FireHydrant" />
@@ -457,7 +482,7 @@
         </EntityType>
         <EntityType Name="Cat" BaseType="M2M4RiaModel.Animal" >
           <Property Type="Boolean" Name="SleepsAlot" Nullable="false" />
-          <NavigationProperty Name="Animals" Relationship="M2M4RiaModel.CatAnimal" FromRole="Cat" ToRole="Animal" />
+          <NavigationProperty Name="MarkedTerritories" Relationship="M2M4RiaModel.CatMarkedTerritories" FromRole="Cat" ToRole="MarkedTerritories" />
         </EntityType>
         <EntityType Name="Vet">
           <Key>
@@ -546,13 +571,26 @@
           <End Type="M2M4RiaModel.Animal" Role="Animal" Multiplicity="*" />
           <End Type="M2M4RiaModel.Food" Role="Food" Multiplicity="*" />
         </Association>
-        <Association Name="CatAnimal">
-          <End Type="M2M4RiaModel.Cat" Role="Cat" Multiplicity="*" />
-          <End Type="M2M4RiaModel.Animal" Role="Animal" Multiplicity="*" />
-        </Association>
         <Association Name="DogDog">
           <End Type="M2M4RiaModel.Dog" Role="Puppy" Multiplicity="*" />
           <End Type="M2M4RiaModel.Dog" Role="Parent" Multiplicity="*" />
+        </Association>
+        <EntityType Name="MarkedTerritory">
+          <Key>
+            <PropertyRef Name="TerritoryId" />
+            <PropertyRef Name="CoordX" />
+            <PropertyRef Name="CoordY" />
+            <PropertyRef Name="CoordZ" />
+          </Key>
+          <Property Type="Guid" Name="TerritoryId" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Type="Int32" Name="CoordX" Nullable="false" />
+          <Property Type="Int32" Name="CoordY" Nullable="false" />
+          <Property Type="Int32" Name="CoordZ" Nullable="false" />
+          <NavigationProperty Name="Cats" Relationship="M2M4RiaModel.CatMarkedTerritories" FromRole="MarkedTerritories" ToRole="Cat" />
+        </EntityType>
+        <Association Name="CatMarkedTerritories">
+          <End Type="M2M4RiaModel.Cat" Role="Cat" Multiplicity="*" />
+          <End Type="M2M4RiaModel.MarkedTerritory" Role="MarkedTerritories" Multiplicity="*" />
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -630,6 +668,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="MarkedTerritories">
+      <EntityTypeMapping TypeName="IsTypeOf(M2M4RiaModel.MarkedTerritory)">
+        <MappingFragment StoreEntitySet="MarkedTerritories">
+          <ScalarProperty Name="TerritoryId" ColumnName="TerritoryId" />
+          <ScalarProperty Name="CoordX" ColumnName="CoordX" />
+          <ScalarProperty Name="CoordY" ColumnName="CoordY" />
+          <ScalarProperty Name="CoordZ" ColumnName="CoordZ" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="AnimalVet" TypeName="M2M4RiaModel.AnimalVet" StoreEntitySet="AnimalVet">
       <EndProperty Name="Animal">
         <ScalarProperty Name="AnimalId" ColumnName="Animals_AnimalId" />
@@ -662,20 +710,23 @@
         <ScalarProperty Name="FoodId" ColumnName="AnimalFood_Animal_FoodId" />
       </EndProperty>
     </AssociationSetMapping>
-    <AssociationSetMapping Name="CatAnimal" TypeName="M2M4RiaModel.CatAnimal" StoreEntitySet="CatAnimal">
-      <EndProperty Name="Cat">
-        <ScalarProperty Name="AnimalId" ColumnName="Cats_AnimalId" />
-      </EndProperty>
-      <EndProperty Name="Animal">
-        <ScalarProperty Name="AnimalId" ColumnName="Animals_AnimalId" />
-      </EndProperty>
-    </AssociationSetMapping>
     <AssociationSetMapping Name="DogDog" TypeName="M2M4RiaModel.DogDog" StoreEntitySet="DogDog">
       <EndProperty Name="Puppy">
         <ScalarProperty Name="AnimalId" ColumnName="Parents_AnimalId" />
       </EndProperty>
       <EndProperty Name="Parent">
         <ScalarProperty Name="AnimalId" ColumnName="Puppies_AnimalId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CatMarkedTerritories" TypeName="M2M4RiaModel.CatMarkedTerritories" StoreEntitySet="CatMarkedTerritories">
+      <EndProperty Name="Cat">
+        <ScalarProperty Name="AnimalId" ColumnName="Cats_AnimalId" />
+      </EndProperty>
+      <EndProperty Name="MarkedTerritories">
+        <ScalarProperty Name="TerritoryId" ColumnName="MarkedTerritories_TerritoryId" />
+        <ScalarProperty Name="CoordX" ColumnName="MarkedTerritories_CoordX" />
+        <ScalarProperty Name="CoordY" ColumnName="MarkedTerritories_CoordY" />
+        <ScalarProperty Name="CoordZ" ColumnName="MarkedTerritories_CoordZ" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>
@@ -709,24 +760,19 @@
         <EntityTypeShape EntityType="M2M4RiaModel.Cat" Width="1.5" PointX="7.625" PointY="12.375" Height="1.2110807291666657" />
         <InheritanceConnector EntityType="M2M4RiaModel.Cat" ManuallyRouted="false" >
           <ConnectorPoint PointX="5.875" PointY="5.9802864583333326" />
-          <ConnectorPoint PointX="5.875" PointY="12.000000000000002" />
-          <ConnectorPoint PointX="8.375" PointY="12.000000000000002" />
+          <ConnectorPoint PointX="5.875" PointY="12" />
+          <ConnectorPoint PointX="8.375" PointY="12" />
           <ConnectorPoint PointX="8.375" PointY="12.375" />
         </InheritanceConnector>
         <EntityTypeShape EntityType="M2M4RiaModel.Vet" Width="1.5" PointX="9.375" PointY="4.75" Height="1.5956835937499996" />
         <EntityTypeShape EntityType="M2M4RiaModel.FireHydrant" Width="1.5" PointX="11.75" PointY="5.75" Height="1.4033821614583326" />
         <AssociationConnector Association="M2M4RiaModel.AnimalVet">
-          <ConnectorPoint PointX="6.625" PointY="5.4005336507161452" />
-          <ConnectorPoint PointX="9.0104166666666661" PointY="5.4005336507161443" />
-          <ConnectorPoint PointX="9.1770833333333339" PointY="5.4005336507161452" />
-          <ConnectorPoint PointX="9.375" PointY="5.4005336507161452" />
+          <ConnectorPoint PointX="6.625" PointY="5.3651432291666659" />
+          <ConnectorPoint PointX="9.375" PointY="5.3651432291666659" />
         </AssociationConnector>
         <AssociationConnector Association="M2M4RiaModel.DogFireHydrant">
-          <ConnectorPoint PointX="8.6562525" PointY="6.75" />
-          <ConnectorPoint PointX="8.6562525" PointY="6.3077294921875" />
-          <ConnectorPoint PointX="9.0104166666666661" PointY="6.3077294921874989" />
-          <ConnectorPoint PointX="9.1770833333333339" PointY="6.3077294921875" />
-          <ConnectorPoint PointX="11.75" PointY="6.3077294921875" />
+          <ConnectorPoint PointX="9" PointY="6.9516910807291659" />
+          <ConnectorPoint PointX="11.75" PointY="6.9516910807291659" />
         </AssociationConnector>
         <EntityTypeShape EntityType="M2M4RiaModel.Owner" Width="1.5" PointX="5.125" PointY="1.375" Height="1.59568359375" />
         <AssociationConnector Association="M2M4RiaModel.OwnerAnimal">
@@ -735,34 +781,30 @@
         </AssociationConnector>
         <EntityTypeShape EntityType="M2M4RiaModel.ChewedShoe" Width="1.5" PointX="11.75" PointY="9.625" Height="1.7879850260416657" />
         <AssociationConnector Association="M2M4RiaModel.DogChewedShoe">
-          <ConnectorPoint PointX="8.25" PointY="8.3423063151041656" />
-          <ConnectorPoint PointX="8.25" PointY="10.421153157552084" />
-          <ConnectorPoint PointX="9.0104166666666661" PointY="10.421153157552084" />
-          <ConnectorPoint PointX="9.1770833333333339" PointY="10.421153157552084" />
-          <ConnectorPoint PointX="11.75" PointY="10.421153157552084" />
+          <ConnectorPoint PointX="8.25" PointY="8.922587890625" />
+          <ConnectorPoint PointX="8.25" PointY="10.518992513020834" />
+          <ConnectorPoint PointX="11.75" PointY="10.518992513020834" />
         </AssociationConnector>
         <EntityTypeShape EntityType="M2M4RiaModel.Trainer" Width="1.5" PointX="11.75" PointY="7.75" Height="1.5956835937499996" />
         <AssociationConnector Association="M2M4RiaModel.DogTrainer">
-          <ConnectorPoint PointX="9" PointY="8.0461531575520837" />
-          <ConnectorPoint PointX="9.0104166666666661" PointY="8.0461531575520837" />
-          <ConnectorPoint PointX="9.1770833333333339" PointY="8.0461531575520837" />
-          <ConnectorPoint PointX="11.75" PointY="8.0461531575520837" />
+          <ConnectorPoint PointX="9" PointY="8.3362939453125" />
+          <ConnectorPoint PointX="11.75" PointY="8.3362939453125" />
         </AssociationConnector>
         <EntityTypeShape EntityType="M2M4RiaModel.Food" Width="1.5" PointX="9.375" PointY="3.25" Height="1.4033821614583326" />
         <AssociationConnector Association="M2M4RiaModel.AnimalFood">
           <ConnectorPoint PointX="6.625" PointY="4.3266910807291659" />
           <ConnectorPoint PointX="9.375" PointY="4.3266910807291659" />
         </AssociationConnector>
-        <AssociationConnector Association="M2M4RiaModel.CatAnimal">
-          <ConnectorPoint PointX="9.09375" PointY="12.375" />
-          <ConnectorPoint PointX="9.09375" PointY="4.8286697387695305" />
-          <ConnectorPoint PointX="6.625" PointY="4.8286697387695305" />
-        </AssociationConnector>
         <AssociationConnector Association="M2M4RiaModel.DogDog">
           <ConnectorPoint PointX="7.5" PointY="7.4244157151442307" />
           <ConnectorPoint PointX="7.25" PointY="7.4244157151442307" />
           <ConnectorPoint PointX="7.25" PointY="8.0102083458533659" />
           <ConnectorPoint PointX="7.5" PointY="8.0102083458533659" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="M2M4RiaModel.MarkedTerritory" Width="1.5" PointX="11.75" PointY="12.125" Height="1.9802864583333317" />
+        <AssociationConnector Association="M2M4RiaModel.CatMarkedTerritories">
+          <ConnectorPoint PointX="9.125" PointY="13.076691080729166" />
+          <ConnectorPoint PointX="11.75" PointY="13.076691080729166" />
         </AssociationConnector>
       </Diagram>
     </edmx:Diagrams>

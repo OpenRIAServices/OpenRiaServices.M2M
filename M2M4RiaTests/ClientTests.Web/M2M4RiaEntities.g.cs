@@ -24,317 +24,402 @@ namespace ClientTests.Web
     [Obsolete("This class is only intended for use by the RIA M2M solution")]
     public partial class AnimalVet
     {
-        // 'AnimalVetToVetSet' associationSet from 'Vet.VetId' to 'AnimalVet.VetId'
-        private int _VetId;
+        // 'AnimalVetToVetSet' associationSet from 'Vet.VetId' to 'AnimalVet.VetVetId'
+        private int _VetVetId;
 
         [DataMember]
         [Key]
-        public int VetId
+        public int VetVetId
         {
             get
             {
                 if(Vet != null)
                 {
-		            if(_VetId != Vet.VetId && _VetId == default(int))
+		            if(_VetVetId != Vet.VetId && _VetVetId == default(int))
 					{
-                        _VetId = Vet.VetId;
+                        _VetVetId = Vet.VetId;
 					}
                 }
-                return _VetId;
+                return _VetVetId;
             }
             set
             {
-                _VetId = value;
+                _VetVetId = value;
             }
         }
 
-        [Include]
-        [XmlIgnore]
-        [Association("AnimalVetToVetSet", "VetId", "VetId", IsForeignKey = true)]
-        [DataMember]
-        public Vet Vet { get; set; }
-
-        // 'AnimalVetToAnimalSet' associationSet from 'Animal.AnimalId' to 'AnimalVet.AnimalId'
-        private int _AnimalId;
+        // 'AnimalVetToAnimalSet' associationSet from 'Animal.AnimalId' to 'AnimalVet.AnimalAnimalId'
+        private int _AnimalAnimalId;
 
         [DataMember]
         [Key]
-        public int AnimalId
+        public int AnimalAnimalId
         {
             get
             {
                 if(Animal != null)
                 {
-		            if(_AnimalId != Animal.AnimalId && _VetId == default(int))
+		            if(_AnimalAnimalId != Animal.AnimalId && _AnimalAnimalId == default(int))
 					{
-                        _AnimalId = Animal.AnimalId;
+                        _AnimalAnimalId = Animal.AnimalId;
 					}
                 }
-                return _AnimalId;
+                return _AnimalAnimalId;
             }
             set
             {
-                _AnimalId = value;
+                _AnimalAnimalId = value;
             }
         }
 
         [Include]
         [XmlIgnore]
-        [Association("AnimalVetToAnimalSet", "AnimalId", "AnimalId", IsForeignKey = true)]
+        [Association("AnimalVetToVetSet", "VetVetId", "VetId", IsForeignKey = true)]
+        [DataMember]
+        public Vet Vet { get; set; }
+
+        [Include]
+        [XmlIgnore]
+        [Association("AnimalVetToAnimalSet", "AnimalAnimalId", "AnimalId", IsForeignKey = true)]
         [DataMember]
         public Animal Animal { get; set; }
     }
     [Obsolete("This class is only intended for use by the RIA M2M solution")]
     public partial class DogFireHydrant
     {
-        // 'DogFireHydrantToFireHydrantSet' associationSet from 'FireHydrant.FireHydrantId' to 'DogFireHydrant.FireHydrantId'
-        private int _FireHydrantId;
+        // 'DogFireHydrantToFireHydrantSet' associationSet from 'FireHydrant.FireHydrantId' to 'DogFireHydrant.FireHydrantFireHydrantId'
+        private int _FireHydrantFireHydrantId;
 
         [DataMember]
         [Key]
-        public int FireHydrantId
+        public int FireHydrantFireHydrantId
         {
             get
             {
                 if(FireHydrant != null)
                 {
-		            if(_FireHydrantId != FireHydrant.FireHydrantId && _FireHydrantId == default(int))
+		            if(_FireHydrantFireHydrantId != FireHydrant.FireHydrantId && _FireHydrantFireHydrantId == default(int))
 					{
-                        _FireHydrantId = FireHydrant.FireHydrantId;
+                        _FireHydrantFireHydrantId = FireHydrant.FireHydrantId;
 					}
                 }
-                return _FireHydrantId;
+                return _FireHydrantFireHydrantId;
             }
             set
             {
-                _FireHydrantId = value;
+                _FireHydrantFireHydrantId = value;
             }
         }
 
-        [Include]
-        [XmlIgnore]
-        [Association("DogFireHydrantToFireHydrantSet", "FireHydrantId", "FireHydrantId", IsForeignKey = true)]
-        [DataMember]
-        public FireHydrant FireHydrant { get; set; }
-
-        // 'DogFireHydrantToDogSet' associationSet from 'Dog.AnimalId' to 'DogFireHydrant.DogId'
-        private int _DogId;
+        // 'DogFireHydrantToDogSet' associationSet from 'Dog.AnimalId' to 'DogFireHydrant.DogAnimalId'
+        private int _DogAnimalId;
 
         [DataMember]
         [Key]
-        public int DogId
+        public int DogAnimalId
         {
             get
             {
                 if(Dog != null)
                 {
-		            if(_DogId != Dog.AnimalId && _FireHydrantId == default(int))
+		            if(_DogAnimalId != Dog.AnimalId && _DogAnimalId == default(int))
 					{
-                        _DogId = Dog.AnimalId;
+                        _DogAnimalId = Dog.AnimalId;
 					}
                 }
-                return _DogId;
+                return _DogAnimalId;
             }
             set
             {
-                _DogId = value;
+                _DogAnimalId = value;
             }
         }
 
         [Include]
         [XmlIgnore]
-        [Association("DogFireHydrantToDogSet", "DogId", "AnimalId", IsForeignKey = true)]
+        [Association("DogFireHydrantToFireHydrantSet", "FireHydrantFireHydrantId", "FireHydrantId", IsForeignKey = true)]
+        [DataMember]
+        public FireHydrant FireHydrant { get; set; }
+
+        [Include]
+        [XmlIgnore]
+        [Association("DogFireHydrantToDogSet", "DogAnimalId", "AnimalId", IsForeignKey = true)]
         [DataMember]
         public Dog Dog { get; set; }
     }
     [Obsolete("This class is only intended for use by the RIA M2M solution")]
     public partial class DogTrainer
     {
-        // 'DogTrainerToTrainerSet' associationSet from 'Trainer.TrainerId' to 'DogTrainer.TrainerId'
-        private int _TrainerId;
+        // 'DogTrainerToTrainerSet' associationSet from 'Trainer.TrainerId' to 'DogTrainer.TrainerTrainerId'
+        private int _TrainerTrainerId;
 
         [DataMember]
         [Key]
-        public int TrainerId
+        public int TrainerTrainerId
         {
             get
             {
                 if(Trainer != null)
                 {
-		            if(_TrainerId != Trainer.TrainerId && _TrainerId == default(int))
+		            if(_TrainerTrainerId != Trainer.TrainerId && _TrainerTrainerId == default(int))
 					{
-                        _TrainerId = Trainer.TrainerId;
+                        _TrainerTrainerId = Trainer.TrainerId;
 					}
                 }
-                return _TrainerId;
+                return _TrainerTrainerId;
             }
             set
             {
-                _TrainerId = value;
+                _TrainerTrainerId = value;
             }
         }
 
-        [Include]
-        [XmlIgnore]
-        [Association("DogTrainerToTrainerSet", "TrainerId", "TrainerId", IsForeignKey = true)]
-        [DataMember]
-        public Trainer Trainer { get; set; }
-
-        // 'DogTrainerToDogSet' associationSet from 'Dog.AnimalId' to 'DogTrainer.DogId'
-        private int _DogId;
+        // 'DogTrainerToDogSet' associationSet from 'Dog.AnimalId' to 'DogTrainer.DogAnimalId'
+        private int _DogAnimalId;
 
         [DataMember]
         [Key]
-        public int DogId
+        public int DogAnimalId
         {
             get
             {
                 if(Dog != null)
                 {
-		            if(_DogId != Dog.AnimalId && _TrainerId == default(int))
+		            if(_DogAnimalId != Dog.AnimalId && _DogAnimalId == default(int))
 					{
-                        _DogId = Dog.AnimalId;
+                        _DogAnimalId = Dog.AnimalId;
 					}
                 }
-                return _DogId;
+                return _DogAnimalId;
             }
             set
             {
-                _DogId = value;
+                _DogAnimalId = value;
             }
         }
 
         [Include]
         [XmlIgnore]
-        [Association("DogTrainerToDogSet", "DogId", "AnimalId", IsForeignKey = true)]
+        [Association("DogTrainerToTrainerSet", "TrainerTrainerId", "TrainerId", IsForeignKey = true)]
+        [DataMember]
+        public Trainer Trainer { get; set; }
+
+        [Include]
+        [XmlIgnore]
+        [Association("DogTrainerToDogSet", "DogAnimalId", "AnimalId", IsForeignKey = true)]
         [DataMember]
         public Dog Dog { get; set; }
     }
     [Obsolete("This class is only intended for use by the RIA M2M solution")]
-    public partial class CatAnimal
+    public partial class AnimalFood
     {
-        // 'CatAnimalToAnimalSet' associationSet from 'Animal.AnimalId' to 'CatAnimal.AnimalId'
-        private int _AnimalId;
-
-        [DataMember]
-        [Key]
-        public int AnimalId
-        {
-            get
-            {
-                if(Animal != null)
-                {
-		            if(_AnimalId != Animal.AnimalId && _AnimalId == default(int))
-					{
-                        _AnimalId = Animal.AnimalId;
-					}
-                }
-                return _AnimalId;
-            }
-            set
-            {
-                _AnimalId = value;
-            }
-        }
 
         [Include]
         [XmlIgnore]
-        [Association("CatAnimalToAnimalSet", "AnimalId", "AnimalId", IsForeignKey = true)]
+        [Association("AnimalFoodToFoodSet", "FoodFoodId", "FoodId", IsForeignKey = true)]
+        [DataMember]
+        public Food Food { get; set; }
+
+        [Include]
+        [XmlIgnore]
+        [Association("AnimalFoodToAnimalSet", "AnimalAnimalId", "AnimalId", IsForeignKey = true)]
         [DataMember]
         public Animal Animal { get; set; }
-
-        // 'CatAnimalToCatSet' associationSet from 'Cat.AnimalId' to 'CatAnimal.CatId'
-        private int _CatId;
-
-        [DataMember]
-        [Key]
-        public int CatId
-        {
-            get
-            {
-                if(Cat != null)
-                {
-		            if(_CatId != Cat.AnimalId && _AnimalId == default(int))
-					{
-                        _CatId = Cat.AnimalId;
-					}
-                }
-                return _CatId;
-            }
-            set
-            {
-                _CatId = value;
-            }
-        }
-
-        [Include]
-        [XmlIgnore]
-        [Association("CatAnimalToCatSet", "CatId", "AnimalId", IsForeignKey = true)]
-        [DataMember]
-        public Cat Cat { get; set; }
     }
     [Obsolete("This class is only intended for use by the RIA M2M solution")]
     public partial class DogDog
     {
-        // 'DogDogToDogAsParentSet' associationSet from 'DogAsParent.AnimalId' to 'DogDog.DogAsParentId'
-        private int _DogAsParentId;
+        // 'DogDogToDogAsParentSet' associationSet from 'DogAsParent.AnimalId' to 'DogDog.DogAsParentAnimalId'
+        private int _DogAsParentAnimalId;
 
         [DataMember]
         [Key]
-        public int DogAsParentId
+        public int DogAsParentAnimalId
         {
             get
             {
                 if(DogAsParent != null)
                 {
-		            if(_DogAsParentId != DogAsParent.AnimalId && _DogAsParentId == default(int))
+		            if(_DogAsParentAnimalId != DogAsParent.AnimalId && _DogAsParentAnimalId == default(int))
 					{
-                        _DogAsParentId = DogAsParent.AnimalId;
+                        _DogAsParentAnimalId = DogAsParent.AnimalId;
 					}
                 }
-                return _DogAsParentId;
+                return _DogAsParentAnimalId;
             }
             set
             {
-                _DogAsParentId = value;
+                _DogAsParentAnimalId = value;
             }
         }
 
-        [Include]
-        [XmlIgnore]
-        [Association("DogDogToDogAsParentSet", "DogAsParentId", "AnimalId", IsForeignKey = true)]
-        [DataMember]
-        public Dog DogAsParent { get; set; }
-
-        // 'DogDogToDogAsPuppySet' associationSet from 'DogAsPuppy.AnimalId' to 'DogDog.DogAsPuppyId'
-        private int _DogAsPuppyId;
+        // 'DogDogToDogAsPuppySet' associationSet from 'DogAsPuppy.AnimalId' to 'DogDog.DogAsPuppyAnimalId'
+        private int _DogAsPuppyAnimalId;
 
         [DataMember]
         [Key]
-        public int DogAsPuppyId
+        public int DogAsPuppyAnimalId
         {
             get
             {
                 if(DogAsPuppy != null)
                 {
-		            if(_DogAsPuppyId != DogAsPuppy.AnimalId && _DogAsParentId == default(int))
+		            if(_DogAsPuppyAnimalId != DogAsPuppy.AnimalId && _DogAsPuppyAnimalId == default(int))
 					{
-                        _DogAsPuppyId = DogAsPuppy.AnimalId;
+                        _DogAsPuppyAnimalId = DogAsPuppy.AnimalId;
 					}
                 }
-                return _DogAsPuppyId;
+                return _DogAsPuppyAnimalId;
             }
             set
             {
-                _DogAsPuppyId = value;
+                _DogAsPuppyAnimalId = value;
             }
         }
 
         [Include]
         [XmlIgnore]
-        [Association("DogDogToDogAsPuppySet", "DogAsPuppyId", "AnimalId", IsForeignKey = true)]
+        [Association("DogDogToDogAsParentSet", "DogAsParentAnimalId", "AnimalId", IsForeignKey = true)]
+        [DataMember]
+        public Dog DogAsParent { get; set; }
+
+        [Include]
+        [XmlIgnore]
+        [Association("DogDogToDogAsPuppySet", "DogAsPuppyAnimalId", "AnimalId", IsForeignKey = true)]
         [DataMember]
         public Dog DogAsPuppy { get; set; }
+    }
+    [Obsolete("This class is only intended for use by the RIA M2M solution")]
+    public partial class CatMarkedTerritories
+    {
+        // 'CatMarkedTerritoriesToMarkedTerritorySet' associationSet from 'MarkedTerritory.TerritoryId' to 'CatMarkedTerritories.MarkedTerritoryTerritoryId'
+        private System.Guid _MarkedTerritoryTerritoryId;
+
+        [DataMember]
+        [Key]
+        public System.Guid MarkedTerritoryTerritoryId
+        {
+            get
+            {
+                if(MarkedTerritory != null)
+                {
+		            if(_MarkedTerritoryTerritoryId != MarkedTerritory.TerritoryId && _MarkedTerritoryTerritoryId == default(System.Guid))
+					{
+                        _MarkedTerritoryTerritoryId = MarkedTerritory.TerritoryId;
+					}
+                }
+                return _MarkedTerritoryTerritoryId;
+            }
+            set
+            {
+                _MarkedTerritoryTerritoryId = value;
+            }
+        }
+        // 'CatMarkedTerritoriesToMarkedTerritorySet' associationSet from 'MarkedTerritory.CoordX' to 'CatMarkedTerritories.MarkedTerritoryCoordX'
+        private int _MarkedTerritoryCoordX;
+
+        [DataMember]
+        [Key]
+        public int MarkedTerritoryCoordX
+        {
+            get
+            {
+                if(MarkedTerritory != null)
+                {
+		            if(_MarkedTerritoryCoordX != MarkedTerritory.CoordX && _MarkedTerritoryCoordX == default(int))
+					{
+                        _MarkedTerritoryCoordX = MarkedTerritory.CoordX;
+					}
+                }
+                return _MarkedTerritoryCoordX;
+            }
+            set
+            {
+                _MarkedTerritoryCoordX = value;
+            }
+        }
+        // 'CatMarkedTerritoriesToMarkedTerritorySet' associationSet from 'MarkedTerritory.CoordY' to 'CatMarkedTerritories.MarkedTerritoryCoordY'
+        private int _MarkedTerritoryCoordY;
+
+        [DataMember]
+        [Key]
+        public int MarkedTerritoryCoordY
+        {
+            get
+            {
+                if(MarkedTerritory != null)
+                {
+		            if(_MarkedTerritoryCoordY != MarkedTerritory.CoordY && _MarkedTerritoryCoordY == default(int))
+					{
+                        _MarkedTerritoryCoordY = MarkedTerritory.CoordY;
+					}
+                }
+                return _MarkedTerritoryCoordY;
+            }
+            set
+            {
+                _MarkedTerritoryCoordY = value;
+            }
+        }
+        // 'CatMarkedTerritoriesToMarkedTerritorySet' associationSet from 'MarkedTerritory.CoordZ' to 'CatMarkedTerritories.MarkedTerritoryCoordZ'
+        private int _MarkedTerritoryCoordZ;
+
+        [DataMember]
+        [Key]
+        public int MarkedTerritoryCoordZ
+        {
+            get
+            {
+                if(MarkedTerritory != null)
+                {
+		            if(_MarkedTerritoryCoordZ != MarkedTerritory.CoordZ && _MarkedTerritoryCoordZ == default(int))
+					{
+                        _MarkedTerritoryCoordZ = MarkedTerritory.CoordZ;
+					}
+                }
+                return _MarkedTerritoryCoordZ;
+            }
+            set
+            {
+                _MarkedTerritoryCoordZ = value;
+            }
+        }
+
+        // 'CatMarkedTerritoriesToCatSet' associationSet from 'Cat.AnimalId' to 'CatMarkedTerritories.CatAnimalId'
+        private int _CatAnimalId;
+
+        [DataMember]
+        [Key]
+        public int CatAnimalId
+        {
+            get
+            {
+                if(Cat != null)
+                {
+		            if(_CatAnimalId != Cat.AnimalId && _CatAnimalId == default(int))
+					{
+                        _CatAnimalId = Cat.AnimalId;
+					}
+                }
+                return _CatAnimalId;
+            }
+            set
+            {
+                _CatAnimalId = value;
+            }
+        }
+
+        [Include]
+        [XmlIgnore]
+        [Association("CatMarkedTerritoriesToMarkedTerritorySet", "MarkedTerritoryTerritoryId,MarkedTerritoryCoordX,MarkedTerritoryCoordY,MarkedTerritoryCoordZ", "TerritoryId,CoordX,CoordY,CoordZ", IsForeignKey = true)]
+        [DataMember]
+        public MarkedTerritory MarkedTerritory { get; set; }
+
+        [Include]
+        [XmlIgnore]
+        [Association("CatMarkedTerritoriesToCatSet", "CatAnimalId", "AnimalId", IsForeignKey = true)]
+        [DataMember]
+        public Cat Cat { get; set; }
     }
     //
     // Regular Entity Types
@@ -344,7 +429,7 @@ namespace ClientTests.Web
         [Obsolete("This property is only intended for use by the RIA M2M solution")]
         [DataMember]
         [Include]
-        [Association("AnimalVetToAnimalSet", "AnimalId", "AnimalId", IsForeignKey = false)]
+        [Association("AnimalVetToAnimalSet", "AnimalId", "AnimalAnimalId", IsForeignKey = false)]
         public IList<AnimalVet> AnimalVetToVetSet
         {
             get
@@ -354,26 +439,13 @@ namespace ClientTests.Web
                 return Vets.Select(makeJoinType).ToList();
             }
         }
-        [Obsolete("This property is only intended for use by the RIA M2M solution")]
-        [DataMember]
-        [Include]
-        [Association("CatAnimalToAnimalSet", "AnimalId", "AnimalId", IsForeignKey = false)]
-        public IList<CatAnimal> CatAnimalToCatSet
-        {
-            get
-            {
-                Func<Cat, CatAnimal> makeJoinType = 
-                    e => new CatAnimal { Animal = this, Cat = e };
-                return Cats.Select(makeJoinType).ToList();
-            }
-        }
     }
     public partial class Vet
     {
         [Obsolete("This property is only intended for use by the RIA M2M solution")]
         [DataMember]
         [Include]
-        [Association("AnimalVetToVetSet", "VetId", "VetId", IsForeignKey = false)]
+        [Association("AnimalVetToVetSet", "VetId", "VetVetId", IsForeignKey = false)]
         public IList<AnimalVet> AnimalVetToAnimalSet
         {
             get
@@ -392,7 +464,7 @@ namespace ClientTests.Web
         [Obsolete("This property is only intended for use by the RIA M2M solution")]
         [DataMember]
         [Include]
-        [Association("DogTrainerToTrainerSet", "TrainerId", "TrainerId", IsForeignKey = false)]
+        [Association("DogTrainerToTrainerSet", "TrainerId", "TrainerTrainerId", IsForeignKey = false)]
         public IList<DogTrainer> DogTrainerToDogSet
         {
             get
@@ -406,12 +478,28 @@ namespace ClientTests.Web
     public partial class Food
     {
     }
+    public partial class MarkedTerritory
+    {
+        [Obsolete("This property is only intended for use by the RIA M2M solution")]
+        [DataMember]
+        [Include]
+        [Association("CatMarkedTerritoriesToMarkedTerritorySet", "TerritoryId,CoordX,CoordY,CoordZ", "MarkedTerritoryTerritoryId,MarkedTerritoryCoordX,MarkedTerritoryCoordY,MarkedTerritoryCoordZ", IsForeignKey = false)]
+        public IList<CatMarkedTerritories> CatMarkedTerritoriesToCatSet
+        {
+            get
+            {
+                Func<Cat, CatMarkedTerritories> makeJoinType = 
+                    e => new CatMarkedTerritories { MarkedTerritory = this, Cat = e };
+                return Cats.Select(makeJoinType).ToList();
+            }
+        }
+    }
     public partial class Dog
     {
         [Obsolete("This property is only intended for use by the RIA M2M solution")]
         [DataMember]
         [Include]
-        [Association("DogFireHydrantToDogSet", "AnimalId", "DogId", IsForeignKey = false)]
+        [Association("DogFireHydrantToDogSet", "AnimalId", "DogAnimalId", IsForeignKey = false)]
         public IList<DogFireHydrant> DogFireHydrantToFireHydrantSet
         {
             get
@@ -424,7 +512,7 @@ namespace ClientTests.Web
         [Obsolete("This property is only intended for use by the RIA M2M solution")]
         [DataMember]
         [Include]
-        [Association("DogTrainerToDogSet", "AnimalId", "DogId", IsForeignKey = false)]
+        [Association("DogTrainerToDogSet", "AnimalId", "DogAnimalId", IsForeignKey = false)]
         public IList<DogTrainer> DogTrainerToTrainerSet
         {
             get
@@ -437,7 +525,7 @@ namespace ClientTests.Web
         [Obsolete("This property is only intended for use by the RIA M2M solution")]
         [DataMember]
         [Include]
-        [Association("DogDogToDogAsPuppySet", "AnimalId", "DogAsPuppyId", IsForeignKey = false)]
+        [Association("DogDogToDogAsPuppySet", "AnimalId", "DogAsPuppyAnimalId", IsForeignKey = false)]
         public IList<DogDog> DogDogToDogAsParentSet
         {
             get
@@ -450,7 +538,7 @@ namespace ClientTests.Web
         [Obsolete("This property is only intended for use by the RIA M2M solution")]
         [DataMember]
         [Include]
-        [Association("DogDogToDogAsParentSet", "AnimalId", "DogAsParentId", IsForeignKey = false)]
+        [Association("DogDogToDogAsParentSet", "AnimalId", "DogAsParentAnimalId", IsForeignKey = false)]
         public IList<DogDog> DogDogToDogAsPuppySet
         {
             get
@@ -466,14 +554,14 @@ namespace ClientTests.Web
         [Obsolete("This property is only intended for use by the RIA M2M solution")]
         [DataMember]
         [Include]
-        [Association("CatAnimalToCatSet", "AnimalId", "CatId", IsForeignKey = false)]
-        public IList<CatAnimal> CatAnimalToAnimalSet
+        [Association("CatMarkedTerritoriesToCatSet", "AnimalId", "CatAnimalId", IsForeignKey = false)]
+        public IList<CatMarkedTerritories> CatMarkedTerritoriesToMarkedTerritorySet
         {
             get
             {
-                Func<Animal, CatAnimal> makeJoinType = 
-                    e => new CatAnimal { Cat = this, Animal = e };
-                return Animals.Select(makeJoinType).ToList();
+                Func<MarkedTerritory, CatMarkedTerritories> makeJoinType = 
+                    e => new CatMarkedTerritories { Cat = this, MarkedTerritory = e };
+                return MarkedTerritories.Select(makeJoinType).ToList();
             }
         }
     }

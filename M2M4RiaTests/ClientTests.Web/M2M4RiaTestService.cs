@@ -276,6 +276,41 @@ namespace ClientTests.Web
             }
             this.ObjectContext.Vets.DeleteObject(vet);
         }
+
+        // TODO:
+        // Consider constraining the results of your query method.  If you need additional input you can
+        // add parameters to this method or create additional query methods with different names.
+        // To support paging you will need to add ordering to the 'Vets' query.
+        public IQueryable<MarkedTerritory> GetMarkedTerritories()
+        {
+            return this.ObjectContext.MarkedTerritories;
+        }
+
+        public void InsertMarkedTerritory( MarkedTerritory markedTerritory )
+        {
+            if( (markedTerritory.EntityState != EntityState.Detached) )
+            {
+                this.ObjectContext.ObjectStateManager.ChangeObjectState( markedTerritory, EntityState.Added );
+            }
+            else
+            {
+                this.ObjectContext.MarkedTerritories.AddObject( markedTerritory );
+            }
+        }
+
+        public void UpdateMarkedTerritory( MarkedTerritory currentMarkedTerritory )
+        {
+            this.ObjectContext.MarkedTerritories.AttachAsModified( currentMarkedTerritory, this.ChangeSet.GetOriginal( currentMarkedTerritory ) );
+        }
+
+        public void DeleteMarkedTerritory( MarkedTerritory markedTerritory )
+        {
+            if( (markedTerritory.EntityState == EntityState.Detached) )
+            {
+                this.ObjectContext.MarkedTerritories.Attach( markedTerritory );
+            }
+            this.ObjectContext.MarkedTerritories.DeleteObject( markedTerritory );
+        }
     }
 }
 

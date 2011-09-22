@@ -24,8 +24,8 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("M2M4RiaModel", "DogChewedShoe", "Dog", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ClientTests.Web.Dog), "ChewedShoe", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.ChewedShoe), true)]
 [assembly: EdmRelationshipAttribute("M2M4RiaModel", "DogTrainer", "Dog", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Dog), "Trainer", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Trainer))]
 [assembly: EdmRelationshipAttribute("M2M4RiaModel", "AnimalFood", "Animal", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Animal), "Food", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Food))]
-[assembly: EdmRelationshipAttribute("M2M4RiaModel", "CatAnimal", "Cat", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Cat), "Animal", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Animal))]
 [assembly: EdmRelationshipAttribute("M2M4RiaModel", "DogDog", "Puppy", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Dog), "Parent", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Dog))]
+[assembly: EdmRelationshipAttribute("M2M4RiaModel", "CatMarkedTerritories", "Cat", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.Cat), "MarkedTerritories", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ClientTests.Web.MarkedTerritory))]
 
 #endregion
 
@@ -188,6 +188,22 @@ namespace ClientTests.Web
             }
         }
         private ObjectSet<Food> _Foods;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<MarkedTerritory> MarkedTerritories
+        {
+            get
+            {
+                if ((_MarkedTerritories == null))
+                {
+                    _MarkedTerritories = base.CreateObjectSet<MarkedTerritory>("MarkedTerritories");
+                }
+                return _MarkedTerritories;
+            }
+        }
+        private ObjectSet<MarkedTerritory> _MarkedTerritories;
 
         #endregion
         #region AddTo Methods
@@ -246,6 +262,14 @@ namespace ClientTests.Web
         public void AddToFoods(Food food)
         {
             base.AddObject("Foods", food);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the MarkedTerritories EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToMarkedTerritories(MarkedTerritory markedTerritory)
+        {
+            base.AddObject("MarkedTerritories", markedTerritory);
         }
 
         #endregion
@@ -422,28 +446,6 @@ namespace ClientTests.Web
                 }
             }
         }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("M2M4RiaModel", "CatAnimal", "Cat")]
-        public EntityCollection<Cat> Cats
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Cat>("M2M4RiaModel.CatAnimal", "Cat");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Cat>("M2M4RiaModel.CatAnimal", "Cat", value);
-                }
-            }
-        }
 
         #endregion
     }
@@ -510,18 +512,18 @@ namespace ClientTests.Web
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("M2M4RiaModel", "CatAnimal", "Animal")]
-        public EntityCollection<Animal> Animals
+        [EdmRelationshipNavigationPropertyAttribute("M2M4RiaModel", "CatMarkedTerritories", "MarkedTerritories")]
+        public EntityCollection<MarkedTerritory> MarkedTerritories
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Animal>("M2M4RiaModel.CatAnimal", "Animal");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<MarkedTerritory>("M2M4RiaModel.CatMarkedTerritories", "MarkedTerritories");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Animal>("M2M4RiaModel.CatAnimal", "Animal", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<MarkedTerritory>("M2M4RiaModel.CatMarkedTerritories", "MarkedTerritories", value);
                 }
             }
         }
@@ -1006,6 +1008,173 @@ namespace ClientTests.Web
 
         #endregion
     
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="M2M4RiaModel", Name="MarkedTerritory")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class MarkedTerritory : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new MarkedTerritory object.
+        /// </summary>
+        /// <param name="territoryId">Initial value of the TerritoryId property.</param>
+        /// <param name="coordX">Initial value of the CoordX property.</param>
+        /// <param name="coordY">Initial value of the CoordY property.</param>
+        /// <param name="coordZ">Initial value of the CoordZ property.</param>
+        public static MarkedTerritory CreateMarkedTerritory(global::System.Guid territoryId, global::System.Int32 coordX, global::System.Int32 coordY, global::System.Int32 coordZ)
+        {
+            MarkedTerritory markedTerritory = new MarkedTerritory();
+            markedTerritory.TerritoryId = territoryId;
+            markedTerritory.CoordX = coordX;
+            markedTerritory.CoordY = coordY;
+            markedTerritory.CoordZ = coordZ;
+            return markedTerritory;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid TerritoryId
+        {
+            get
+            {
+                return _TerritoryId;
+            }
+            set
+            {
+                if (_TerritoryId != value)
+                {
+                    OnTerritoryIdChanging(value);
+                    ReportPropertyChanging("TerritoryId");
+                    _TerritoryId = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("TerritoryId");
+                    OnTerritoryIdChanged();
+                }
+            }
+        }
+        private global::System.Guid _TerritoryId;
+        partial void OnTerritoryIdChanging(global::System.Guid value);
+        partial void OnTerritoryIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 CoordX
+        {
+            get
+            {
+                return _CoordX;
+            }
+            set
+            {
+                if (_CoordX != value)
+                {
+                    OnCoordXChanging(value);
+                    ReportPropertyChanging("CoordX");
+                    _CoordX = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("CoordX");
+                    OnCoordXChanged();
+                }
+            }
+        }
+        private global::System.Int32 _CoordX;
+        partial void OnCoordXChanging(global::System.Int32 value);
+        partial void OnCoordXChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 CoordY
+        {
+            get
+            {
+                return _CoordY;
+            }
+            set
+            {
+                if (_CoordY != value)
+                {
+                    OnCoordYChanging(value);
+                    ReportPropertyChanging("CoordY");
+                    _CoordY = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("CoordY");
+                    OnCoordYChanged();
+                }
+            }
+        }
+        private global::System.Int32 _CoordY;
+        partial void OnCoordYChanging(global::System.Int32 value);
+        partial void OnCoordYChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 CoordZ
+        {
+            get
+            {
+                return _CoordZ;
+            }
+            set
+            {
+                if (_CoordZ != value)
+                {
+                    OnCoordZChanging(value);
+                    ReportPropertyChanging("CoordZ");
+                    _CoordZ = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("CoordZ");
+                    OnCoordZChanged();
+                }
+            }
+        }
+        private global::System.Int32 _CoordZ;
+        partial void OnCoordZChanging(global::System.Int32 value);
+        partial void OnCoordZChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("M2M4RiaModel", "CatMarkedTerritories", "Cat")]
+        public EntityCollection<Cat> Cats
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Cat>("M2M4RiaModel.CatMarkedTerritories", "Cat");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Cat>("M2M4RiaModel.CatMarkedTerritories", "Cat", value);
+                }
+            }
+        }
+
+        #endregion
     }
     
     /// <summary>

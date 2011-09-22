@@ -1,4 +1,7 @@
 ﻿<#@ include file="EF.Utility.CS.ttinclude"#>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #>
 // M2M4RiaShared.ttinclude has been located and loaded.
 <#+
     // ** Change these values in a separate .tt file according to the needs of your project. **
@@ -34,7 +37,6 @@
     /// <returns></returns>
     public bool IsJoinTypeEntitySetAccessibleFromDomainContext{ get; set;}
 
-    private const string ERROR_PK_SUPPORT = "Only entites containing unary primary key's are supported currently by this T4 Template.";
     private CodeGenerationTools Code;
     private MetadataTools Tools;
 
@@ -116,18 +118,13 @@
 			}
 
             // ** Populate "Entity1ToLink" half of the many to many association
-
-            if(entity1.KeyMembers.Count > 1)
-                throw new InvalidOperationException(ERROR_PK_SUPPORT);
-
             m2mAssociationSet.Entity1ToLink = new M2MAssociation();
             m2mAssociationSet.Entity1ToLink.Entity = GetM2MEntityForEntity(entity1, m2mData.Entities);
 			m2mAssociationSet.Entity1ToLink.EntityNavProp = m2mAssociationSet.Entity1ToLink.Entity.Name + entity1Suffix;
-            // NOTE: Only entites containing unary primary key's are supported currently.
-            m2mAssociationSet.Entity1ToLink.PK = Code.Escape(entity1.KeyMembers[0]);
-            m2mAssociationSet.Entity1ToLink.PKDataType = Code.Escape(entity1.KeyMembers[0].TypeUsage);
+            m2mAssociationSet.Entity1ToLink.PK.AddRange(entity1.KeyMembers.Select(km => Code.Escape(km)));
+            m2mAssociationSet.Entity1ToLink.PKDataType.AddRange(entity1.KeyMembers.Select(km => Code.Escape(km.TypeUsage)));
             m2mAssociationSet.Entity1ToLink.LinkTableNavProp = Code.Escape(association) + "To" + Code.Escape(entity1) + entity1Suffix + "Set";
-            m2mAssociationSet.Entity1ToLink.FK = Code.Escape(entity1) + entity1Suffix + "Id";
+            m2mAssociationSet.Entity1ToLink.FK.AddRange(entity1.KeyMembers.Select(km => Code.Escape(entity1) + entity1Suffix + Code.Escape(km)));
 
             // Retrieve navigation property navigating from the first entity to the second entity (if exists)
             NavigationProperty entity1NavProp = GetNavigationPropertyForAssociationEnd(entity1, association, association.AssociationEndMembers[0]);
@@ -140,17 +137,13 @@
 
 
             // ** Populate "entity2ToLink" half of the many to many association
-            if(entity2.KeyMembers.Count > 1)
-                throw new InvalidOperationException(ERROR_PK_SUPPORT);
-
             m2mAssociationSet.Entity2ToLink = new M2MAssociation();
             m2mAssociationSet.Entity2ToLink.Entity = GetM2MEntityForEntity(entity2, m2mData.Entities);
 			m2mAssociationSet.Entity2ToLink.EntityNavProp = m2mAssociationSet.Entity2ToLink.Entity.Name + entity2Suffix;
-            // NOTE: Only entites containing unary primary key's are supported currently.
-            m2mAssociationSet.Entity2ToLink.PK = Code.Escape(entity2.KeyMembers[0]);
-            m2mAssociationSet.Entity2ToLink.PKDataType = Code.Escape(entity2.KeyMembers[0].TypeUsage);
+            m2mAssociationSet.Entity2ToLink.PK.AddRange(entity2.KeyMembers.Select(km => Code.Escape(km)));
+            m2mAssociationSet.Entity2ToLink.PKDataType.AddRange(entity2.KeyMembers.Select(km => Code.Escape(km.TypeUsage)));
             m2mAssociationSet.Entity2ToLink.LinkTableNavProp = Code.Escape(association) + "To" + Code.Escape(entity2) + entity2Suffix + "Set";
-            m2mAssociationSet.Entity2ToLink.FK = Code.Escape(entity2) + entity2Suffix + "Id";
+            m2mAssociationSet.Entity2ToLink.FK.AddRange(entity2.KeyMembers.Select(km => Code.Escape(entity2) + entity2Suffix + Code.Escape(km)));
 
             // Retrieve navigation propery navigating from the second entity to the first entity (if exists)
             NavigationProperty entity2NavProp = GetNavigationPropertyForAssociationEnd(entity2, association, association.AssociationEndMembers[1]);
@@ -293,14 +286,21 @@
     /// </summary>
     public class M2MAssociation
     {
-        public string PK { get; set; }
-        public string PKDataType { get; set; }
+		public M2MAssociation()
+		{
+			PK = new List<string>();
+			PKDataType = new List<string>();
+			FK = new List<string>();
+		}
+		
+        public List<string> PK { get; private set; }
+        public List<string> PKDataType { get; private set; }
         public M2MEntity Entity { get; set; }
         public string EntityNavProp { get; set; }
         public bool HasM2MNavProp { get; set; }
         public string M2MNavProp { get; set; }
         public string LinkTableNavProp { get; set; }
-        public string FK { get; set; }
+        public List<string> FK { get; private set; }
 
         public override string ToString()
         {
