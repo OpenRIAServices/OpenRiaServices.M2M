@@ -12,6 +12,6 @@
     <description>$description$</description>
     <releaseNotes>This version supports EF code first, DBContext, fluent configuration, and integrates with the code generator of RIA Services.</releaseNotes>
     <copyright>Copyright 2012</copyright>
-    <tags>WCF RIA Services, RIAServices, Many2Many</tags>
+    <tags>WCF RIA Services RIAServices Many2Many M2M4RIA</tags>
   </metadata>
 </package>
