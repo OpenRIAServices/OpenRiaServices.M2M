@@ -1,5 +1,0 @@
-﻿<#@ template language="C#" hostspecific="True" #>
-<#@ output extension=".g.cs" #>
-
-<#@ include file="$(ProjectDir)\..\M2MGenerator.ttinclude" #>
-<#@ include file="$(SolutionDir)\M2M4Ria\Server\M2M4RiaEntities.ttinclude" #>
