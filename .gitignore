@@ -1,0 +1,16 @@
+# Visual Studio left-overs
+*.suo
+*Visual Studio 2010*
+*.csproj.user
+*.xap
+Bin/
+bin/
+Obj/
+obj/
+Generated_Code/
+.svn/
+TestResults/
+.dll
+packages/
+lib/
+_ReSharper*
