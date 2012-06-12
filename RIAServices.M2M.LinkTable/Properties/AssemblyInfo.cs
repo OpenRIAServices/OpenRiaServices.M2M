@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("RIAServices.M2M.LinkTable")]
-[assembly: AssemblyDescription("Generic link table implementation used for RIAServices.M2M")]
+[assembly: AssemblyDescription("Generic link table implementation used by RIAServices.M2M.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Merijn de Jonge")]
 [assembly: AssemblyProduct("RIAServices.M2M.LinkTable")]
