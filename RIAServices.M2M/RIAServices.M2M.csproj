@@ -45,7 +45,8 @@
       <HintPath>..\packages\EntityFramework.4.1.10715.0\lib\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="FluentMetadata, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f00a987c169fea34, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentMetadata.0.2.69239.0\lib\net40\FluentMetadata.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FluentMetadata.0.2.69548.0\lib\net40\FluentMetadata.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ServiceModel.DomainServices.Tools, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.ServiceModel.DomainServices.Tools.TextTemplate, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
