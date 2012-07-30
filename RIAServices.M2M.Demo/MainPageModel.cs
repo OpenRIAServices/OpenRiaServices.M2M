@@ -1,14 +1,10 @@
-﻿namespace RIAServices.M2M.Demo
+﻿using System;
+using System.ComponentModel;
+using System.ServiceModel.DomainServices.Client;
+using System.Windows.Input;
+
+namespace RIAServices.M2M.Demo
 {
-    using System;
-    using System.ComponentModel;
-    using System.Linq;
-    using System.ServiceModel.DomainServices.Client;
-    using System.Windows.Input;
-
-    using RIAServices.M2M.Demo.Web.Model;
-    using RIAServices.M2M.Demo.Web.Service;
-
     public abstract class MyCommand : ICommand
     {
         #region Public Events
@@ -27,7 +23,7 @@
 
         public bool CanExecute(object parameter)
         {
-            bool oldValue = CanExecuteStatus;
+            var oldValue = CanExecuteStatus;
             CanExecuteStatus = CheckCanExecute(parameter);
             if(CanExecuteStatus != oldValue)
             {
@@ -51,7 +47,7 @@
 
         protected virtual void OnCanExecuteChanged(EventArgs e)
         {
-            EventHandler canExecuteChanged = CanExecuteChanged;
+            var canExecuteChanged = CanExecuteChanged;
 
             if(canExecuteChanged != null)
             {
@@ -126,10 +122,7 @@
                 }
                 return _addDogCommand;
             }
-            set
-            {
-                _addDogCommand = value;
-            }
+            set { _addDogCommand = value; }
         }
 
         public AddTrainerCommand AddTrainer
@@ -146,13 +139,10 @@
 
         public bool AutoSave
         {
-            get
-            {
-                return _AutoSave;
-            }
+            get { return _AutoSave; }
             set
             {
-                bool oldValue = _AutoSave;
+                var oldValue = _AutoSave;
                 _AutoSave = value;
                 if(oldValue != value)
                 {
@@ -171,10 +161,7 @@
                 }
                 return _createDogCommand;
             }
-            set
-            {
-                _createDogCommand = value;
-            }
+            set { _createDogCommand = value; }
         }
 
         public CreateTrainerCommand CreateTrainer
@@ -187,10 +174,7 @@
                 }
                 return _createTrainerCommand;
             }
-            set
-            {
-                _createTrainerCommand = value;
-            }
+            set { _createTrainerCommand = value; }
         }
 
         public DeleteDogCommand DeleteDog
@@ -203,10 +187,7 @@
                 }
                 return _deleteDogCommand;
             }
-            set
-            {
-                _deleteDogCommand = value;
-            }
+            set { _deleteDogCommand = value; }
         }
 
         public DeleteTrainerCommand DeleteTrainer
@@ -219,10 +200,7 @@
                 }
                 return _deleteTrainerCommand;
             }
-            set
-            {
-                _deleteTrainerCommand = value;
-            }
+            set { _deleteTrainerCommand = value; }
         }
 
         public EntitySet<Dog> DogList { get; set; }
@@ -243,10 +221,7 @@
 
         public Dog SelectedDog
         {
-            get
-            {
-                return selectedDog;
-            }
+            get { return selectedDog; }
             set
             {
                 selectedDog = value;
@@ -256,10 +231,7 @@
 
         public Trainer SelectedDogTrainer
         {
-            get
-            {
-                return selectedDogTrainer;
-            }
+            get { return selectedDogTrainer; }
             set
             {
                 selectedDogTrainer = value;
@@ -269,10 +241,7 @@
 
         public Trainer SelectedTrainer
         {
-            get
-            {
-                return selectedTrainer;
-            }
+            get { return selectedTrainer; }
             set
             {
                 selectedTrainer = value;
@@ -282,10 +251,7 @@
 
         public Dog SelectedTrainerDog
         {
-            get
-            {
-                return selectedTrainerDog;
-            }
+            get { return selectedTrainerDog; }
             set
             {
                 selectedTrainerDog = value;
@@ -369,7 +335,7 @@
                             throw callback.Error;
                         }
                         mainPageModel.DogTrainers = mainPageModel.c.EntityContainer.GetEntitySet<DogTrainer>();
-                        object x = parameter;
+                        var x = parameter;
                     },
                 null);
         }
@@ -514,7 +480,7 @@
 
         public override void Execute(object parameter)
         {
-            mainPageModel.c.Trainers.Add(new Trainer { Name = "Trainer" + trainerCount++ });
+            mainPageModel.c.Trainers.Add(new Trainer {Name = "Trainer" + trainerCount++});
             mainPageModel.AutoSaveChanges();
         }
 
@@ -657,7 +623,7 @@
 
         public override void Execute(object parameter)
         {
-            mainPageModel.c.Dogs.Add(new Dog { Name = "Dog" + dogCount++ });
+            mainPageModel.c.Dogs.Add(new Dog {Name = "Dog" + dogCount++});
             mainPageModel.AutoSaveChanges();
         }
 

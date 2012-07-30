@@ -1,18 +1,16 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Runtime.Serialization;
+using System.ServiceModel.DomainServices.Server;
+using System.Web.DomainServices.FluentMetadata;
+using RIAServices.M2M.Utilities;
+
 namespace RIAServices.M2M.Configuration
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Runtime.Serialization;
-    using System.ServiceModel.DomainServices.Server;
-    using System.Web.DomainServices.FluentMetadata;
-
-    using RIAServices.M2M;
-    using RIAServices.M2M.Utilities;
-
     public class M2M4RIAExpression<TObject1, TObject2, TLinkTable>
         where TObject1 : class where TObject2 : class where TLinkTable : LinkTable<TObject1, TObject2>
     {
@@ -24,7 +22,8 @@ namespace RIAServices.M2M.Configuration
 
         #region Constructors and Destructors
 
-        public M2M4RIAExpression(MetadataContainer metaDataContainer, string m2m1, string m2mview1, string m2mview2, string m2m2)
+        public M2M4RIAExpression(MetadataContainer metaDataContainer, string m2m1, string m2mview1, string m2mview2,
+                                 string m2m2)
         {
             this.metaDataContainer = metaDataContainer;
 
@@ -46,11 +45,11 @@ namespace RIAServices.M2M.Configuration
             object1MeataData.AddMetadata(
                 m2mview1,
                 new LinkTableViewAttribute
-                    { LinkTableType = typeof(TLinkTable), M2MPropertyName = m2m1, ElementType = typeof(TObject2) });
+                    {LinkTableType = typeof(TLinkTable), M2MPropertyName = m2m1, ElementType = typeof(TObject2)});
             object2MeataData.AddMetadata(
                 m2mview2,
                 new LinkTableViewAttribute
-                    { LinkTableType = typeof(TLinkTable), M2MPropertyName = m2m2, ElementType = typeof(TObject1) });
+                    {LinkTableType = typeof(TLinkTable), M2MPropertyName = m2m2, ElementType = typeof(TObject1)});
         }
 
         #endregion
@@ -66,10 +65,10 @@ namespace RIAServices.M2M.Configuration
         }
 
         /// <summary>
-        /// A linkTable entity contains many properties that can be annotated as KeyAttribute. In this method we mark all of them to be excluded (using the ExceludeAttribute), except for
-        /// those of them that are actually allocated as key properties. This way, the generated entity at the client will only have properties that really are KeyAttributes.
+        ///   A linkTable entity contains many properties that can be annotated as KeyAttribute. In this method we mark all of them to be excluded (using the ExceludeAttribute), except for
+        ///   those of them that are actually allocated as key properties. This way, the generated entity at the client will only have properties that really are KeyAttributes.
         /// </summary>
-        /// <param name="metaData"></param>
+        /// <param name="metaData"> </param>
         private void MarkLinkTableKeysAsDataMembers(MetadataClass<TLinkTable> metaData)
         {
             var linkTableMetaData = metaDataContainer.Entity<TLinkTable>();
@@ -119,7 +118,7 @@ namespace RIAServices.M2M.Configuration
 
             var assocName = string.Format("{0}_{1}", typeof(T).Name, viewProperty);
             var assoc1 = new AssociationAttribute(assocName, primaryKeys, foreignKeys);
-            var assoc2 = new AssociationAttribute(assocName, foreignKeys, primaryKeys) { IsForeignKey = true };
+            var assoc2 = new AssociationAttribute(assocName, foreignKeys, primaryKeys) {IsForeignKey = true};
 
             tMetaData.AddMetadata(viewProperty, assoc1);
             linkTableMetaData.AddMetadata(linkTableNavProp.Name, assoc2);

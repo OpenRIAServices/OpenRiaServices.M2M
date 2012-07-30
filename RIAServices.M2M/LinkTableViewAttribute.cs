@@ -1,7 +1,7 @@
-﻿namespace RIAServices.M2M
-{
-    using System;
+﻿using System;
 
+namespace RIAServices.M2M
+{
     internal class LinkTableViewAttribute : Attribute
     {
         #region Public Properties

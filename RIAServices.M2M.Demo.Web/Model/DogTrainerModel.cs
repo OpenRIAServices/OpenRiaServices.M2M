@@ -1,9 +1,9 @@
-﻿namespace RIAServices.M2M.Demo.Web.Model
-{
-    using System.ComponentModel.DataAnnotations;
-    using System.Data.Entity;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 
-    public class DogTrainerModel : DbContext
+namespace RIAServices.M2M.Demo.Web.Model
+{
+    public class DogTrainerModel : System.Data.Entity.DbContext
     {
         #region Public Properties
 

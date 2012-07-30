@@ -1,10 +1,10 @@
-﻿namespace RIAServices.M2M.Demo
-{
-    using System;
-    using System.Diagnostics;
-    using System.Windows;
-    using System.Windows.Browser;
+﻿using System;
+using System.Diagnostics;
+using System.Windows;
+using System.Windows.Browser;
 
+namespace RIAServices.M2M.Demo
+{
     public partial class App
     {
         #region Constructors and Destructors
@@ -51,7 +51,7 @@
         {
             try
             {
-                string errorMsg = e.ExceptionObject.Message + e.ExceptionObject.StackTrace;
+                var errorMsg = e.ExceptionObject.Message + e.ExceptionObject.StackTrace;
                 errorMsg = errorMsg.Replace('"', '\'').Replace("\r\n", @"\n");
 
                 HtmlPage.Window.Eval(

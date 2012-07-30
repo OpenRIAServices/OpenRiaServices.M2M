@@ -1,7 +1,9 @@
-﻿namespace RIAServices.M2M
+﻿using System.ServiceModel.DomainServices.Client;
+
+namespace RIAServices.M2M
 {
     public interface IExtendedEntity
     {
-        System.ServiceModel.DomainServices.Client.EntitySet EntitySet { get; }
+        EntitySet EntitySet { get; }
     }
 }
