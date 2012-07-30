@@ -1,17 +1,15 @@
-﻿namespace RIAServices.M2M.Demo.Web.Service
+﻿using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.ServiceModel.DomainServices.EntityFramework;
+using System.ServiceModel.DomainServices.Hosting;
+using System.ServiceModel.DomainServices.Server;
+using System.Web.DomainServices.FluentMetadata;
+using RIAServices.M2M.DbContext;
+using RIAServices.M2M.Demo.Web.Model;
+
+namespace RIAServices.M2M.Demo.Web.Service
 {
-    using System.Data;
-    using System.Data.Entity;
-    using System.Data.Entity.Infrastructure;
-    using System.Linq;
-    using System.ServiceModel.DomainServices.EntityFramework;
-    using System.ServiceModel.DomainServices.Hosting;
-    using System.ServiceModel.DomainServices.Server;
-    using System.Web.DomainServices.FluentMetadata;
-
-    using RIAServices.M2M.DbContext;
-    using RIAServices.M2M.Demo.Web.Model;
-
     // Implements application logic using the DogTrainerModel context.
     [EnableClientAccess]
     [FluentMetadata(typeof(MetadataConfiguration))]
@@ -21,11 +19,12 @@
         {
             DbContext.Database.CreateIfNotExists();
         }
+
         #region Public Methods and Operators
 
         public void DeleteDog(Dog dog)
         {
-            DbEntityEntry<Dog> entityEntry = DbContext.Entry(dog);
+            var entityEntry = DbContext.Entry(dog);
             if((entityEntry.State != EntityState.Deleted))
             {
                 entityEntry.State = EntityState.Deleted;
@@ -39,8 +38,8 @@
 
         public void DeleteDogTrainer(DogTrainer dogTrainer)
         {
-            Dog dog = dogTrainer.FetchObject1(ChangeSet, DbContext);
-            Trainer trainer = dogTrainer.FetchObject2(ChangeSet, DbContext);
+            var dog = dogTrainer.FetchObject1(ChangeSet, DbContext);
+            var trainer = dogTrainer.FetchObject2(ChangeSet, DbContext);
             DbContext.LoadM2M<Dog, Trainer, DogTrainer>(dog, trainer);
 
             dog.Trainers.Remove(trainer);
@@ -50,7 +49,7 @@
 
         public void DeleteTrainer(Trainer trainer)
         {
-            DbEntityEntry<Trainer> entityEntry = DbContext.Entry(trainer);
+            var entityEntry = DbContext.Entry(trainer);
             if((entityEntry.State != EntityState.Deleted))
             {
                 entityEntry.State = EntityState.Deleted;
@@ -64,7 +63,7 @@
 
         public IQueryable<Dog> GetDogs()
         {
-            IQueryable<Dog> result = DbContext.DogSet.Include(x => x.Trainers);
+            var result = DbContext.DogSet.Include(x => x.Trainers);
             return result;
         }
 
@@ -81,7 +80,7 @@
 
         public void InsertDog(Dog dog)
         {
-            DbEntityEntry<Dog> entityEntry = DbContext.Entry(dog);
+            var entityEntry = DbContext.Entry(dog);
             if((entityEntry.State != EntityState.Detached))
             {
                 entityEntry.State = EntityState.Added;
@@ -94,15 +93,15 @@
 
         public void InsertDogTrainer(DogTrainer dogTrainer)
         {
-            Dog dog = dogTrainer.FetchObject1(ChangeSet, DbContext);
-            Trainer trainer = dogTrainer.FetchObject2(ChangeSet, DbContext);
+            var dog = dogTrainer.FetchObject1(ChangeSet, DbContext);
+            var trainer = dogTrainer.FetchObject2(ChangeSet, DbContext);
             dog.Trainers.Add(trainer);
             DbContext.ChangeTracker.DetectChanges();
         }
 
         public void InsertTrainer(Trainer trainer)
         {
-            DbEntityEntry<Trainer> entityEntry = DbContext.Entry(trainer);
+            var entityEntry = DbContext.Entry(trainer);
             if((entityEntry.State != EntityState.Detached))
             {
                 entityEntry.State = EntityState.Added;

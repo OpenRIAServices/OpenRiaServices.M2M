@@ -1,8 +1,8 @@
-﻿namespace RIAServices.M2M.Demo.Web.Model
-{
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
+namespace RIAServices.M2M.Demo.Web.Model
+{
     public class Dog
     {
         #region Constructors and Destructors
@@ -22,10 +22,7 @@
 
         public ICollection<DogTrainer> DogTrainers
         {
-            get
-            {
-                return Trainers.ToLinkTable<Dog, Trainer, DogTrainer>(this);
-            }
+            get { return Trainers.ToLinkTable<Dog, Trainer, DogTrainer>(this); }
         }
 
         public string Name { get; set; }
