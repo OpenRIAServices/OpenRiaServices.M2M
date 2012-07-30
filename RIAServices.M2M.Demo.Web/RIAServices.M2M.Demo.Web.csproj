@@ -50,7 +50,7 @@
     </Reference>
     <Reference Include="FluentMetadata, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f00a987c169fea34, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\FluentMetadata.0.2.69548.0\lib\net40\FluentMetadata.dll</HintPath>
+      <HintPath>..\packages\FluentMetadata.0.2.69800.0\lib\net40\FluentMetadata.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ServiceModel.DomainServices.EntityFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\RIAServices.EntityFramework.4.1.60730.0\lib\Net40\Microsoft.ServiceModel.DomainServices.EntityFramework.dll</HintPath>
