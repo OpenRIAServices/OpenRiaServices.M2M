@@ -33,7 +33,7 @@ namespace RIAServices.M2M.Configuration
             var object2MeataData = metaDataContainer.Entity<TObject2>();
 
             object1MeataData.AddMetadata(m2mview1, new IncludeAttribute());
-            object1MeataData.AddMetadata(m2mview2, new IncludeAttribute());
+            object2MeataData.AddMetadata(m2mview2, new IncludeAttribute());
 
             var object1Keys = GetKeys<TObject1>(metaDataContainer);
             var object2Keys = GetKeys<TObject2>(metaDataContainer);
@@ -42,8 +42,6 @@ namespace RIAServices.M2M.Configuration
             SetupLinkTableAssociations(x => x.Object2, m2mview2, object2Keys.ToList());
 
             MarkLinkTableKeysAsDataMembers(linkTableMetaData);
-
-            //linkTableMetaData.AddMetadata(new LinkTableAttribute());
 
             object1MeataData.AddMetadata(
                 m2mview1,
