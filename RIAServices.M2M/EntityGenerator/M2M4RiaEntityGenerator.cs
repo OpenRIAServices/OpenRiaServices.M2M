@@ -22,8 +22,8 @@ namespace RIAServices.M2M.EntityGenerator
         {
             base.GenerateCustomMethods();
             AddRemoveEntityMethod(Type);
-            AddInsertEntitymethod(Type);
-            AddAttachMethods(Type);
+            AddInsertEntityMethod(Type);
+            AddAttachMethodsToLinkTableEntity(Type);
         }
 
         protected override void GenerateProperties()
@@ -47,19 +47,19 @@ namespace RIAServices.M2M.EntityGenerator
 
         private static IEnumerable<PropertyDescriptor> GetLinkTableViewProperties(Type type)
         {
-            var props = TypeDescriptor.GetProperties(type);
-            return props.OfType<PropertyDescriptor>().Where(p => p.Attributes.OfType<LinkTableViewAttribute>().Any());
+            var props = TypeDescriptor.GetProperties(type).OfType<PropertyDescriptor>().Where(x => x.ComponentType == type);
+            return props.Where(p => p.Attributes.OfType<LinkTableViewAttribute>().Any());
         }
 
         private static IEnumerable<PropertyDescriptor> GetNavigationProperties(Type type)
         {
-            var props = TypeDescriptor.GetProperties(type);
-            return props.OfType<PropertyDescriptor>().Where(p => p.Attributes.OfType<AssociationAttribute>().Any());
+            var props = TypeDescriptor.GetProperties(type).OfType<PropertyDescriptor>();
+            return props.Where(p => p.Attributes.OfType<AssociationAttribute>().Any());
         }
 
         private static bool IsLinkTableEntity(Type type)
         {
-            // FInd generic base type
+            // Find generic base type
             while(type != null && type.IsGenericType == false)
             {
                 type = type.BaseType;
@@ -133,22 +133,22 @@ namespace RIAServices.M2M.EntityGenerator
             WriteLine(@"#endregion");
         }
 
-        private void AddAttachMethods(Type type)
+        private void AddAttachMethodsToLinkTableEntity(Type type)
         {
             if(IsLinkTableEntity(type))
             {
-                var properties = GetNavigationProperties(type).ToList();
-                if(properties.Count() != 2)
+                var propertyDescriptors = GetNavigationProperties(type).ToList();
+                if(propertyDescriptors.Count() != 2)
                 {
                     throw new Exception(
                         String.Format(
-                            "Currently m2m4ria requires link table entities with exactly two navigation proeprties. (found: {0})",
-                            Type.GetProperties().Count()));
+                            "Currently m2m4ria requires link table entities with exactly two navigation properties. (found: {0} for {1})",
+                            propertyDescriptors.Count(), type.Name));
                 }
-                var assocAttr0 = properties[0].Attributes.OfType<AssociationAttribute>().Single();
-                var assocAttr1 = properties[1].Attributes.OfType<AssociationAttribute>().Single();
-                AddAttachMethod(type, assocAttr1, properties[0], properties[1]);
-                AddAttachMethod(type, assocAttr0, properties[1], properties[0]);
+                var assocAttr0 = propertyDescriptors[0].Attributes.OfType<AssociationAttribute>().Single();
+                var assocAttr1 = propertyDescriptors[1].Attributes.OfType<AssociationAttribute>().Single();
+                AddAttachMethod(type, assocAttr1, propertyDescriptors[0], propertyDescriptors[1]);
+                AddAttachMethod(type, assocAttr0, propertyDescriptors[1], propertyDescriptors[0]);
             }
         }
 
@@ -172,12 +172,12 @@ namespace RIAServices.M2M.EntityGenerator
             }
         }
 
-        private void AddInsertEntitymethod(Type type)
+        private void AddInsertEntityMethod(Type type)
         {
-            foreach(var propertDescr in GetLinkTableViewProperties(type))
+            foreach(var propertyDescriptor in GetLinkTableViewProperties(type))
             {
                 var linkTableViewAttribute =
-                    propertDescr.Attributes.OfType<LinkTableViewAttribute>().Single();
+                    propertyDescriptor.Attributes.OfType<LinkTableViewAttribute>().Single();
                 var linkTableTypeName = linkTableViewAttribute.LinkTableType.Name;
                 var elementTypeName = linkTableViewAttribute.ElementType.Name;
                 var attachMethodName = "Attach" + elementTypeName + "To" + type.Name;
