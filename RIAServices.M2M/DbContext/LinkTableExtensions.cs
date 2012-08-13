@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.ServiceModel.DomainServices.Server;
 
@@ -56,7 +56,15 @@ namespace RIAServices.M2M.DbContext
                 (LinkTableViewAttribute) object1PropDescr.Attributes[typeof(LinkTableViewAttribute)];
             return linkTableViewAttribute;
         }
-
+        /// <summary>
+        /// Returns object1 from a link table entity givem a Ria services changeset and an EntityFramework DbContext.
+        /// </summary>
+        /// <typeparam name="TObject1"></typeparam>
+        /// <typeparam name="TObject2"></typeparam>
+        /// <param name="linkTableEntity"></param>
+        /// <param name="changeSet"></param>
+        /// <param name="dbContext"></param>
+        /// <returns></returns>
         public static TObject1 FetchObject1<TObject1, TObject2>(
             this LinkTable<TObject1, TObject2> linkTableEntity, ChangeSet changeSet,
             System.Data.Entity.DbContext dbContext)
@@ -68,9 +76,43 @@ namespace RIAServices.M2M.DbContext
                 navProp.Attributes.OfType<AssociationAttribute>().SingleOrDefault();
 
             return Find(
-                linkTableEntity, linkTableEntity.Object1, changeSet, dbContext.Set<TObject1>(), associationAttribute);
+                linkTableEntity, linkTableEntity.Object1, changeSet, keys => dbContext.Set<TObject1>().Find(keys),
+                associationAttribute);
         }
 
+
+        /// <summary>
+        /// Returns object1 from a link table entity givem a Ria services changeset and a find method. 
+        /// </summary>
+        /// <typeparam name="TObject1"></typeparam>
+        /// <typeparam name="TObject2"></typeparam>
+        /// <param name="linkTableEntity"></param>
+        /// <param name="changeSet"></param>
+        /// <param name="find">function to find and retrive an entity in a repository.</param>
+        /// <returns></returns>
+        public static TObject1 FetchObject1<TObject1, TObject2>(
+            this LinkTable<TObject1, TObject2> linkTableEntity, ChangeSet changeSet,
+            Func<object[], TObject1> find)
+            where TObject1 : class
+            where TObject2 : class
+        {
+            var properties = TypeDescriptor.GetProperties(linkTableEntity.GetType());
+            var navProp = properties["Object1"];
+            var associationAttribute =
+                navProp.Attributes.OfType<AssociationAttribute>().SingleOrDefault();
+
+            return Find(
+                linkTableEntity, linkTableEntity.Object1, changeSet, find, associationAttribute);
+        }
+        /// <summary>
+        /// Returns object2 from a link table entity givem a Ria services changeset and an EntityFramework DbContext.
+        /// </summary>
+        /// <typeparam name="TObject1"></typeparam>
+        /// <typeparam name="TObject2"></typeparam>
+        /// <param name="linkTableEntity"></param>
+        /// <param name="changeSet"></param>
+        /// <param name="dbContext"></param>
+        /// <returns></returns>
         public static TObject2 FetchObject2<TObject1, TObject2>(
             this LinkTable<TObject1, TObject2> linkTableEntity, ChangeSet changeSet,
             System.Data.Entity.DbContext dbContext)
@@ -82,9 +124,32 @@ namespace RIAServices.M2M.DbContext
                 navProp.Attributes.OfType<AssociationAttribute>().SingleOrDefault();
 
             return Find(
-                linkTableEntity, linkTableEntity.Object2, changeSet, dbContext.Set<TObject2>(), associationAttribute);
+                linkTableEntity, linkTableEntity.Object2, changeSet, keys => dbContext.Set<TObject2>().Find(keys),
+                associationAttribute);
         }
+        /// <summary>
+        /// Returns object2 from a link table entity givem a Ria services changeset and a find method. 
+        /// </summary>
+        /// <typeparam name="TObject1"></typeparam>
+        /// <typeparam name="TObject2"></typeparam>
+        /// <param name="linkTableEntity"></param>
+        /// <param name="changeSet"></param>
+        /// <param name="find">function to find and retrive an entity in a repository.</param>
+        /// <returns></returns>
+        public static TObject2 FetchObject2<TObject1, TObject2>(
+            this LinkTable<TObject1, TObject2> linkTableEntity, ChangeSet changeSet,
+            Func<object[], TObject2> find)
+            where TObject1 : class
+            where TObject2 : class
+        {
+            var properties = TypeDescriptor.GetProperties(linkTableEntity.GetType());
+            var navProp = properties["Object2"];
+            var associationAttribute =
+                navProp.Attributes.OfType<AssociationAttribute>().SingleOrDefault();
 
+            return Find(
+                linkTableEntity, linkTableEntity.Object2, changeSet, find, associationAttribute);
+        }
         #endregion
 
         #region Methods
@@ -93,7 +158,7 @@ namespace RIAServices.M2M.DbContext
             object linkTableEntity,
             TType entityToFind,
             ChangeSet changeSet,
-            IDbSet<TType> set,
+            Func<object[], TType> find,
             AssociationAttribute association) where TType : class
         {
             if(entityToFind != null)
@@ -105,7 +170,7 @@ namespace RIAServices.M2M.DbContext
                     e => Match(e, linkTableEntity, association));
             if(entity == null)
             {
-                entity = set.Find(MakeKeyValues(linkTableEntity, association.ThisKeyMembers));
+                entity = find(MakeKeyValues(linkTableEntity, association.ThisKeyMembers));
             }
             return entity;
         }
