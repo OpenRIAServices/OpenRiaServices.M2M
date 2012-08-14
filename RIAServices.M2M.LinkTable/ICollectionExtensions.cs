@@ -24,6 +24,10 @@ namespace RIAServices.M2M
             this ICollection<TObject2> collection, TObject1 owner) where TObject1 : class where TObject2 : class
             where TLinkTable : LinkTable<TObject1, TObject2>, new()
         {
+            if(collection == null)
+            {
+                return null;
+            }
             Func<TObject2, TLinkTable> makeLinkTableEntity = x => new TLinkTable {Object1 = owner, Object2 = x};
             return collection.Select(makeLinkTableEntity).ToList();
         }
@@ -41,7 +45,11 @@ namespace RIAServices.M2M
             this ICollection<TObject1> collection, TObject2 owner) where TObject1 : class where TObject2 : class
             where TLinkTable : LinkTable<TObject1, TObject2>, new()
         {
-            Func<TObject1, TLinkTable> makeLinkTableEntity = x => new TLinkTable {Object2 = owner, Object1 = x};
+            if(collection == null)
+            {
+                return null;
+            }
+            Func<TObject1, TLinkTable> makeLinkTableEntity = x => new TLinkTable { Object2 = owner, Object1 = x };
             return collection.Select(makeLinkTableEntity).ToList();
         }
 
