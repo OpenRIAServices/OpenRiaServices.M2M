@@ -44,7 +44,6 @@ namespace RIAServices.M2M.Demo.Web.Service
 
             dog.Trainers.Remove(trainer);
             DbContext.ChangeTracker.DetectChanges();
-            DbContext.SaveChanges();
         }
 
         public void DeleteTrainer(Trainer trainer)
