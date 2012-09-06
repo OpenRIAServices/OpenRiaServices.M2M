@@ -18,16 +18,13 @@ namespace RIAServices.M2M
     {
         #region Constants and Fields
 
-        private readonly Action<TEntity> addAction;
+        private readonly Action<TEntity> _addAction;
 
-        private readonly EntityCollection<TLinkTable> collection;
+        private readonly EntityCollection<TLinkTable> _collection;
 
-        private readonly Func<TLinkTable, TEntity> getEntity;
+        private readonly Func<TLinkTable, TEntity> _getEntity;
 
-        private readonly Action<TLinkTable> removeAction;
-
-        // Indicates the index where a change of the collection occurred.
-        private int indexOfChange;
+        private readonly Action<TLinkTable> _removeAction;
 
         #endregion
 
@@ -45,55 +42,49 @@ namespace RIAServices.M2M
             Action<TLinkTable> removeAction,
             Action<TEntity> addAction)
         {
-            this.collection = collection;
-            this.getEntity = getEntity;
-            this.removeAction = removeAction;
-            this.addAction = addAction;
+            _collection = collection;
+            _getEntity = getEntity;
+            _removeAction = removeAction;
+            _addAction = addAction;
 
-            collection.EntityAdded += (a, b) =>
-                                          {
-                                              var jt = b.Entity;
-                                              if(EntityAdded != null)
-                                              {
-                                                  EntityAdded(this,
-                                                              new EntityCollectionChangedEventArgs<TEntity>(getEntity(jt)));
-                                              }
-                                          };
-            collection.EntityRemoved += (a, b) =>
-                                            {
-                                                var jt = b.Entity;
-                                                if(EntityRemoved != null)
-                                                {
-                                                    EntityRemoved(this,
-                                                                  new EntityCollectionChangedEventArgs<TEntity>(
-                                                                      getEntity(jt)));
-                                                }
-                                            };
-            ((INotifyCollectionChanged) collection).CollectionChanged += (sender, e) =>
-                                                                             {
-                                                                                 if(CollectionChanged != null)
-                                                                                 {
-                                                                                     // Checkout http://m2m4ria.codeplex.com/wikipage?title=CreatingAnM2MAssociationBetweenTwoNewEntities
-                                                                                     if(
-                                                                                         !(e.Action ==
-                                                                                           NotifyCollectionChangedAction
-                                                                                               .Reset &&
-                                                                                           collection.Select(getEntity).
-                                                                                               Any(x => x == null)))
-                                                                                     {
-                                                                                         CollectionChanged(this,
-                                                                                                           MakeNotifyCollectionChangedEventArgs
-                                                                                                               (e));
-                                                                                     }
-                                                                                 }
-                                                                             };
-            ((INotifyPropertyChanged) collection).PropertyChanged += (sender, e) =>
-                                                                         {
-                                                                             if(PropertyChanged != null)
-                                                                             {
-                                                                                 PropertyChanged(this, e);
-                                                                             }
-                                                                         };
+            collection.EntityAdded += OnEntityAdded;
+            collection.EntityRemoved += OnEntityRemoved;
+            ((INotifyCollectionChanged)collection).CollectionChanged += OnCollectionChanged;
+            ((INotifyPropertyChanged)collection).PropertyChanged += OnPropertyChanged;
+        }
+
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if(PropertyChanged != null)
+            {
+                PropertyChanged(this, e);
+            }
+        }
+
+        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if(CollectionChanged == null) return;
+            // Checkout http://m2m4ria.codeplex.com/wikipage?title=CreatingAnM2MAssociationBetweenTwoNewEntities
+            if(!(e.Action == NotifyCollectionChangedAction.Reset && _collection.Select(_getEntity).Any(x => x == null)))
+            {
+                CollectionChanged(this, MakeNotifyCollectionChangedEventArgs(e));
+            }
+        }
+
+        private void OnEntityRemoved(object sender, EntityCollectionChangedEventArgs<TLinkTable> e)
+        {
+            if(EntityRemoved != null)
+            {
+                EntityRemoved(this, new EntityCollectionChangedEventArgs<TEntity>(_getEntity(e.Entity)));
+            }
+        }
+
+        private void OnEntityAdded(object sender, EntityCollectionChangedEventArgs<TLinkTable> e)
+        {
+            if(EntityAdded != null)
+            {
+                EntityAdded(this, new EntityCollectionChangedEventArgs<TEntity>(_getEntity(e.Entity)));
+            }
         }
 
         #endregion
@@ -114,7 +105,7 @@ namespace RIAServices.M2M
 
         public int Count
         {
-            get { return collection.Count; }
+            get { return _collection.Count; }
         }
 
         #endregion
@@ -123,12 +114,12 @@ namespace RIAServices.M2M
 
         public void Add(TEntity entity)
         {
-            addAction(entity);
+            _addAction(entity);
         }
 
         public IEnumerator<TEntity> GetEnumerator()
         {
-            return collection.Select(getEntity).GetEnumerator();
+            return _collection.Select(_getEntity).GetEnumerator();
         }
 
         /// <summary>
@@ -137,11 +128,10 @@ namespace RIAServices.M2M
         /// <param name="entity"> </param>
         public void Remove(TEntity entity)
         {
-            indexOfChange = IndexOf(entity);
-            var linkTableEntityToRemove = collection.SingleOrDefault(jt => getEntity(jt) == entity);
+            var linkTableEntityToRemove = _collection.SingleOrDefault(jt => _getEntity(jt) == entity);
             if(linkTableEntityToRemove != null)
             {
-                removeAction(linkTableEntityToRemove);
+                _removeAction(linkTableEntityToRemove);
             }
         }
 
@@ -158,20 +148,6 @@ namespace RIAServices.M2M
 
         #region Methods
 
-        private int IndexOf(TEntity entity)
-        {
-            var index = 0;
-            foreach(var e in this)
-            {
-                if(e == entity)
-                {
-                    return index;
-                }
-                index++;
-            }
-            return -1;
-        }
-
         /// <summary>
         ///   Replaces Link Table entities in NotifyCollectionChangedEventArgs by elements of type TEntity
         /// </summary>
@@ -184,13 +160,13 @@ namespace RIAServices.M2M
             {
                 case NotifyCollectionChangedAction.Add:
                     {
-                        var entity = getEntity((TLinkTable) e.NewItems[0]);
-                        return new NotifyCollectionChangedEventArgs(e.Action, entity, indexOfChange);
+                        var entity = _getEntity((TLinkTable)e.NewItems[0]);
+                        return new NotifyCollectionChangedEventArgs(e.Action, entity, e.NewStartingIndex);
                     }
                 case NotifyCollectionChangedAction.Remove:
                     {
-                        var entity = getEntity((TLinkTable) e.OldItems[0]);
-                        return new NotifyCollectionChangedEventArgs(e.Action, entity, indexOfChange);
+                        var entity = _getEntity((TLinkTable)e.OldItems[0]);
+                        return new NotifyCollectionChangedEventArgs(e.Action, entity, e.OldStartingIndex);
                     }
                 case NotifyCollectionChangedAction.Reset:
                     return new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
