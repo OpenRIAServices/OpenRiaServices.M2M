@@ -84,6 +84,27 @@ namespace RIAServices.M2M
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
+        public long Object1_Int64_Id0
+        {
+            get { return GetKey(x => x.Object1_Int64_Id0); }
+            set { SetKey(x => x.Object1_Int64_Id0, value); }
+        }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public long Object1_Int64_Id1
+        {
+            get { return GetKey(x => x.Object1_Int64_Id1); }
+            set { SetKey(x => x.Object1_Int64_Id1, value); }
+        }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public long Object1_Int64_Id2
+        {
+            get { return GetKey(x => x.Object1_Int64_Id2); }
+            set { SetKey(x => x.Object1_Int64_Id2, value); }
+        }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public string Object1_string_Id0
         {
             get { return GetKey(x => x.Object1_string_Id0); }
@@ -157,6 +178,27 @@ namespace RIAServices.M2M
         {
             get { return GetKey(x => x.Object2_Int32_Id2); }
             set { SetKey(x => x.Object2_Int32_Id2, value); }
+        }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public long Object2_Int64_Id0
+        {
+            get { return GetKey(x => x.Object2_Int64_Id0); }
+            set { SetKey(x => x.Object2_Int64_Id0, value); }
+        }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public long Object2_Int64_Id1
+        {
+            get { return GetKey(x => x.Object2_Int64_Id1); }
+            set { SetKey(x => x.Object2_Int64_Id1, value); }
+        }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public long Object2_Int64_Id2
+        {
+            get { return GetKey(x => x.Object2_Int64_Id2); }
+            set { SetKey(x => x.Object2_Int64_Id2, value); }
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
