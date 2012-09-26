@@ -1,10 +1,11 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-
+[assembly: CLSCompliant(true)]
 [assembly: AssemblyTitle("RIAServices.M2M.Silverlight")]
 [assembly: AssemblyDescription("Silverlight part of RIAServices.M2M providing the M2M view on link table entities.")]
 [assembly: AssemblyConfiguration("")]

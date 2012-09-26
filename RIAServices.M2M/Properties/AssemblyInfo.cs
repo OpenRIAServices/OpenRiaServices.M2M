@@ -1,10 +1,11 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-
+[assembly: CLSCompliant(true)]
 [assembly: AssemblyTitle("RIAServices.M2M")]
 [assembly: AssemblyDescription("Code generator and Fluent configuration extensions for RIAServices.M2M.")]
 [assembly: AssemblyConfiguration("")]
