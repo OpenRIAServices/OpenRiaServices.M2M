@@ -18,7 +18,7 @@ namespace RIAServices.M2M
     {
         #region Constants and Fields
 
-        private readonly Dictionary<string, object> keys = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> _keys = new Dictionary<string, object>();
 
         private TObject1 _object1;
 
@@ -60,6 +60,27 @@ namespace RIAServices.M2M
         {
             get { return GetKey(x => x.Object1_Guid_Id2); }
             set { SetKey(x => x.Object1_Guid_Id2, value); }
+        }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public short Object1_Int16_Id0
+        {
+            get { return GetKey(x => x.Object1_Int16_Id0); }
+            set { SetKey(x => x.Object1_Int16_Id0, value); }
+        }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public short Object1_Int16_Id1
+        {
+            get { return GetKey(x => x.Object1_Int16_Id1); }
+            set { SetKey(x => x.Object1_Int16_Id1, value); }
+        }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public short Object1_Int16_Id2
+        {
+            get { return GetKey(x => x.Object1_Int16_Id2); }
+            set { SetKey(x => x.Object1_Int16_Id2, value); }
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -160,6 +181,27 @@ namespace RIAServices.M2M
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
+        public short Object2_Int16_Id0
+        {
+            get { return GetKey(x => x.Object2_Int16_Id0); }
+            set { SetKey(x => x.Object2_Int16_Id0, value); }
+        }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public short Object2_Int16_Id1
+        {
+            get { return GetKey(x => x.Object2_Int16_Id1); }
+            set { SetKey(x => x.Object2_Int16_Id1, value); }
+        }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public short Object2_Int16_Id2
+        {
+            get { return GetKey(x => x.Object2_Int16_Id2); }
+            set { SetKey(x => x.Object2_Int16_Id2, value); }
+        }
+        
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public int Object2_Int32_Id0
         {
             get { return GetKey(x => x.Object2_Int32_Id0); }
@@ -238,7 +280,7 @@ namespace RIAServices.M2M
             return (PropertyInfo) expression.Member;
         }
 
-        private AssociationAttribute GetAssociationAttribute(PropertyDescriptor propDescriptor)
+        private static AssociationAttribute GetAssociationAttribute(PropertyDescriptor propDescriptor)
         {
             return (AssociationAttribute) propDescriptor.Attributes[typeof(AssociationAttribute)];
         }
@@ -257,20 +299,18 @@ namespace RIAServices.M2M
         /// <returns> </returns>
         private T GetKey<T>(Expression<Func<LinkTable<TObject1, TObject2>, T>> propertySelector)
         {
-            var thisType = GetType();
-
             var foreignKeyName = ((MemberExpression) propertySelector.Body).Member.Name;
             var foreignKeyValue = default(T);
-            if(keys.ContainsKey(foreignKeyName))
+            if(_keys.ContainsKey(foreignKeyName))
             {
-                foreignKeyValue = (T) keys[foreignKeyName];
+                foreignKeyValue = (T) _keys[foreignKeyName];
             }
             var primaryKeyValue = GetPrimaryKeyValue(propertySelector);
 
             if(primaryKeyValue.Equals(foreignKeyValue) == false && foreignKeyValue.Equals(default(T)))
             {
                 foreignKeyValue = primaryKeyValue;
-                keys[foreignKeyName] = primaryKeyValue;
+                _keys[foreignKeyName] = primaryKeyValue;
             }
             return foreignKeyValue;
         }
@@ -318,7 +358,7 @@ namespace RIAServices.M2M
         private void SetKey<T>(Expression<Func<LinkTable<TObject1, TObject2>, T>> property, T value)
         {
             var keyName = ((MemberExpression) property.Body).Member.Name;
-            keys[keyName] = value;
+            _keys[keyName] = value;
         }
 
         private void SetKeyValuesForEntity<T>(Expression<Func<LinkTable<TObject1, TObject2>, T>> propertySelector)
