@@ -126,24 +126,24 @@ namespace RIAServices.M2M
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public string Object1_string_Id0
+        public string Object1_String_Id0
         {
-            get { return GetKey(x => x.Object1_string_Id0); }
-            set { SetKey(x => x.Object1_string_Id0, value); }
+            get { return GetKey(x => x.Object1_String_Id0); }
+            set { SetKey(x => x.Object1_String_Id0, value); }
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public string Object1_string_Id1
+        public string Object1_String_Id1
         {
-            get { return GetKey(x => x.Object1_string_Id1); }
-            set { SetKey(x => x.Object1_string_Id1, value); }
+            get { return GetKey(x => x.Object1_String_Id1); }
+            set { SetKey(x => x.Object1_String_Id1, value); }
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public string Object1_string_Id2
+        public string Object1_String_Id2
         {
-            get { return GetKey(x => x.Object1_string_Id2); }
-            set { SetKey(x => x.Object1_string_Id2, value); }
+            get { return GetKey(x => x.Object1_String_Id2); }
+            set { SetKey(x => x.Object1_String_Id2, value); }
         }
 
         public TObject2 Object2
@@ -244,24 +244,24 @@ namespace RIAServices.M2M
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public string Object2_string_Id0
+        public string Object2_String_Id0
         {
-            get { return GetKey(x => x.Object2_string_Id0); }
-            set { SetKey(x => x.Object2_string_Id0, value); }
+            get { return GetKey(x => x.Object2_String_Id0); }
+            set { SetKey(x => x.Object2_String_Id0, value); }
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public string Object2_string_Id1
+        public string Object2_String_Id1
         {
-            get { return GetKey(x => x.Object2_string_Id1); }
-            set { SetKey(x => x.Object2_string_Id1, value); }
+            get { return GetKey(x => x.Object2_String_Id1); }
+            set { SetKey(x => x.Object2_String_Id1, value); }
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public string Object2_string_Id2
+        public string Object2_String_Id2
         {
-            get { return GetKey(x => x.Object2_string_Id2); }
-            set { SetKey(x => x.Object2_string_Id2, value); }
+            get { return GetKey(x => x.Object2_String_Id2); }
+            set { SetKey(x => x.Object2_String_Id2, value); }
         }
 
         #endregion
