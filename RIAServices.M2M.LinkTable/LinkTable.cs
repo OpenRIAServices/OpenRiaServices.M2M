@@ -200,7 +200,7 @@ namespace RIAServices.M2M
             get { return GetKey(x => x.Object2_Int16_Id2); }
             set { SetKey(x => x.Object2_Int16_Id2, value); }
         }
-        
+
         [EditorBrowsable(EditorBrowsableState.Never)]
         public int Object2_Int32_Id0
         {
@@ -272,17 +272,17 @@ namespace RIAServices.M2M
             where T : class
         {
             var expression = propertySelector.Body as MemberExpression
-                             ?? ((UnaryExpression) propertySelector.Body).Operand as MemberExpression;
+                             ?? ((UnaryExpression)propertySelector.Body).Operand as MemberExpression;
             if(expression == null)
             {
                 throw new ArgumentNullException("propertySelector");
             }
-            return (PropertyInfo) expression.Member;
+            return (PropertyInfo)expression.Member;
         }
 
         private static AssociationAttribute GetAssociationAttribute(PropertyDescriptor propDescriptor)
         {
-            return (AssociationAttribute) propDescriptor.Attributes[typeof(AssociationAttribute)];
+            return (AssociationAttribute)propDescriptor.Attributes[typeof(AssociationAttribute)];
         }
 
         /// <summary>
@@ -299,20 +299,36 @@ namespace RIAServices.M2M
         /// <returns> </returns>
         private T GetKey<T>(Expression<Func<LinkTable<TObject1, TObject2>, T>> propertySelector)
         {
-            var foreignKeyName = ((MemberExpression) propertySelector.Body).Member.Name;
+            var foreignKeyName = ((MemberExpression)propertySelector.Body).Member.Name;
             var foreignKeyValue = default(T);
             if(_keys.ContainsKey(foreignKeyName))
             {
-                foreignKeyValue = (T) _keys[foreignKeyName];
+                foreignKeyValue = (T)_keys[foreignKeyName];
             }
             var primaryKeyValue = GetPrimaryKeyValue(propertySelector);
 
-            if(primaryKeyValue.Equals(foreignKeyValue) == false && foreignKeyValue.Equals(default(T)))
+            if(IsDefault(primaryKeyValue) == false && primaryKeyValue.Equals(foreignKeyValue) == false &&
+               foreignKeyValue.Equals(default(T)))
             {
                 foreignKeyValue = primaryKeyValue;
                 _keys[foreignKeyName] = primaryKeyValue;
             }
             return foreignKeyValue;
+        }
+        /// <summary>
+        /// This method checks if a given value is null or equals default(T). We have to distinguish whether T is a value type or a reference type.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        private static bool IsDefault<T>(T value)
+        {
+            var valueTypeValue = value as ValueType;
+            if(valueTypeValue != null)
+            {
+                return valueTypeValue.Equals(default(T));
+            }
+            return (object)value == null;
         }
 
         private PropertyDescriptor GetNavigationProperty(string foreignKeyName)
