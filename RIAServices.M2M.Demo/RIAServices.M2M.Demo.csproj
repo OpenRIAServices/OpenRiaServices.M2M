@@ -103,7 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RIAServices.M2M.Silverlight\RIAServices.M2M.Silverlight.csproj">
-      <Project>{F6E5D0B7-FE90-4498-A5F5-3FFA505762A0}</Project>
+      <Project>{f6e5d0b7-fe90-4498-a5f5-3ffa505762a0}</Project>
       <Name>RIAServices.M2M.Silverlight</Name>
     </ProjectReference>
   </ItemGroup>
