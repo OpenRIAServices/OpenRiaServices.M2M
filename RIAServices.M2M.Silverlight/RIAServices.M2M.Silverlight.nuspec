@@ -1,0 +1,16 @@
+<package>
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>http://m2m4ria.codeplex.com/license</licenseUrl>
+    <projectUrl>http://m2m4ria.codeplex.com</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>This version supports EF code first, DBContext, fluent configuration, and integrates with the code generator of RIA Services.</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags>WCF RIA Services RIAServices Many2Many M2M4RIA</tags>
+  </metadata>
+</package>
