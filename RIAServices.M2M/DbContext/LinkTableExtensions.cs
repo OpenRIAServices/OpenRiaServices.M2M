@@ -29,14 +29,14 @@ namespace RIAServices.M2M.DbContext
                                                                    TObject1 object1, TObject2 object2)
             where TObject1 : class where TObject2 : class where TLinkTable : LinkTable<TObject1, TObject2>
         {
-            context.Entry(object1).State = EntityState.Detached;
+        //    context.Entry(object1).State = EntityState.Detached;
 
             var linkTableViewAttribute = GetLinkTableViewAttributeForObject1<TObject1, TObject2, TLinkTable>();
             var m2mPropInfo = object1.GetType().GetProperty(linkTableViewAttribute.M2MPropertyName);
-            var m2mCollection = (ICollection<TObject2>) m2mPropInfo.GetValue(object1, null);
-            m2mCollection.Add(object2);
-
-            context.Set(typeof(TObject1)).Attach(object1);
+        //    var m2mCollection = (ICollection<TObject2>) m2mPropInfo.GetValue(object1, null);
+        //    m2mCollection.Add(object2);
+        //    context.Set(typeof(TObject1)).Attach(object1);
+            context.Entry(object1).Collection<TObject2>(m2mPropInfo.Name).Load();
         }
 
         private static LinkTableViewAttribute GetLinkTableViewAttributeForObject1<TObject1, TObject2, TLinkTable>()
@@ -193,7 +193,7 @@ namespace RIAServices.M2M.DbContext
             var otherKeyValues = MakeKeyValues(entity, association.OtherKeyMembers);
             for(var i = 0; i < thisKeyValues.Count(); i++)
             {
-                if(thisKeyValues[i] != otherKeyValues[i])
+                if(thisKeyValues[i].Equals(otherKeyValues[i]) == false)
                 {
                     return false;
                 }
