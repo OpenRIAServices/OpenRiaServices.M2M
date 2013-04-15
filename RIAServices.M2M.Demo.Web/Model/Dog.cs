@@ -22,7 +22,7 @@ namespace RIAServices.M2M.Demo.Web.Model
 
         public ICollection<DogTrainer> DogTrainers
         {
-            get { return Trainers.ToLinkTable<Dog, Trainer, DogTrainer>(this); }
+            get { return Trainers.ProjectObject1(this, x => x.DogTrainers); }
         }
 
         public string Name { get; set; }
