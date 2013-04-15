@@ -22,7 +22,7 @@
 
 	you have to change the return statement to this:
 		
-		return OrderSet.ProjectObject1(this, x => x.Product_ProductOrderSet);
+		return OrderSet.ProjectObject1(this, x => x.Order_ProductOrderSet);
 
 	Likewise, in the Order class:
 
