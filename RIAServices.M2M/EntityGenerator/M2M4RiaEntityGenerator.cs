@@ -47,7 +47,8 @@ namespace RIAServices.M2M.EntityGenerator
 
         private static IEnumerable<PropertyDescriptor> GetLinkTableViewProperties(Type type)
         {
-            var props = TypeDescriptor.GetProperties(type).OfType<PropertyDescriptor>().Where(x => x.ComponentType == type);
+            var props =
+                TypeDescriptor.GetProperties(type).OfType<PropertyDescriptor>().Where(x => x.ComponentType == type);
             return props.Where(p => p.Attributes.OfType<LinkTableViewAttribute>().Any());
         }
 
@@ -78,18 +79,16 @@ namespace RIAServices.M2M.EntityGenerator
             return s[0].ToString(CultureInfo.InvariantCulture).ToLowerInvariant() + s.Substring(1);
         }
 
-        private void AddAttachMethod(
-            Type linkTableType, AssociationAttribute assocAttr, PropertyDescriptor prop1, PropertyDescriptor prop2)
+        private void AddAttachMethod(Type linkTableType, AssociationAttribute assocAttrThisEnd, AssociationAttribute assocAttrOtherEnd, PropertyDescriptor prop1, PropertyDescriptor prop2)
         {
-            var linkTableTypeName = linkTableType.FullName;
-            var navProp1TypeName = prop1.PropertyType.Name;
+            var linkTableFullTypeName = linkTableType.FullName;
             var navProp1TypeFullName = prop1.PropertyType.FullName;
             var navProp2TypeName = prop2.PropertyType.Name;
             var navProp2TypeFullName = prop2.PropertyType.FullName;
             var navProp1NameLower = ToLowerInitial(prop1.Name);
             var navProp2NameLower = ToLowerInitial(prop2.Name);
-            var thisKeyMembers = assocAttr.ThisKeyMembers.ToList();
-            var otherKeyMembers = assocAttr.OtherKeyMembers.ToList();
+            var thisKeyMembers = assocAttrThisEnd.ThisKeyMembers.ToList();
+            var otherKeyMembers = assocAttrThisEnd.OtherKeyMembers.ToList();
 
             WriteLine(@"#region Lines added by m2m4ria code generator");
             WriteLine(@"/// <summary>");
@@ -107,8 +106,8 @@ namespace RIAServices.M2M.EntityGenerator
             WriteLine(
                 @"public static void Attach{0}To{1}({2} r, {3} {4}, {5} {6})",
                 navProp2TypeName,
-                navProp1TypeName,
-                linkTableTypeName,
+                assocAttrOtherEnd.Name,
+                linkTableFullTypeName,
                 navProp1TypeFullName,
                 navProp1NameLower,
                 navProp2TypeFullName,
@@ -151,8 +150,8 @@ namespace RIAServices.M2M.EntityGenerator
                 }
                 var assocAttr0 = propertyDescriptors[0].Attributes.OfType<AssociationAttribute>().Single();
                 var assocAttr1 = propertyDescriptors[1].Attributes.OfType<AssociationAttribute>().Single();
-                AddAttachMethod(type, assocAttr1, propertyDescriptors[0], propertyDescriptors[1]);
-                AddAttachMethod(type, assocAttr0, propertyDescriptors[1], propertyDescriptors[0]);
+                AddAttachMethod(type, assocAttr1, assocAttr0, propertyDescriptors[0], propertyDescriptors[1]);
+                AddAttachMethod(type, assocAttr0, assocAttr1, propertyDescriptors[1], propertyDescriptors[0]);
             }
         }
 
@@ -182,18 +181,17 @@ namespace RIAServices.M2M.EntityGenerator
             {
                 var linkTableViewAttribute =
                     propertyDescriptor.Attributes.OfType<LinkTableViewAttribute>().Single();
-                var linkTableTypeName = linkTableViewAttribute.LinkTableType.Name;
                 var linkTableTypeFullName = linkTableViewAttribute.LinkTableType.FullName;
                 var elementTypeName = linkTableViewAttribute.ElementType.Name;
                 var elementTypeFullName = linkTableViewAttribute.ElementType.FullName;
-                var attachMethodName = "Attach" + elementTypeName + "To" + type.Name;
+                var attachMethodName = "Attach" + elementTypeName + "To" + linkTableViewAttribute.OtherEndAssociationName;
 
                 WriteLine(@"#region Lines added by m2m4ria code generator");
                 WriteLine(
                     @"// Instruct compiler not to warn about usage of obsolete members, because using them is intended.");
                 WriteLine(@"#pragma warning disable 618");
                 WriteLine(
-                    @"private void Add{0}({1} {2})", linkTableTypeName, elementTypeFullName, ToLowerInitial(elementTypeName));
+                    @"private void Add{0}({1} {2})", propertyDescriptor.Name, elementTypeFullName, ToLowerInitial(elementTypeName));
                 WriteLine(@"{");
                 WriteLine(@"    var newLinkTableEntity = new {0}();", linkTableTypeFullName);
                 WriteLine(
@@ -218,11 +216,10 @@ namespace RIAServices.M2M.EntityGenerator
                 var m2mPropertyName = linkTableViewAttribute.M2MPropertyName;
                 var m2mPropertyNameLower = ToLowerInitial(m2mPropertyName);
                 var elementTypeFullName = linkTableViewAttribute.ElementType.FullName;
-                var linkTableTypeName = linkTableViewAttribute.LinkTableType.Name;
                 var linkTableTypeFullName = linkTableViewAttribute.LinkTableType.FullName;
                 var linkTablePropertyName = propertyDescriptor.Name;
-                var addMethodName = "Add" + linkTableTypeName;
-                var removeMethodName = "Remove" + linkTableTypeName;
+                var addMethodName = "Add" + propertyDescriptor.Name;
+                var removeMethodName = "Remove" + propertyDescriptor.Name;
                 var linkTableOtherNavigationPropertyName =
                     GetLinkTableOtherNavigationPropertyName(
                         linkTableAssociationAttribute, linkTableViewAttribute.LinkTableType);
@@ -266,19 +263,19 @@ namespace RIAServices.M2M.EntityGenerator
 
         private void AddRemoveEntityMethod(Type type)
         {
-            foreach(var propertDescr in GetLinkTableViewProperties(type))
+            foreach (var propertyDescriptor in GetLinkTableViewProperties(type))
             {
                 var linkTableViewAttribute =
-                    propertDescr.Attributes.OfType<LinkTableViewAttribute>().Single();
-                var linkTableTypeName = linkTableViewAttribute.LinkTableType.Name;
+                    propertyDescriptor.Attributes.OfType<LinkTableViewAttribute>().Single();
                 var linkTableTypeFullName = linkTableViewAttribute.LinkTableType.FullName;
 
                 WriteLine(@"#region Lines added by m2m4ria code generator");
-                WriteLine(@"private void Remove{0}({1} r)", linkTableTypeName, linkTableTypeFullName);
+                WriteLine(@"//" + propertyDescriptor.Name);
+                WriteLine(@"private void Remove{0}({1} r)", propertyDescriptor.Name, linkTableTypeFullName);
                 WriteLine(@"{");
                 WriteLine(@"    if(((RIAServices.M2M.IExtendedEntity)r).EntitySet == null)");
                 WriteLine(@"    {");
-                WriteLine(@"        this.{0}.Remove(r);", propertDescr.Name);
+                WriteLine(@"        this.{0}.Remove(r);", propertyDescriptor.Name);
                 WriteLine(@"    }");
                 WriteLine(@"    else");
                 WriteLine(@"    {");
