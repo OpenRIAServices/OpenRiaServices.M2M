@@ -18,7 +18,7 @@ namespace RIAServices.M2M.Demo.Web.Model
 
         public ICollection<DogTrainer> DogTrainers
         {
-            get { return Dogs.ToLinkTable<Dog, Trainer, DogTrainer>(this); }
+            get { return Dogs.ProjectObject2(this, x=>x.DogTrainers); }
         }
 
         public virtual ICollection<Dog> Dogs { get; set; }

@@ -61,18 +61,6 @@ namespace RIAServices.M2M
             return collection.Select(makeLinkTableEntity).ToList();
         }
 
-        public static ICollection<TLinkTable> ToLinkTableA<TObject, TLinkTable>(
-            this ICollection<TObject> collection, TObject owner)
-            where TObject : class
-            where TLinkTable : LinkTable<TObject, TObject>, new()
-        {
-            if(collection == null)
-            {
-                return null;
-            }
-            Func<TObject, TLinkTable> makeLinkTableEntity = x => new TLinkTable {Object1 = owner, Object2 = x};
-            return collection.Select(makeLinkTableEntity).ToList();
-        }
         #endregion
     }
 }
