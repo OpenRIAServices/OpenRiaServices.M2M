@@ -13,4 +13,7 @@
     <copyright>Copyright 2012</copyright>
     <tags>WCF RIA Services RIAServices Many2Many M2M4RIA</tags>
   </metadata>
+  	<files>
+        <file src="README.txt"  /> 
+    </files>
 </package>
