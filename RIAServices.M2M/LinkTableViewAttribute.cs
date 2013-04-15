@@ -12,6 +12,8 @@ namespace RIAServices.M2M
 
         public string M2MPropertyName { get; set; }
 
+        public string OtherEndAssociationName { get; set; }
+
         #endregion
     }
 }

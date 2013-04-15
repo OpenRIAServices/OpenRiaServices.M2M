@@ -16,7 +16,7 @@ namespace RIAServices.M2M.Configuration
     {
         #region Constants and Fields
 
-        private readonly MetadataContainer metaDataContainer;
+        private readonly MetadataContainer _metaDataContainer;
 
         #endregion
 
@@ -25,14 +25,14 @@ namespace RIAServices.M2M.Configuration
         public M2M4RIAExpression(MetadataContainer metaDataContainer, string m2m1, string m2mview1, string m2mview2,
                                  string m2m2)
         {
-            this.metaDataContainer = metaDataContainer;
+            _metaDataContainer = metaDataContainer;
 
             var linkTableMetaData = metaDataContainer.Entity<TLinkTable>();
-            var object1MeataData = metaDataContainer.Entity<TObject1>();
-            var object2MeataData = metaDataContainer.Entity<TObject2>();
+            var object1MetaData = metaDataContainer.Entity<TObject1>();
+            var object2MetaData = metaDataContainer.Entity<TObject2>();
 
-            object1MeataData.AddMetadata(m2mview1, new IncludeAttribute());
-            object2MeataData.AddMetadata(m2mview2, new IncludeAttribute());
+            object1MetaData.AddMetadata(m2mview1, new IncludeAttribute());
+            object2MetaData.AddMetadata(m2mview2, new IncludeAttribute());
 
             var object1Keys = GetKeys<TObject1>(metaDataContainer);
             var object2Keys = GetKeys<TObject2>(metaDataContainer);
@@ -42,14 +42,24 @@ namespace RIAServices.M2M.Configuration
 
             MarkLinkTableKeysAsDataMembers(linkTableMetaData);
 
-            object1MeataData.AddMetadata(
+            object1MetaData.AddMetadata(
                 m2mview1,
                 new LinkTableViewAttribute
-                    {LinkTableType = typeof(TLinkTable), M2MPropertyName = m2m1, ElementType = typeof(TObject2)});
-            object2MeataData.AddMetadata(
+                    {
+                        LinkTableType = typeof(TLinkTable),
+                        M2MPropertyName = m2m1,
+                        ElementType = typeof(TObject2),
+                        OtherEndAssociationName = typeof(TObject1).Name + "_" + m2mview2
+                    });
+            object2MetaData.AddMetadata(
                 m2mview2,
                 new LinkTableViewAttribute
-                    {LinkTableType = typeof(TLinkTable), M2MPropertyName = m2m2, ElementType = typeof(TObject1)});
+                    {
+                        LinkTableType = typeof(TLinkTable),
+                        M2MPropertyName = m2m2,
+                        ElementType = typeof(TObject1),
+                        OtherEndAssociationName = typeof(TObject2).Name + "_" + m2mview1
+                    });
         }
 
         #endregion
@@ -71,9 +81,9 @@ namespace RIAServices.M2M.Configuration
         /// <param name="metaData"> </param>
         private void MarkLinkTableKeysAsDataMembers(MetadataClass<TLinkTable> metaData)
         {
-            var linkTableMetaData = metaDataContainer.Entity<TLinkTable>();
+            var linkTableMetaData = _metaDataContainer.Entity<TLinkTable>();
 
-            var typeDescr = metaDataContainer.GetTypeDescriptor(typeof(TLinkTable));
+            var typeDescr = _metaDataContainer.GetTypeDescriptor(typeof(TLinkTable));
 
             foreach(var propDescr in typeDescr.GetProperties().OfType<PropertyDescriptor>())
             {
@@ -92,8 +102,8 @@ namespace RIAServices.M2M.Configuration
             Expression<Func<TLinkTable, T>> propertySelector, string viewProperty, IList<string> primaryKeyNames)
             where T : class
         {
-            var linkTableMetaData = metaDataContainer.Entity<TLinkTable>();
-            var tMetaData = metaDataContainer.Entity<T>();
+            var linkTableMetaData = _metaDataContainer.Entity<TLinkTable>();
+            var tMetaData = _metaDataContainer.Entity<T>();
 
             var linkTableNavProp = propertySelector.GetProperty();
             var foreignKeyNames = new List<string>();
@@ -117,6 +127,7 @@ namespace RIAServices.M2M.Configuration
             var foreignKeys = string.Join(",", foreignKeyNames);
 
             var assocName = string.Format("{0}_{1}", typeof(T).Name, viewProperty);
+
             var assoc1 = new AssociationAttribute(assocName, primaryKeys, foreignKeys);
             var assoc2 = new AssociationAttribute(assocName, foreignKeys, primaryKeys) {IsForeignKey = true};
 
