@@ -49,7 +49,7 @@ namespace RIAServices.M2M.Configuration
                         LinkTableType = typeof(TLinkTable),
                         M2MPropertyName = m2m1,
                         ElementType = typeof(TObject2),
-                        OtherEndAssociationName = typeof(TObject1).Name + "_" + m2mview2
+                        OtherEndAssociationName = typeof(TObject1).Name + "_" + m2mview1
                     });
             object2MetaData.AddMetadata(
                 m2mview2,
@@ -58,7 +58,7 @@ namespace RIAServices.M2M.Configuration
                         LinkTableType = typeof(TLinkTable),
                         M2MPropertyName = m2m2,
                         ElementType = typeof(TObject1),
-                        OtherEndAssociationName = typeof(TObject2).Name + "_" + m2mview1
+                        OtherEndAssociationName = typeof(TObject2).Name + "_" + m2mview2
                     });
         }
 
