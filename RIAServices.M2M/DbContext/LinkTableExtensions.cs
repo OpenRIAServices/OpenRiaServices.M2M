@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Data;
 using System.Linq;
 using System.ServiceModel.DomainServices.Server;
 
@@ -17,7 +16,7 @@ namespace RIAServices.M2M.DbContext
         /// </summary>
         /// <remarks>
         ///   The association between object1 and object2 is not automatically fetched from the database when the RIA Services delete method for TLinkTable is called. As a consequence,
-        ///   the TObject2 collection of object1 is then empty, so removing object2 will have no effect. This method is to add the association to the DbContext without a roundtrip to the database.
+        ///   the TObject2 collection of object1 is then empty, so removing object2 will have no effect. This method is to add the association to the DbContext without a round trip to the database.
         /// </remarks>
         /// <typeparam name="TObject1"> </typeparam>
         /// <typeparam name="TObject2"> </typeparam>
@@ -57,7 +56,7 @@ namespace RIAServices.M2M.DbContext
             return linkTableViewAttribute;
         }
         /// <summary>
-        /// Returns object1 from a link table entity givem a Ria services changeset and an EntityFramework DbContext.
+        /// Returns object1 from a link table entity given a RIA services change set and an EntityFramework DbContext.
         /// </summary>
         /// <typeparam name="TObject1"></typeparam>
         /// <typeparam name="TObject2"></typeparam>
@@ -82,13 +81,13 @@ namespace RIAServices.M2M.DbContext
 
 
         /// <summary>
-        /// Returns object1 from a link table entity givem a Ria services changeset and a find method. 
+        /// Returns object1 from a link table entity given a RIA services change set and a find method. 
         /// </summary>
         /// <typeparam name="TObject1"></typeparam>
         /// <typeparam name="TObject2"></typeparam>
         /// <param name="linkTableEntity"></param>
         /// <param name="changeSet"></param>
-        /// <param name="find">function to find and retrive an entity in a repository.</param>
+        /// <param name="find">function to find and retrieve an entity in a repository.</param>
         /// <returns></returns>
         public static TObject1 FetchObject1<TObject1, TObject2>(
             this LinkTable<TObject1, TObject2> linkTableEntity, ChangeSet changeSet,
@@ -105,7 +104,7 @@ namespace RIAServices.M2M.DbContext
                 linkTableEntity, linkTableEntity.Object1, changeSet, find, associationAttribute);
         }
         /// <summary>
-        /// Returns object2 from a link table entity givem a Ria services changeset and an EntityFramework DbContext.
+        /// Returns object2 from a link table entity given a RIA services change set and an EntityFramework DbContext.
         /// </summary>
         /// <typeparam name="TObject1"></typeparam>
         /// <typeparam name="TObject2"></typeparam>
@@ -128,13 +127,13 @@ namespace RIAServices.M2M.DbContext
                 associationAttribute);
         }
         /// <summary>
-        /// Returns object2 from a link table entity givem a Ria services changeset and a find method. 
+        /// Returns object2 from a link table entity given a RIA services change set and a find method. 
         /// </summary>
         /// <typeparam name="TObject1"></typeparam>
         /// <typeparam name="TObject2"></typeparam>
         /// <param name="linkTableEntity"></param>
         /// <param name="changeSet"></param>
-        /// <param name="find">function to find and retrive an entity in a repository.</param>
+        /// <param name="find">function to find and retrieve an entity in a repository.</param>
         /// <returns></returns>
         public static TObject2 FetchObject2<TObject1, TObject2>(
             this LinkTable<TObject1, TObject2> linkTableEntity, ChangeSet changeSet,

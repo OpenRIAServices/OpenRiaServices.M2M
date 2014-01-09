@@ -65,7 +65,7 @@ namespace RIAServices.M2M.Demo
     {
         #region Constants and Fields
 
-        private bool _AutoSave;
+        private bool _autoSave;
 
         private AddDogCommand _addDogCommand;
 
@@ -83,25 +83,25 @@ namespace RIAServices.M2M.Demo
 
         private SaveCommand _saveCommand;
 
-        private Dog selectedDog;
+        private Dog _selectedDog;
 
-        private Trainer selectedDogTrainer;
+        private Trainer _selectedDogTrainer;
 
-        private Trainer selectedTrainer;
+        private Trainer _selectedTrainer;
 
-        private Dog selectedTrainerDog;
+        private Dog _selectedTrainerDog;
 
         #endregion
 
-        #region Constructors and Destructors
+        #region Constructors and Destructor
 
         public MainPageModel()
         {
             if(DesignerProperties.IsInDesignTool == false)
             {
-                DogList = c.Dogs;
-                TrainerList = c.Trainers;
-                DogTrainers = c.EntityContainer.GetEntitySet<DogTrainer>();
+                DogList = C.Dogs;
+                TrainerList = C.Trainers;
+                DogTrainers = C.EntityContainer.GetEntitySet<DogTrainer>();
             }
         }
 
@@ -117,36 +117,22 @@ namespace RIAServices.M2M.Demo
 
         public AddDogCommand AddDog
         {
-            get
-            {
-                if(_addDogCommand == null)
-                {
-                    _addDogCommand = new AddDogCommand(this);
-                }
-                return _addDogCommand;
-            }
+            get { return _addDogCommand ?? (_addDogCommand = new AddDogCommand(this)); }
             set { _addDogCommand = value; }
         }
 
         public AddTrainerCommand AddTrainer
         {
-            get
-            {
-                if(_addTrainerCommand == null)
-                {
-                    _addTrainerCommand = new AddTrainerCommand(this);
-                }
-                return _addTrainerCommand;
-            }
+            get { return _addTrainerCommand ?? (_addTrainerCommand = new AddTrainerCommand(this)); }
         }
 
         public bool AutoSave
         {
-            get { return _AutoSave; }
+            get { return _autoSave; }
             set
             {
-                var oldValue = _AutoSave;
-                _AutoSave = value;
+                var oldValue = _autoSave;
+                _autoSave = value;
                 if(oldValue != value)
                 {
                     RaisePropertyChanged("AutoSave");
@@ -156,53 +142,25 @@ namespace RIAServices.M2M.Demo
 
         public CreateDogCommand CreateDog
         {
-            get
-            {
-                if(_createDogCommand == null)
-                {
-                    _createDogCommand = new CreateDogCommand(this);
-                }
-                return _createDogCommand;
-            }
+            get { return _createDogCommand ?? (_createDogCommand = new CreateDogCommand(this)); }
             set { _createDogCommand = value; }
         }
 
         public CreateTrainerCommand CreateTrainer
         {
-            get
-            {
-                if(_createTrainerCommand == null)
-                {
-                    _createTrainerCommand = new CreateTrainerCommand(this);
-                }
-                return _createTrainerCommand;
-            }
+            get { return _createTrainerCommand ?? (_createTrainerCommand = new CreateTrainerCommand(this)); }
             set { _createTrainerCommand = value; }
         }
 
         public DeleteDogCommand DeleteDog
         {
-            get
-            {
-                if(_deleteDogCommand == null)
-                {
-                    _deleteDogCommand = new DeleteDogCommand(this);
-                }
-                return _deleteDogCommand;
-            }
+            get { return _deleteDogCommand ?? (_deleteDogCommand = new DeleteDogCommand(this)); }
             set { _deleteDogCommand = value; }
         }
 
         public DeleteTrainerCommand DeleteTrainer
         {
-            get
-            {
-                if(_deleteTrainerCommand == null)
-                {
-                    _deleteTrainerCommand = new DeleteTrainerCommand(this);
-                }
-                return _deleteTrainerCommand;
-            }
+            get { return _deleteTrainerCommand ?? (_deleteTrainerCommand = new DeleteTrainerCommand(this)); }
             set { _deleteTrainerCommand = value; }
         }
 
@@ -212,67 +170,60 @@ namespace RIAServices.M2M.Demo
 
         public SaveCommand Save
         {
-            get
-            {
-                if(_saveCommand == null)
-                {
-                    _saveCommand = new SaveCommand(this);
-                }
-                return _saveCommand;
-            }
+            get { return _saveCommand ?? (_saveCommand = new SaveCommand(this)); }
         }
 
         public Dog SelectedDog
         {
-            get { return selectedDog; }
+            get { return _selectedDog; }
             set
             {
-                selectedDog = value;
+                _selectedDog = value;
                 RaisePropertyChanged("SelectedDog");
             }
         }
 
         public Trainer SelectedDogTrainer
         {
-            get { return selectedDogTrainer; }
+            get { return _selectedDogTrainer; }
             set
             {
-                selectedDogTrainer = value;
+                _selectedDogTrainer = value;
                 RaisePropertyChanged("SelectedDogTrainer");
             }
         }
 
         public Trainer SelectedTrainer
         {
-            get { return selectedTrainer; }
+            get { return _selectedTrainer; }
             set
             {
-                selectedTrainer = value;
+                _selectedTrainer = value;
                 RaisePropertyChanged("SelectedTrainer");
             }
         }
 
         public Dog SelectedTrainerDog
         {
-            get { return selectedTrainerDog; }
+            get { return _selectedTrainerDog; }
             set
             {
-                selectedTrainerDog = value;
+                _selectedTrainerDog = value;
                 RaisePropertyChanged("SelectedTrainerDog");
             }
         }
 
         public EntitySet<Trainer> TrainerList { get; set; }
 
-        public M2M4RiaDemoContext c
+        public M2M4RiaDemoContext C
         {
             get
             {
                 if(_c == null)
                 {
                     _c = new M2M4RiaDemoContext();
-                    _c.Load(c.GetDogsQuery());
-                    _c.Load(c.GetTrainersQuery());
+                    _c.Load(C.GetDogsQuery());
+                    _c.Load(C.GetTrainersQuery());
                 }
                 return _c;
             }
@@ -286,8 +237,7 @@ namespace RIAServices.M2M.Demo
         {
             if(AutoSave)
             {
-                EntityChangeSet changes = c.EntityContainer.GetChanges();
-                c.SubmitChanges(callback => { }, null);
+                C.SubmitChanges(callback => { }, null);
             }
         }
 
@@ -310,18 +260,18 @@ namespace RIAServices.M2M.Demo
     {
         #region Constants and Fields
 
-        private readonly MainPageModel mainPageModel;
+        private readonly MainPageModel _mainPageModel;
 
         #endregion
 
-        #region Constructors and Destructors
+        #region Constructors and Destructor
 
         public SaveCommand(MainPageModel mainPageModel)
         {
-            this.mainPageModel = mainPageModel;
-            mainPageModel.c.PropertyChanged += CheckCanExecute;
+            _mainPageModel = mainPageModel;
+            mainPageModel.C.PropertyChanged += CheckCanExecute;
             mainPageModel.PropertyChanged += CheckCanExecute;
-            mainPageModel.c.PropertyChanged += CheckCanExecute;
+            mainPageModel.C.PropertyChanged += CheckCanExecute;
         }
 
         #endregion
@@ -330,15 +280,14 @@ namespace RIAServices.M2M.Demo
 
         public override void Execute(object parameter)
         {
-            mainPageModel.c.SubmitChanges(
+            _mainPageModel.C.SubmitChanges(
                 callback =>
                     {
                         if(callback.HasError)
                         {
                             throw callback.Error;
                         }
-                        mainPageModel.DogTrainers = mainPageModel.c.EntityContainer.GetEntitySet<DogTrainer>();
-                        var x = parameter;
+                        _mainPageModel.DogTrainers = _mainPageModel.C.EntityContainer.GetEntitySet<DogTrainer>();
                     },
                 null);
         }
@@ -349,8 +298,8 @@ namespace RIAServices.M2M.Demo
 
         protected override bool CheckCanExecute(object parameter)
         {
-            return mainPageModel.c.HasChanges && mainPageModel.AutoSave == false
-                   && mainPageModel.c.IsSubmitting == false;
+            return _mainPageModel.C.HasChanges && _mainPageModel.AutoSave == false
+                   && _mainPageModel.C.IsSubmitting == false;
         }
 
         private void CheckCanExecute(object sender, PropertyChangedEventArgs e)
@@ -368,16 +317,16 @@ namespace RIAServices.M2M.Demo
     {
         #region Constants and Fields
 
-        private readonly MainPageModel mainPageModel;
+        private readonly MainPageModel _mainPageModel;
 
         #endregion
 
-        #region Constructors and Destructors
+        #region Constructors and Destructor
 
         public AddTrainerCommand(MainPageModel mainPageModel)
         {
-            this.mainPageModel = mainPageModel;
-            mainPageModel.PropertyChanged += mainPageModel_PropertyChanged;
+            _mainPageModel = mainPageModel;
+            mainPageModel.PropertyChanged += MainPageModelPropertyChanged;
         }
 
         #endregion
@@ -386,8 +335,8 @@ namespace RIAServices.M2M.Demo
 
         public override void Execute(object parameter)
         {
-            mainPageModel.SelectedDog.Trainers.Add(mainPageModel.SelectedTrainer);
-            mainPageModel.AutoSaveChanges();
+            _mainPageModel.SelectedDog.Trainers.Add(_mainPageModel.SelectedTrainer);
+            _mainPageModel.AutoSaveChanges();
             CanExecute(parameter);
         }
 
@@ -397,11 +346,11 @@ namespace RIAServices.M2M.Demo
 
         protected override bool CheckCanExecute(object parameter)
         {
-            return mainPageModel.SelectedTrainer != null && mainPageModel.SelectedDog != null
-                   && mainPageModel.SelectedDog.Trainers.Contains(mainPageModel.SelectedTrainer) == false;
+            return _mainPageModel.SelectedTrainer != null && _mainPageModel.SelectedDog != null
+                   && _mainPageModel.SelectedDog.Trainers.Contains(_mainPageModel.SelectedTrainer) == false;
         }
 
-        private void mainPageModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void MainPageModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if(e.PropertyName == "SelectedDog" || e.PropertyName == "SelectedTrainer")
             {
@@ -416,16 +365,16 @@ namespace RIAServices.M2M.Demo
     {
         #region Constants and Fields
 
-        private readonly MainPageModel mainPageModel;
+        private readonly MainPageModel _mainPageModel;
 
         #endregion
 
-        #region Constructors and Destructors
+        #region Constructors and Destructor
 
         public DeleteTrainerCommand(MainPageModel mainPageModel)
         {
-            this.mainPageModel = mainPageModel;
-            mainPageModel.PropertyChanged += mainPageModel_PropertyChanged;
+            _mainPageModel = mainPageModel;
+            mainPageModel.PropertyChanged += MainPageModelPropertyChanged;
         }
 
         #endregion
@@ -434,8 +383,8 @@ namespace RIAServices.M2M.Demo
 
         public override void Execute(object parameter)
         {
-            mainPageModel.SelectedDog.Trainers.Remove(mainPageModel.SelectedDogTrainer);
-            mainPageModel.AutoSaveChanges();
+            _mainPageModel.SelectedDog.Trainers.Remove(_mainPageModel.SelectedDogTrainer);
+            _mainPageModel.AutoSaveChanges();
             CanExecute(parameter);
         }
 
@@ -445,10 +394,10 @@ namespace RIAServices.M2M.Demo
 
         protected override bool CheckCanExecute(object parameter)
         {
-            return mainPageModel.SelectedDog != null && mainPageModel.SelectedDogTrainer != null;
+            return _mainPageModel.SelectedDog != null && _mainPageModel.SelectedDogTrainer != null;
         }
 
-        private void mainPageModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void MainPageModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if(e.PropertyName == "SelectedDog" || e.PropertyName == "SelectedDogTrainer")
             {
@@ -463,18 +412,18 @@ namespace RIAServices.M2M.Demo
     {
         #region Constants and Fields
 
-        private readonly MainPageModel mainPageModel;
+        private readonly MainPageModel _mainPageModel;
 
-        private int trainerCount;
+        private int _trainerCount;
 
         #endregion
 
-        #region Constructors and Destructors
+        #region Constructors and Destructor
 
         public CreateTrainerCommand(MainPageModel mainPageModel)
         {
-            this.mainPageModel = mainPageModel;
-            mainPageModel.c.PropertyChanged += CheckCanExecute;
+            _mainPageModel = mainPageModel;
+            mainPageModel.C.PropertyChanged += CheckCanExecute;
         }
 
         #endregion
@@ -483,8 +432,8 @@ namespace RIAServices.M2M.Demo
 
         public override void Execute(object parameter)
         {
-            mainPageModel.c.Trainers.Add(new Trainer {Name = "Trainer" + trainerCount++});
-            mainPageModel.AutoSaveChanges();
+            _mainPageModel.C.Trainers.Add(new Trainer {Name = "Trainer" + _trainerCount++});
+            _mainPageModel.AutoSaveChanges();
         }
 
         #endregion
@@ -493,7 +442,7 @@ namespace RIAServices.M2M.Demo
 
         protected override bool CheckCanExecute(object parameter)
         {
-            return mainPageModel.c.IsSubmitting == false;
+            return _mainPageModel.C.IsSubmitting == false;
         }
 
         private void CheckCanExecute(object sender, PropertyChangedEventArgs e)
@@ -511,16 +460,16 @@ namespace RIAServices.M2M.Demo
     {
         #region Constants and Fields
 
-        private readonly MainPageModel mainPageModel;
+        private readonly MainPageModel _mainPageModel;
 
         #endregion
 
-        #region Constructors and Destructors
+        #region Constructors and Destructor
 
         public AddDogCommand(MainPageModel mainPageModel)
         {
-            this.mainPageModel = mainPageModel;
-            mainPageModel.PropertyChanged += mainPageModel_PropertyChanged;
+            _mainPageModel = mainPageModel;
+            mainPageModel.PropertyChanged += MainPageModelPropertyChanged;
         }
 
         #endregion
@@ -529,8 +478,8 @@ namespace RIAServices.M2M.Demo
 
         public override void Execute(object parameter)
         {
-            mainPageModel.SelectedTrainer.Dogs.Add(mainPageModel.SelectedDog);
-            mainPageModel.AutoSaveChanges();
+            _mainPageModel.SelectedTrainer.Dogs.Add(_mainPageModel.SelectedDog);
+            _mainPageModel.AutoSaveChanges();
             CanExecute(parameter);
         }
 
@@ -540,11 +489,11 @@ namespace RIAServices.M2M.Demo
 
         protected override bool CheckCanExecute(object parameter)
         {
-            return mainPageModel.SelectedTrainer != null && mainPageModel.SelectedDog != null
-                   && mainPageModel.SelectedTrainer.Dogs.Contains(mainPageModel.SelectedDog) == false;
+            return _mainPageModel.SelectedTrainer != null && _mainPageModel.SelectedDog != null
+                   && _mainPageModel.SelectedTrainer.Dogs.Contains(_mainPageModel.SelectedDog) == false;
         }
 
-        private void mainPageModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void MainPageModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if(e.PropertyName == "SelectedTrainer" || e.PropertyName == "SelectedDog")
             {
@@ -559,16 +508,16 @@ namespace RIAServices.M2M.Demo
     {
         #region Constants and Fields
 
-        private readonly MainPageModel mainPageModel;
+        private readonly MainPageModel _mainPageModel;
 
         #endregion
 
-        #region Constructors and Destructors
+        #region Constructors and Destructor
 
         public DeleteDogCommand(MainPageModel mainPageModel)
         {
-            this.mainPageModel = mainPageModel;
-            mainPageModel.PropertyChanged += mainPageModel_PropertyChanged;
+            _mainPageModel = mainPageModel;
+            mainPageModel.PropertyChanged += MainPageModelPropertyChanged;
         }
 
         #endregion
@@ -577,8 +526,8 @@ namespace RIAServices.M2M.Demo
 
         public override void Execute(object parameter)
         {
-            mainPageModel.SelectedTrainer.Dogs.Remove(mainPageModel.SelectedTrainerDog);
-            mainPageModel.AutoSaveChanges();
+            _mainPageModel.SelectedTrainer.Dogs.Remove(_mainPageModel.SelectedTrainerDog);
+            _mainPageModel.AutoSaveChanges();
             CanExecute(parameter);
         }
 
@@ -588,10 +537,10 @@ namespace RIAServices.M2M.Demo
 
         protected override bool CheckCanExecute(object parameter)
         {
-            return mainPageModel.SelectedTrainer != null && mainPageModel.SelectedTrainerDog != null;
+            return _mainPageModel.SelectedTrainer != null && _mainPageModel.SelectedTrainerDog != null;
         }
 
-        private void mainPageModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void MainPageModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if(e.PropertyName == "SelectedTrainer" || e.PropertyName == "SelectedTrainerDog")
             {
@@ -606,18 +555,18 @@ namespace RIAServices.M2M.Demo
     {
         #region Constants and Fields
 
-        private readonly MainPageModel mainPageModel;
+        private readonly MainPageModel _mainPageModel;
 
-        private int dogCount;
+        private int _dogCount;
 
         #endregion
 
-        #region Constructors and Destructors
+        #region Constructors and Destructor
 
         public CreateDogCommand(MainPageModel mainPageModel)
         {
-            this.mainPageModel = mainPageModel;
-            mainPageModel.c.PropertyChanged += CheckCanExecute;
+            _mainPageModel = mainPageModel;
+            mainPageModel.C.PropertyChanged += CheckCanExecute;
         }
 
         #endregion
@@ -626,8 +575,8 @@ namespace RIAServices.M2M.Demo
 
         public override void Execute(object parameter)
         {
-            mainPageModel.c.Dogs.Add(new Dog {Name = "Dog" + dogCount++});
-            mainPageModel.AutoSaveChanges();
+            _mainPageModel.C.Dogs.Add(new Dog {Name = "Dog" + _dogCount++});
+            _mainPageModel.AutoSaveChanges();
         }
 
         #endregion
@@ -636,7 +585,7 @@ namespace RIAServices.M2M.Demo
 
         protected override bool CheckCanExecute(object parameter)
         {
-            return mainPageModel.c.IsSubmitting == false;
+            return _mainPageModel.C.IsSubmitting == false;
         }
 
         private void CheckCanExecute(object sender, PropertyChangedEventArgs e)

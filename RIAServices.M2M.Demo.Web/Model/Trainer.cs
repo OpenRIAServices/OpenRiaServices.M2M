@@ -5,7 +5,7 @@ namespace RIAServices.M2M.Demo.Web.Model
 {
     public class Trainer
     {
-        #region Constructors and Destructors
+        #region Constructors and Destructor
 
         public Trainer()
         {
@@ -21,7 +21,7 @@ namespace RIAServices.M2M.Demo.Web.Model
             get { return Dogs.ProjectObject2(this, x=>x.DogTrainers); }
         }
 
-        public virtual ICollection<Dog> Dogs { get; set; }
+        public ICollection<Dog> Dogs { get; set; }
 
         public string Name { get; set; }
 
