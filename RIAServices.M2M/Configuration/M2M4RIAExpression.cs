@@ -11,7 +11,7 @@ using RIAServices.M2M.Utilities;
 
 namespace RIAServices.M2M.Configuration
 {
-    public class M2M4RIAExpression<TObject1, TObject2, TLinkTable>
+    public class M2M4RiaExpression<TObject1, TObject2, TLinkTable>
         where TObject1 : class where TObject2 : class where TLinkTable : LinkTable<TObject1, TObject2>
     {
         #region Constants and Fields
@@ -20,9 +20,9 @@ namespace RIAServices.M2M.Configuration
 
         #endregion
 
-        #region Constructors and Destructors
+        #region Constructors and Destructor
 
-        public M2M4RIAExpression(MetadataContainer metaDataContainer, string m2m1, string m2mview1, string m2mview2,
+        public M2M4RiaExpression(MetadataContainer metaDataContainer, string m2m1, string m2mView1, string m2mView2,
                                  string m2m2)
         {
             _metaDataContainer = metaDataContainer;
@@ -31,34 +31,34 @@ namespace RIAServices.M2M.Configuration
             var object1MetaData = metaDataContainer.Entity<TObject1>();
             var object2MetaData = metaDataContainer.Entity<TObject2>();
 
-            object1MetaData.AddMetadata(m2mview1, new IncludeAttribute());
-            object2MetaData.AddMetadata(m2mview2, new IncludeAttribute());
+            object1MetaData.AddMetadata(m2mView1, new IncludeAttribute());
+            object2MetaData.AddMetadata(m2mView2, new IncludeAttribute());
 
             var object1Keys = GetKeys<TObject1>(metaDataContainer);
             var object2Keys = GetKeys<TObject2>(metaDataContainer);
 
-            SetupLinkTableAssociations(x => x.Object1, m2mview1, object1Keys.ToList());
-            SetupLinkTableAssociations(x => x.Object2, m2mview2, object2Keys.ToList());
+            SetupLinkTableAssociations(x => x.Object1, m2mView1, object1Keys.ToList());
+            SetupLinkTableAssociations(x => x.Object2, m2mView2, object2Keys.ToList());
 
             MarkLinkTableKeysAsDataMembers(linkTableMetaData);
 
             object1MetaData.AddMetadata(
-                m2mview1,
+                m2mView1,
                 new LinkTableViewAttribute
                     {
                         LinkTableType = typeof(TLinkTable),
                         M2MPropertyName = m2m1,
                         ElementType = typeof(TObject2),
-                        OtherEndAssociationName = typeof(TObject1).Name + "_" + m2mview1
+                        OtherEndAssociationName = typeof(TObject1).Name + "_" + m2mView1
                     });
             object2MetaData.AddMetadata(
-                m2mview2,
+                m2mView2,
                 new LinkTableViewAttribute
                     {
                         LinkTableType = typeof(TLinkTable),
                         M2MPropertyName = m2m2,
                         ElementType = typeof(TObject1),
-                        OtherEndAssociationName = typeof(TObject2).Name + "_" + m2mview2
+                        OtherEndAssociationName = typeof(TObject2).Name + "_" + m2mView2
                     });
         }
 

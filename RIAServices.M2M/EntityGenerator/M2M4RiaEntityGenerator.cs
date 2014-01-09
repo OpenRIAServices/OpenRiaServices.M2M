@@ -70,7 +70,7 @@ namespace RIAServices.M2M.EntityGenerator
             {
                 return false;
             }
-            // Check if the generic type definition is asignable from LinkTable<,>
+            // Check if the generic type definition is assignable from LinkTable<,>
             return type.GetGenericTypeDefinition().IsAssignableFrom(typeof(LinkTable<,>));
         }
 
@@ -138,41 +138,37 @@ namespace RIAServices.M2M.EntityGenerator
 
         private void AddAttachMethodsToLinkTableEntity(Type type)
         {
-            if(IsLinkTableEntity(type))
+            if(!IsLinkTableEntity(type)) return;
+            var propertyDescriptors = GetNavigationProperties(type).ToList();
+            if(propertyDescriptors.Count() != 2)
             {
-                var propertyDescriptors = GetNavigationProperties(type).ToList();
-                if(propertyDescriptors.Count() != 2)
-                {
-                    throw new Exception(
-                        String.Format(
-                            "Currently m2m4ria requires link table entities with exactly two navigation properties. (found: {0} for {1})",
-                            propertyDescriptors.Count(), type.FullName));
-                }
-                var assocAttr0 = propertyDescriptors[0].Attributes.OfType<AssociationAttribute>().Single();
-                var assocAttr1 = propertyDescriptors[1].Attributes.OfType<AssociationAttribute>().Single();
-                AddAttachMethod(type, assocAttr1, assocAttr0, propertyDescriptors[0], propertyDescriptors[1]);
-                AddAttachMethod(type, assocAttr0, assocAttr1, propertyDescriptors[1], propertyDescriptors[0]);
+                throw new Exception(
+                    String.Format(
+                        "Currently m2m4ria requires link table entities with exactly two navigation properties. (found: {0} for {1})",
+                        propertyDescriptors.Count(), type.FullName));
             }
+            var assocAttr0 = propertyDescriptors[0].Attributes.OfType<AssociationAttribute>().Single();
+            var assocAttr1 = propertyDescriptors[1].Attributes.OfType<AssociationAttribute>().Single();
+            AddAttachMethod(type, assocAttr1, assocAttr0, propertyDescriptors[0], propertyDescriptors[1]);
+            AddAttachMethod(type, assocAttr0, assocAttr1, propertyDescriptors[1], propertyDescriptors[0]);
         }
 
         private void AddIExtendedEntityImplementation(Type type)
         {
-            if(IsLinkTableEntity(type))
-            {
-                WriteLine(@"#region Lines added by m2m4ria code generator");
-                WriteLine(@"/// <summary>");
-                WriteLine(@"/// Gets the EntitySet the link table entity is contained in.");
-                WriteLine(@"/// </summary>");
-                WriteLine(
-                    @"System.ServiceModel.DomainServices.Client.EntitySet RIAServices.M2M.IExtendedEntity.EntitySet");
-                WriteLine(@"{");
-                WriteLine(@"    get");
-                WriteLine(@"    {");
-                WriteLine(@"        return EntitySet;");
-                WriteLine(@"    }");
-                WriteLine(@"}");
-                WriteLine(@"#endregion");
-            }
+            if(!IsLinkTableEntity(type)) return;
+            WriteLine(@"#region Lines added by m2m4ria code generator");
+            WriteLine(@"/// <summary>");
+            WriteLine(@"/// Gets the EntitySet the link table entity is contained in.");
+            WriteLine(@"/// </summary>");
+            WriteLine(
+                @"System.ServiceModel.DomainServices.Client.EntitySet RIAServices.M2M.IExtendedEntity.EntitySet");
+            WriteLine(@"{");
+            WriteLine(@"    get");
+            WriteLine(@"    {");
+            WriteLine(@"        return EntitySet;");
+            WriteLine(@"    }");
+            WriteLine(@"}");
+            WriteLine(@"#endregion");
         }
 
         private void AddInsertEntityMethod(Type type)
@@ -288,12 +284,10 @@ namespace RIAServices.M2M.EntityGenerator
 
         private void MakeLinkTableEntityAnIExtendedEntity(Type type)
         {
-            if(IsLinkTableEntity(type))
-            {
-                WriteLine(@"#region Lines added by m2m4ria code generator");
-                WriteLine(@", RIAServices.M2M.IExtendedEntity");
-                WriteLine(@"#endregion");
-            }
+            if(!IsLinkTableEntity(type)) return;
+            WriteLine(@"#region Lines added by m2m4ria code generator");
+            WriteLine(@", RIAServices.M2M.IExtendedEntity");
+            WriteLine(@"#endregion");
         }
 
         #endregion

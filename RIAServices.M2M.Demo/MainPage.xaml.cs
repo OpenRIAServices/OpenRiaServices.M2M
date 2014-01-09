@@ -2,7 +2,7 @@
 {
     public partial class MainPage
     {
-        #region Constructors and Destructors
+        #region Constructors and Destructor
 
         public MainPage()
         {

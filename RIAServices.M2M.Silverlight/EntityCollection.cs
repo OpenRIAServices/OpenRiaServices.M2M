@@ -28,7 +28,7 @@ namespace RIAServices.M2M
 
         #endregion
 
-        #region Constructors and Destructors
+        #region Constructors and Destructor
 
         ///<summary>
         ///</summary>

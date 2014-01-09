@@ -34,7 +34,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <ListBox Grid.Row="3" SelectedItem="{Binding SelectedDogTrainer,Mode=TwoWay}" ItemsSource="{Binding SelectedDog.Trainers }" >
+        <ListBox Grid.Row="3" Grid.Column="0" SelectedItem="{Binding SelectedDogTrainer,Mode=TwoWay}" ItemsSource="{Binding SelectedDog.Trainers }" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -77,19 +77,19 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
             <sdk:Label Content="DogSet"  />
             <sdk:Label Content="{Binding DogList.Count}"/>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center">
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">
             <sdk:Label Content="DogTrainers"  />
             <sdk:Label Content="{Binding DogTrainers.Count}"/>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Center">
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center">
             <sdk:Label Content="TrainerSet"  />
             <sdk:Label Content="{Binding TrainerList.Count}"/>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" >
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" >
             <sdk:Label Content="Dog.Trainers"  />
             <sdk:Label Content="{Binding SelectedDog.Trainers.Count}"/>
         </StackPanel>
@@ -97,7 +97,7 @@
             <sdk:Label Content="Trainer.Dogs"  />
             <sdk:Label Content="{Binding SelectedTrainer.Dogs.Count}"/>
         </StackPanel>
-        <Grid Grid.ColumnSpan="3" Grid.Row="4" >
+        <Grid Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="4" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
