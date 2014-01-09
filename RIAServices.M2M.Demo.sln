@@ -1,20 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{8DD4E74F-2100-40A3-80DD-7D1F8B1E4514}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "M2M", "M2M", "{6A2A062D-4963-431F-B92A-0E53F27A2402}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RIAServices.M2M.Demo.Web", "RIAServices.M2M.Demo.Web\RIAServices.M2M.Demo.Web.csproj", "{E878F804-5CD7-46C4-98A6-9B801000FB2B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RIAServices.M2M.Demo", "RIAServices.M2M.Demo\RIAServices.M2M.Demo.csproj", "{D7186FE7-57CC-4986-BF05-13FBD0441E31}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E878F804-5CD7-46C4-98A6-9B801000FB2B} = {E878F804-5CD7-46C4-98A6-9B801000FB2B}
 	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{8DD4E74F-2100-40A3-80DD-7D1F8B1E4514}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "M2M", "M2M", "{6A2A062D-4963-431F-B92A-0E53F27A2402}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RIAServices.M2M.Silverlight", "RIAServices.M2M.Silverlight\RIAServices.M2M.Silverlight.csproj", "{F6E5D0B7-FE90-4498-A5F5-3FFA505762A0}"
 EndProject
@@ -23,9 +21,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RIAServices.M2M.LinkTable", "RIAServices.M2M.LinkTable\RIAServices.M2M.LinkTable.csproj", "{F67416F0-179B-4572-AB29-E87E2F82DBCD}"
 EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = m2m4ria.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -93,5 +88,8 @@ Global
 		{F6E5D0B7-FE90-4498-A5F5-3FFA505762A0} = {6A2A062D-4963-431F-B92A-0E53F27A2402}
 		{88EFBF58-E42A-4314-BAAF-746FC34CB5EC} = {6A2A062D-4963-431F-B92A-0E53F27A2402}
 		{F67416F0-179B-4572-AB29-E87E2F82DBCD} = {6A2A062D-4963-431F-B92A-0E53F27A2402}
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = m2m4ria.vsmdi
 	EndGlobalSection
 EndGlobal
