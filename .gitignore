@@ -16,3 +16,5 @@ lib/
 _ReSharper*
 nupkgs/
 Database.sdf
+*.mdf
+*.ldf
