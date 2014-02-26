@@ -155,6 +155,24 @@ namespace RIAServices.M2M
             set { SetKey(x => x.Object1_DateTime_Id2, value); }
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public decimal Object1_Decimal_Id0
+        {
+            get { return GetKey(x => x.Object1_Decimal_Id0); }
+            set { SetKey(x => x.Object1_Decimal_Id0, value); }
+        }
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public decimal Object1_Decimal_Id1
+        {
+            get { return GetKey(x => x.Object1_Decimal_Id1); }
+            set { SetKey(x => x.Object1_Decimal_Id1, value); }
+        }
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public decimal Object1_Decimal_Id2
+        {
+            get { return GetKey(x => x.Object1_Decimal_Id2); }
+            set { SetKey(x => x.Object1_Decimal_Id2, value); }
+        }
 
         public TObject2 Object2
         {
@@ -283,6 +301,25 @@ namespace RIAServices.M2M
             set { SetKey(x => x.Object2_DateTime_Id2, value); }
         }
 
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public decimal Object2_Decimal_Id0
+        {
+            get { return GetKey(x => x.Object2_Decimal_Id0); }
+            set { SetKey(x => x.Object2_Decimal_Id0, value); }
+        }
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public decimal Object2_Decimal_Id1
+        {
+            get { return GetKey(x => x.Object2_Decimal_Id1); }
+            set { SetKey(x => x.Object2_Decimal_Id1, value); }
+        }
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public decimal Object2_Decimal_Id2
+        {
+            get { return GetKey(x => x.Object2_Decimal_Id2); }
+            set { SetKey(x => x.Object2_Decimal_Id2, value); }
+        }
         #endregion
 
         #region Methods
