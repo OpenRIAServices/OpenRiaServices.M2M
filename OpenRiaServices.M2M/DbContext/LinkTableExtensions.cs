@@ -177,13 +177,7 @@ namespace OpenRiaServices.M2M.DbContext
         private static object[] MakeKeyValues(object entity, IEnumerable<string> keys)
         {
             var type = entity.GetType();
-            var keyValues = new List<object>();
-            foreach(var key in keys)
-            {
-                var propInfo = type.GetProperty(key);
-                keyValues.Add(propInfo.GetValue(entity, null));
-            }
-            return keyValues.ToArray();
+            return keys.Select(type.GetProperty).Select(propInfo => propInfo.GetValue(entity, null)).ToArray();
         }
 
         private static bool Match<TType>(TType entity, object linkTableEntity, AssociationAttribute association)
