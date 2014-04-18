@@ -1,7 +1,7 @@
 
-@set OPTIONS=-build -verbosity normal -Prop Configuration=Release -OutputDirectory nupkgs
+@set OPTIONS=-build -verbosity normal -Prop Configuration=Release -OutputDirectory nupkgs -IncludeReferencedProjects
 
 @if not exist nupkgs (mkdir nupkgs)
-@.\.nuget\NuGet.exe pack RIAServices.M2M.LinkTable\RIAServices.M2M.LinkTable.csproj %OPTIONS%
-@.\.nuget\NuGet.exe pack RIAServices.M2M.Silverlight\RIAServices.M2M.Silverlight.csproj %OPTIONS%
-@.\.nuget\NuGet.exe pack RIAServices.M2M\RIAServices.M2M.csproj %OPTIONS%
+@NuGet.exe pack OpenRiaServices.M2M.LinkTable\OpenRiaServices.M2M.LinkTable.csproj %OPTIONS%
+@NuGet.exe pack OpenRiaServices.M2M.Silverlight\OpenRiaServices.M2M.Silverlight.csproj %OPTIONS%
+@NuGet.exe pack OpenRiaServices.M2M\OpenRiaServices.M2M.csproj %OPTIONS%
