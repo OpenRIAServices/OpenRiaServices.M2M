@@ -8,7 +8,7 @@ namespace OpenRiaServices.M2M.EntityGenerator
     {
         #region Properties
 
-        protected override OpenRiaServices.DomainServices.Tools.TextTemplate.EntityGenerator EntityGenerator
+        protected override DomainServices.Tools.TextTemplate.EntityGenerator EntityGenerator
         {
             get { return new M2M4RiaEntityGenerator(); }
         }
