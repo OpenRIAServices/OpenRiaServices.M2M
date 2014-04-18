@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using System.ServiceModel.DomainServices.Client;
 using System.Windows.Input;
+using OpenRiaServices.DomainServices.Client;
 using RIAServices.M2M.Demo.Web.Model;
 using RIAServices.M2M.Demo.Web.Service;
 

@@ -32,31 +32,37 @@
     <WarningLevel>4</WarningLevel>
     <BuildPackage>true</BuildPackage>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>RIAServices.M2M.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.4.1.10715.0\lib\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="FluentMetadata, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f00a987c169fea34, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\FluentMetadata.0.2.70256.0\lib\net40\FluentMetadata.dll</HintPath>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net40\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ServiceModel.DomainServices.Tools, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.ServiceModel.DomainServices.Tools.TextTemplate, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\RIAServices.T4.4.1.60730.0\lib\Net40\Microsoft.ServiceModel.DomainServices.Tools.TextTemplate.dll</HintPath>
+    <Reference Include="OpenRiaServices.DomainServices.Hosting, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\OpenRiaServices.Server.4.3.0.0\lib\OpenRiaServices.DomainServices.Hosting.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenRiaServices.DomainServices.Server, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\OpenRiaServices.Server.4.3.0.0\lib\OpenRiaServices.DomainServices.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenRiaServices.DomainServices.Tools">
+      <HintPath>..\packages\OpenRiaServices.T4.4.3.0.3\lib\net40\OpenRiaServices.DomainServices.Tools.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenRiaServices.DomainServices.Tools.TextTemplate, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\OpenRiaServices.T4.4.3.0.3\lib\net40\OpenRiaServices.DomainServices.Tools.TextTemplate.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenRiaServices.FluentMetadata, Version=2.0.5213.23261, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\OpenRiaServices.FluentMetadata.2.0.5213.23261\lib\net40\OpenRiaServices.FluentMetadata.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel.DomainServices.Server, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DbContext\LinkTableExtensions.cs" />
@@ -80,10 +86,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="RIAServices.M2M.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-
+  <Import Project="..\packages\OpenRiaServices.Server.4.3.0.0\tools\OpenRiaServices.Validation.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

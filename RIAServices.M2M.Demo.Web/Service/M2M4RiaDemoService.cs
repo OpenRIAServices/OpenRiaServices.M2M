@@ -1,10 +1,9 @@
-﻿using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
-using System.ServiceModel.DomainServices.EntityFramework;
-using System.ServiceModel.DomainServices.Hosting;
-using System.ServiceModel.DomainServices.Server;
-using System.Web.DomainServices.FluentMetadata;
+using OpenRiaServices.DomainServices.EntityFramework;
+using OpenRiaServices.DomainServices.Hosting;
+using OpenRiaServices.DomainServices.Server;
+using OpenRiaServices.FluentMetadata;
 using RIAServices.M2M.DbContext;
 using RIAServices.M2M.Demo.Web.Model;
 
@@ -70,7 +69,6 @@ namespace RIAServices.M2M.Demo.Web.Service
         {
             return DbContext.TrainerSet.Include(x => x.Dogs);
         }
-
         public override void Initialize(DomainServiceContext context)
         {
             base.Initialize(context);

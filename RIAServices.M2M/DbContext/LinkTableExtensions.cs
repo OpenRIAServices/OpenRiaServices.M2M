@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.ServiceModel.DomainServices.Server;
+using OpenRiaServices.DomainServices.Server;
 
 namespace RIAServices.M2M.DbContext
 {
