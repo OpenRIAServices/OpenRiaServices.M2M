@@ -5,8 +5,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.Serialization;
-using System.ServiceModel.DomainServices.Server;
-using System.Web.DomainServices.FluentMetadata;
+using OpenRiaServices.DomainServices.Server;
+using OpenRiaServices.FluentMetadata;
 using RIAServices.M2M.Utilities;
 
 namespace RIAServices.M2M.Configuration

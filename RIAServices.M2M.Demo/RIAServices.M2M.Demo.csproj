@@ -29,7 +29,7 @@
     <OutOfBrowserSettingsFile>Properties\OutOfBrowserSettings.xml</OutOfBrowserSettingsFile>
     <UsePlatformExtensions>false</UsePlatformExtensions>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
-    <LinkedServerProject>..\RIAServices.M2M.Demo.Web\RIAServices.M2M.Demo.Web.csproj</LinkedServerProject>
+    <LinkedOpenRiaServerProject>..\RIAServices.M2M.Demo.Web\RIAServices.M2M.Demo.Web.csproj</LinkedOpenRiaServerProject>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <FileUpgradeFlags>
@@ -67,15 +67,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
+    <Reference Include="OpenRiaServices.Data.DomainServices">
+      <HintPath>..\packages\OpenRiaServices.ViewModel.4.3.0.0\lib\sl50\OpenRiaServices.Data.DomainServices.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenRiaServices.DomainServices.Client">
+      <HintPath>..\packages\OpenRiaServices.Silverlight.Core.4.3.0.0\lib\sl50\OpenRiaServices.DomainServices.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenRiaServices.DomainServices.Client.Web">
+      <HintPath>..\packages\OpenRiaServices.Silverlight.Core.4.3.0.0\lib\sl50\OpenRiaServices.DomainServices.Client.Web.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations, Version=5.0.5.0, Culture=neutral, PublicKeyToken=ddd0da4d3e678217, processorArchitecture=MSIL" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
-    <Reference Include="System.ServiceModel.DomainServices.Client, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\RIAServices.Silverlight.4.2.0\lib\sl40\System.ServiceModel.DomainServices.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ServiceModel.DomainServices.Client.Web, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\RIAServices.Silverlight.4.2.0\lib\sl40\System.ServiceModel.DomainServices.Client.Web.dll</HintPath>
-    </Reference>
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.ServiceModel.Web.Extensions, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows" />
     <Reference Include="system" />
@@ -136,4 +140,5 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="..\packages\OpenRiaServices.Silverlight.CodeGen.4.3.0.1\build\OpenRiaServices.Silverlight.CodeGen.targets" Condition="Exists('..\packages\OpenRiaServices.Silverlight.CodeGen.4.3.0.1\build\OpenRiaServices.Silverlight.CodeGen.targets')" />
 </Project>

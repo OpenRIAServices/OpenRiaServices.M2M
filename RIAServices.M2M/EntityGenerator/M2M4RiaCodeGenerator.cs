@@ -1,5 +1,5 @@
-﻿using Microsoft.ServiceModel.DomainServices.Tools;
-using Microsoft.ServiceModel.DomainServices.Tools.TextTemplate.CSharpGenerators;
+﻿using OpenRiaServices.DomainServices.Tools;
+using OpenRiaServices.DomainServices.Tools.TextTemplate.CSharpGenerators;
 
 namespace RIAServices.M2M.EntityGenerator
 {
@@ -8,7 +8,7 @@ namespace RIAServices.M2M.EntityGenerator
     {
         #region Properties
 
-        protected override Microsoft.ServiceModel.DomainServices.Tools.TextTemplate.EntityGenerator EntityGenerator
+        protected override OpenRiaServices.DomainServices.Tools.TextTemplate.EntityGenerator EntityGenerator
         {
             get { return new M2M4RiaEntityGenerator(); }
         }

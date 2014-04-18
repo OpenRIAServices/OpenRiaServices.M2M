@@ -14,7 +14,7 @@
     <RootNamespace>RIAServices.M2M.Demo.Web</RootNamespace>
     <AssemblyName>RIAServices.M2M.Demo.Web</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <SilverlightApplicationList>{D7186FE7-57CC-4986-BF05-13FBD0441E31}|..\M2M4RiaDemo\M2M4RiaDemo.csproj|ClientBin|False</SilverlightApplicationList>
+    <SilverlightApplicationList>{D7186FE7-57CC-4986-BF05-13FBD0441E31}|..\RIAServices.M2M.Demo\RIAServices.M2M.Demo.csproj|ClientBin|False</SilverlightApplicationList>
     <UseIISExpress>false</UseIISExpress>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
@@ -45,21 +45,30 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.4.1.10715.0\lib\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="FluentMetadata, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f00a987c169fea34, processorArchitecture=MSIL">
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\FluentMetadata.0.2.70256.0\lib\net40\FluentMetadata.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ServiceModel.DomainServices.EntityFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\RIAServices.EntityFramework.4.1.60730.0\lib\Net40\Microsoft.ServiceModel.DomainServices.EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net40\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="System.Data.Entity" />
-    <Reference Include="System.ServiceModel.DomainServices.Hosting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.ServiceModel.DomainServices.Server, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="OpenRiaServices.DomainServices.EntityFramework">
+      <HintPath>..\packages\OpenRiaServices.EntityFramework.4.3.0.0\lib\net40\OpenRiaServices.DomainServices.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenRiaServices.DomainServices.Hosting, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\OpenRiaServices.Server.4.3.0.0\lib\OpenRiaServices.DomainServices.Hosting.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenRiaServices.DomainServices.Server, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\OpenRiaServices.Server.4.3.0.0\lib\OpenRiaServices.DomainServices.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenRiaServices.FluentMetadata, Version=2.0.5213.23261, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\OpenRiaServices.FluentMetadata.2.0.5213.23261\lib\net40\OpenRiaServices.FluentMetadata.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
   </ItemGroup>
@@ -105,10 +114,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Content Include="packages.config" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -136,7 +145,7 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-
+  <Import Project="..\packages\OpenRiaServices.Server.4.3.0.0\tools\OpenRiaServices.Validation.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

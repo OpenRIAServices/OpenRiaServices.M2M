@@ -1,4 +1,4 @@
-using System.Web.DomainServices.FluentMetadata;
+using OpenRiaServices.FluentMetadata;
 using RIAServices.M2M.Configuration;
 using RIAServices.M2M.Demo.Web.Model;
 
