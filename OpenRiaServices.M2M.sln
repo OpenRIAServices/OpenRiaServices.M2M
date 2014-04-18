@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{66F64EAE-08DA-438A-81DC-D27032A7B775}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenRiaServices.M2M.Silverlight", "OpenRiaServices.M2M.Silverlight\OpenRiaServices.M2M.Silverlight.csproj", "{F6E5D0B7-FE90-4498-A5F5-3FFA505762A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenRiaServices.M2M", "OpenRiaServices.M2M\OpenRiaServices.M2M.csproj", "{88EFBF58-E42A-4314-BAAF-746FC34CB5EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenRiaServices.M2M.LinkTable", "OpenRiaServices.M2M.LinkTable\OpenRiaServices.M2M.LinkTable.csproj", "{F67416F0-179B-4572-AB29-E87E2F82DBCD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F6E5D0B7-FE90-4498-A5F5-3FFA505762A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6E5D0B7-FE90-4498-A5F5-3FFA505762A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6E5D0B7-FE90-4498-A5F5-3FFA505762A0}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F6E5D0B7-FE90-4498-A5F5-3FFA505762A0}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F6E5D0B7-FE90-4498-A5F5-3FFA505762A0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F6E5D0B7-FE90-4498-A5F5-3FFA505762A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6E5D0B7-FE90-4498-A5F5-3FFA505762A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6E5D0B7-FE90-4498-A5F5-3FFA505762A0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F6E5D0B7-FE90-4498-A5F5-3FFA505762A0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F6E5D0B7-FE90-4498-A5F5-3FFA505762A0}.Release|x86.ActiveCfg = Release|Any CPU
+		{88EFBF58-E42A-4314-BAAF-746FC34CB5EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88EFBF58-E42A-4314-BAAF-746FC34CB5EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88EFBF58-E42A-4314-BAAF-746FC34CB5EC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{88EFBF58-E42A-4314-BAAF-746FC34CB5EC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{88EFBF58-E42A-4314-BAAF-746FC34CB5EC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{88EFBF58-E42A-4314-BAAF-746FC34CB5EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88EFBF58-E42A-4314-BAAF-746FC34CB5EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88EFBF58-E42A-4314-BAAF-746FC34CB5EC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{88EFBF58-E42A-4314-BAAF-746FC34CB5EC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{88EFBF58-E42A-4314-BAAF-746FC34CB5EC}.Release|x86.ActiveCfg = Release|Any CPU
+		{F67416F0-179B-4572-AB29-E87E2F82DBCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F67416F0-179B-4572-AB29-E87E2F82DBCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F67416F0-179B-4572-AB29-E87E2F82DBCD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F67416F0-179B-4572-AB29-E87E2F82DBCD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F67416F0-179B-4572-AB29-E87E2F82DBCD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F67416F0-179B-4572-AB29-E87E2F82DBCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F67416F0-179B-4572-AB29-E87E2F82DBCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F67416F0-179B-4572-AB29-E87E2F82DBCD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F67416F0-179B-4572-AB29-E87E2F82DBCD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F67416F0-179B-4572-AB29-E87E2F82DBCD}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
