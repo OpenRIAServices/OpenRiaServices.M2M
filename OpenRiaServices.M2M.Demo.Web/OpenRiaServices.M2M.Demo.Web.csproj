@@ -26,6 +26,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <NuGetPackageImportStamp>7c121990</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,16 +53,17 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.0\lib\net40\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="OpenRiaServices.DomainServices.EntityFramework">
-      <HintPath>..\packages\OpenRiaServices.EntityFramework.4.3.0.0\lib\net40\OpenRiaServices.DomainServices.EntityFramework.dll</HintPath>
+    <Reference Include="OpenRiaServices.DomainServices.EntityFramework, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\OpenRiaServices.EntityFramework.4.4.0.0-Beta1\lib\net40\OpenRiaServices.DomainServices.EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="OpenRiaServices.DomainServices.Hosting, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenRiaServices.Server.4.3.0.0\lib\OpenRiaServices.DomainServices.Hosting.dll</HintPath>
+      <HintPath>..\packages\OpenRiaServices.Server.4.4.0.0-Beta1\lib\OpenRiaServices.DomainServices.Hosting.dll</HintPath>
     </Reference>
     <Reference Include="OpenRiaServices.DomainServices.Server, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenRiaServices.Server.4.3.0.0\lib\OpenRiaServices.DomainServices.Server.dll</HintPath>
+      <HintPath>..\packages\OpenRiaServices.Server.4.4.0.0-Beta1\lib\OpenRiaServices.DomainServices.Server.dll</HintPath>
     </Reference>
     <Reference Include="OpenRiaServices.FluentMetadata, Version=2.0.5213.23261, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -145,7 +147,13 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <Import Project="..\packages\OpenRiaServices.Server.4.3.0.0\tools\OpenRiaServices.Validation.targets" />
+  <Import Project="..\packages\OpenRiaServices.Server.4.4.0.0-Beta1\build\OpenRiaServices.Server.targets" Condition="Exists('..\packages\OpenRiaServices.Server.4.4.0.0-Beta1\build\OpenRiaServices.Server.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\OpenRiaServices.Server.4.4.0.0-Beta1\build\OpenRiaServices.Server.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\OpenRiaServices.Server.4.4.0.0-Beta1\build\OpenRiaServices.Server.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
