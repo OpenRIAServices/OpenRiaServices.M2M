@@ -55,10 +55,11 @@
     <Reference Include="mscorlib" />
     <Reference Include="OpenRiaServices.DomainServices.Client, Version=2.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenRiaServices.Silverlight.Core.4.3.0.0\lib\sl50\OpenRiaServices.DomainServices.Client.dll</HintPath>
+      <HintPath>..\packages\OpenRiaServices.Silverlight.Core.4.4.0.0-Beta1\lib\sl50\OpenRiaServices.DomainServices.Client.dll</HintPath>
     </Reference>
-    <Reference Include="OpenRiaServices.DomainServices.Client.Web">
-      <HintPath>..\packages\OpenRiaServices.Silverlight.Core.4.3.0.0\lib\sl50\OpenRiaServices.DomainServices.Client.Web.dll</HintPath>
+    <Reference Include="OpenRiaServices.DomainServices.Client.Web, Version=2.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\OpenRiaServices.Silverlight.Core.4.4.0.0-Beta1\lib\sl50\OpenRiaServices.DomainServices.Client.Web.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations, Version=5.0.5.0, Culture=neutral, PublicKeyToken=ddd0da4d3e678217, processorArchitecture=MSIL" />
     <Reference Include="System.ServiceModel" />
