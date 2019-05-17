@@ -1,0 +1,88 @@
+<Project>
+
+  <!-- This PropertyGroup defines the location and version of Silverlight and SDK for .Net projects (Metadata projects) -->
+  <PropertyGroup>
+    <IsTestProject Condition="'$(IsTestProject)' == '' And ($(MSBuildProjectFile.Contains('.Test.')) Or $(MSBuildProjectDirectory.Contains('\Test\')))">true</IsTestProject>
+    <IsFrameworkProject Condition="'$(IsTestProject)' != 'true'  and !$(MSBuildProjectFile.Contains('.Demo.')) ">true</IsFrameworkProject>
+
+    <DeterministicSourcePaths Condition="'$(BUILD_BUILDID)' != '' and '$(IsFrameworkProject)' == 'true'">true</DeterministicSourcePaths>
+    
+    <!-- Use csharp 7.3 for all projects -->
+    <LangVersion Condition="'$(MSBuildProjectExtension)' == '.csproj'">7.3</LangVersion>
+   
+    <SonarQubeTestProject Condition="'$(IsTestProject)' == 'true'">True</SonarQubeTestProject>
+
+    <GenerateDocumentationFile  Condition="'$(IsFrameworkProject)' == 'true'">true</GenerateDocumentationFile>
+    <CopyLocalLockFileAssemblies Condition="'$(IsFrameworkProject)' == 'true'">false</CopyLocalLockFileAssemblies>
+
+    <!-- Setup signing-->
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile Condition="'$(AssemblyOriginatorKeyFile)' == '' And '$(IsTestProject)' != 'true'">$(MSBuildThisFileDirectory)OpenRiaServices.M2M.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile Condition="'$(AssemblyOriginatorKeyFile)' == '' And '$(IsTestProject)' == 'true'">$(MSBuildThisFileDirectory)Tests.snk</AssemblyOriginatorKeyFile>
+
+    <!-- Common Assembly and Package Info-->
+    <Version>2.0.0</Version>
+    <Authors>Merijn de Jonge, OpenRiaServices</Authors>
+    <Company>Merijn de Jonge</Company>
+    <Product>OpenRiaServices.M2M</Product>
+    <Copyright>Copyright © Merijn de Jonge 2012 - 2014</Copyright>
+    <PackageProjectUrl>https://github.com/OpenRIAServices/OpenRiaServices.M2M/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/OpenRIAServices/OpenRiaServices.M2M.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReleaseNotes>This version supports Open Ria Services 4.6.0+.</PackageReleaseNotes>
+    <PackageTags>OpenRiaServices Many2Many M2M4RIA</PackageTags>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+  
+  <!-- Add Silverlight build support -->
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'sl5' ">
+    <NugetTargetMoniker>Silverlight,Version=v5.0</NugetTargetMoniker>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'sl5' and '$(MSBuildProjectExtension)' == '.csproj' ">
+    <LanguageTargets>$(MSBuildProgramFiles32)\MSBuild\Microsoft\Silverlight\v5.0\Microsoft.Silverlight.CSharp.targets</LanguageTargets>
+    <DefineConstants>$(DefineConstants);SILVERLIGHT</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'sl5' and '$(MSBuildProjectExtension)' == '.vbproj' ">
+    <LanguageTargets>$(MSBuildProgramFiles32)\MSBuild\Microsoft\Silverlight\v5.0\Microsoft.Silverlight.VisualBasic.targets</LanguageTargets>
+    <DefineConstants>$(DefineConstants),SILVERLIGHT=1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'portable40-net45+sl5+win8' ">
+    <TargetFrameworkIdentifier>.NETPortable</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile47</TargetFrameworkProfile>
+    <LanguageTargets>$(MSBuildExtensionsPath)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets</LanguageTargets>
+    <DefineConstants>$(DefineConstants);PORTABLE;PORTABLE47;SILVERLIGHT</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'sl5' ">
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <HintPath>$(MSBuildProgramFiles32)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.ComponentModel.DataAnnotations.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'portable40-net45+sl5+win8' ">
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows" />
+  </ItemGroup>
+
+  <!-- Enable source link, we really only want this for framework assemblies and CI builds
+  -->
+  <ItemGroup Condition="'$(IsFrameworkProject)' == 'true'">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05" PrivateAssets="All"/>
+  </ItemGroup>
+  
+</Project>
