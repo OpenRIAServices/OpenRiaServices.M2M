@@ -18,3 +18,4 @@ nupkgs/
 Database.sdf
 *.mdf
 *.ldf
+/.vs
