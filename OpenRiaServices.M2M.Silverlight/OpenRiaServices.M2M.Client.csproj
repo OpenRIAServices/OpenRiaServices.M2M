@@ -4,8 +4,7 @@
     <TargetFrameworks>sl5;net45;netstandard2.0</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <RootNamespace>OpenRiaServices.M2M</RootNamespace>
-    <AssemblyName>OpenRiaServices.M2M.Silverlight</AssemblyName>
-
+    <PackageId>OpenRiaServices.M2M.Silverlight</PackageId>
     <Description>Client part of OpenServices.M2M providing the M2M view on link table entities.</Description>
   </PropertyGroup>
 
