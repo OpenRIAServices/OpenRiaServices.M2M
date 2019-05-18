@@ -1,4 +1,13 @@
+Build status
 [![Build Status](https://dev.azure.com/OpenRiaServices/OpenRiaServices/_apis/build/status/OpenRIAServices.OpenRiaServices.M2M?branchName=master)](https://dev.azure.com/OpenRiaServices/OpenRiaServices/_build/latest?definitionId=2&branchName=master)
+
+Sonarcloud status
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=OpenRIAServices_OpenRiaServices.M2M&metric=alert_status)](https://sonarcloud.io/dashboard?id=OpenRIAServices_OpenRiaServices.M2M)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=OpenRIAServices_OpenRiaServices.M2M&metric=security_rating)](https://sonarcloud.io/dashboard?id=OpenRIAServices_OpenRiaServices.M2M)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=OpenRIAServices_OpenRiaServices.M2M&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=OpenRIAServices_OpenRiaServices.M2M)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=OpenRIAServices_OpenRiaServices.M2M&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=OpenRIAServices_OpenRiaServices.M2M)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=OpenRIAServices_OpenRiaServices.M2M&metric=bugs)](https://sonarcloud.io/dashboard?id=OpenRIAServices_OpenRiaServices.M2M)
+
 
 
 ## Overview
