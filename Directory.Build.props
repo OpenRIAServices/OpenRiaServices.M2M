@@ -29,8 +29,9 @@
     <PackageProjectUrl>https://github.com/OpenRIAServices/OpenRiaServices.M2M/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/OpenRIAServices/OpenRiaServices.M2M.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MS-PL</PackageLicenseExpression>
     <PackageReleaseNotes>This version supports Open Ria Services 4.6.0+.</PackageReleaseNotes>
-    <PackageTags>OpenRiaServices Many2Many M2M4RIA</PackageTags>
+    <PackageTags>OpenRiaServices;Many2Many;M2M4RIA;M2M</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
   
