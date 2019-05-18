@@ -68,6 +68,7 @@ steps:
     solution: '$(solution)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+    msbuildArgs: '/t:Pack /p:PackageVersion=$(Build.BuildId)'
 
 - task: VSTest@2
   enabled: 'false'
@@ -75,21 +76,11 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-
 - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
   displayName: 'Run Code Analysis'
   continueOnError: true  
   condition: or(succeeded(), and(succeededOrFailed(), eq(variables['Build.SourceBranch'], 'refs/heads/master')))
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'pack'
-    configuration: '$(buildConfiguration)'
-    packagesToPack: '$(solution)'
-    packDirectory: '$(build.artifactStagingDirectory)'
-    nobuild: true
-    versioningScheme: 'byBuildNumber'
-    
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
