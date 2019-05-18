@@ -85,7 +85,7 @@ steps:
   inputs:
     command: 'pack'
     configuration: '$(buildConfiguration)'
-    packagesToPack: '**/*.csproj'
+    packagesToPack: '$(solution)'
     packDirectory: '$(build.artifactStagingDirectory)'
     nobuild: true
     versioningScheme: 'byBuildNumber'
