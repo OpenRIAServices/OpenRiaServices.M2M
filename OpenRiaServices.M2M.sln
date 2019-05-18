@@ -1,15 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28902.138
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{66F64EAE-08DA-438A-81DC-D27032A7B775}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenRiaServices.M2M.Client", "OpenRiaServices.M2M.Silverlight\OpenRiaServices.M2M.Client.csproj", "{F6E5D0B7-FE90-4498-A5F5-3FFA505762A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenRiaServices.M2M.Silverlight", "OpenRiaServices.M2M.Silverlight\OpenRiaServices.M2M.Silverlight.csproj", "{F6E5D0B7-FE90-4498-A5F5-3FFA505762A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenRiaServices.M2M.Server", "OpenRiaServices.M2M\OpenRiaServices.M2M.Server.csproj", "{88EFBF58-E42A-4314-BAAF-746FC34CB5EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenRiaServices.M2M", "OpenRiaServices.M2M\OpenRiaServices.M2M.csproj", "{88EFBF58-E42A-4314-BAAF-746FC34CB5EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenRiaServices.M2M.LinkTable", "OpenRiaServices.M2M.LinkTable\OpenRiaServices.M2M.LinkTable.csproj", "{F67416F0-179B-4572-AB29-E87E2F82DBCD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenRiaServices.M2M.LinkTable", "OpenRiaServices.M2M.LinkTable\OpenRiaServices.M2M.LinkTable.csproj", "{F67416F0-179B-4572-AB29-E87E2F82DBCD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3B3995EE-873D-4FB2-81FC-2F2D646DC89B}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,5 +57,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {16AE6229-10BE-4B2C-B370-CC66150E1C7E}
 	EndGlobalSection
 EndGlobal
