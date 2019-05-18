@@ -54,14 +54,46 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'sonarcloud.io'
+    organization: 'openriaservices'
+    scannerMode: 'MSBuild'
+    projectKey: 'OpenRIAServices_OpenRiaServices.M2M'
+    projectName: 'OpenRiaServices.M2M'
+    projectVersion: '$(GitVersion.NuGetVersion)'
+
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+    msbuildArgs: '/t:Pack /p:PackageVersion=$(Build.BuildId)'
 
 - task: VSTest@2
   enabled: 'false'
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+- task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
+  displayName: 'Run Code Analysis'
+  continueOnError: true  
+  condition: or(succeeded(), and(succeededOrFailed(), eq(variables['Build.SourceBranch'], 'refs/heads/master')))
+
+- task: CopyFiles@2
+  displayName: 'Copy files to ArtifactStagingDirectory'
+  inputs:
+    Contents: '**/*.nupkg'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    flattenFolders: true
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'
