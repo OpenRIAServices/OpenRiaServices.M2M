@@ -81,6 +81,13 @@ steps:
   continueOnError: true  
   condition: or(succeeded(), and(succeededOrFailed(), eq(variables['Build.SourceBranch'], 'refs/heads/master')))
 
+- task: CopyFiles@2
+  displayName: 'Copy files to ArtifactStagingDirectory'
+  inputs:
+    Contents: '**/*.nupkg'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    flattenFolders: true
+
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
