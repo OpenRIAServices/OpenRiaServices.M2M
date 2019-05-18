@@ -68,7 +68,7 @@ steps:
     solution: '$(solution)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-    msbuildArgs: '/t:Pack /p:PackageVersion=$(Build.BuildId)'
+    msbuildArgs: '/t:Pack /p:PackageVersion=$(Build.BuildNumber)'
 
 - task: VSTest@2
   enabled: 'false'
