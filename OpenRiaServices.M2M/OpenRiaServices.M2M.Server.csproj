@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.2.0" />
-    <PackageReference Include="OpenRiaServices.FluentMetadata" Version="2.0.5213.23261" />
+    <PackageReference Include="OpenRiaServices.FluentMetadata" Version="3.0.0-preview.1" />
     <PackageReference Include="OpenRiaServices.Server" Version="4.6.0-preview0001" />
     <PackageReference Include="OpenRiaServices.T4" Version="4.6.0-preview0001" />
   </ItemGroup>
