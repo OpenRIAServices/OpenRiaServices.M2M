@@ -10,6 +10,10 @@ Sonarcloud status
 
 
 
+Nuget [![Nuget](https://img.shields.io/nuget/v/OpenRiaServices.M2M.svg)](https://www.nuget.org/packages/OpenRiaServices.M2M)
+preview [![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/OpenRiaServices.M2M.svg)](https://www.nuget.org/packages/OpenRiaServices.M2M)
+
+
 ## Overview
 
 M2M4RIA is an extension for [OpenRIAServices](https://github.com/OpenRIAServices/OpenRiaServices) that adds support for many-2-many relations.
