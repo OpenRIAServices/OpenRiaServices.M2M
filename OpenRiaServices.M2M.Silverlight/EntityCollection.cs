@@ -55,10 +55,7 @@ namespace OpenRiaServices.M2M
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, e);
-            }
+            PropertyChanged?.Invoke(this, e);
         }
 
         private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -73,18 +70,12 @@ namespace OpenRiaServices.M2M
 
         private void OnEntityRemoved(object sender, EntityCollectionChangedEventArgs<TLinkTable> e)
         {
-            if (EntityRemoved != null)
-            {
-                EntityRemoved(this, new EntityCollectionChangedEventArgs<TEntity>(_getEntity(e.Entity)));
-            }
+            EntityRemoved?.Invoke(this, new EntityCollectionChangedEventArgs<TEntity>(_getEntity(e.Entity)));
         }
 
         private void OnEntityAdded(object sender, EntityCollectionChangedEventArgs<TLinkTable> e)
         {
-            if (EntityAdded != null)
-            {
-                EntityAdded(this, new EntityCollectionChangedEventArgs<TEntity>(_getEntity(e.Entity)));
-            }
+            EntityAdded?.Invoke(this, new EntityCollectionChangedEventArgs<TEntity>(_getEntity(e.Entity)));
         }
 
         #endregion
