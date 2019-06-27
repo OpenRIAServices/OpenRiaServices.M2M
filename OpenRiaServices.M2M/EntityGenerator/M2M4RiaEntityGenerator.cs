@@ -58,7 +58,7 @@ namespace OpenRiaServices.M2M.EntityGenerator
             return props.Where(p => p.Attributes.OfType<AssociationAttribute>().Any());
         }
 
-        private static bool IsLinkTableEntity(Type type)
+        protected static bool IsLinkTableEntity(Type type)
         {
             // Find generic base type
             while(type != null && type.IsGenericType == false)
@@ -79,7 +79,7 @@ namespace OpenRiaServices.M2M.EntityGenerator
             return s[0].ToString(CultureInfo.InvariantCulture).ToLowerInvariant() + s.Substring(1);
         }
 
-        private void AddAttachMethod(Type linkTableType, AssociationAttribute assocAttrThisEnd, AssociationAttribute assocAttrOtherEnd, PropertyDescriptor prop1, PropertyDescriptor prop2)
+        public void AddAttachMethod(Type linkTableType, AssociationAttribute assocAttrThisEnd, AssociationAttribute assocAttrOtherEnd, PropertyDescriptor prop1, PropertyDescriptor prop2)
         {
             var linkTableFullTypeName = linkTableType.FullName;
             var navProp1TypeFullName = prop1.PropertyType.FullName;
@@ -136,7 +136,7 @@ namespace OpenRiaServices.M2M.EntityGenerator
             WriteLine(@"#endregion");
         }
 
-        private void AddAttachMethodsToLinkTableEntity(Type type)
+        public void AddAttachMethodsToLinkTableEntity(Type type)
         {
             if(!IsLinkTableEntity(type)) return;
             var propertyDescriptors = GetNavigationProperties(type).ToList();
@@ -153,7 +153,7 @@ namespace OpenRiaServices.M2M.EntityGenerator
             AddAttachMethod(type, assocAttr0, assocAttr1, propertyDescriptors[1], propertyDescriptors[0]);
         }
 
-        private void AddIExtendedEntityImplementation(Type type)
+        public void AddIExtendedEntityImplementation(Type type)
         {
             if(!IsLinkTableEntity(type)) return;
             WriteLine(@"#region Lines added by m2m4ria code generator");
@@ -171,7 +171,7 @@ namespace OpenRiaServices.M2M.EntityGenerator
             WriteLine(@"#endregion");
         }
 
-        private void AddInsertEntityMethod(Type type)
+        public void AddInsertEntityMethod(Type type)
         {
             foreach(var propertyDescriptor in GetLinkTableViewProperties(type))
             {
@@ -201,7 +201,7 @@ namespace OpenRiaServices.M2M.EntityGenerator
             }
         }
 
-        private void AddM2MProperties(Type type)
+        public void AddM2MProperties(Type type)
         {
             foreach(var propertyDescriptor in GetLinkTableViewProperties(type))
             {
@@ -229,11 +229,11 @@ namespace OpenRiaServices.M2M.EntityGenerator
                     elementTypeFullName);
                 WriteLine(@"//");
                 WriteLine(
-                    @"private OpenRiaServices.M2M.IEntityCollection<{0}> _{1};", elementTypeFullName, m2mPropertyNameLower);
+                    @"private OpenRiaServices.M2M.IM2MEntityCollection<{0}> _{1};", elementTypeFullName, m2mPropertyNameLower);
                 WriteLine(@"/// <summary>");
                 WriteLine(@"/// Gets the collection of associated <see cref=""{0}]""/> entities.", elementTypeFullName);
                 WriteLine(@"/// </summary>");
-                WriteLine(@"public OpenRiaServices.M2M.IEntityCollection<{0}> {1}", elementTypeFullName, m2mPropertyName);
+                WriteLine(@"public OpenRiaServices.M2M.IM2MEntityCollection<{0}> {1}", elementTypeFullName, m2mPropertyName);
                 WriteLine(@"{");
                 WriteLine(@"    get");
                 WriteLine(@"    {");
@@ -257,7 +257,7 @@ namespace OpenRiaServices.M2M.EntityGenerator
             }
         }
 
-        private void AddRemoveEntityMethod(Type type)
+        public void AddRemoveEntityMethod(Type type)
         {
             foreach (var propertyDescriptor in GetLinkTableViewProperties(type))
             {
@@ -282,7 +282,7 @@ namespace OpenRiaServices.M2M.EntityGenerator
             }
         }
 
-        private void MakeLinkTableEntityAnIExtendedEntity(Type type)
+        public void MakeLinkTableEntityAnIExtendedEntity(Type type)
         {
             if(!IsLinkTableEntity(type)) return;
             WriteLine(@"#region Lines added by m2m4ria code generator");

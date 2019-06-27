@@ -10,7 +10,7 @@ namespace OpenRiaServices.M2M
     ///   Defines methods for manipulation a generic EntityCollection
     /// </summary>
     /// <typeparam name="TEntity"> The type of the elements in the collection </typeparam>
-    public interface IEntityCollection<TEntity> : ICollection<TEntity>, INotifyCollectionChanged, INotifyPropertyChanged
+    public interface IM2MEntityCollection<TEntity> : ICollection<TEntity>, INotifyCollectionChanged, INotifyPropertyChanged
     {
         /// <summary>
         ///   Event raised whenever an <see cref="Entity"/> is added to this collection

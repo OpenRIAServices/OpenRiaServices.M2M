@@ -13,7 +13,7 @@ namespace OpenRiaServices.M2M
     /// </summary>
     /// <typeparam name="TLinkTable"> </typeparam>
     /// <typeparam name="TEntity"> </typeparam>
-    public class EntityCollection<TLinkTable, TEntity> : IEntityCollection<TEntity>
+    public class EntityCollection<TLinkTable, TEntity> : IM2MEntityCollection<TEntity>
         where TLinkTable : Entity, new() where TEntity : Entity
     {
         #region Constants and Fields
