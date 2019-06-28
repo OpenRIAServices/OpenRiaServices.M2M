@@ -55,17 +55,14 @@ namespace OpenRiaServices.M2M
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if(PropertyChanged != null)
-            {
-                PropertyChanged(this, e);
-            }
+            PropertyChanged?.Invoke(this, e);
         }
 
         private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if(CollectionChanged == null) return;
+            if (CollectionChanged == null) return;
             // Checkout http://m2m4ria.codeplex.com/wikipage?title=CreatingAnM2MAssociationBetweenTwoNewEntities
-            if(!(e.Action == NotifyCollectionChangedAction.Reset && _collection.Select(_getEntity).Any(x => x == null)))
+            if (!(e.Action == NotifyCollectionChangedAction.Reset && _collection.Select(_getEntity).Any(x => x == null)))
             {
                 CollectionChanged(this, MakeNotifyCollectionChangedEventArgs(e));
             }
@@ -73,66 +70,110 @@ namespace OpenRiaServices.M2M
 
         private void OnEntityRemoved(object sender, EntityCollectionChangedEventArgs<TLinkTable> e)
         {
-            if(EntityRemoved != null)
-            {
-                EntityRemoved(this, new EntityCollectionChangedEventArgs<TEntity>(_getEntity(e.Entity)));
-            }
+            EntityRemoved?.Invoke(this, new EntityCollectionChangedEventArgs<TEntity>(_getEntity(e.Entity)));
         }
 
         private void OnEntityAdded(object sender, EntityCollectionChangedEventArgs<TLinkTable> e)
         {
-            if(EntityAdded != null)
-            {
-                EntityAdded(this, new EntityCollectionChangedEventArgs<TEntity>(_getEntity(e.Entity)));
-            }
+            EntityAdded?.Invoke(this, new EntityCollectionChangedEventArgs<TEntity>(_getEntity(e.Entity)));
         }
 
         #endregion
 
         #region Public Events
 
+        /// <summary>
+        ///  Occurs when the items list of the collection has changed, or the collection is reset.
+        /// </summary>
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
+        /// <summary>
+        ///   Event raised whenever an  <see cref="Entity"/>
+        ///   is added to this collection
+        /// </summary>
         public event EventHandler<EntityCollectionChangedEventArgs<TEntity>> EntityAdded;
 
+        /// <summary>
+        ///   Event raised whenever an <see cref="Entity"/>
+        ///   is removed from this collection
+        /// </summary>
         public event EventHandler<EntityCollectionChangedEventArgs<TEntity>> EntityRemoved;
 
+        /// <summary>
+        /// Event raised when a property such as the <see cref="Count"/> has changed.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
 
         #region Public Properties
 
-        public int Count
-        {
-            get { return _collection.Count; }
-        }
+        /// <summary>
+        /// Gets the current count of entities in this collection
+        /// </summary>
+        public int Count => _collection.Count;
+
+        bool ICollection<TEntity>.IsReadOnly => ((ICollection<TLinkTable>)_collection).IsReadOnly;
 
         #endregion
 
         #region Public Methods and Operators
 
+        /// <summary>
+        ///   Add the specified entity to this collection. If the entity is unattached,
+        ///   it will be added to its System.ServiceModel.DomainServices.Client.EntitySet
+        ///   automatically.
+        /// </summary>
+        /// <param name="entity"> The entity to add </param>
         public void Add(TEntity entity)
         {
             _addAction(entity);
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>A <see cref="IEnumerator{TEntity}" /> that can be used to iterate through the collection.</returns>
         public IEnumerator<TEntity> GetEnumerator()
         {
             return _collection.Select(_getEntity).GetEnumerator();
         }
 
         /// <summary>
-        ///   Removes an m2m relation with the given entity.
+        ///   Remove the specified entity from this collection.
         /// </summary>
-        /// <param name="entity"> </param>
-        public void Remove(TEntity entity)
+        /// <param name="entity"> The entity to remove </param>
+        /// <returns><c>true</c> if an item was removed</returns>
+        public bool Remove(TEntity entity)
         {
             var linkTableEntityToRemove = _collection.SingleOrDefault(jt => _getEntity(jt) == entity);
-            if(linkTableEntityToRemove != null)
+            if (linkTableEntityToRemove != null)
             {
                 _removeAction(linkTableEntityToRemove);
+                return true;
             }
+            return false;
+        }
+
+        /// <summary>
+        /// Removes all items from the collection
+        /// </summary>
+        public void Clear()
+        {
+            ((ICollection<TLinkTable>)_collection).Clear();
+        }
+
+        bool ICollection<TEntity>.Contains(TEntity item)
+        {
+            return ((IEnumerable<TEntity>)this).Contains(item);
+        }
+
+        void ICollection<TEntity>.CopyTo(TEntity[] array, int arrayIndex)
+        {
+            if (array == null) throw new ArgumentNullException(nameof(array));
+
+            foreach (TEntity entity in this)
+                array[arrayIndex++] = entity;
         }
 
         #endregion
@@ -156,7 +197,7 @@ namespace OpenRiaServices.M2M
         private NotifyCollectionChangedEventArgs MakeNotifyCollectionChangedEventArgs(
             NotifyCollectionChangedEventArgs e)
         {
-            switch(e.Action)
+            switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
                     {
