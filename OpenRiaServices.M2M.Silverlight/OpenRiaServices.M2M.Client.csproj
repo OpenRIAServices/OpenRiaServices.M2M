@@ -32,6 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenRiaServices.Client.Core" Version="4.6.0-preview0001" />
+    <PackageReference Include="OpenRiaServices.Client.Core" Version="4.6.0" />
   </ItemGroup>
 </Project>
