@@ -15,9 +15,11 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: NuGetToolInstaller@0
+- task: NuGetToolInstaller@1
+  inputs:
+    versionSpec: '5.8.0'
 
-- task: gittools.gitversion.gitversion-task.GitVersion@4
+- task: GitVersion@5
   displayName: GitVersion
   inputs:
     preferBundledVersion: true
@@ -76,7 +78,7 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
+- task: SonarCloudAnalyze@1
   displayName: 'Run Code Analysis'
   continueOnError: true  
   condition: or(succeeded(), and(succeededOrFailed(), eq(variables['Build.SourceBranch'], 'refs/heads/master')))
