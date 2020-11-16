@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28902.138
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenRiaServices.M2M.Client", "OpenRiaServices.M2M.Silverlight\OpenRiaServices.M2M.Client.csproj", "{F6E5D0B7-FE90-4498-A5F5-3FFA505762A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenRiaServices.M2M.Client", "OpenRiaServices.M2M.Client\OpenRiaServices.M2M.Client.csproj", "{F6E5D0B7-FE90-4498-A5F5-3FFA505762A0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenRiaServices.M2M.Server", "OpenRiaServices.M2M\OpenRiaServices.M2M.Server.csproj", "{88EFBF58-E42A-4314-BAAF-746FC34CB5EC}"
 EndProject

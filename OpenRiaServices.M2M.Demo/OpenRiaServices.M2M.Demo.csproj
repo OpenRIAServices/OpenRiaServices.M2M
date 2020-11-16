@@ -124,9 +124,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenRiaServices.M2M.Silverlight\OpenRiaServices.M2M.Silverlight.csproj">
+    <ProjectReference Include="..\OpenRiaServices.M2M.Client\OpenRiaServices.M2M.Client.csproj">
       <Project>{f6e5d0b7-fe90-4498-a5f5-3ffa505762a0}</Project>
-      <Name>OpenRiaServices.M2M.Silverlight</Name>
+      <Name>OpenRiaServices.M2M.Client</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
