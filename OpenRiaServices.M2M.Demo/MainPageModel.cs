@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
-using OpenRiaServices.DomainServices.Client;
+using OpenRiaServices.Client;
 using OpenRiaServices.M2M.Demo.Web.Model;
 using OpenRiaServices.M2M.Demo.Web.Service;
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using OpenRiaServices.DomainServices.Client;
+using OpenRiaServices.Client;
 
 namespace OpenRiaServices.M2M
 {
@@ -91,18 +91,33 @@ namespace OpenRiaServices.M2M
 
         #region Public Events
 
+        /// <summary>
+        /// Event that occurs when the collection changes
+        /// </summary>
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
+        /// <summary>
+        /// Event that occurs when an entity has been added to the collection
+        /// </summary>
         public event EventHandler<EntityCollectionChangedEventArgs<TEntity>> EntityAdded;
 
+        /// <summary>
+        /// Event that occurs when an entity has been removed from the collection
+        /// </summary>
         public event EventHandler<EntityCollectionChangedEventArgs<TEntity>> EntityRemoved;
 
+        /// <summary>
+        /// Event that occurs when a property has been changed
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
 
         #region Public Properties
 
+        /// <summary>
+        /// The number of entities this collection currently holds.
+        /// </summary>
         public int Count
         {
             get { return _collection.Count; }
@@ -112,12 +127,19 @@ namespace OpenRiaServices.M2M
 
         #region Public Methods and Operators
 
+        /// <summary>
+        /// Adds an entity to the collection
+        /// </summary>
+        /// <param name="entity"></param>
         public void Add(TEntity entity)
         {
             _addAction(entity);
         }
 
-        public IEnumerator<TEntity> GetEnumerator()
+      /// <summary>
+      ///  Returns an enumerator that iterates through the entities in the collection.
+      /// </summary>
+      public IEnumerator<TEntity> GetEnumerator()
         {
             return _collection.Select(_getEntity).GetEnumerator();
         }

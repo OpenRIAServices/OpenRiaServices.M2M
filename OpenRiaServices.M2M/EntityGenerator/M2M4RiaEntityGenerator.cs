@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
-using OpenRiaServices.DomainServices.Tools.TextTemplate.CSharpGenerators;
+using OpenRiaServices.Tools.TextTemplate.CSharpGenerators;
 
 namespace OpenRiaServices.M2M.EntityGenerator
 {
@@ -161,7 +161,7 @@ namespace OpenRiaServices.M2M.EntityGenerator
             WriteLine(@"/// Gets the EntitySet the link table entity is contained in.");
             WriteLine(@"/// </summary>");
             WriteLine(
-                @"OpenRiaServices.DomainServices.Client.EntitySet OpenRiaServices.M2M.IExtendedEntity.EntitySet");
+                @"OpenRiaServices.Client.EntitySet OpenRiaServices.M2M.IExtendedEntity.EntitySet");
             WriteLine(@"{");
             WriteLine(@"    get");
             WriteLine(@"    {");

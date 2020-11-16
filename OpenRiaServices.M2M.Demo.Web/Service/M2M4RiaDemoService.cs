@@ -1,8 +1,8 @@
 ﻿using System.Data.Entity;
 using System.Linq;
-using OpenRiaServices.DomainServices.EntityFramework;
-using OpenRiaServices.DomainServices.Hosting;
-using OpenRiaServices.DomainServices.Server;
+using OpenRiaServices.EntityFramework;
+using OpenRiaServices.Hosting;
+using OpenRiaServices.Server;
 using OpenRiaServices.FluentMetadata;
 using OpenRiaServices.M2M.DbContext;
 using OpenRiaServices.M2M.Demo.Web.Model;

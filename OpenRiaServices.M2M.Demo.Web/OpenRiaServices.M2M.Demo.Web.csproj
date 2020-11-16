@@ -53,17 +53,17 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.0\lib\net40\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="OpenRiaServices.DomainServices.EntityFramework, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="OpenRiaServices.EntityFramework, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenRiaServices.EntityFramework.4.4.0.0-Beta1\lib\net40\OpenRiaServices.DomainServices.EntityFramework.dll</HintPath>
+      <HintPath>..\packages\OpenRiaServices.EntityFramework.4.4.0.0-Beta1\lib\net40\OpenRiaServices.EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="OpenRiaServices.DomainServices.Hosting, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="OpenRiaServices.Hosting, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenRiaServices.Server.4.4.0.0-Beta1\lib\OpenRiaServices.DomainServices.Hosting.dll</HintPath>
+      <HintPath>..\packages\OpenRiaServices.Server.4.4.0.0-Beta1\lib\OpenRiaServices.Hosting.dll</HintPath>
     </Reference>
-    <Reference Include="OpenRiaServices.DomainServices.Server, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="OpenRiaServices.Server, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenRiaServices.Server.4.4.0.0-Beta1\lib\OpenRiaServices.DomainServices.Server.dll</HintPath>
+      <HintPath>..\packages\OpenRiaServices.Server.4.4.0.0-Beta1\lib\OpenRiaServices.Server.dll</HintPath>
     </Reference>
     <Reference Include="OpenRiaServices.FluentMetadata, Version=2.0.5213.23261, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

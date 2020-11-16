@@ -6,6 +6,9 @@ using OpenRiaServices.M2M.Utilities;
 
 namespace OpenRiaServices.M2M.Configuration
 {
+    /// <summary>
+    /// Static Extension class for M2M Configuration expressions.
+    /// </summary>
     public static class FluentConfigurationExpressions
     {
         #region Public Methods and Operators
