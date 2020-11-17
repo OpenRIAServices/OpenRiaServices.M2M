@@ -25,8 +25,8 @@ steps:
     versionSpec: '5.x'
 
 - task: gitversion/execute@0
-  displayName: Use GitVersion
- 
+  displayName: Execute GitVersion
+
 - powershell: |
    [string]$RepositoryRoot = "$(Build.SourcesDirectory)"
    
