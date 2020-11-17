@@ -19,10 +19,13 @@ steps:
   inputs:
     versionSpec: '5.8.0'
 
-- task: GitVersion@5
-  displayName: GitVersion
+- task: gitversion/setup@0
+  displayName: Install GitVersion
   inputs:
-    preferBundledVersion: true
+    versionSpec: '5.x'
+
+- task: gitversion/execute@0
+  displayName: Use GitVersion
  
 - powershell: |
    [string]$RepositoryRoot = "$(Build.SourcesDirectory)"
