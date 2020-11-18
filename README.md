@@ -32,7 +32,7 @@ M2M4RIA is an extension for [OpenRIAServices](https://github.com/OpenRIAServices
 M2M4RIA is distributed as a collection of NuGet packages:
 * [OpenRIAServices.M2M](https://nuget.org/packages/OpenRiaServices.M2M) This is the server-side part of M2M4RIA. It contains an entity code generator and an extension to the fluent metadata configuration for OpenRIAServices.
 * [OpenRIAServices.M2M.LinkTable](https://nuget.org/packages/OpenRIAServices.M2M.LinkTable) This is a generic link table implementation that is used for creating "link table" views for your M2M relations (see [GeneralOverview](../GeneralOverview)).
-* [OpenRIAServices.M2M.Silverlight](https://nuget.org/packages/OpenRIAServices.M2M.Silverlight) This is the client-side part of M2M4RIA. It contains classes for creating M2M views (see [GeneralOverview](../GeneralOverview)).
+* [OpenRiaServices.M2M.Client](https://nuget.org/packages/OpenRiaServices.M2M.Client) This is the client-side part of M2M4RIA. It contains classes for creating M2M views (see [GeneralOverview](../GeneralOverview)).
 
 ## Usage
 

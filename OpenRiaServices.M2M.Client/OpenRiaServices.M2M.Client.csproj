@@ -2,13 +2,10 @@
 
   <PropertyGroup>
     <TargetFrameworks>net472;netstandard2.0</TargetFrameworks>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <RootNamespace>OpenRiaServices.M2M</RootNamespace>
-    <AssemblyName>OpenRiaServices.M2M.LinkTable</AssemblyName>
-
-    <!-- Assembly / Package Info -->
-    <ProductName>OpenRiaServices.M2M.LinkTable</ProductName>
-    <Title>OpenRiaServices.M2M.LinkTable</Title>
-    <Description>Generic link table implementation used by OpenRiaServices.M2M</Description>
+    <PackageId>OpenRiaServices.M2M.Client</PackageId>
+    <Description>Client part of OpenServices.M2M providing the M2M view on link table entities.</Description>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
@@ -19,9 +16,10 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Readme.txt" />
+    <PackageReference Include="OpenRiaServices.Client.Core" Version="5.0.0-rc0001" />
   </ItemGroup>
 </Project>

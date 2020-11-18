@@ -8,12 +8,14 @@ using System.Reflection;
 
 namespace OpenRiaServices.M2M
 {
-    /// <summary>
-    ///   Generic link table class that is used by M2M4RIA.
-    /// </summary>
-    /// <typeparam name="TObject1"> </typeparam>
-    /// <typeparam name="TObject2"> </typeparam>
-    public abstract class LinkTable<TObject1, TObject2>
+
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member: Properties not browsable in editor.
+   /// <summary>
+   ///   Generic link table class that is used by M2M4RIA.
+   /// </summary>
+   /// <typeparam name="TObject1"> </typeparam>
+   /// <typeparam name="TObject2"> </typeparam>
+   public abstract class LinkTable<TObject1, TObject2>
         where TObject1 : class where TObject2 : class
     {
         #region Constants and Fields
@@ -336,24 +338,27 @@ namespace OpenRiaServices.M2M
             return (PropertyInfo)expression.Member;
         }
 
-        private static AssociationAttribute GetAssociationAttribute(PropertyDescriptor propDescriptor)
-        {
-            return (AssociationAttribute)propDescriptor.Attributes[typeof(AssociationAttribute)];
-        }
 
-        /// <summary>
-        ///   The foreign key values of a link table entity are not automatically set/updated when the corresponding entities 
-        ///   are new and have server-generated keys. Once these entities have been saved to the database they get id's generated 
-        ///   by the database, which should be populated to the link table entities as well, such that the correct values are sent
-        ///   to the RiaRIA services client. The trick is that when a foreign key property of a link table entity is accessed, we try
-        ///   to obtain its value from the associated entity. Amongst others, the foreign key properties are accessed when serializing
-        ///   a link table entity. Therefore, with this trick, we're sure that always the correct values are transmitted to the
-        ///   Ria services client.
-        /// </summary>
-        /// <typeparam name="T"> </typeparam>
-        /// <param name="propertySelector"> </param>
-        /// <returns> </returns>
-        private T GetKey<T>(Expression<Func<LinkTable<TObject1, TObject2>, T>> propertySelector)
+#pragma warning disable CS0618 // 'AssociationAttribute' is obsolete but still used by M2M
+      private static AssociationAttribute GetAssociationAttribute(PropertyDescriptor propDescriptor)
+      {
+          return (AssociationAttribute)propDescriptor.Attributes[typeof(AssociationAttribute)];
+      }
+#pragma warning restore CS0618
+
+      /// <summary>
+      ///   The foreign key values of a link table entity are not automatically set/updated when the corresponding entities 
+      ///   are new and have server-generated keys. Once these entities have been saved to the database they get id's generated 
+      ///   by the database, which should be populated to the link table entities as well, such that the correct values are sent
+      ///   to the RiaRIA services client. The trick is that when a foreign key property of a link table entity is accessed, we try
+      ///   to obtain its value from the associated entity. Amongst others, the foreign key properties are accessed when serializing
+      ///   a link table entity. Therefore, with this trick, we're sure that always the correct values are transmitted to the
+      ///   Ria services client.
+      /// </summary>
+      /// <typeparam name="T"> </typeparam>
+      /// <param name="propertySelector"> </param>
+      /// <returns> </returns>
+      private T GetKey<T>(Expression<Func<LinkTable<TObject1, TObject2>, T>> propertySelector)
         {
             var foreignKeyName = ((MemberExpression)propertySelector.Body).Member.Name;
             var foreignKeyValue = default(T);
@@ -392,7 +397,9 @@ namespace OpenRiaServices.M2M
             var thisType = GetType();
             var propertyDescriptor =
                 from property in TypeDescriptor.GetProperties(thisType).OfType<PropertyDescriptor>()
+#pragma warning disable CS0618 // 'AssociationAttribute' is obsolete but still used by M2M
                 let association = (AssociationAttribute) property.Attributes[typeof(AssociationAttribute)]
+#pragma warning restore CS0618
                 where association != null
                 where association.ThisKeyMembers.Contains(foreignKeyName)
                 select property;
@@ -444,8 +451,11 @@ namespace OpenRiaServices.M2M
             var entity = property.GetValue(this, null);
 
             var propertyDescriptor = TypeDescriptor.GetProperties(thisType)[propertyName];
-            var association = (AssociationAttribute) propertyDescriptor.Attributes[typeof(AssociationAttribute)];
-            var thisKeys = association.ThisKeyMembers.ToArray();
+#pragma warning disable CS0618 // 'AssociationAttribute' is obsolete but still used by M2M
+         var association = (AssociationAttribute) propertyDescriptor.Attributes[typeof(AssociationAttribute)];
+#pragma warning restore CS0618
+
+         var thisKeys = association.ThisKeyMembers.ToArray();
             var otherKeys = association.OtherKeyMembers.ToArray();
 
             for(var i = 0; i < thisKeys.Count(); i++)
@@ -459,4 +469,6 @@ namespace OpenRiaServices.M2M
 
         #endregion
     }
+
+#pragma warning restore CS1591
 }

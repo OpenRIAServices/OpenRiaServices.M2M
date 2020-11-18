@@ -5,12 +5,18 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.Serialization;
-using OpenRiaServices.DomainServices.Server;
+using OpenRiaServices.Server;
 using OpenRiaServices.FluentMetadata;
 using OpenRiaServices.M2M.Utilities;
 
 namespace OpenRiaServices.M2M.Configuration
 {
+   /// <summary>
+   /// An M2M Configuration expression.
+   /// </summary>
+   /// <typeparam name="TObject1">One entity type that partakes in the M2M relation</typeparam>
+   /// <typeparam name="TObject2">Other entity type that partakes in the M2M relation</typeparam>
+   /// <typeparam name="TLinkTable">The type of the link table</typeparam>
     public class M2M4RiaExpression<TObject1, TObject2, TLinkTable>
         where TObject1 : class where TObject2 : class where TLinkTable : LinkTable<TObject1, TObject2>
     {

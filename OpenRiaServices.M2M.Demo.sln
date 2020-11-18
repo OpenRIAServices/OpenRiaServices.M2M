@@ -12,7 +12,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenRiaServices.M2M.Demo", 
 		{E878F804-5CD7-46C4-98A6-9B801000FB2B} = {E878F804-5CD7-46C4-98A6-9B801000FB2B}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenRiaServices.M2M.Silverlight", "OpenRiaServices.M2M.Silverlight\OpenRiaServices.M2M.Silverlight.csproj", "{F6E5D0B7-FE90-4498-A5F5-3FFA505762A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenRiaServices.M2M.Client", "OpenRiaServices.M2M.Client\OpenRiaServices.M2M.Client.csproj", "{F6E5D0B7-FE90-4498-A5F5-3FFA505762A0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenRiaServices.M2M", "OpenRiaServices.M2M\OpenRiaServices.M2M.csproj", "{88EFBF58-E42A-4314-BAAF-746FC34CB5EC}"
 EndProject
