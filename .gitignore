@@ -19,3 +19,4 @@ Database.sdf
 *.mdf
 *.ldf
 /.vs
+.vs
