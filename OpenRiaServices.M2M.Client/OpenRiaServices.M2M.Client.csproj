@@ -20,6 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenRiaServices.Client.Core" Version="5.0.0" />
+    <PackageReference Include="OpenRiaServices.Client.Core" Version="5.1.0" />
   </ItemGroup>
 </Project>

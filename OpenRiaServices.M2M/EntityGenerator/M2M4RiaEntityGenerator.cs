@@ -230,11 +230,11 @@ namespace OpenRiaServices.M2M.EntityGenerator
                 
                 WriteLine(@"//");
                 WriteLine(
-                    @"private OpenRiaServices.DomainServices.Client.IEntityCollection<{0}> _{1};", elementTypeFullName, m2mPropertyNameLower);
+                    @"private OpenRiaServices.Client.IEntityCollection<{0}> _{1};", elementTypeFullName, m2mPropertyNameLower);
                 WriteLine(@"/// <summary>");
                 WriteLine(@"/// Gets the collection of associated <see cref=""{0}]""/> entities.", elementTypeFullName);
                 WriteLine(@"/// </summary>");
-                WriteLine(@"public OpenRiaServices.DomainServices.Client.IEntityCollection<{0}> {1}", elementTypeFullName, m2mPropertyName);
+                WriteLine(@"public OpenRiaServices.Client.IEntityCollection<{0}> {1}", elementTypeFullName, m2mPropertyName);
                 WriteLine(@"{");
                 WriteLine(@"    get");
                 WriteLine(@"    {");
