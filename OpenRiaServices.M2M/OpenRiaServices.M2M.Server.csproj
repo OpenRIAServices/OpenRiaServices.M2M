@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net472;net6.0</TargetFrameworks>
+    <TargetFrameworks>net472</TargetFrameworks>
     <Description>Server part of M2M support for OpenRiaServices. It includes Code generator and Fluent configuration extensions for OpenServices.M2M.</Description>
     <PackageId>OpenRiaServices.M2M</PackageId>
   </PropertyGroup>
