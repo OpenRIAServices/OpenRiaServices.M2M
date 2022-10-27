@@ -6,10 +6,6 @@
     <PackageId>OpenRiaServices.M2M</PackageId>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
-    <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
-  </ItemGroup>
-
     <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
         <PackageReference Include="System.ComponentModel.Composition" Version="6.0.0" />
     </ItemGroup>
@@ -24,13 +20,12 @@
 
   <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.4.4" />
-    <PackageReference Include="OpenRiaServices.FluentMetadata" Version="5.0.0" />
-    <PackageReference Include="OpenRiaServices.Server" Version="5.1.0" />
+    <PackageReference Include="OpenRiaServices.FluentMetadata" Version="5.1.0" />
+    <PackageReference Include="OpenRiaServices.Server" Version="5.1.2" />
     <PackageReference Include="OpenRiaServices.T4" Version="5.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\OpenRiaServices.M2M.LinkTable\OpenRiaServices.M2M.LinkTable.csproj" />
   </ItemGroup>
-
 </Project>
